@@ -1,0 +1,2005 @@
+/* ==========================================================================
+   Pages below the homepage.
+
+   Everything here inherits the floor set in globals.css: the same ground, the
+   same single Reveal gesture, the same wall-label schema. Nothing in this file
+   paints a background — the ground is a fixed surface driven by scroll
+   (components/Ground.tsx) and a section that paints its own would cut a band
+   across the page.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   The page plate
+   Every page below the homepage opens on the same three lines: eyebrow, title,
+   one line of fact. Holding that shape identical across six pages is what makes
+   them read as rooms in one building.
+   -------------------------------------------------------------------------- */
+
+/* The header is fixed, so the plate has to clear it — but it was clearing it
+   and then adding up to 8rem more, which put most of a screen of empty ground
+   above the title of every page on the site. */
+.page-head {
+  padding-top: calc(var(--header-h) + clamp(1.6rem, 4.5vw, 3.2rem));
+  padding-bottom: clamp(1.4rem, 3vw, 2.2rem);
+}
+
+.page-head-inner {
+  max-width: 46rem;
+}
+
+.page-head-title {
+  margin-top: 0.7rem;
+  max-width: 16ch;
+}
+
+.page-head-meta {
+  margin-top: 1.1rem;
+  color: var(--clay-ink);
+}
+
+.page-head-lede {
+  margin-top: 1.5rem;
+  color: var(--ink-soft);
+}
+
+.page-head-back {
+  margin-top: 1.8rem;
+  color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Collection — the rooms, as a rail
+
+   They used to be a grid of seven large photographs at the top of this page,
+   which made a visitor choose a room before they had seen a single piece: a
+   whole screen spent on navigation. The photographs still do that job on the
+   homepage, where a visitor genuinely does not know what is here.
+
+   Here the rooms narrow something already in front of you, so they are set as
+   what they are — names and counts on one line.
+   -------------------------------------------------------------------------- */
+
+.rooms-rail-section {
+  padding-bottom: 0;
+}
+
+.rooms-rail-key {
+  color: var(--clay-ink);
+}
+
+.rooms-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem clamp(1.2rem, 3vw, 2.4rem);
+  margin-top: clamp(1rem, 2.5vw, 1.5rem);
+  padding-bottom: clamp(1.4rem, 3vw, 2rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.rooms-rail-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  color: var(--ink);
+  font-size: 0.95rem;
+  /* 0.95rem gives a 23px target; padding takes it past 24 and the negative
+     margin gives the row its height back, as in the footer. */
+  padding-block: 0.3rem;
+  margin-block: -0.3rem;
+  transition: color var(--dur-hover) var(--ease-material);
+}
+
+.rooms-rail-link:hover {
+  color: var(--clay-ink);
+}
+
+/* Where you already are. Stated, not styled into a button. */
+.rooms-rail-link.is-here {
+  color: var(--clay-ink);
+  cursor: default;
+}
+
+.rooms-rail-count {
+  font-family: var(--font-body), Arial, sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   The cards
+
+   Every piece at the same size, photograph first. This replaced the register —
+   38 numbered lines carrying the same six fields — which was a better idea
+   about collections and a worse one about selling: you could not see what was
+   being offered.
+
+   Three across, not four. At four the photograph on a 1440 screen is about
+   300px, which is a thumbnail; at three it is 400 and the object in it is
+   legible. Fewer, larger is the brief's own instruction.
+
+   No border, no shadow, no radius. The site has none of those anywhere, and a
+   card that announces itself as a card is exactly the big-retail look the brief
+   bans. It is a photograph with a label under it.
+   -------------------------------------------------------------------------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(2rem, 4.5vw, 3.4rem) clamp(1rem, 2.4vw, 1.8rem);
+}
+
+.card {
+  min-width: 0;
+}
+
+.card-link {
+  display: grid;
+  gap: 0.9rem;
+  align-content: start;
+}
+
+.card-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.card-link .frame img {
+  transition:
+    transform 1500ms var(--ease-material),
+    filter var(--dur-hover) var(--ease-material);
+}
+
+.card-link:hover .frame img,
+.card-link:focus-visible .frame img {
+  filter: brightness(1.04);
+}
+
+.card-said {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.card-room {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-soft);
+}
+
+/* Room for the longest name in a row whether this card needs it or not, so
+   every price in the row sits on the same line and the grid reads as rows
+   rather than as a ragged stack.
+
+   Three lines on a phone, two on wider screens: at two columns the names wrap
+   further, and “Handmade Pottery Vase Made in Morocco” takes three. */
+.card-said .wall-label-name {
+  min-height: 3.84em;
+}
+
+@media (min-width: 640px) {
+  .card-said .wall-label-name {
+    min-height: 2.56em;
+  }
+}
+
+/* Sold is normal here — stock is one of everything — so it is designed for,
+   not handled. The price is struck and the state is stated; the photograph
+   keeps its full strength, because the piece is still worth looking at. */
+.card.is-gone .wall-label-price {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  color: var(--ink-soft);
+}
+
+.card-state {
+  color: var(--clay-ink);
+}
+
+@media (min-width: 640px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Four across on a wide screen. Three put the photograph at about 400px, which
+   turned out to be more than the object needs — at 38 pieces the page ran to
+   ten thousand pixels and you could not get a sense of the collection without a
+   long scroll. At four it is ~300px, still large enough to read the object, and
+   a whole row more of the collection is on screen at once. */
+@media (min-width: 1100px) {
+  .cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   A room
+
+   The pieces are laid out with the same .cards grid as /collection — see the
+   note there. A room used to be its own thing: two across, staggered, each with
+   the full wall label. That was right when /collection was a register and this
+   was the only place the pieces could be seen. Now both pages are the shop, and
+   a visitor moving between them should meet the same object at the same size.
+
+   What stays particular to a room is the rail below: walking out of one should
+   put you in the corridor, not back at the front door.
+   -------------------------------------------------------------------------- */
+
+.room-rail {
+  margin-top: clamp(2.4rem, 5vw, 4rem);
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--rule);
+}
+
+.room-rail-key {
+  color: var(--ink-faint);
+}
+
+.room-rail-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem clamp(1.4rem, 4vw, 3rem);
+  margin-top: 1.2rem;
+}
+
+.room-rail-link {
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   The piece — the most important page on the site
+
+   Rebuilt. It was a column of photographs stacked one under another with the
+   label beside the first, and two things were wrong with it.
+
+   There was no gallery: you could not tell how many photographs existed or move
+   between them, only scroll and hope. And the photograph column was sized as a
+   FRACTION OF THE PAGE — 58fr — while everything in it is portrait, so a 500px
+   image sat in a 760px column and the label ended up 600px from the work it
+   describes. The space read as a mistake because it was one.
+
+   Now both columns are sized in rems, to the content rather than to the
+   viewport, and the photographs are a stage with a rail.
+   -------------------------------------------------------------------------- */
+
+.piece {
+  padding-top: calc(var(--header-h) + clamp(1.2rem, 3vw, 2.4rem));
+}
+
+/* Centred, and capped.
+
+   The photograph is HEIGHT-bound: the stage is capped in svh and everything in
+   this collection is portrait, so a typical frame draws ~430px wide however
+   wide its column is. Widening the columns therefore cannot make the picture
+   bigger — it only puts ground beside it. The block has a natural width of
+   about 1090px and no more.
+
+   So the leftover is split rather than dumped on one side. At 1440 that is
+   ~88px a side; at 1890, ~310px. Left-aligned it was 700px of nothing on the
+   right, which is what the client saw. */
+.piece-inner {
+  display: grid;
+  gap: clamp(1.8rem, 4vw, 2.8rem);
+  max-width: 68rem;
+  margin-inline: auto;
+  /* Air under the plate before the words start. */
+  padding-bottom: clamp(2.4rem, 6vw, 4.5rem);
+}
+
+/* --- The gallery ---------------------------------------------------------
+
+   The stage has a FIXED HEIGHT and every photograph is contained in it. That
+   is the whole mechanism: ratios in this collection run 0.56 to 1.50, so
+   sizing the stage to the image would move the label on every click. The stage
+   holds still; the photograph sits in it at whatever shape it was shot, which
+   keeps the no-cropping rule (§24) intact. */
+
+.gallery-stage {
+  position: relative;
+  width: 100%;
+  /* A little taller than it was: since width cannot grow the picture, height is
+     the only lever a large screen has. */
+  height: min(76svh, 44rem);
+}
+
+.gallery-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* contain, never cover: this page exists to show the object whole. */
+  object-fit: contain;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 700ms var(--ease-dissolve);
+}
+
+.gallery-shot.is-active {
+  opacity: 1;
+}
+
+/* The rail is a contact sheet, not a row of chips.
+
+   Every thumbnail keeps its own proportion at a common height, so the strip is
+   ragged along the top and bottom the way a sheet of contacts is — and it also
+   means the rail tells you something true about the set before you click it. */
+.gallery-rail {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+  padding-bottom: 0.4rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  max-width: 100%;
+}
+
+.gallery-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-thumb {
+  flex: none;
+  display: block;
+  height: 4.4rem;
+  padding: 0;
+  /* Not a border: a border would move the image by its width when the state
+     changes. An inset shadow sits inside the box and costs no layout. */
+  box-shadow: inset 0 0 0 1px transparent;
+  opacity: 0.52;
+  transition:
+    opacity var(--dur-hover) var(--ease-material),
+    box-shadow var(--dur-hover) var(--ease-material);
+}
+
+.gallery-thumb img {
+  display: block;
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-thumb:hover,
+.gallery-thumb:focus-visible {
+  opacity: 0.85;
+}
+
+.gallery-thumb.is-active {
+  opacity: 1;
+  box-shadow: inset 0 0 0 1px var(--clay);
+}
+
+.gallery-count {
+  display: flex;
+  align-items: baseline;
+  gap: 0.15rem;
+  margin-top: 0.9rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.gallery-count-now {
+  color: var(--ink);
+}
+
+.gallery-count-of {
+  margin-left: 0.9rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid var(--rule);
+}
+
+/* --- The label ----------------------------------------------------------- */
+
+.piece-accession {
+  color: var(--ink-soft);
+}
+
+.piece-name {
+  margin-top: 0.6rem;
+  color: var(--ink);
+}
+
+/* The schema with no name above it, so it carries its own opening rule rather
+   than hanging off the name's.
+
+   NOT `.wall-label-specs` — that class is already the <dl> inside every label,
+   and reusing it here would have handed the container the list's own layout. */
+.wall-label-schema {
+  margin-top: clamp(1.4rem, 3vw, 1.9rem);
+  padding-top: clamp(1.4rem, 3vw, 1.9rem);
+  border-top: 1px solid var(--rule);
+}
+
+.wall-label-schema .wall-label-specs {
+  margin-top: 0;
+}
+
+.piece-unique {
+  margin-top: 1.1rem;
+  color: var(--clay-ink);
+}
+
+.piece-action {
+  margin-top: clamp(1.6rem, 3vw, 2.2rem);
+  padding-top: clamp(1.4rem, 3vw, 1.9rem);
+  border-top: 1px solid var(--rule);
+}
+
+.piece-price {
+  color: var(--ink);
+}
+
+.piece-price.is-gone {
+  color: var(--ink-soft);
+}
+
+.piece-cta {
+  display: inline-block;
+  margin-top: 1.1rem;
+}
+
+/* Buy — the filled control, matching the cart's. */
+.piece-buy-add {
+  display: block;
+  width: 100%;
+  margin-top: 1.2rem;
+  padding: 0.95rem 1.2rem;
+  background: var(--umber);
+  color: var(--ink-inverse);
+  text-align: center;
+  transition: background-color var(--dur-hover) var(--ease-material);
+}
+
+.piece-buy-add:hover,
+.piece-buy-add:focus-visible {
+  background: var(--hour-night);
+}
+
+/* Once it is in the cart the button stops being an action: offering "add"
+   again would promise a second one, and there is only ever one. */
+.piece-buy {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.2rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.piece-buy-state {
+  color: var(--clay-ink);
+}
+
+/* Asking is still available, quietly, under the buy. */
+.piece-ask {
+  display: inline-block;
+  margin-top: 1.1rem;
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .piece-buy-add {
+    transition: none;
+  }
+}
+
+.piece-cta-note {
+  margin-top: 0.9rem;
+  color: var(--ink-soft);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.86rem;
+}
+
+.piece-delivery {
+  margin-top: clamp(1.6rem, 3vw, 2.2rem);
+  padding-top: clamp(1.4rem, 3vw, 1.9rem);
+  border-top: 1px solid var(--rule);
+}
+
+.piece-delivery dd {
+  margin: 0.55rem 0 0;
+  color: var(--ink);
+}
+
+.piece-delivery-note {
+  color: var(--ink-soft);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.86rem;
+}
+
+/* --- The client's own words ---------------------------------------------- */
+
+.piece-words {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.4rem);
+  margin-top: clamp(2.4rem, 5vw, 3.6rem);
+  padding-top: clamp(2.4rem, 5vw, 3.6rem);
+  border-top: 1px solid var(--rule);
+  max-width: 68rem;
+  margin-inline: auto;
+}
+
+.piece-prose {
+  margin-top: 1.2rem;
+}
+
+.piece-specs {
+  display: grid;
+  gap: clamp(1.6rem, 4vw, 2.6rem);
+  align-content: start;
+}
+
+.piece-spec-list {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.piece-more {
+  padding-top: clamp(2.4rem, 6vw, 4.5rem);
+}
+
+.piece-more .hang {
+  margin-top: clamp(1.6rem, 4vw, 2.4rem);
+}
+
+@media (min-width: 940px) {
+  /* Sized in rems, not in fr.
+
+     A fraction of the viewport gave the photographs a column far wider than any
+     of them, and the label sat at the far side of the leftover. 38rem is the
+     stage; 27rem is a comfortable measure for a label. Together with the gap
+     they take about 1100 of the 1264 available at 1440, so what is left reads
+     as a margin rather than as a hole. */
+  .piece-inner {
+    /* 34rem, not 38: the stage is 640px tall and this collection is portrait,
+       so a typical 0.67 frame draws 429px wide inside it. At 38rem that left
+       ~90px of ground on each side of the photograph before the gap even
+       started — the same complaint as the old 58fr column, one order smaller.
+       At 34rem it is ~57px, which reads as the frame breathing. */
+    grid-template-columns: minmax(0, 34rem) minmax(0, 28rem);
+    column-gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .piece-label-column {
+    /* Stretch, NOT start: the column has to span the row or the sticky child
+       has no track to travel down. */
+    align-self: stretch;
+  }
+
+  .piece-label-sticky {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+  }
+
+  .piece-words {
+    grid-template-columns: minmax(0, 34rem) minmax(0, 28rem);
+    column-gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-shot,
+  .gallery-thumb {
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Our Story — chapters
+
+   Four sourced sentences exist about Dahab and the house and §5 forbids writing
+   a fifth, so the page cannot be made longer with words. It is made longer with
+   ROOMS: two full-bleed interiors that hold the whole screen, and chapters that
+   each carry one thing the client has actually said.
+
+   The motion here is heavier than anywhere else on the site, at the client's
+   request, and it is spent on two things only: a line that draws itself, and a
+   photograph that settles for long enough to feel like a shot rather than a
+   load. Both are one-shot, neither is tied to scroll position, and both stop
+   entirely under prefers-reduced-motion.
+   -------------------------------------------------------------------------- */
+
+/* --- The route ---------------------------------------------------------- */
+
+.hinge-route {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 3vw, 1.8rem);
+}
+
+.hinge-station {
+  color: var(--clay-ink);
+  white-space: nowrap;
+}
+
+.hinge-station-end {
+  color: var(--ink);
+}
+
+/* The rule is a track; the gradient inside it is what travels.
+
+   Drawn rather than faded, because the thing being drawn is the journey the
+   page is about — this is the one animation on the site that carries meaning
+   instead of decorating. Origin left, so it moves Paris → Marrakech. */
+.hinge-line {
+  position: relative;
+  flex: 1;
+  height: 1px;
+}
+
+.hinge-line::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--rule),
+    rgba(134, 105, 80, 0.55) 60%,
+    rgba(134, 105, 80, 0.75)
+  );
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1600ms var(--ease-material) 180ms;
+}
+
+.hinge-route.is-visible .hinge-line::before {
+  transform: scaleX(1);
+}
+
+/* Arrival. Lands after the line reaches it — the only decoration on the page,
+   and the reason it is here is that she stopped. Do not add a second. */
+.hinge-line::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-top: -0.2rem;
+  border-radius: 50%;
+  background: var(--clay);
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 420ms var(--ease-material) 1620ms,
+    transform 420ms var(--ease-material) 1620ms;
+}
+
+.hinge-route.is-visible .hinge-line::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hinge-inner {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  margin-top: clamp(2rem, 5vw, 3.4rem);
+  align-items: center;
+}
+
+.hinge-quote {
+  font-size: clamp(1.5rem, 1rem + 2.4vw, 3rem);
+  line-height: 1.22;
+  color: var(--umber);
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.hinge-plate {
+  aspect-ratio: 4 / 5;
+  width: min(100%, 24rem);
+  justify-self: start;
+}
+
+@media (min-width: 940px) {
+  .hinge-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+    column-gap: clamp(3rem, 8vw, 6rem);
+  }
+
+  .hinge-plate {
+    width: 24rem;
+    justify-self: end;
+  }
+}
+
+/* --- A room, and nothing else on the screen ------------------------------ */
+
+.story-room {
+  padding-block: 0;
+  margin-block: clamp(3rem, 7vw, 6rem);
+}
+
+.story-room-frame {
+  width: 100%;
+  height: clamp(24rem, 82vh, 46rem);
+}
+
+.story-room-tall .story-room-frame {
+  height: clamp(22rem, 72vh, 40rem);
+}
+
+.story-room-frame img {
+  object-position: center 38%;
+}
+
+/* Cinematic settle.
+
+   The site's standard frame reveal is scale(1.03) over 1500ms — enough to feel
+   like the image arriving, deliberately too little to read as a zoom. At full
+   screen that is invisible, so a full-bleed room gets a longer, larger version:
+   still one shot, still not scroll-linked, just slow enough to register as a
+   held shot rather than a load. */
+.cine img {
+  transform: scale(1.08);
+  transition: transform 2800ms cubic-bezier(0.16, 0.72, 0.24, 1);
+}
+
+.cine.is-visible img {
+  transform: scale(1);
+}
+
+/* --- One sentence, alone --------------------------------------------------
+
+   The client's own About line, verbatim. It is the only place they say WHY any
+   of this exists rather than what it is, and there is exactly one of it — which
+   is what earns it a whole screen and the largest type on the page. */
+
+.statement {
+  padding-block: clamp(4rem, 11vw, 9rem);
+}
+
+.statement-eyebrow {
+  color: var(--clay-ink);
+}
+
+.statement-line {
+  margin-top: clamp(1.4rem, 3vw, 2.2rem);
+  font-size: clamp(1.5rem, 0.95rem + 2.6vw, 3.2rem);
+  line-height: 1.2;
+  letter-spacing: -0.006em;
+  color: var(--ink);
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+/* --- The chapters -------------------------------------------------------- */
+
+.chapter-inner {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.4rem);
+  align-items: center;
+}
+
+.chapter-said {
+  display: grid;
+  align-content: center;
+  gap: 0;
+}
+
+.chapter-eyebrow {
+  color: var(--clay-ink);
+}
+
+/* The place is a title card: the city at the scale of a chapter opening, and
+   the coordinates under it. No paragraph — anything written about Marrakech
+   here would be invented (§5), and these two facts are true. */
+.chapter-title {
+  margin-top: 0.8rem;
+  font-size: clamp(2.4rem, 1.4rem + 4.4vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: 0.004em;
+  color: var(--ink);
+}
+
+.chapter-coords {
+  margin-top: 1.2rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.chapter-heading {
+  margin-top: 0.9rem;
+  max-width: 16ch;
+}
+
+.chapter-body {
+  margin-top: 1.4rem;
+  color: var(--ink-soft);
+}
+
+.chapter-cta {
+  display: inline-block;
+  margin-top: 1.8rem;
+  color: var(--ink-soft);
+}
+
+/* Instagram's files are 512x640; the plates are held near that so nothing is
+   upscaled. The two from public/rugs/ are larger and could go wider, but a
+   chapter plate that changed width between chapters would read as an accident.
+   One width, every chapter. */
+.chapter-plate {
+  aspect-ratio: 4 / 5;
+  width: min(100%, 24rem);
+}
+
+.founder-prose {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+/* Her sentence at display scale — it is the only first person on the site and
+   at body size it disappeared into the paragraph under it. */
+.founder-lead {
+  font-size: clamp(1.25rem, 0.95rem + 1.2vw, 1.75rem);
+  line-height: 1.28;
+  color: var(--ink);
+  max-width: 26ch;
+}
+
+.founder-instagram {
+  display: inline-block;
+  margin-top: 1.8rem;
+  color: var(--clay-ink);
+}
+
+/* The words-only chapter sits on the measure rather than in a column. */
+.chapter-words {
+  max-width: 44rem;
+}
+
+@media (min-width: 940px) {
+  .chapter-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+    column-gap: clamp(3rem, 8vw, 6rem);
+  }
+
+  .chapter-plate {
+    width: 24rem;
+    justify-self: end;
+  }
+
+  /* Alternating which side the photograph sits on is what stops five chapters
+     in a row reading as a template. */
+  .chapter-inner-flip .chapter-said {
+    order: 2;
+  }
+
+  .chapter-inner-flip .chapter-plate {
+    order: 1;
+    justify-self: start;
+  }
+}
+
+/* Everything above is a one-shot transition on a class the reveal adds, so the
+   OS setting switches all of it off in one place. */
+@media (prefers-reduced-motion: reduce) {
+  .hinge-line::before,
+  .hinge-line::after,
+  .cine img {
+    transition: none;
+  }
+
+  .hinge-line::before {
+    transform: scaleX(1);
+  }
+
+  .hinge-line::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .cine img {
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mrirt
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   Mrirt
+
+   The rule this page is built on: a tall photograph cannot be balanced against
+   a short paragraph by adding space — only by adding content. Every column
+   here is loaded until it reaches the bottom of the frame beside it. The first
+   version padded instead, and read as mostly air.
+   -------------------------------------------------------------------------- */
+
+/* Photographs escape the gutter to the viewport edge. Alternating which edge
+   they leave from is what stops two full-bleed frames reading as a template. */
+.bleed-left,
+.bleed-right {
+  margin-inline: 0;
+}
+
+/* --- 1. The rug, and the whole specification beside it ------------------- */
+
+.mrirt-plate-inner {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* 4/5 on a phone; square once the label and the four terms sit beside it. The
+   source is 9/16 and at this width the native ratio runs past 1100px tall,
+   which re-opens the void the layout exists to close. The weaving comb sits at
+   43–72% of the frame, so a centred crop keeps it either way. */
+.mrirt-plate-frame {
+  aspect-ratio: 4 / 5;
+}
+
+/* Label → the four terms → a detail. Three blocks, because one label beside a
+   frame this size is what left ~500px of empty ground before. */
+.mrirt-spec {
+  display: grid;
+  gap: clamp(1.8rem, 4vw, 2.8rem);
+  align-content: start;
+}
+
+.mrirt-label-name {
+  color: var(--ink);
+}
+
+.mrirt-label-order {
+  margin-bottom: 1.1rem;
+  color: var(--clay-ink);
+}
+
+.mrirt-pile {
+  aspect-ratio: 1 / 1;
+}
+
+/* --- 2. The wool, and the women who weave it ----------------------------- */
+
+.mrirt-pair-inner {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+/* Both passages in one column, so the comb beside them answers the pair
+   rather than only one of them. */
+.mrirt-said-stack {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.mrirt-eyebrow {
+  color: var(--ink-soft);
+}
+
+.mrirt-heading {
+  margin-top: 0.55rem;
+  margin-bottom: 1rem;
+}
+
+/* The tool, not the subject: the smallest frame on the page, under the passage
+   about the weavers. It stood in for the rug itself until the client's own rug
+   photography arrived; it is no longer asked to do that. */
+.mrirt-tool {
+  margin: clamp(1.6rem, 3.5vw, 2.4rem) 0 0;
+  display: grid;
+  gap: 0.85rem;
+  justify-items: start;
+}
+
+.mrirt-tool-frame {
+  aspect-ratio: 2 / 3;
+  width: min(80%, 18rem);
+}
+
+.mrirt-tool-caption {
+  color: var(--ink-soft);
+  max-width: 20rem;
+}
+
+/* --- 3. The shelf of finished rugs ---------------------------------------
+
+   Uses the collection's own `.cards` grid, so a rug meets a visitor at the same
+   size as every other object on the site. Empty today; see readyRugs(). */
+
+.mrirt-ready-head {
+  max-width: 40rem;
+}
+
+.mrirt-ready-heading {
+  margin-top: 0.55rem;
+}
+
+.mrirt-ready-note {
+  margin-top: 1rem;
+}
+
+/* The shelf's cards jump here. scroll-margin keeps the fixed header off the
+   first field, the same reason .section carries one (§14). */
+.mrirt-form-anchor {
+  scroll-margin-top: calc(var(--header-h) + 2rem);
+}
+
+.mrirt-ready-cards {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+/* Two across, not the collection's three: there are two finished rugs to show,
+   and two cards stretched over a three-column grid leave exactly the hole this
+   page spent a pass removing. They take the full width — a max-width here put
+   ~340px of empty ground back at the right edge, which is the same hole with a
+   different name. Two large photographs is the brief's own preference. */
+@media (min-width: 640px) {
+  .mrirt-ready-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+}
+
+/* --- 3. The room, against the form it argues for ------------------------- */
+
+.mrirt-order-inner {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.mrirt-ask {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+  align-content: start;
+}
+
+.mrirt-ask-heading {
+  margin-top: 0.55rem;
+}
+
+.mrirt-ask-note {
+  margin-top: 1rem;
+}
+
+/* 3/4 anchored to the bottom of the frame. The rug is in the bottom sixth of
+   this photograph and is the one thing it is here to show, so the crop has to
+   come off the top. */
+/* Shortened by changing the RATIO at desktop, never by max-height: with an
+   aspect-ratio set, a max-height shrinks the width to match and the frame stops
+   reaching the viewport edge — the bleed silently breaks.
+
+   The column beside it holds a form that is short today only because the client
+   has supplied no contact address, so it falls back to the Instagram line. */
+.mrirt-room-frame {
+  aspect-ratio: 3 / 4;
+}
+
+.mrirt-room-frame img {
+  object-position: center bottom;
+}
+
+@media (min-width: 900px) {
+  .mrirt-plate-inner {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    column-gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .mrirt-plate-frame {
+    aspect-ratio: 1 / 1;
+  }
+
+  .mrirt-pair-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.62fr);
+    align-items: start;
+  }
+
+  /* Square at desktop, bottom-anchored. The rug is in the bottom sixth of this
+     photograph, so height comes off the top; a square keeps the floor, the
+     chair and the rug and gives up only the upper wall. */
+  .mrirt-room-frame {
+    aspect-ratio: 1 / 1;
+  }
+
+  .mrirt-order-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    column-gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  /* Out to the viewport edge. The grid column keeps its width; the frame just
+     reclaims the gutter it would otherwise sit inside. */
+  .bleed-left {
+    margin-left: calc(var(--gutter) * -1);
+  }
+
+  .bleed-right {
+    margin-right: calc(var(--gutter) * -1);
+  }
+}
+
+/* The four terms used to live in a section of their own, headed "the draft",
+   with the form beneath it. Both halves were half empty, so they were folded
+   into the room section — the terms are now the specification beside the rug,
+   and the form stands against the photograph that argues for it. What is left
+   of that block is this one rule. */
+.mrirt-form-note {
+  margin-bottom: 1.8rem;
+}
+
+/* --------------------------------------------------------------------------
+   The enquiry form
+
+   Inputs drawn as ruled lines rather than boxes: the site's whole vocabulary is
+   hairlines and space, and a set of bordered fields would be the one place the
+   page suddenly looked like software.
+   -------------------------------------------------------------------------- */
+
+.inquiry {
+  display: grid;
+  gap: 1.6rem;
+  max-width: 34rem;
+  /* The honeypot below is positioned against this. */
+  position: relative;
+}
+
+.inquiry-label {
+  display: block;
+  color: var(--ink-faint);
+}
+
+.inquiry-optional {
+  letter-spacing: 0.12em;
+  opacity: 0.75;
+}
+
+.inquiry-input {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.55rem 0 0.6rem;
+  font-family: var(--font-body), Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0; /* iOS rounds inputs by default */
+  transition: border-color var(--dur-hover) var(--ease-material);
+}
+
+.inquiry-input:hover {
+  border-bottom-color: rgba(107, 92, 74, 0.4);
+}
+
+.inquiry-input:focus {
+  outline: none;
+  border-bottom-color: var(--clay);
+}
+
+/* The bottom rule is the field, so the focus ring has to be drawn where it can
+   be seen rather than around a transparent box. */
+.inquiry-input:focus-visible {
+  outline: 1.5px solid var(--clay);
+  outline-offset: 3px;
+}
+
+.inquiry-input::placeholder {
+  color: var(--ink-faint);
+}
+
+textarea.inquiry-input {
+  resize: vertical;
+  min-height: 7rem;
+}
+
+.inquiry-hint {
+  margin-top: 0.45rem;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+}
+
+.inquiry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.8rem clamp(1.2rem, 3vw, 2.2rem);
+}
+
+/*
+   The honeypot.
+
+   Taken out of view the way .sr-only does it, NOT with `display: none` — that
+   is the first thing a form-filling bot checks, and a field it can see is
+   skipped is a field it leaves alone. Screen readers are kept out by
+   aria-hidden on the wrapper instead, so nobody is asked to fill in a field
+   that would discard their message.
+*/
+.inquiry-trap {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.inquiry-sent {
+  color: var(--clay-ink);
+  max-width: 26rem;
+}
+
+/* A failed send has to hand over the channels that do work, not just apologise. */
+.inquiry-error {
+  margin-top: 1.4rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  gap: 1rem;
+}
+
+/*
+   The one filled element on the site.
+
+   Everything else here is hairlines and space — no fills, no radii, no shadows
+   (see .frame: "a photograph on a wall, not a card"). This breaks that on
+   purpose and only once: sending is the single commercial action the site
+   actually completes, and a text link with a rule under it reads as one more
+   quiet thing to look at rather than as the thing to do.
+
+   It stays in the palette rather than becoming a generic button. Umber is the
+   brand's own dark, the colour the page ground itself arrives at after
+   sundown, and cream on it clears 9.9:1 — the same pair the footer runs on. No
+   radius, because nothing on this site has one.
+*/
+.inquiry-send {
+  justify-self: start;
+  margin-top: 0.6rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.9rem 2rem;
+  background: var(--umber);
+  color: var(--ink-inverse);
+  transition: background-color var(--dur-hover) var(--ease-material);
+}
+
+.inquiry-send:hover {
+  background: var(--ink);
+}
+
+/* The global ring is clay at 4px offset, which reads against both the plate
+   and the ecru ground around it. */
+.inquiry-send:focus-visible {
+  background: var(--ink);
+}
+
+.inquiry-send[disabled] {
+  opacity: 0.55;
+  cursor: default;
+  background: var(--umber);
+}
+
+/* --------------------------------------------------------------------------
+   Contact — the desk
+
+   A contact page on a gallery site is the last step of the sale, not a support
+   desk, so it opens on the object: type left, a piece at full height right.
+   The earlier version opened on type alone with the right half of the screen
+   empty, which read as an unfinished page rather than a generous one — space
+   only reads as generosity when there is something for it to be around.
+
+   Same construction as the homepage hero: one screen, the photograph
+   height-led so the whole piece stands without cropping.
+   -------------------------------------------------------------------------- */
+
+.desk {
+  display: grid;
+  align-content: center;
+  gap: clamp(2.25rem, 5vw, 3.5rem);
+  padding-top: calc(var(--header-h) + clamp(2rem, 5vw, 3.5rem));
+  padding-bottom: clamp(2.5rem, 6vw, 4rem);
+  padding-inline: var(--gutter);
+  min-height: 100svh;
+  scroll-margin-top: var(--header-h);
+}
+
+/* Centred against the photograph, not pinned to its foot.
+
+   `end` bottom-aligned a short text column to a full-height frame, so the top
+   left of the screen was ~300px of nothing while the photograph started at the
+   header. Centring splits that space above and below, where it reads as air
+   around the type instead of as a hole above it. */
+.desk-inner {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  align-items: center;
+  padding-inline: 0; /* .desk already carries the gutter */
+}
+
+/* Larger than a d-1 section heading and smaller than the homepage hero. At
+   d-1 the left column was too short to hold its half of the composition and
+   the top of it read as a void rather than as space. */
+.desk-title {
+  margin-top: 0.7rem;
+  max-width: 12ch;
+  font-size: clamp(2.6rem, 1.6rem + 3.4vw, 4.6rem);
+  line-height: 1.03;
+}
+
+.desk-lede {
+  margin-top: 1.4rem;
+  color: var(--ink-soft);
+}
+
+/*
+   The channels, as a directory.
+
+   Each one carries its own key above it — the same label schema the pieces use,
+   which is what keeps a functional block looking like it belongs to a gallery.
+   auto-fit rather than a fixed count, because how many there are depends on
+   what the client has actually supplied: Instagram always, WhatsApp and the
+   address only once they exist.
+*/
+.desk-channel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1.6rem clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: 2rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--rule);
+}
+
+.desk-channel-key {
+  color: var(--ink-faint);
+  margin-bottom: 0.5rem;
+}
+
+/* A shade under d-3. A handle, a phone number and an address all have to fit
+   one line of a third of a column, and an email is the longest of the three —
+   "bonjour@therootscorner.com" broke as "therootsc / orner.com" at d-3, which
+   is worse than setting the whole row a little smaller. `break-word` rather
+   than `anywhere`, so a break is a last resort and not the default. */
+.desk-handle {
+  color: var(--clay-ink);
+  font-size: clamp(1rem, 0.92rem + 0.36vw, 1.18rem);
+  line-height: 1.25;
+  overflow-wrap: break-word;
+}
+
+.desk-note {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 22rem;
+}
+
+/* The coordinate readout. Real numbers for a real city, set tabular so they
+   read as an instrument and not as a sentence. */
+.desk-coords {
+  margin-top: 1.6rem;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.desk-subject {
+  display: grid;
+  gap: 1.1rem;
+}
+
+/* No max-height on a phone. Capping it made `object-fit: cover` crop the
+   frame's own ratio and cut the legs off the chair — on this site the object
+   has to stand whole. The 2/3 ratio is the source ratio, so it never crops. */
+.desk-frame {
+  aspect-ratio: 2 / 3;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.desk-plate-key {
+  color: var(--ink-faint);
+  margin-bottom: 0.7rem;
+}
+
+.desk-plate-link {
+  display: block;
+}
+
+@media (min-width: 940px) {
+  .desk-inner {
+    grid-template-columns: 1fr auto;
+    gap: clamp(2.5rem, 7vw, 6rem);
+  }
+
+  /*
+     The column is what gets the height, not the photograph.
+
+     Height-led as on the homepage — the viewport decides how tall the piece
+     stands and the source ratio derives the width — but the label under it has
+     to come out of the same budget. Sizing the frame directly, the wall label
+     pushed the price off the bottom of the screen the moment a visitor arrived
+     from a piece page, which is the one case this layout exists for.
+  */
+  .desk-subject {
+    height: calc(100svh - var(--header-h) - clamp(5rem, 10vw, 8rem));
+    grid-template-rows: minmax(0, 1fr) auto;
+    justify-items: end;
+  }
+
+  .desk-frame {
+    height: 100%;
+    max-height: none;
+    width: auto;
+    margin-inline: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Contact — what to ask
+
+   Numbered like the register, because these are routes rather than a menu, and
+   because a number is the easiest thing for someone to quote back.
+   -------------------------------------------------------------------------- */
+
+.enquire-inner {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+  align-items: start;
+}
+
+.ways {
+  display: grid;
+  margin-top: clamp(1.5rem, 3vw, 2.2rem);
+  border-top: 1px solid var(--rule);
+}
+
+.way {
+  display: grid;
+  grid-template-columns: 2.6rem 1fr;
+  gap: 0.9rem;
+  padding-block: 1.1rem 1.2rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.way-no {
+  color: var(--ink-faint);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  padding-top: 0.35em;
+}
+
+.way-body {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.way-link {
+  justify-self: start;
+  color: var(--ink);
+}
+
+.way-name {
+  display: block;
+  color: inherit;
+}
+
+.way-note {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 30rem;
+}
+
+/* The eyebrow (and the address, when there is one) must not read as the label
+   of the first field sitting directly under them. */
+.enquire-form .inquiry {
+  margin-top: 1.6rem;
+}
+
+@media (min-width: 860px) {
+  .enquire-inner {
+    grid-template-columns: 44fr 40fr;
+    gap: clamp(3rem, 8vw, 6rem);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The closing band — the hang, again
+
+   Three pieces at three heights: the same composition the homepage opens with
+   and the piece page closes with under "Continue looking". It has been two
+   other things — gapless full-bleed panes, which existed to hide the sundown
+   (§29), and then a shelf of objects standing on a rule. The client picked the
+   hang.
+
+   Picking one is right whatever the shape. On a piece page a visitor meets
+   "here are three more" twice, and meeting it in two different layouts reads as
+   two different sites. There is now exactly one way this site says it, and both
+   places use it — which is why almost nothing is defined here: `.hang` in
+   sections.css already is the design.
+   -------------------------------------------------------------------------- */
+
+.closing {
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.closing-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  flex-wrap: wrap;
+}
+
+.closing-heading {
+  margin-top: 0.7rem;
+  max-width: 18ch;
+}
+
+.closing-cta {
+  padding-bottom: 0.4rem;
+}
+
+/* --------------------------------------------------------------------------
+   Legal and information pages
+
+   The plainest thing on the site, on purpose. These are read rather than
+   looked at, so they get one column at reading measure, numbered headings in
+   the display face and hairline rules — and no photography. A picture beside a
+   returns policy is a decoration on a document somebody may be relying on.
+
+   The bottom padding is load-bearing, exactly as it is on the closing band:
+   the ground descends into night before the footer, and that has to happen on
+   empty ground rather than under a paragraph (CLAUDE.md §17).
+   -------------------------------------------------------------------------- */
+
+.legal {
+  padding-bottom: clamp(14rem, 26vw, 24rem);
+}
+
+.legal-body {
+  max-width: 40rem;
+  color: var(--ink-soft);
+}
+
+.legal-h {
+  margin-top: clamp(2.2rem, 5vw, 3.2rem);
+  padding-top: 1.3rem;
+  border-top: 1px solid var(--rule);
+  color: var(--ink);
+}
+
+/* The first heading opens the document; it needs no rule above it. */
+.legal-body > .legal-h:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.legal-p {
+  margin-top: 1.1rem;
+  line-height: 1.75;
+}
+
+.legal-list {
+  margin-top: 1.1rem;
+  display: grid;
+  gap: 0.7rem;
+  list-style: none;
+}
+
+.legal-list li {
+  position: relative;
+  padding-left: 1.2rem;
+  line-height: 1.7;
+}
+
+/* A rule, not a bullet — the same hairline the rest of the site draws with. */
+.legal-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.8em;
+  width: 0.6rem;
+  height: 1px;
+  background: var(--clay);
+  opacity: 0.6;
+}
+
+.legal-dl {
+  margin-top: 1.3rem;
+  display: grid;
+  gap: 1.1rem;
+}
+
+.legal-dl-row {
+  display: grid;
+  gap: 0.3rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.legal-dt {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.02rem;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.legal-dd {
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* Wide tables scroll inside themselves; the page body never scrolls sideways. */
+.legal-table-wrap {
+  margin-top: 1.4rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.legal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.legal-table th,
+.legal-table td {
+  text-align: left;
+  padding: 0.8rem 1.2rem 0.8rem 0;
+  border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+
+.legal-table th {
+  color: var(--ink-faint);
+  border-bottom-color: var(--clay);
+}
+
+.legal-table td {
+  color: var(--ink);
+}
+
+/* The last row's rule and the next heading's rule would otherwise draw two
+   hairlines a few pixels apart. */
+.legal-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.legal-rail {
+  margin-top: clamp(3.5rem, 9vw, 6rem);
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--rule);
+}
+
+.legal-rail-key {
+  color: var(--ink-faint);
+}
+
+.legal-rail-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem clamp(1.4rem, 4vw, 2.8rem);
+  margin-top: 1.2rem;
+}
+
+.legal-rail-link {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.02rem;
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   Checkout — the review step
+
+   This page collects nothing. Shopify's checkout is hosted, so the address and
+   the payment are taken on Shopify's own domain; what happens here is that the
+   order is shown back and handed over. There are no card fields on this site
+   and there never will be — see lib/checkout.ts.
+   -------------------------------------------------------------------------- */
+
+.checkout-inner {
+  display: grid;
+  gap: clamp(2.4rem, 5vw, 3.6rem);
+  max-width: 68rem;
+  margin-inline: auto;
+  min-height: 40svh;
+}
+
+.checkout-empty {
+  display: grid;
+  gap: 1.4rem;
+  justify-items: start;
+}
+
+.checkout-key {
+  color: var(--clay-ink);
+}
+
+.checkout-list {
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 1.8rem);
+  margin-top: 1.4rem;
+}
+
+.checkout-line {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr) auto;
+  gap: clamp(1rem, 2.5vw, 1.6rem);
+  align-items: start;
+  padding-bottom: clamp(1.2rem, 3vw, 1.8rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.checkout-frame {
+  display: block;
+  aspect-ratio: 4 / 5;
+}
+
+.checkout-said {
+  display: grid;
+  gap: 0.4rem;
+  justify-items: start;
+}
+
+.checkout-name {
+  color: var(--ink);
+}
+
+.checkout-remove {
+  color: var(--ink-soft);
+  font-size: 0.62rem;
+  padding-block: 0.4rem;
+  margin-block: -0.4rem;
+}
+
+.checkout-remove:hover {
+  color: var(--ink);
+}
+
+.checkout-price {
+  color: var(--clay-ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.checkout-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.checkout-total-value {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.checkout-shipping {
+  margin-top: 1.1rem;
+  font-size: 0.9rem;
+}
+
+.checkout-pay {
+  display: block;
+  width: 100%;
+  margin-top: 1.6rem;
+  padding: 1rem 1.2rem;
+  background: var(--umber);
+  color: var(--ink-inverse);
+  text-align: center;
+  transition: background-color var(--dur-hover) var(--ease-material);
+}
+
+.checkout-pay:hover,
+.checkout-pay:focus-visible {
+  background: var(--hour-night);
+}
+
+.checkout-pay:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* Said before it is pressed as well as after. Someone about to buy should not
+   have to click to discover the shop cannot take the money yet. */
+.checkout-pending {
+  margin-top: 0.9rem;
+  color: var(--clay-ink);
+  letter-spacing: 0.06em;
+  text-transform: none;
+  font-size: 0.78rem;
+}
+
+.checkout-notice {
+  display: grid;
+  gap: 0.8rem;
+  justify-items: start;
+  margin-top: 1.3rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--rule);
+}
+
+.checkout-notice-key {
+  color: var(--ink);
+}
+
+.checkout-notice-body {
+  font-size: 0.88rem;
+}
+
+.checkout-unique {
+  margin-top: 1.4rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.06em;
+  text-transform: none;
+  font-size: 0.78rem;
+}
+
+.checkout-back {
+  margin-top: 1.4rem;
+}
+
+@media (min-width: 860px) {
+  .checkout-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+    column-gap: clamp(2.5rem, 6vw, 4.5rem);
+    align-items: start;
+  }
+
+  .checkout-sum {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkout-pay {
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The apartments
+
+   Two rooms, alternating side to side so the page reads as two places rather
+   than as a list of two. The booking action is a filled plate, the same one
+   the enquiry form uses — these are the site's only two commitments a visitor
+   can actually complete, and they should look like each other.
+   -------------------------------------------------------------------------- */
+
+.stay {
+  padding-bottom: clamp(14rem, 26vw, 24rem);
+}
+
+.stay-intro {
+  max-width: 40rem;
+}
+
+.stay-rooms {
+  display: grid;
+  gap: clamp(3.5rem, 9vw, 7rem);
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+
+.stay-room {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  align-items: center;
+}
+
+.stay-frame {
+  aspect-ratio: 4 / 3;
+}
+
+.stay-name {
+  color: var(--ink);
+}
+
+.stay-blurb {
+  margin-top: 1.1rem;
+}
+
+.stay-book {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 1.8rem;
+  padding: 0.9rem 2rem;
+  background: var(--umber);
+  color: var(--ink-inverse);
+  transition: background-color var(--dur-hover) var(--ease-material);
+}
+
+.stay-book:hover,
+.stay-book:focus-visible {
+  background: var(--ink);
+}
+
+.stay-note {
+  margin-top: 0.9rem;
+  color: var(--ink-faint);
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 0.8rem;
+}
+
+@media (min-width: 860px) {
+  .stay-room {
+    grid-template-columns: 52fr 40fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  /* The second room turns around, so the two do not read as a column of
+     identical cards. */
+  .stay-room:nth-child(even) .stay-frame {
+    order: 2;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The artisans
+
+   The brief's section 6, which the client had already written on a page nobody
+   mentioned. One paragraph and three place names is all there is, so the page
+   is short and the photographs carry it.
+   -------------------------------------------------------------------------- */
+
+.artisans {
+  padding-bottom: clamp(14rem, 26vw, 24rem);
+}
+
+.artisans-key {
+  color: var(--ink-faint);
+}
+
+.artisans-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem clamp(1.8rem, 5vw, 4rem);
+  margin-top: 1.2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--rule);
+}
+
+.artisans-place {
+  color: var(--clay-ink);
+}
+
+/* Full bleed, no gaps, no text over them: the ground runs its descent behind
+   these, exactly as it does behind the homepage's matter wall (CLAUDE.md §17). */
+.artisans-wall {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  width: 100%;
+}
+
+.artisans-frame {
+  aspect-ratio: 4 / 3;
+}
+
+@media (min-width: 760px) {
+  .artisans-wall {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* The client's own line about the wool, given a little weight: it is the only
+   sentence they wrote about how a Mrirt rug actually feels. */
+.mrirt-wool {
+  color: var(--clay-ink);
+}

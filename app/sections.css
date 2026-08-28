@@ -1,0 +1,2326 @@
+/* ==========================================================================
+   Section layouts.
+   Each block owns its own class namespace so nothing here fights the .section
+   padding rules in globals.css. No section paints its own ground — that is the
+   .daylight gradient's job.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   The mark, and how it arrives
+   The crescent is the strongest thing the brand owns, so it is the one element
+   allowed a gesture of its own: it swings up into place, the way the shape
+   itself implies. Runs once, on load.
+   -------------------------------------------------------------------------- */
+
+@keyframes crescent-swing {
+  from {
+    opacity: 0;
+    transform: rotate(-16deg) scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+@keyframes mark-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The intro
+   The crescent is written, not faded in — a nib runs from the top tip down and
+   around to the tail, revealing the fill through a mask. Then the same element
+   morphs into the header's picto slot while the veil lifts.
+
+   Everything here is gated on html[data-intro="run"], set before paint by the
+   inline script in the layout. On a repeat visit, under reduced motion, or with
+   scripting off, the veil never paints and the header keeps its own gesture.
+   -------------------------------------------------------------------------- */
+
+.intro {
+  display: none;
+}
+
+html[data-intro="run"] .intro {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  color: var(--taupe);
+}
+
+/* The page cannot move while the veil is over it. Cleared the moment
+   data-intro flips to "done" — including by the failsafe in the layout
+   script, so a JS error can never leave the page locked. */
+html[data-intro="run"],
+html[data-intro="run"] body {
+  overflow: hidden;
+}
+
+/* The veil is the page's own morning ground, not a separate colour: what the
+   lift reveals is the photography and the type arriving, never a change of
+   wall. */
+.intro-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--hour-morning);
+}
+
+.intro[data-phase="open"] .intro-veil {
+  opacity: 0;
+  transition: opacity var(--intro-lift) var(--ease-material) var(--intro-lift-at);
+}
+
+.intro-mark {
+  position: relative;
+  width: auto;
+  height: clamp(5rem, 15vh, 8rem);
+  transform-origin: center;
+  transition: transform var(--intro-open) var(--ease-material);
+}
+
+/* The nib. pathLength="1" makes the dash normalised, so the write does not
+   depend on measuring the path at runtime. The easing is a pen's: away
+   quickly, then a long settle into the tail. */
+.intro-nib {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: nib-write var(--intro-write) cubic-bezier(0.34, 0, 0.14, 1) both;
+}
+
+@keyframes nib-write {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* While the intro owns the mark, the header must not show a second one, and
+   must not replay the swing the write-on has just stood in for. */
+html[data-intro] .site-header-picto {
+  animation: none;
+}
+
+html[data-intro="run"] .site-header-picto,
+html[data-intro="run"] .site-header-name {
+  opacity: 0;
+  animation: none;
+}
+
+/* Removing the "run" override restores the base rule, which restarts the
+   animation — so the wordmark rises the moment the crescent lands. */
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 40;
+  /* Floats over the hero with no ground at all. The top band of that
+     photograph is bare plaster and carries ink at 5.83:1, so nothing is needed
+     behind it — the header only takes a ground once the page scrolls and what
+     sits beneath is no longer known. Re-run scripts/contrast-photo.mjs if the
+     hero image changes: this is a property of that frame, not a safe default. */
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 700ms var(--ease-material),
+    border-color 700ms var(--ease-material),
+    transform 600ms var(--ease-material),
+    color 700ms var(--ease-material);
+}
+
+/* Retracts while reading downward, returns on the first upward move. The pieces
+   are the stars; a bar pinned across every photograph is chrome nobody asked
+   for. Never while the menu panel is open. */
+.site-header.is-retracted {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header {
+    transition: background-color 700ms linear, color 700ms linear;
+  }
+
+  .site-header.is-retracted {
+    transform: none;
+  }
+}
+
+.site-header.is-scrolled {
+  background: rgba(247, 245, 242, 0.94);
+  backdrop-filter: saturate(120%) blur(10px);
+  border-bottom-color: var(--rule);
+}
+
+/* Over the dusk and night hours the bar inverts rather than cutting a bright
+   band across the dark end of the page. */
+.site-header.is-dark {
+  background: rgba(44, 30, 22, 0.92);
+  backdrop-filter: saturate(120%) blur(10px);
+  border-bottom-color: var(--rule-inverse);
+}
+
+.site-header.is-dark .site-header-mark,
+.site-header.is-dark .site-header-name,
+.site-header.is-dark .site-nav-link,
+.site-header.is-dark /* The cart's handle. Same register as the nav so it reads as one of the
+   utilities rather than as a button bolted on. */
+.site-cart {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  min-height: 44px;
+  padding-inline: 0.5rem;
+  color: var(--ink);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+
+/* Not a filled badge. A disc of solid colour in this palette reads as a
+   notification from a different kind of site; the count sits in clay, in the
+   same type as everything else, and the eye still finds it because it is the
+   only number in the bar. */
+.site-cart-sep {
+  color: var(--ink-soft);
+}
+
+.site-cart-count {
+  color: var(--clay-ink);
+  font-variant-numeric: tabular-nums;
+  /* The label's 0.2em tracking would push the digit off its own separator. */
+  letter-spacing: 0;
+}
+
+.site-header.is-dark .site-cart,
+.site-header.is-on-hero .site-cart {
+  color: var(--ink-inverse);
+}
+
+.site-header.is-dark .site-cart-count,
+.site-header.is-dark .site-cart-sep,
+.site-header.is-on-hero .site-cart-count,
+.site-header.is-on-hero .site-cart-sep {
+  color: var(--ink-inverse-soft);
+}
+
+.site-menu-toggle {
+  color: var(--ink-inverse);
+}
+
+.site-header.is-dark .site-lang,
+.site-header.is-dark .site-lang-toggle {
+  color: var(--ink-inverse-soft);
+}
+
+.site-header.is-dark .site-lang:hover {
+  color: var(--ink-inverse);
+}
+
+/* Over the hero the header takes the same cream as the headline and keeps no
+   ground of its own. Declared after .is-scrolled and .is-dark so it wins while
+   both could apply — the hero is taller than the scroll threshold. */
+.site-header.is-on-hero {
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom-color: transparent;
+}
+
+.site-header.is-on-hero .site-header-mark,
+.site-header.is-on-hero .site-header-name,
+.site-header.is-on-hero .site-nav-link,
+.site-header.is-on-hero .site-menu-toggle,
+.site-header.is-on-hero .site-lang,
+.site-header.is-on-hero .site-lang-toggle {
+  color: var(--ink-inverse);
+}
+
+.site-header.is-on-hero .site-lang:hover,
+.site-header.is-on-hero .site-nav-link:hover {
+  color: var(--ink-inverse);
+}
+
+/* Phone: the inline nav is hidden, so a three-column grid would leave an empty
+   1fr on the left and shove the mark off centre. Mark left, utilities right. */
+/* Above the panel. Both live inside the header's stacking context, and the
+   panel is positioned with a z-index while the bar was not — so the panel
+   painted over the Close button and the menu could not be shut on a phone at
+   all. The bar needs its own position and a higher index, not a bigger one on
+   the panel. */
+.site-header-bar {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  min-height: var(--header-h);
+}
+
+/* Desktop: nav left, the mark in the centre, utilities right. The mark sits in
+   its own middle column so it stays optically centred whatever the nav and
+   utilities happen to measure — which they do not, across two languages. */
+@media (min-width: 940px) {
+  .site-header-bar {
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.site-header-bar > .site-nav {
+  justify-self: start;
+}
+
+.site-header-bar > .site-header-mark {
+  justify-self: center;
+}
+
+.site-header-bar > .site-header-end {
+  justify-self: end;
+}
+
+/* Stacked, which is the order of the client's own artwork: the crescent above
+   the name, exactly as the footer sets it and as the supplied wordmark is
+   drawn (§2).
+
+   Both parts shrink to pay for it. Side by side the lockup was one line ~33px
+   tall inside an 80px bar; stacked at the old sizes it came to ~55px and the
+   bar had to grow. At 1.5rem / 0.72rem it is ~40px — the header keeps its
+   height and the lockup gains a second line. */
+.site-header-mark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.26rem;
+  color: var(--taupe);
+}
+
+/* The Arabic-inspired letter, above the name.
+
+   `flex: none`, or the SVG has no intrinsic width to defend and the flex
+   container shrinks it to nothing — which is exactly what happened at phone
+   widths, leaving the wordmark with no crescent. */
+.site-header-picto {
+  flex: none;
+  width: auto;
+  height: 1.5rem;
+  animation: crescent-swing 1400ms var(--ease-material) both;
+}
+
+/* Set in Jost, not Marcellus.
+
+   §15 moved this to the display face because a 0.7rem letterspaced grotesque
+   read as system chrome. That diagnosis was right and the cure was wrong: the
+   problem was the SIZE, not the face. The client's actual logo sets "ROOTS" in
+   a geometric sans, and Jost was chosen for this project precisely because it
+   echoes the circular construction of that wordmark (§12) — so the header now
+   uses the letterforms the brand itself uses, at a size that can carry them.
+
+   Uppercase with wide tracking, which is how the artwork sets it. */
+.site-header-name {
+  font-family: var(--font-body), Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  /* Wider tracking at the smaller size: the name is now the base of a stacked
+     lockup rather than a line of type, and it has to hold its own width under
+     the mark. The 0.2em that suited 0.92rem reads cramped at 0.72. */
+  letter-spacing: 0.26em;
+  /* The tracking adds a trailing space after the last letter, which throws the
+     name left of the crescent above it. */
+  text-indent: 0.26em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--ink);
+  animation: mark-rise 1100ms var(--ease-material) 120ms both;
+}
+
+.site-nav {
+  display: none;
+}
+
+.site-nav-list {
+  display: flex;
+  gap: clamp(1.4rem, 2.6vw, 2.9rem);
+}
+
+.site-nav-link {
+  padding-bottom: 0.25em;
+  font-size: 0.72rem;
+  letter-spacing: 0.17em;
+  color: var(--ink);
+}
+
+.site-nav-link::after {
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.site-nav-link:hover::after,
+.site-nav-link:focus-visible::after {
+  opacity: 0.7;
+  transform: scaleX(1);
+}
+
+.site-header-end {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.4rem, 2.6vw, 2.9rem);
+}
+
+/* The language menu.
+
+   A single "EN" link only reads as a control if you already know what it does.
+   This states the current language and opens a named list — and the caret is
+   what tells you it opens at all.
+
+   Full ink, not the soft one: over a photograph the quiet tone drops to 3.01:1,
+   and that register is calibrated for flat grounds. */
+.site-lang {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: var(--ink);
+}
+
+.site-lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  min-height: 44px;
+  padding-inline: 0.5rem;
+  font-size: 0.68rem;
+  color: inherit;
+}
+
+.site-lang-caret {
+  /* Optical, not metric: a caret sitting on the cap line of 0.68rem uppercase
+     looks high, because the glyphs have no descenders to balance it. */
+  margin-top: 0.1em;
+  transition: transform var(--dur-hover) var(--ease-material);
+}
+
+.site-lang-toggle[aria-expanded="true"] .site-lang-caret {
+  transform: rotate(180deg);
+}
+
+.site-lang-menu {
+  position: absolute;
+  top: calc(100% - 0.4rem);
+  right: 0;
+  z-index: 3;
+  min-width: 8.5rem;
+  display: grid;
+  padding: 0.4rem 0;
+  background: var(--hour-morning);
+  border: 1px solid var(--rule);
+}
+
+/* `hidden` is a UA rule at `display: none`, and ANY author `display` beats it
+   on specificity — so `.site-lang-menu { display: grid }` left the menu
+   permanently open and its links permanently in the tab order, which is how
+   the audit caught it: a tab stop on "Français" with the menu closed.
+
+   Anything given a `display` in this file and toggled with `hidden` needs this
+   line. */
+.site-lang-menu[hidden] {
+  display: none;
+}
+
+.site-lang-option {
+  display: block;
+  padding: 0.62rem 1rem;
+  font-family: var(--font-body), Arial, sans-serif;
+  font-size: 0.86rem;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: background-color var(--dur-hover) var(--ease-material);
+}
+
+.site-lang-option:hover,
+.site-lang-option:focus-visible {
+  background: rgba(107, 92, 74, 0.07);
+}
+
+/* Where you already are, stated rather than styled into a selected state. */
+.site-lang-option[aria-current="true"] {
+  color: var(--clay-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-lang-caret {
+    transition: none;
+  }
+}
+
+.site-menu-toggle {
+  color: var(--ink);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  min-height: 44px;
+  padding-inline: 0.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   The menu, on a phone, is the whole page.
+
+   It was a dropdown under the bar with a max-height and its own scrollbar,
+   which is the shape of a utility panel. A site whose whole argument is space
+   should answer "where else can I go" with a room, not with a drawer.
+
+   The bar sits above it (.site-header-bar, z-index 2 against the panel's 1,
+   both inside the header's own stacking context) so the mark and the Close
+   stay on top of the panel — the way out is exactly where the way in was.
+   -------------------------------------------------------------------------- */
+
+.site-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  /* Stretch, not centre. Centring the whole block left the links floating in
+     the middle with a screen's worth of nothing under them; the links want the
+     upper half and the utilities want the bottom edge, which is what a full
+     screen is for. */
+  align-content: stretch;
+  background: var(--hour-morning);
+  padding-block: calc(var(--header-h) + clamp(1.5rem, 6vw, 3rem)) clamp(2rem, 8vw, 4rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  /* Closed. `visibility` rather than `display` or the `hidden` attribute —
+     those cannot be transitioned, and it is `visibility` that also takes the
+     links out of the tab order and the accessibility tree, which opacity alone
+     would not. Its transition is delayed to the end of the fade so the panel
+     stays hittable while it is on its way out. */
+  opacity: 0;
+  visibility: hidden;
+  /* The GROUND fades fast; the items are what carry the motion.
+
+     The header keeps its own opaque background so the Close is legible at
+     every frame, which means a slow panel fade shows a band where the two
+     meet until the colours converge. 260ms puts that below noticing, and the
+     staggered rise below is the animation anyone actually sees. */
+  transition:
+    opacity 260ms var(--ease-material),
+    visibility 0s linear 260ms;
+}
+
+.site-panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 260ms var(--ease-material),
+    visibility 0s;
+}
+
+.site-panel-inner {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+/* The links take the room above; the foot row takes the floor. */
+.site-panel-nav {
+  align-self: center;
+}
+
+.site-panel-list {
+  display: grid;
+  gap: clamp(0.7rem, 2.5vw, 1.2rem);
+}
+
+/*
+   The items rise in, one after another.
+
+   The same gesture the page itself uses — content settles once, slowly
+   (globals.css .reveal) — rather than a second, louder motion language for the
+   menu. The stagger is 55ms: enough to read as a sequence, short enough that
+   the last item is in before a thumb reaches it.
+*/
+.site-panel-item {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 620ms var(--ease-material),
+    transform 620ms var(--ease-material);
+}
+
+.site-panel.is-open .site-panel-item {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(90ms + var(--i) * 55ms);
+}
+
+.site-panel-link {
+  color: var(--ink);
+}
+
+/* What the bar no longer carries on a phone. */
+.site-panel-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem clamp(1.5rem, 5vw, 3rem);
+  margin-top: clamp(2.5rem, 8vw, 4rem);
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--rule);
+}
+
+.site-panel-langs {
+  display: flex;
+  gap: clamp(1rem, 4vw, 2rem);
+}
+
+.site-panel-lang {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink-soft);
+}
+
+.site-panel-lang[aria-current="true"] {
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-panel,
+  .site-panel-item {
+    transition: none;
+  }
+
+  .site-panel-item {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The phone bar: the mark, and the way into the menu. Nothing else.
+
+   CLAUDE.md §2 names the crescent alone as the mobile nav mark, so the name
+   comes off and the picto carries it. The language and the cart are not
+   dropped — they are in the panel. Four controls in a 390px bar is a toolbar,
+   and this site should look like a wall before it looks like software.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 939px) {
+  .site-header-name {
+    display: none;
+  }
+
+  .site-header-picto {
+    height: 1.7rem;
+  }
+
+  .site-header-end > .site-lang,
+  .site-header-end > .site-cart {
+    display: none;
+  }
+}
+
+/* The panel is a screen of morning ecru, so the bar over it goes back to its
+   light treatment whatever hour the page underneath had reached. */
+.site-header.is-menu-open {
+  background: var(--hour-morning);
+  border-bottom-color: transparent;
+  backdrop-filter: none;
+}
+
+@media (min-width: 940px) {
+  .site-nav {
+    display: block;
+  }
+
+  .site-menu-toggle {
+    display: none;
+  }
+
+  /* Desktop keeps its own nav; the panel never opens there. */
+  .site-panel-foot {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   1. Hero — the photograph, fading into its plate
+
+   The image runs the full height and the type sits on a gradient that rises out
+   of the bottom edge, so the photograph carries on behind the words instead of
+   being cut off by a band.
+
+   The fade belongs to the plate, not to the hero, so it is always exactly as
+   tall as the type it has to carry — change the copy and the gradient follows.
+   -------------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+}
+
+/* <picture> is an inline box with no height of its own, so the img inside it
+   would have nothing to be 100% of. display:contents removes the box and lets
+   the img lay out as a direct child of .hero-media. */
+.hero-media picture {
+  display: contents;
+}
+
+.hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 46%;
+}
+
+/* The phone frame is its own photograph and wants its own crop.
+   512×640 covering 390×844 scales by height, so there is NO vertical crop at
+   all — the Y value is inert here and only X does anything. The lamp sits at
+   about 18% across; a centred crop shows the window 42–100% and walks straight
+   off it. 14% keeps the lamp and most of the alcove. */
+@media (max-width: 767px) {
+  .hero-media img {
+    object-position: 14% 50%;
+  }
+}
+
+/* A short fade at the top edge, answering the plate at the bottom. The header
+   sits in cream while it is over the hero, and the top of this frame is pale
+   plaster where cream scores 1.32:1 on its own. Shallow enough to read as the
+   light falling off at the edge of the frame rather than as a bar.
+
+   z-index 1 is load-bearing: ::before is painted before the element's other
+   children, so at auto it would sit UNDER .hero-media and do nothing. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 26%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(62, 42, 29, 0.82) 0%,
+    rgba(62, 42, 29, 0.52) 40%,
+    rgba(62, 42, 29, 0.18) 72%,
+    rgba(62, 42, 29, 0) 100%
+  );
+}
+
+/* Same story as the plate below, at the other edge: the phone's photograph is
+   not the desktop one. The header sits in cream over the top of the frame, and
+   under the new phone frame the cart label landed on a pale patch at 1.66:1
+   while the language switch two centimetres to its right measured 9.36 — same
+   colour, same band, different pixels. The desktop ramp is right for the
+   desktop photograph; this one carries more.
+
+   MUST stay after the base rule: same specificity, so order decides. Putting
+   it earlier in the file silently does nothing, which is how the first attempt
+   at the plate below was lost. */
+@media (max-width: 767px) {
+  .hero::before {
+    height: 30%;
+    background: linear-gradient(
+      to bottom,
+      rgba(52, 34, 23, 0.93) 0%,
+      rgba(52, 34, 23, 0.78) 34%,
+      rgba(56, 38, 26, 0.44) 64%,
+      rgba(62, 42, 29, 0.16) 84%,
+      rgba(62, 42, 29, 0) 100%
+    );
+  }
+}
+
+/* Deep at the bottom edge, gone by the top of its own box. The long tail
+   matters: a short ramp reads as a band with a soft edge, which is the thing
+   this replaces. */
+.hero-plate {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  color: var(--ink-inverse);
+  padding-top: clamp(4rem, 12vh, 8rem);
+  padding-bottom: clamp(2rem, 4.5vw, 3.4rem);
+  background: linear-gradient(
+    to top,
+    rgba(62, 42, 29, 0.88) 0%,
+    rgba(62, 42, 29, 0.78) 24%,
+    rgba(62, 42, 29, 0.6) 46%,
+    rgba(62, 42, 29, 0.36) 66%,
+    rgba(62, 42, 29, 0.13) 84%,
+    rgba(62, 42, 29, 0) 100%
+  );
+}
+
+/* The plate is measured against the photograph under it, not styled — and the
+   phone now has a DIFFERENT photograph. The lamp burns at the bottom left,
+   which is exactly where the title sits, and the desktop ramp left it at
+   2.48:1 where large cream text needs 3. The crop cannot rescue it: 512×640
+   covering 390×844 leaves the lamp at 31% across at the very most, always
+   under the title. So the phone ramp carries more weight low down and lets go
+   at the same height, keeping the glow visible above the type.
+
+   Re-measure with scripts/contrast-photo.mjs if either hero photograph
+   changes. This is the third time a scrim tuned to one image has had to be
+   retuned for the next one. */
+@media (max-width: 767px) {
+  .hero-plate {
+    background: linear-gradient(
+      to top,
+      rgba(52, 34, 23, 0.97) 0%,
+      rgba(52, 34, 23, 0.94) 30%,
+      rgba(52, 34, 23, 0.82) 52%,
+      rgba(56, 38, 26, 0.52) 72%,
+      rgba(62, 42, 29, 0.2) 88%,
+      rgba(62, 42, 29, 0) 100%
+    );
+  }
+}
+
+.hero-inner {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.hero-title {
+  color: var(--ink-inverse);
+  max-width: none;
+}
+
+.hero-tagline {
+  color: var(--ink-inverse);
+}
+
+/* Caption and action share a line, the way a wall label carries its own
+   instruction rather than stacking one beneath it. */
+.hero-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.8rem clamp(1.2rem, 3vw, 2.2rem);
+  margin-top: 1rem;
+}
+
+.hero-cue {
+  color: var(--ink-inverse);
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--rule-inverse);
+  transition: border-color var(--dur-hover) var(--ease-material);
+}
+
+.hero-cue:hover,
+.hero-cue:focus-visible {
+  border-bottom-color: var(--ink-inverse);
+}
+
+/* Full cream, not cream-soft.
+
+   --ink-inverse-soft is a legitimate second weight on the page ground, where it
+   is measured against one known colour. On the hero it sits on a photograph
+   whose brightest region is lit plaster, and there it measured 1.26:1. There is
+   no second text weight available over an image; there is only readable. */
+.hero-note {
+  color: var(--ink-inverse);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  max-width: 34rem;
+}
+
+/* Below 940px the plate stacks, so the note rides up into the thin part of the
+   scrim — 66% of the way up, where the ramp is at 0.36 and the plaster comes
+   through. It cannot be fixed with more shadow without killing the photograph,
+   which CLAUDE.md §22 already established the first time this paragraph was
+   put here. The presentation section says the same thing a screen and a half
+   later, so nothing is lost. */
+@media (max-width: 939px) {
+  .hero-note {
+    display: none;
+  }
+}
+
+@media (min-width: 940px) {
+  .hero-inner {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .hero-note {
+    text-align: right;
+    justify-self: end;
+    max-width: 24rem;
+    padding-bottom: 0.4rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Shared section furniture
+   -------------------------------------------------------------------------- */
+
+.section-heading {
+  margin-top: 0.7rem;
+  max-width: 18ch;
+}
+
+/* --------------------------------------------------------------------------
+   2. The hang — three pieces at deliberately different heights
+   -------------------------------------------------------------------------- */
+
+.hang {
+  display: grid;
+  gap: clamp(3rem, 7vw, 5rem);
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.hang-link {
+  display: block;
+}
+
+.hang-caption {
+  margin-top: 1.15rem;
+}
+
+.hang-item .frame img {
+  transition:
+    transform 1500ms var(--ease-material),
+    filter var(--dur-hover) var(--ease-material);
+}
+
+.hang-link:hover .frame img,
+.hang-link:focus-visible .frame img {
+  filter: brightness(1.03);
+}
+
+.hang-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: clamp(2.2rem, 5vw, 3.6rem);
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--rule);
+}
+
+.hang-unique {
+  color: var(--clay-ink);
+}
+
+@media (min-width: 760px) {
+  .hang {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+    gap: clamp(1.5rem, 3.5vw, 3rem);
+  }
+
+  /* The stagger is the point: works hung at three heights, not a row of cards. */
+  .hang-2 {
+    margin-top: clamp(2.5rem, 7vw, 6rem);
+  }
+
+  .hang-3 {
+    margin-top: clamp(1rem, 2.5vw, 2.2rem);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Presentation
+
+   A short block of body copy in a 1900px field reads as an accident, which is
+   what this was: an eyebrow, forty rems of prose, and several hundred pixels of
+   nothing on either side.
+
+   The founder's sentence now carries the section at display size — it is the
+   only first-person claim on the page — with the supporting prose set against
+   it as a column. Type fills the width instead of air.
+   -------------------------------------------------------------------------- */
+
+.presentation-section {
+  /* Tighter than the default rhythm: this section is deliberately brief and
+     does not need a full measure of silence on both sides of it. */
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+}
+
+.presentation {
+  display: grid;
+  gap: clamp(1.4rem, 3vw, 2.2rem);
+}
+
+.presentation-eyebrow {
+  color: var(--clay-ink);
+}
+
+.presentation-lead {
+  font-size: clamp(1.5rem, 1.05rem + 1.9vw, 2.7rem);
+  line-height: 1.22;
+  letter-spacing: -0.004em;
+  color: var(--ink);
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.presentation-body {
+  max-width: 30rem;
+  color: var(--ink-soft);
+}
+
+.presentation-body p + p {
+  margin-top: 1.1em;
+}
+
+@media (min-width: 940px) {
+  /* Three explicit rows: the eyebrow across the top, the statement and the
+     prose stacked down the left, the photograph holding the right for both of
+     them. Auto-placement put the prose in the plate's column and pushed the
+     plate to a fourth row on its own. */
+  .presentation {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    column-gap: clamp(3rem, 8vw, 6rem);
+    row-gap: clamp(1.8rem, 3.5vw, 2.6rem);
+    align-items: start;
+  }
+
+  .presentation-eyebrow {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .presentation-lead {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .presentation-body {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .presentation-plate {
+    grid-column: 2;
+    grid-row: 2 / 4;
+    margin-top: 0;
+    width: 100%;
+    max-width: 23rem;
+    justify-self: end;
+    align-self: start;
+  }
+}
+
+/* The section was type on open ground and nothing else — the one thing it could
+   not do was show what any of this is FOR, and the right half of the row was
+   empty at every width.
+
+   Sized to the photograph, not to the layout. Instagram's files are 512x640,
+   and anything wider than about 700 CSS pixels is visibly an upscale — a
+   full-bleed band out of this source was a 2.8x blow-up and looked like one. */
+.presentation-plate {
+  margin-top: clamp(2.2rem, 5vw, 3.2rem);
+  aspect-ratio: 4 / 5;
+  width: min(100%, 26rem);
+}
+
+/* --------------------------------------------------------------------------
+   4. Doorways
+   -------------------------------------------------------------------------- */
+
+.doorways {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.4rem, 3vw, 2.4rem) clamp(1rem, 2.4vw, 1.8rem);
+  margin-top: clamp(2.6rem, 6vw, 4.5rem);
+}
+
+/* Seven into two columns leaves the last card alone with an empty cell beside
+   it. It takes the width instead, and goes landscape so it does not tower. */
+.doorways-7 .doorway:last-child {
+  grid-column: 1 / -1;
+}
+
+.doorways-7 .doorway:last-child .frame {
+  aspect-ratio: 3 / 2;
+}
+
+.doorway-link {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-areas:
+    "frame frame"
+    "name  count";
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+}
+
+.doorway-link .frame {
+  grid-area: frame;
+}
+
+.doorway-name {
+  grid-area: name;
+}
+
+.doorway-count {
+  grid-area: count;
+  color: var(--ink-soft);
+}
+
+.doorway-link .frame img {
+  transition:
+    transform 1500ms var(--ease-material),
+    filter var(--dur-hover) var(--ease-material);
+}
+
+.doorway-link:hover .frame img,
+.doorway-link:focus-visible .frame img {
+  filter: brightness(1.04);
+}
+
+/* Twelve columns, so a row can be split four ways or three.
+
+   With seven categories the first row takes four at three columns each and the
+   second takes three at four columns each — the row fills, instead of leaving a
+   quarter of it empty beside the last card.
+
+   The widened cards also change shape: a card a third wider at the same 3:4
+   ratio would stand a third taller than the row above it, so those three go
+   square and the two rows come out level. Any other count falls back to four
+   across, which is correct for four, eight, or twelve. */
+@media (min-width: 700px) {
+  .doorways {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .doorway {
+    grid-column: span 3;
+  }
+
+  .doorways-7 .doorway:last-child,
+  .doorways-7 .doorway:nth-child(n + 5) {
+    grid-column: span 4;
+  }
+
+  .doorways-7 .doorway:last-child .frame {
+    aspect-ratio: 1 / 1;
+  }
+
+  .doorways-7 .doorway:nth-child(n + 5) .frame {
+    aspect-ratio: 1 / 1;
+  }
+
+  .doorways-6 .doorway:nth-child(n + 5) {
+    grid-column: span 6;
+  }
+
+  .doorways-6 .doorway:nth-child(n + 5) .frame {
+    aspect-ratio: 3 / 2;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Story
+
+   One fact, stated structurally: she left Paris and stayed in Marrakech. The
+   two cities sit at either end of a rule that runs the width of the page, with
+   a filled mark at the Marrakech end because that is where she stopped. The
+   rule is the distance, drawn at the width of the room.
+
+   This replaced two overlapping photographs. The overlap was a device borrowed
+   from elsewhere and it read as one; a line between two place names is the
+   content itself.
+
+   Her sentence is the only first person on the site and there is still no
+   portrait of her, so it is set as a quotation at the scale a face would have
+   had.
+   -------------------------------------------------------------------------- */
+
+.story-eyebrow {
+  color: var(--clay-ink);
+}
+
+.story-journey {
+  display: grid;
+  grid-template-columns: auto minmax(3rem, 1fr) auto;
+  align-items: center;
+  gap: clamp(0.9rem, 2.5vw, 1.8rem);
+  margin-top: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+.story-place {
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.story-rule {
+  position: relative;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* Arrival. A single filled mark at the far end — the one piece of punctuation
+   the section needs, and the only decoration in it. */
+.story-rule::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-top: -0.2rem;
+  border-radius: 50%;
+  background: var(--clay);
+}
+
+.story-quote {
+  margin-top: clamp(2.4rem, 6vw, 4.2rem);
+  font-size: clamp(1.55rem, 1rem + 2.4vw, 3.05rem);
+  line-height: 1.2;
+  letter-spacing: -0.006em;
+  color: var(--ink);
+  max-width: 26ch;
+  text-wrap: balance;
+}
+
+/* Full bleed: a direct child of .section, which carries no inline padding. */
+.story-band {
+  margin-top: clamp(2.8rem, 6vw, 4.5rem);
+  width: 100%;
+  height: clamp(20rem, 62vh, 34rem);
+}
+
+.story-band img {
+  /* The hearth sits in the upper half of the plate; centring the crop cut it. */
+  object-position: center 34%;
+}
+
+.story-foot {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.story-after {
+  max-width: 34rem;
+}
+
+.story-cta {
+  margin-top: 1.6rem;
+}
+
+@media (min-width: 940px) {
+  .story-journey {
+    grid-template-columns: auto minmax(6rem, 1fr) auto;
+  }
+
+  .story-foot {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .story-cta {
+    margin-top: 0;
+    padding-bottom: 0.3rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Matière — the room, then the marks
+
+   Rebuilt from eight frames in a uniform four-by-two grid. That was a contact
+   sheet: nothing in it was large enough to look at and nothing led. It had that
+   shape for a structural reason — it was tall and gapless so the sundown could
+   happen behind it — and the sundown is gone (components/Ground.tsx), so the
+   section is free to be composed for looking at.
+
+   Two bands. The room, whole and full bleed. Then three macro crops, gapless,
+   where the wear is the subject. Four photographs instead of eight, each
+   several times the size.
+   -------------------------------------------------------------------------- */
+
+.matter-said {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3rem);
+}
+
+.matter-words {
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 1.8rem);
+  align-content: center;
+}
+
+.matter-heading {
+  margin-top: 1rem;
+  max-width: 16ch;
+}
+
+.matter-body {
+  max-width: var(--measure);
+  color: var(--ink-soft);
+}
+
+/* The room — the collection standing in a house rather than against the studio
+   wall, which is the first photograph the project has had that does that.
+
+   Held to the source's own resolution (512x640 from Instagram) rather than run
+   full bleed. At 1440 a full-bleed band is a 2.8x upscale, and it reads as one
+   immediately: the plaster goes to mush. The three macro crops below it are
+   1200x1800 catalogue files and CAN take the full width, which is why they are
+   the ones that get it. */
+.matter-room {
+  aspect-ratio: 4 / 5;
+  /* 32rem is about 512px at the default root size — the source's own width, and
+     therefore the largest this can be drawn without upscaling. It is the only
+     photograph in the section now, so it takes all of that budget. */
+  width: min(100%, 32rem);
+}
+
+@media (min-width: 760px) {
+  .matter-said {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    column-gap: clamp(3rem, 8vw, 6rem);
+    align-items: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mrirt — the rug, its specification, and its pile
+
+   Three registers, because a made-to-measure rug is bought in three ways: you
+   see the piece, you set the four things about it that are yours to choose, and
+   you want to know what it feels like underfoot.
+
+   The pile macro was tried as a full-bleed band under the specification and
+   removed: at that width the wool stopped reading as a rug and became carpet
+   swatch.
+   -------------------------------------------------------------------------- */
+
+.rugs-inner {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.rugs-head {
+  max-width: 34rem;
+}
+
+.rugs-lede {
+  margin-top: 1.3rem;
+}
+
+.rugs-frame {
+  aspect-ratio: 4 / 5;
+}
+
+/* The specification, ruled like a weaver's draft. */
+.rugs-axes {
+  display: grid;
+  border-top: 1px solid var(--rule);
+}
+
+.rugs-axis {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 0.9rem 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.rugs-axis-key {
+  color: var(--ink-soft);
+}
+
+.rugs-axis-value {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.05rem, 0.98rem + 0.4vw, 1.3rem);
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.rugs-axes-note {
+  margin-top: 1.4rem;
+  max-width: 28rem;
+}
+
+.rugs-cta {
+  margin-top: 1.4rem;
+}
+
+@media (min-width: 940px) {
+  .rugs-inner {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    grid-template-areas:
+      "head  head"
+      "frame plate";
+    column-gap: clamp(3rem, 7vw, 6rem);
+    /* start, not end: the rug frame is tall, and bottom-aligning stranded the
+       specification hundreds of pixels down the page beside nothing. */
+    align-items: start;
+  }
+
+  .rugs-head {
+    grid-area: head;
+  }
+
+  .rugs-frame {
+    grid-area: frame;
+    aspect-ratio: 3 / 4;
+    /* Capped so the piece never dictates the height of the whole section. */
+    max-height: 62svh;
+  }
+
+  .rugs-plate {
+    padding-top: 0.4rem;
+  }
+
+  .rugs-plate {
+    grid-area: plate;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. The letter
+
+   The last thing the page asks for, and the field is the whole block.
+
+   It used to be two columns: the words on the left, a short input on the right
+   at body size. That reads as a sign-up strip bolted to the foot of the page —
+   the thing being asked for was the smallest element in its own section.
+
+   Now the words sit above and the line runs the full width beneath them, set at
+   display scale. It is one long rule you write on, which is the same gesture as
+   signing one. Still not a box: nothing else on this site is a boxed control,
+   and adding one here would import a form aesthetic from somewhere else.
+   -------------------------------------------------------------------------- */
+
+.keep {
+  padding-top: clamp(3.5rem, 8vw, 7rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.keep-inner {
+  display: grid;
+  gap: clamp(2.2rem, 5vw, 3.4rem);
+}
+
+.keep-eyebrow {
+  color: var(--clay-ink);
+}
+
+.keep-heading {
+  margin-top: 1rem;
+  max-width: 16ch;
+}
+
+.keep-body {
+  margin-top: 1.3rem;
+  color: var(--ink-soft);
+  max-width: 34rem;
+}
+
+.keep-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: clamp(1.2rem, 4vw, 3rem);
+  padding-bottom: clamp(0.8rem, 2vw, 1.2rem);
+  border-bottom: 1px solid var(--rule);
+  transition: border-color var(--dur-hover) var(--ease-material);
+}
+
+.keep-form:focus-within {
+  border-bottom-color: var(--ink);
+}
+
+.keep-field {
+  display: block;
+  min-width: 0;
+}
+
+/* Display scale, and the display face — the line is a statement the visitor
+   finishes, not a form control they fill in. */
+.keep-input {
+  width: 100%;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--ink);
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 0.9rem + 1.9vw, 2.4rem);
+  line-height: 1.2;
+  letter-spacing: -0.004em;
+}
+
+/* At display scale the placeholder is the largest thing in the block until
+   someone types, so it has to be legible rather than a hint. */
+.keep-input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.72;
+}
+
+/* The rule under the field is the focus indicator; a second outline on top of
+   it reads as two states at once. */
+.keep-input:focus-visible {
+  outline: none;
+}
+
+.keep-submit {
+  color: var(--ink);
+  white-space: nowrap;
+  /* 0.7rem label type is a 16px target; this takes the hit area past 24px and
+     the negative margin gives the baseline back to the row. */
+  padding-block: 0.5rem;
+  margin-block: -0.5rem;
+}
+
+.keep-submit::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: 0.35rem;
+  background: currentColor;
+  opacity: 0.35;
+  transition: opacity var(--dur-hover) var(--ease-material);
+}
+
+.keep-submit:hover::after,
+.keep-submit:focus-visible::after {
+  opacity: 1;
+}
+
+.keep-submit:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.keep-note {
+  margin-top: 1rem;
+  color: var(--ink-soft);
+}
+
+.keep-done {
+  font-size: clamp(1.35rem, 0.9rem + 1.9vw, 2.4rem);
+  line-height: 1.2;
+  padding-bottom: clamp(0.8rem, 2vw, 1.2rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keep-form,
+  .keep-submit::after {
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The channels
+
+   Hairline marks at the same weight as the rules on the page, so they sit in
+   the type rather than on top of it. Colour is inherited: these appear on night
+   ground today and must not break if they are ever used on light.
+   -------------------------------------------------------------------------- */
+
+.social {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+/* The mark is 20px, which is under the 24px floor for a touch target. Padding
+   takes the hit area to 34px and a matching negative margin gives the layout
+   its size back — the same trick the footer links use, and for the same reason:
+   the composition must not move, only the area a thumb can reach. */
+.social-link {
+  display: inline-flex;
+  color: inherit;
+  opacity: 0.62;
+  padding: 0.44rem;
+  margin: -0.44rem;
+  transition: opacity var(--dur-hover) var(--ease-material);
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Footer — night
+   The brief asks for a "very simple" footer. It is the mark, one line about
+   the house, and a single row of links. An earlier version was four columns of
+   link lists with a newsletter voice; that is the shape of a large retailer,
+   which is the exact impression the brief bans.
+   -------------------------------------------------------------------------- */
+
+/* The one dark block on the site, and it paints itself.
+
+   The ground used to carry it there by scroll, which meant the two sections
+   above it were dark too. The client asked for those back on light, and once
+   the footer is the only dark thing a scroll-driven descent has nothing to do:
+   a footer's top edge is an edge you expect to meet. See components/Ground.tsx.
+
+   Unconditional, so it is right with scripting disabled as well. */
+.site-footer {
+  background: var(--hour-night);
+  padding-bottom: 2.5rem;
+}
+
+.site-footer-inner {
+  display: grid;
+  gap: clamp(2.2rem, 5vw, 3.4rem);
+}
+
+/* --- Band 1: the house --- */
+
+.site-footer-sign {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3rem);
+  justify-items: start;
+}
+
+/* The client's own lockup, whole. Sized off the artwork's height rather than a
+   font size, because that is what it is — an image, not a heading. It used to
+   be a crescent with "The Roots Corner" typeset underneath in Marcellus, which
+   is the right idea in the wrong letterforms. Nothing is redrawn. */
+.site-footer-mark {
+  display: block;
+  width: auto;
+  height: clamp(5.5rem, 11vw, 8.5rem);
+  color: var(--ink-inverse);
+}
+
+.site-footer-said {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+}
+
+.site-footer-tagline {
+  max-width: 24rem;
+  color: var(--ink-inverse-soft);
+  font-size: 0.95rem;
+}
+
+.site-footer-place {
+  color: var(--ink-inverse-soft);
+}
+
+/* --- Band 2: the ways in --- */
+
+.site-footer-ways {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.9rem clamp(1.2rem, 3vw, 2.4rem);
+  padding-top: clamp(1.8rem, 4vw, 2.6rem);
+  border-top: 1px solid var(--rule-inverse);
+}
+
+.site-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem clamp(1.2rem, 3vw, 2.4rem);
+}
+
+.site-footer-link {
+  color: var(--ink-inverse);
+  opacity: 0.78;
+  transition: opacity var(--dur-hover) var(--ease-material);
+  /* 0.7rem label type gives a 16px tap target, which is small on the device
+     this site is built for first. Padding grows the hit area to ~27px; the
+     matching negative margin gives the layout its 16px back, so the footer is
+     pixel-identical and only the touch area changes.
+
+     Compensating with the row gap instead does not work: a single-row nav has
+     no row gap to take it out of, so the desktop footer grew 12px while the
+     phone one shrank. The negative margin is the only version that holds at
+     both. */
+  padding-block: 0.35rem;
+  margin-block: -0.35rem;
+}
+
+.site-footer-link:hover,
+.site-footer-link:focus-visible {
+  opacity: 1;
+}
+
+/* Off on its own at the right edge, not sixth in the nav row — these are where
+   the brand lives, not more pages. Once the row wraps there is no right edge to
+   hold them apart, so they buy the separation back with space. */
+.site-footer-social {
+  color: var(--ink-inverse);
+  margin-top: 1rem;
+}
+
+@media (min-width: 860px) {
+  .site-footer-social {
+    margin-top: 0;
+  }
+}
+
+/* --- Band 3: the fine print --- */
+
+.site-footer-end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--rule-inverse);
+}
+
+.site-footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.35rem;
+}
+
+@media (min-width: 860px) {
+  /* Every band now has a left and a right. The old footer stacked everything
+     into the left column and left the other half of the page empty, which
+     reads as an unfinished composition rather than as generous space. */
+  .site-footer-sign {
+    grid-template-columns: auto 1fr;
+    align-items: end;
+    gap: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .site-footer-said {
+    /* The base rule sets justify-items:start on the row, so this block shrinks
+       to its content and lands at the START of the second column — floating in
+       the middle of the page rather than answering the mark across from it.
+       justify-self pushes it to the page edge; text-align squares it there. */
+    justify-self: end;
+    justify-items: end;
+    text-align: right;
+  }
+}
+
+/* --- The phone footer is centred ------------------------------------------
+
+   Below 860px there is no second column to answer the first, so every band
+   that reads as a left-and-right composition on a wide screen reads as a
+   ragged left edge on a phone. Centred, the mark sits over its own tagline and
+   the link rows come to rest under it.
+
+   Desktop is untouched: this and the 860px block above are mutually exclusive,
+   so nothing here can reach the composition that block sets up. */
+@media (max-width: 859px) {
+  .site-footer-sign,
+  .site-footer-said {
+    justify-items: center;
+    text-align: center;
+  }
+
+  /* The lockup is a block-level SVG at its own width, so centring the grid
+     item is not enough — the box itself has to be centred. */
+  .site-footer-mark {
+    margin-inline: auto;
+  }
+
+  /* max-width without auto margins would pin the measure to the left edge and
+     leave the centred text sitting off-centre in its own box. */
+  .site-footer-tagline {
+    margin-inline: auto;
+  }
+
+  /* space-between has nothing to push apart once the row is a column. */
+  .site-footer-ways {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+  }
+
+  .site-footer-links {
+    justify-content: center;
+  }
+
+  /* The column gap now holds the channels off the links. */
+  .site-footer-social {
+    margin-top: 0;
+  }
+
+  .site-footer-end {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.9rem;
+  }
+
+  .site-footer-legal {
+    justify-content: center;
+    gap: 0.5rem 1.1rem;
+  }
+
+  /* Each legal item is rendered as "· LABEL", with the separator leading. On
+     one desktop line that is invisible; wrapped over four centred phone lines
+     it puts a dot at the START of three of them, which reads as a bulleted
+     list someone broke. The rows are centred and spaced, so the separators
+     have nothing left to do here — the gap already says these are separate
+     links. They stay on desktop, where the row does not wrap. */
+  .site-footer-legal span[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   The wall label
+   One schema for every piece: name, then material / origin / dimensions, then
+   price. Fields the client has not supplied are absent, so the label must read
+   correctly at any length — and it is read half-cropped for most of its life.
+   -------------------------------------------------------------------------- */
+
+.wall-label-name {
+  color: var(--ink);
+}
+
+.wall-label-specs {
+  margin-top: 0.85rem;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.wall-label-row {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  gap: 0.6rem;
+  align-items: baseline;
+}
+
+.wall-label-key {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+}
+
+.wall-label-value {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  /* Measurements line up column-wise when several labels sit side by side. */
+  font-variant-numeric: tabular-nums;
+}
+
+.wall-label-price {
+  margin-top: 0.85rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.86rem;
+  color: var(--clay-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.wall-label-plate .wall-label-specs {
+  gap: 0.45rem;
+}
+
+/* --------------------------------------------------------------------------
+   The second look
+   Hovering a piece crossfades to another photograph of the same piece. Slow,
+   and only opacity plus a whisper of scale — the site's motion language is
+   material, and a flip or a slide would break it.
+
+   The trigger lives on the enclosing `.swap-host` so this stays pure CSS.
+   -------------------------------------------------------------------------- */
+
+.frame-swap img {
+  position: absolute;
+  inset: 0;
+}
+
+/* Only the incoming layer animates. Fading the resting image OUT at the same
+   time drops both to ~50% at the midpoint, so the frame background shows
+   through and the dissolve washes pale. Leaving it opaque underneath makes the
+   midpoint a true blend of the two photographs. */
+/* Written as `img.is-swap`, not `.is-swap`, on purpose.
+   `.hang-item .frame img` (0,2,1) sets `transition: transform, filter` for the
+   hover brightness. A plain `.frame-swap .is-swap` is only (0,2,0), so that rule
+   won and silently dropped the opacity transition — the swap jumped instead of
+   dissolving. Adding the element selector matches its weight, and this block
+   comes later in the file, so it wins. Do not simplify the selector. */
+.frame-swap img.is-swap {
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 1000ms var(--ease-dissolve),
+    transform 1600ms var(--ease-material);
+}
+
+.swap-host:hover .frame-swap img.is-swap,
+.swap-host:focus-visible .frame-swap img.is-swap {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* No hover, no second layer — a phone should never pay to download it. */
+@media (hover: none) {
+  .frame-swap img.is-swap {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame-swap img.is-swap {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4c. The shop
+
+   The one place on the page that looks like a shop, and it should: an even
+   grid, four across, every tile the same size and the same shape. Everything
+   above it is composed — pieces hung at different heights, doorways in two
+   different widths — and that composition is what says gallery. Repeating it
+   here would say gallery again, when what a visitor needs at this point is to
+   be told plainly that these are for sale.
+   -------------------------------------------------------------------------- */
+
+/* Mrirt caps its rug frame at 62svh, so the section ends well above its own
+   padding and the two paddings stacked into roughly half a screen of nothing
+   before the shop opens. */
+.rugs {
+  padding-bottom: clamp(1.5rem, 3vw, 3rem);
+}
+
+.shop-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  flex-wrap: wrap;
+}
+
+.shop-all {
+  padding-bottom: 0.4rem;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.8rem, 4vw, 3rem) clamp(1rem, 2.2vw, 1.6rem);
+  margin-top: clamp(2.4rem, 5vw, 3.8rem);
+}
+
+.shop-link {
+  display: grid;
+  gap: 0.9rem;
+  align-content: start;
+}
+
+.shop-link .frame {
+  aspect-ratio: 4 / 5;
+}
+
+/* Two lines of room whether the name needs them or not, so every price in a row
+   sits on the same line. Without it the prices stepped up and down across the
+   grid and the row stopped reading as a row. */
+.shop-caption .wall-label-name {
+  min-height: 2.56em;
+}
+
+@media (min-width: 640px) {
+  .shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .shop-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5b. Instagram — a feed, and it moves sideways
+
+   Rebuilt from a centred poster: eyebrow, a very large handle and a caption
+   stacked down the middle. Nothing else on the page is centred, so for one
+   screen it read as a different site — and a column of type is the one shape
+   Instagram is not.
+
+   The strip is the argument. A feed is something you push sideways, so the
+   frames run off the right edge and keep going; the cut edge is honest, because
+   there really is more and it is one tap away. Square, hairline gutter, the
+   grid's own proportions — but horizontal, which is also what stops it rhyming
+   with the matter wall two sections below.
+   -------------------------------------------------------------------------- */
+
+.instagram {
+  padding-block: clamp(3rem, 6vw, 5.5rem);
+}
+
+.instagram-head {
+  display: grid;
+  gap: clamp(1.4rem, 3vw, 2rem);
+}
+
+.instagram-eyebrow {
+  color: var(--clay-ink);
+}
+
+.instagram-handle {
+  display: inline-block;
+  position: relative;
+  margin-top: clamp(0.7rem, 2vw, 1.1rem);
+  font-size: clamp(1.6rem, 1rem + 3vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* The same rule-that-draws-itself as .link, at this scale. */
+.instagram-handle::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.1em;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 520ms var(--ease-material);
+}
+
+.instagram-handle:hover::after,
+.instagram-handle:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.instagram-note {
+  /* Wide enough that the right-aligned last line is never a single word. */
+  max-width: 38ch;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+
+.instagram-cta {
+  margin-top: 1.1rem;
+}
+
+/* Full bleed: a direct child of .section, which carries no inline padding. The
+   first frame is inset to the shell's own gutter so the strip starts on the
+   page's left edge and only the right side runs out of the screen. */
+.instagram-strip {
+  display: flex;
+  gap: 3px;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-inline: var(--gutter) 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  /* A horizontal scroller must never make the PAGE scroll horizontally. */
+  max-width: 100%;
+}
+
+.instagram-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.instagram-cell {
+  flex: 0 0 clamp(10rem, 58vw, 11rem);
+  scroll-snap-align: start;
+}
+
+/* 4:5, the shape Instagram actually posted them at.
+
+   Square was the wrong call: the profile grid is square, but these files are
+   512x640, so cropping to square threw away a fifth of every frame — and on the
+   posts that carry a caption it cut the caption in half, which reads as a bug
+   rather than as a crop. */
+.instagram-tile .frame {
+  aspect-ratio: 4 / 5;
+}
+
+.instagram-tile {
+  display: block;
+}
+
+.instagram-tile .frame img {
+  transition:
+    transform 1500ms var(--ease-material),
+    filter var(--dur-hover) var(--ease-material);
+}
+
+.instagram-tile:hover .frame img,
+.instagram-tile:focus-visible .frame img {
+  filter: brightness(1.05);
+}
+
+@media (min-width: 700px) {
+  .instagram-head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+    align-items: end;
+    column-gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .instagram-aside {
+    text-align: right;
+    justify-self: end;
+  }
+
+  .instagram-note {
+    margin-left: auto;
+  }
+
+  .instagram-cell {
+    /* Just over five and a half across a 1440 viewport, so the sixth is cut and
+       the strip visibly continues. */
+    flex-basis: clamp(12rem, 17vw, 17rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .instagram-handle::after {
+    transition: none;
+  }
+
+  .instagram-strip {
+    scroll-behavior: auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The selling label
+
+   Name and price, no schema. On a grid the buyer is deciding whether they want
+   the thing; material and dimensions answer a question asked on the piece page,
+   and carrying them into a tile turned every one into a catalogue entry.
+
+   The price loses its rule as well. A rule above a price is a receipt.
+   -------------------------------------------------------------------------- */
+
+.wall-label-sell .wall-label-name {
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.18rem);
+  line-height: 1.28;
+}
+
+.wall-label-sell .wall-label-price {
+  margin-top: 0.45rem;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 0.84rem;
+}
+
+/* --------------------------------------------------------------------------
+   The cart
+
+   A panel from the right, and a modal one: it locks the page scroll, so it
+   traps Tab, closes on Escape and returns focus to whatever opened it — the
+   same contract the nav panel has, for the same reason.
+
+   There is no quantity control anywhere in here. Stock is one of everything,
+   so a stepper would be a control for a state that cannot exist.
+   -------------------------------------------------------------------------- */
+
+.cart {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.cart[aria-hidden="true"] {
+  visibility: hidden;
+}
+
+.cart-veil {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background: rgba(31, 29, 27, 0.34);
+  opacity: 0;
+  transition: opacity 420ms var(--ease-material);
+}
+
+.cart-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(26rem, 100vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--hour-morning);
+  border-left: 1px solid var(--rule);
+  transform: translateX(100%);
+  transition: transform 480ms var(--ease-material);
+  overscroll-behavior: contain;
+}
+
+.cart.is-open {
+  pointer-events: auto;
+}
+
+.cart.is-open .cart-veil {
+  opacity: 1;
+}
+
+.cart.is-open .cart-panel {
+  transform: none;
+}
+
+.cart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem clamp(1.25rem, 3vw, 1.8rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.cart-title {
+  color: var(--ink);
+}
+
+.cart-close {
+  color: var(--ink-soft);
+  min-height: 44px;
+  padding-inline: 0.4rem;
+  margin-right: -0.4rem;
+}
+
+.cart-empty {
+  display: grid;
+  gap: 1.2rem;
+  justify-items: start;
+  padding: clamp(1.6rem, 4vw, 2.4rem) clamp(1.25rem, 3vw, 1.8rem);
+}
+
+.cart-lines {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(1rem, 2.5vw, 1.5rem) clamp(1.25rem, 3vw, 1.8rem);
+  display: grid;
+  gap: clamp(1.1rem, 3vw, 1.6rem);
+  align-content: start;
+}
+
+.cart-line {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.cart-line-frame {
+  display: block;
+  aspect-ratio: 4 / 5;
+}
+
+.cart-line-said {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: start;
+}
+
+.cart-line-name {
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.cart-line-price {
+  color: var(--clay-ink);
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-line-remove {
+  color: var(--ink-soft);
+  font-size: 0.62rem;
+  padding-block: 0.4rem;
+  margin-block: -0.4rem;
+}
+
+.cart-line-remove:hover {
+  color: var(--ink);
+}
+
+.cart-foot {
+  padding: clamp(1.2rem, 3vw, 1.6rem) clamp(1.25rem, 3vw, 1.8rem)
+    clamp(1.6rem, 4vw, 2.2rem);
+  border-top: 1px solid var(--rule);
+}
+
+.cart-sum {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cart-sum-value {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-note {
+  margin-top: 0.7rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.06em;
+  text-transform: none;
+  font-size: 0.76rem;
+}
+
+.cart-note-unique {
+  color: var(--clay-ink);
+}
+
+/* The one filled control on the site.
+
+   Everything else here is a rule that draws itself, and that is right for
+   navigation — but this is the moment the visit turns into a purchase, and it
+   has to look like the thing you press. It is the brand's own umber, not an
+   accent colour from outside the palette. */
+.cart-checkout {
+  display: block;
+  margin-top: 1.3rem;
+  padding: 0.95rem 1.2rem;
+  background: var(--umber);
+  color: var(--ink-inverse);
+  text-align: center;
+  transition: background-color var(--dur-hover) var(--ease-material);
+}
+
+.cart-checkout:hover,
+.cart-checkout:focus-visible {
+  background: var(--hour-night);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-veil,
+  .cart-panel,
+  .cart-checkout {
+    transition: none;
+  }
+}

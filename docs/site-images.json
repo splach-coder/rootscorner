@@ -1,0 +1,46 @@
+{
+ "mrirt-rug.jpg": {
+  "w": 1800,
+  "h": 3200,
+  "source": "therootscorner.com"
+ },
+ "mrirt-pile.jpg": {
+  "w": 800,
+  "h": 800,
+  "source": "therootscorner.com"
+ },
+ "mrirt-pile-trim.jpg": {
+  "w": 784,
+  "h": 784,
+  "source": "therootscorner.com",
+  "derivedFrom": "mrirt-pile.jpg",
+  "note": "8px border cropped from each edge; the original JPEG bakes in a frame, and every other photograph on the site is frameless"
+ },
+ "mrirt-room.jpg": {
+  "w": 1206,
+  "h": 1889,
+  "source": "therootscorner.com"
+ },
+ "interior-fire.jpg": {
+  "w": 1800,
+  "h": 2700,
+  "source": "therootscorner.com"
+ },
+ "interior-table.jpg": {
+  "w": 1036,
+  "h": 1499,
+  "source": "therootscorner.com"
+ },
+ "interior-lamp.jpg": {
+  "w": 810,
+  "h": 1256,
+  "source": "therootscorner.com"
+ },
+ "rug-fire-card.jpg": {
+  "w": 1800,
+  "h": 2250,
+  "source": "therootscorner.com",
+  "derivedFrom": "interior-fire.jpg",
+  "note": "bottom-anchored 4/5 crop; a centred card crop lands on the fireplace and the rug stops being the subject"
+ }
+}

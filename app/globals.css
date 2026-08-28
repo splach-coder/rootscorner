@@ -1,0 +1,468 @@
+/* ==========================================================================
+   The Roots Corner — design floor
+   --------------------------------------------------------------------------
+   Signature: "the hour of the room".
+
+   The ground travels from morning ecru to night umber, driven by SCROLL
+   POSITION rather than page position — see components/Ground.tsx.
+
+   Two earlier approaches failed. Per-section blends re-ramped wherever an hour
+   repeated and cut visible bands. A single page-length gradient fixed that, but
+   still placed a boundary on the page that scrolling dragged up through the
+   viewport, so the change could always be seen arriving. A fixed ground has no
+   boundary at all: the whole screen shifts tone together.
+   ========================================================================== */
+
+:root {
+  /* --- Client palette. Fixed. Sampled from the brand portfolio. --- */
+  --ecru: #f7f5f2; /* the wall */
+  --sand: #beab93;
+  --clay: #866950;
+  --umber: #4b3123;
+  --taupe: #6c645d; /* the mark */
+
+  /* --- The hours, in order. Stops on one gradient, not section grounds. --- */
+  --hour-morning: #f7f5f2;
+  --hour-late-morning: #f4f0e9;
+  --hour-midday: #efe8dc;
+  --hour-afternoon: #e7dccb;
+  --hour-golden: #ddcdb6;
+  --hour-dusk: #3e2a1d;
+  /* Soft black, not brown. #2c1e16 was rgb(44,30,22) — 22 units of red over
+     blue, which reads as chocolate at full screen. This is 4 units of spread:
+     warm enough not to be a cold grey, neutral enough that nobody calls it
+     brown, and still nowhere near pure #000, which the brief bans. */
+  --hour-night: #1f1d1b;
+
+  /* --- Ink. Never pure black, never pure white. --- */
+  --ink: #2e2019;
+  /* Secondary ink is darker than the brand taupe it is drawn from: the label
+     register is 0.7rem uppercase, which WCAG counts as small text, and the
+     ground runs as dark as golden #ddcdb6 while ink is still in use. Clears
+     4.5:1 there (4.63). Hierarchy comes from size and tracking, not lightness.
+     Verified by scripts/contrast-scroll.mjs — do not lighten. */
+  --ink-soft: #5d5650;
+  /* Every ink used on the light ground has to clear 4.5:1 at GOLDEN, the
+     darkest ground text ever sits on — not merely on morning ecru. This was
+     #6b635b, which passes on ecru and fails at 3.79:1 on golden; the category
+     pages are long enough that the day reaches golden while the label keys are
+     still on screen, and scripts/contrast-scroll.mjs caught it there.
+
+     Every value light enough to read as a third step fails there, so faint is
+     now soft. That is the honest answer rather than a defeat: this palette has
+     room for two ink weights on light ground, not three, and hierarchy comes
+     from size and tracking — exactly as it already does for the display face,
+     which ships one weight. The token is kept so the call sites still say which
+     register they belong to, and so a future palette can separate them again. */
+  --ink-faint: var(--ink-soft);
+  /* Clay reads as the brand accent but only clears 4.5:1 on the lightest
+     ground, so text uses this deeper draw of the same hue. --clay stays for
+     rules and non-text accents. */
+  --clay-ink: #6a5240;
+  --ink-inverse: #f0e9df;
+  /* Cream-soft has to hold at 4.5:1 while the ground is still only part-way
+     down — the invitation body is on screen from about rgb(97,69,52). */
+  --ink-inverse-soft: #d0ba9d;
+
+  --rule: rgba(107, 92, 74, 0.2);
+  --rule-inverse: rgba(240, 233, 223, 0.16);
+
+  /* --- Measure & rhythm --- */
+  --gutter: clamp(1.25rem, 5vw, 5.5rem);
+  --measure: 34rem;
+  /* Tightened from clamp(3.5rem, 7vw, 7rem). Generous space is the brief's
+     first instruction, but space only reads as generosity when there is
+     something for it to be around — and at 7rem top and bottom, two adjacent
+     sections put 224px of empty ground between a photograph and the next
+     heading, which reads as a gap, not as air. The photographs got the
+     difference. */
+  --section-y: clamp(2.8rem, 5vw, 5rem);
+  --header-h: 5rem;
+
+  /* --- Motion. Slow and material. Nothing springs. --- */
+  --ease-material: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Symmetrical, for crossfades. --ease-material is an ease-out: it front-loads,
+     so a 900ms dissolve was ~72% done at 300ms and read as a snap. */
+  --ease-dissolve: cubic-bezier(0.45, 0, 0.35, 1);
+  --dur-reveal: 1100ms;
+  --dur-hover: 700ms;
+}
+
+/* --------------------------------------------------------------------------
+   Reset
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: var(--hour-night);
+  color: var(--ink);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.975rem, 0.93rem + 0.22vw, 1.075rem);
+  line-height: 1.72;
+  letter-spacing: 0.012em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  /* Kill the 300ms double-tap-zoom delay, and stop the grey flash on tap from
+     overriding the palette. Neither disables pinch zoom. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(107, 92, 74, 0.12);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 1.5px solid var(--clay);
+  outline-offset: 4px;
+}
+
+/* Clay is a mid brown; after sundown it disappears into the ground and the
+   focus ring stops being a focus ring. */
+.after-dark :focus-visible {
+  outline-color: var(--ink-inverse-soft);
+}
+
+::selection {
+  background: var(--sand);
+  color: var(--umber);
+}
+
+/* --------------------------------------------------------------------------
+   The ground
+   A fixed, viewport-filling surface. Its colour is set from scroll progress in
+   components/Ground.tsx, so the whole screen changes tone at once.
+
+   This replaces a page-length vertical gradient. However smooth that gradient
+   was, it still placed a boundary on the page, and scrolling dragged it up
+   through the viewport — you could always see the moment arrive. Nothing
+   travels past now; the room just gets darker while you are in it.
+   -------------------------------------------------------------------------- */
+
+.ground {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--hour-morning);
+  /* Smooths any gap between animation frames without lagging the scroll. */
+  transition: background-color 160ms linear;
+}
+
+/* The footer paints its own night unconditionally — see .site-footer. Nothing
+   else on the site is dark, so there is no scripting fallback left to write. */
+
+@media (prefers-reduced-motion: reduce) {
+  .ground {
+    transition: none;
+  }
+}
+
+/* Sections sit on the ground; they never paint one of their own. */
+.section {
+  padding-block: var(--section-y);
+  position: relative;
+  /* The header is fixed, so an in-page anchor would otherwise land underneath
+     it and hide the heading it jumped to. */
+  scroll-margin-top: var(--header-h);
+}
+
+/* Text tone for the hours after sundown. */
+.after-dark {
+  color: var(--ink-inverse);
+}
+
+/* --------------------------------------------------------------------------
+   Type scale
+   Display is Marcellus, a single-weight inscriptional roman. Hierarchy is
+   carried by size and tracking alone — there is no bold to fall back on, and
+   that constraint is the point: it keeps every heading quiet.
+   -------------------------------------------------------------------------- */
+
+.display {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+.d-hero {
+  font-size: clamp(2.4rem, 1.5rem + 4vw, 5.2rem);
+  letter-spacing: 0.005em;
+  line-height: 1.03;
+}
+
+.d-1 {
+  font-size: clamp(1.85rem, 1.25rem + 2.4vw, 3.4rem);
+}
+
+.d-2 {
+  font-size: clamp(1.55rem, 1.15rem + 1.7vw, 2.6rem);
+  line-height: 1.14;
+}
+
+.d-3 {
+  font-size: clamp(1.15rem, 1.02rem + 0.6vw, 1.5rem);
+  line-height: 1.2;
+}
+
+/* The utility register: eyebrows, prices, dimensions, nav. Wide tracking,
+   small size — the voice of a wall label, not a marketing badge. */
+.label {
+  font-family: var(--font-body), Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.label-inverse {
+  color: var(--ink-inverse-soft);
+}
+
+.lede {
+  font-size: clamp(1.02rem, 0.96rem + 0.32vw, 1.22rem);
+  line-height: 1.6;
+  max-width: var(--measure);
+  color: var(--ink);
+}
+
+.prose {
+  max-width: var(--measure);
+  color: var(--ink-soft);
+}
+
+.prose p + p {
+  margin-top: 1.15em;
+}
+
+/* --------------------------------------------------------------------------
+   Layout
+   -------------------------------------------------------------------------- */
+
+.shell {
+  padding-inline: var(--gutter);
+}
+
+/* --------------------------------------------------------------------------
+   Reveal — one gesture, used everywhere, so the page has a single tempo.
+   Fires only once the element is genuinely on screen: an earlier version used
+   a negative rootMargin that let things animate while still below the fold,
+   so by the time you scrolled to them the movement was already over.
+   -------------------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--dur-reveal) var(--ease-material),
+    transform var(--dur-reveal) var(--ease-material);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* The image settles rather than slides. Kept small so it never reads as a
+   zoom, and the frame clips it regardless. */
+.reveal-frame img {
+  transform: scale(1.03);
+  transition: transform 1500ms var(--ease-material);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-frame.is-visible img {
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal-frame img {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Frames — a photograph on a wall, not a card. No radius, no shadow.
+   -------------------------------------------------------------------------- */
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  background: rgba(107, 92, 74, 0.06);
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Grain.
+
+   Every piece here is old, worn and hand-made, and the photographs are clean
+   digital files — the one place the site felt newer than its subject. A fine
+   grain over the frame closes that gap: it reads as film, which is what a
+   photograph of a hundred-year-old stool ought to look like.
+
+   Generated, not an asset: an SVG fractal-noise tile as a data URI, so there is
+   no request, no cache, and it stays sharp at any density. Tiled at a fixed
+   180px rather than stretched — stretching turbulence blurs it into mush.
+
+   `overlay` blends both ways, so the grain lifts the highlights as well as
+   dirtying the shadows. `multiply` or a flat black veil would only darken, and
+   §18 is explicit that nothing may be laid over a piece photograph to make it
+   darker. This adds texture and does not change exposure. */
+.frame {
+  --grain: 0.13;
+}
+
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: var(--grain);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* The hero is one photograph at full screen, where a tile that reads as
+   texture on a 300px frame reads as noise. Lighter, and larger. */
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 260px 260px;
+}
+
+.frame-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.frame-tall {
+  aspect-ratio: 2 / 3;
+}
+
+.frame-square {
+  aspect-ratio: 1 / 1;
+}
+
+.frame-landscape {
+  aspect-ratio: 3 / 2;
+}
+
+/* --------------------------------------------------------------------------
+   Quiet link — a rule that draws itself.
+   -------------------------------------------------------------------------- */
+
+.link {
+  display: inline-block;
+  position: relative;
+  padding-bottom: 0.35em;
+  color: inherit;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.32;
+  transform-origin: left;
+  transition:
+    opacity var(--dur-hover) var(--ease-material),
+    transform var(--dur-hover) var(--ease-material);
+}
+
+.link:hover::after,
+.link:focus-visible::after {
+  opacity: 0.9;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

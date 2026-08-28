@@ -1,0 +1,50 @@
+{
+  "rooms": [
+    {
+      "file": "rooms-01.jpg",
+      "alt": "living room with black chairs",
+      "original": "https://storage.e.jimdo.com/cdn-cgi/image/quality=85,fit=scale-down,format=auto,trim=361;0;361;0,width=1024,height=768/image/545572987/a53f1f2d-e0b5-409e-9fde-7bbc8ee54c1c.jpg",
+      "bytes": 55107
+    },
+    {
+      "file": "rooms-02.jpg",
+      "alt": "A decorative item that creates a soothing atmosphere.",
+      "original": "https://storage.e.jimdo.com/cdn-cgi/image/quality=85,fit=scale-down,format=auto,trim=309;0;340;0,width=800,height=600/image/545572963/3975827a-faf5-4b5a-becf-0018ba3eaf3a.jpg",
+      "bytes": 33034
+    }
+  ],
+  "artisans": [
+    {
+      "file": "artisans-01.jpg",
+      "alt": "",
+      "original": "https://storage.e.jimdo.com/cdn-cgi/image/quality=85,fit=scale-down,format=auto,trim=640;0;640;0,width=1280,height=960/image/547926297/fd047404-805f-4099-8bcb-ddddd5e6598b.jpg",
+      "bytes": 197290
+    },
+    {
+      "file": "artisans-02.jpg",
+      "alt": "",
+      "original": "https://storage.e.jimdo.com/cdn-cgi/image/quality=85,fit=scale-down,format=auto,trim=1449;0;1449;0,width=1280,height=960/image/548851025/5c2595a0-42a8-4d32-b99b-d79ac8bc97d1.jpg",
+      "bytes": 120069
+    },
+    {
+      "file": "artisans-03.webp",
+      "alt": "",
+      "original": "https://storage.e.jimdo.com/cdn-cgi/image/quality=85,fit=scale-down,format=auto,trim=1500;0;1500;0,width=1280,height=960/image/548971043/448bb4c4-7920-430d-9b3f-5aec2b50212c.webp",
+      "bytes": 163569
+    }
+  ],
+  "rugs": [
+    {
+      "file": "rugs-01.jpg",
+      "alt": "",
+      "original": "https://storage.e.jimdo.com/cdn-cgi/image/quality=85,fit=scale-down,format=auto,width=800,height=800/image/528906169/a1277102-bd32-4f3b-ac7a-a11d7f2cb56d.jpg",
+      "bytes": 282173
+    },
+    {
+      "file": "rugs-02.jpg",
+      "alt": "",
+      "original": "https://storage.e.jimdo.com/cdn-cgi/image/quality=85,fit=scale-down,format=auto,trim=0;167;0;0,width=683,height=1280/image/528906703/3089961b-fd31-4ef1-a8b0-5398501977fe.jpg",
+      "bytes": 199604
+    }
+  ]
+}
