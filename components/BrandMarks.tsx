@@ -7,6 +7,12 @@
 type MarkProps = {
   className?: string;
   title?: string;
+  /**
+   * Wordmark only. `false` drops the crescent and keeps the lettering, for
+   * places where the mark already stands a few centimetres away and a second
+   * one would just be the brand saying its own name twice.
+   */
+  crescent?: boolean;
   /** Lets the intro find the header picto to morph onto. */
   "data-mark-target"?: string;
 };
@@ -54,18 +60,41 @@ export function Picto({ className, title, ...rest }: MarkProps) {
   );
 }
 
-/** Full wordmark: crescent above "The ROOTS Corner". */
-export function Wordmark({ className, title }: MarkProps) {
+/**
+ * Full wordmark: crescent above "The ROOTS Corner" — the client's Illustrator
+ * export, whole.
+ *
+ * `data-mark-target` lands on a <g> around the CRESCENT rather than on the
+ * <svg>, because the intro morphs a crescent and would otherwise be asked to
+ * scale itself onto a box that includes the name. Wrapping the path costs
+ * nothing and gives the intro the same shape it is drawing.
+ */
+export function Wordmark({ className, title, crescent = true, ...rest }: MarkProps) {
+  const markTarget = rest["data-mark-target"];
   return (
     <svg
       className={className}
-      viewBox="0 0 96.57 132.1"
+      /*
+        Two boxes, one artwork.
+
+        Dropping the crescent without tightening the viewBox would leave 64% of
+        the box empty above the lettering: the logo would render as a small line
+        of type floating at the bottom of a large invisible rectangle, and every
+        layout using it would have to compensate for space that is not there.
+        The trimmed box is the lettering's own bounds, measured with getBBox on
+        the rendered paths rather than guessed. It comes out almost exactly 2:1.
+      */
+      viewBox={crescent ? "0 0 96.57 132.1" : "0 84.03 96.58 48.08"}
       fill="currentColor"
       role={title ? "img" : "presentation"}
       aria-hidden={title ? undefined : true}
       aria-label={title}
     >
-      <path d="M23.93,61c.36,0,1.38.21,3.06.63,1.68.42,2.99.63,3.96.63,9.59,0,18.58-3.86,26.97-11.57,8.39-7.72,12.59-14.21,12.59-19.47,0-2.15-.6-4.31-1.8-6.46l-3.42-7.54c-.48-1.08-.96-2.18-1.44-3.32-.48-1.14-.72-2.36-.72-3.68,0-.6.18-1.25.54-1.97.36-.72.6-1.26.72-1.62l3.6-6.64c2.16,3.35,3.89,7.27,5.22,11.76,1.32,4.49,1.98,8.76,1.98,12.83,0,9.57-3.09,19.2-9.26,28.89-6.18,9.69-14.18,14.53-24.01,14.53-2.64,0-4.92-.24-6.83-.72-1.92-.48-6.11-2.04-12.59-4.68l1.44-1.62Z" />
+      <g {...(markTarget !== undefined ? { "data-mark-target": "" } : {})}>
+        {crescent && (
+          <path d="M23.93,61c.36,0,1.38.21,3.06.63,1.68.42,2.99.63,3.96.63,9.59,0,18.58-3.86,26.97-11.57,8.39-7.72,12.59-14.21,12.59-19.47,0-2.15-.6-4.31-1.8-6.46l-3.42-7.54c-.48-1.08-.96-2.18-1.44-3.32-.48-1.14-.72-2.36-.72-3.68,0-.6.18-1.25.54-1.97.36-.72.6-1.26.72-1.62l3.6-6.64c2.16,3.35,3.89,7.27,5.22,11.76,1.32,4.49,1.98,8.76,1.98,12.83,0,9.57-3.09,19.2-9.26,28.89-6.18,9.69-14.18,14.53-24.01,14.53-2.64,0-4.92-.24-6.83-.72-1.92-.48-6.11-2.04-12.59-4.68l1.44-1.62Z" />
+        )}
+      </g>
       <path d="M15.45,114.24l-4.43-6.23c-.5.06-1.01.08-1.55.08h-5.21v6.15h-2.05v-19.38h7.25c2.47,0,4.41.59,5.81,1.77,1.4,1.18,2.1,2.81,2.1,4.87,0,1.51-.38,2.79-1.15,3.83-.77,1.04-1.86,1.8-3.28,2.26l4.73,6.64h-2.24ZM13.82,105.07c1.01-.85,1.52-2.04,1.52-3.57s-.51-2.77-1.52-3.61c-1.02-.84-2.48-1.26-4.4-1.26h-5.15v9.72h5.15c1.92,0,3.39-.42,4.4-1.27Z" />
       <path d="M25.49,113.12c-1.56-.86-2.78-2.04-3.65-3.53-.88-1.5-1.32-3.17-1.32-5.04s.44-3.54,1.32-5.04c.88-1.49,2.09-2.67,3.65-3.53s3.3-1.29,5.22-1.29,3.65.43,5.19,1.27,2.75,2.03,3.64,3.53c.89,1.5,1.33,3.19,1.33,5.05s-.44,3.55-1.33,5.05c-.89,1.5-2.1,2.68-3.64,3.53-1.54.85-3.27,1.27-5.19,1.27s-3.66-.43-5.22-1.29ZM34.86,111.54c1.24-.69,2.21-1.65,2.91-2.88.7-1.23,1.05-2.6,1.05-4.11s-.35-2.88-1.05-4.11c-.7-1.23-1.67-2.19-2.91-2.88-1.24-.69-2.62-1.04-4.15-1.04s-2.92.35-4.17,1.04c-1.25.69-2.22,1.65-2.93,2.88-.71,1.23-1.07,2.6-1.07,4.11s.36,2.88,1.07,4.11c.71,1.23,1.69,2.19,2.93,2.88,1.25.69,2.63,1.04,4.17,1.04s2.92-.35,4.15-1.04Z" />
       <path d="M48.72,113.12c-1.56-.86-2.78-2.04-3.65-3.53-.88-1.5-1.32-3.17-1.32-5.04s.44-3.54,1.32-5.04c.88-1.49,2.09-2.67,3.65-3.53s3.3-1.29,5.22-1.29,3.65.43,5.19,1.27,2.75,2.03,3.64,3.53c.89,1.5,1.33,3.19,1.33,5.05s-.44,3.55-1.33,5.05c-.89,1.5-2.1,2.68-3.64,3.53-1.54.85-3.27,1.27-5.19,1.27s-3.66-.43-5.22-1.29ZM58.09,111.54c1.24-.69,2.21-1.65,2.91-2.88.7-1.23,1.05-2.6,1.05-4.11s-.35-2.88-1.05-4.11c-.7-1.23-1.67-2.19-2.91-2.88-1.24-.69-2.62-1.04-4.15-1.04s-2.92.35-4.17,1.04c-1.25.69-2.22,1.65-2.93,2.88-.71,1.23-1.07,2.6-1.07,4.11s.36,2.88,1.07,4.11c.71,1.23,1.69,2.19,2.93,2.88,1.25.69,2.63,1.04,4.17,1.04s2.92-.35,4.15-1.04Z" />

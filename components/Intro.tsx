@@ -154,13 +154,32 @@ export default function Intro() {
 }
 
 /**
- * FLIP onto the header's picto. Both are the same SVG at the same viewBox, so
- * matching centre and width lands them on each other exactly and the handover
- * at the end needs no cross-fade.
+ * Hand the written mark over.
+ *
+ * It used to FLIP onto the header's picto — same SVG, same viewBox, so matching
+ * centre and width landed them exactly and no cross-fade was needed. The
+ * crescent is no longer in the header (the client asked for the name alone), so
+ * there is nothing to land on.
+ *
+ * The mark now settles in place and fades while the veil lifts. Still one
+ * element, still no cross-dissolve between two copies of the same glyph —
+ * there is only ever one crescent on screen.
+ *
+ * If a crescent ever returns to the bar, give it `data-mark-target` and the
+ * FLIP branch below picks it up again with no other change.
  */
 function morph(mark: SVGSVGElement | null) {
-  const target = document.querySelector<HTMLElement>("[data-mark-target]");
-  if (!mark || !target) return;
+  if (!mark) return;
+
+  const target = [
+    ...document.querySelectorAll<HTMLElement>("[data-mark-target]"),
+  ].find((el) => el.getBoundingClientRect().width > 0);
+
+  if (!target) {
+    mark.style.opacity = "0";
+    mark.style.transform = "scale(0.92)";
+    return;
+  }
 
   const from = mark.getBoundingClientRect();
   const to = target.getBoundingClientRect();

@@ -2,6 +2,7 @@ import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
+import { Wordmark } from "@/components/BrandMarks";
 import Newsletter from "@/components/Newsletter";
 import PieceLabel from "@/components/PieceLabel";
 import PieceFrame from "@/components/PieceFrame";
@@ -118,10 +119,27 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <div className="hero-plate">
           <Reveal as="div" className="hero-inner shell">
             <div>
+              {/*
+                One heading, set two ways.
+
+                On a phone the title is the client's own artwork rather than
+                type set to look like it: the lettering from the footer
+                wordmark, with the crescent dropped. The mark is not repeated
+                here because it is a mark, not a decoration — the crescent gets
+                one appearance per screen, and on this one it belongs to the
+                intro that writes it.
+
+                The text stays in the h1 and is only hidden VISUALLY at that
+                width, so the page still has a real level-one heading and the
+                accessible name is words rather than a decorative graphic.
+              */}
               <h1 className="display d-hero hero-title">
-                The Roots
-                <br />
-                Corner
+                <span className="hero-title-text">
+                  The Roots
+                  <br />
+                  Corner
+                </span>
+                <Wordmark className="hero-title-mark" crescent={false} />
               </h1>
 
               {/* Caption and action share a line, the way a wall label carries

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Picto } from "./BrandMarks";
 import CartButton from "./CartButton";
 import type { Locale } from "@/lib/dictionaries";
 
@@ -236,13 +235,16 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
         </nav>
 
         <Link href={`/${locale}`} className="site-header-mark" aria-label="The Roots Corner">
-          {/* The Arabic-inspired letter sits ABOVE the name — the order of the
-              client's own artwork, and the same lockup the footer uses.
+          {/* The name, and nothing else.
 
-              The intro morphs its written crescent onto this exact box and
-              measures it live (components/Intro.tsx), so moving or resizing it
-              is a markup change and nothing else. */}
-          <Picto className="site-header-picto" data-mark-target="" />
+              The crescent is gone from the header at the client's instruction —
+              the Latin name alone. It is still the favicon, still the mark the
+              intro writes, and still in the footer as part of their own
+              artwork; it simply no longer sits in the bar.
+
+              Note for whoever picks this up: CLAUDE.md §2 records the crescent
+              as "the favicon, the loading mark, and the mobile header". Two of
+              those three still hold. The third was the client's call. */}
           <span className="site-header-name" translate="no">
             The&nbsp;Roots&nbsp;Corner
           </span>

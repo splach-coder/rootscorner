@@ -93,6 +93,16 @@ for (const [label, width, height] of [
         const r = el.getBoundingClientRect();
         if (r.width < 4 || r.height < 4 || r.top > window.innerHeight) continue;
         const cs = getComputedStyle(el);
+      /**
+       * `visibility: hidden` keeps its geometry.
+       *
+       * The nav panel is closed with `visibility` rather than `display` or the
+       * `hidden` attribute, because those cannot be transitioned — so its links
+       * still report a real box while being invisible and out of the tab order.
+       * Measuring them reported four confident failures for text nobody can
+       * see. contrast-scroll.mjs has always skipped these; these two did not.
+       */
+      if (cs.visibility === "hidden" || Number(cs.opacity) === 0) continue;
         const size = parseFloat(cs.fontSize);
         const weight = Number(cs.fontWeight) || 400;
         out.push({

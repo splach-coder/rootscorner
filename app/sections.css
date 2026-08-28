@@ -85,7 +85,13 @@ html[data-intro="run"] body {
   width: auto;
   height: clamp(5rem, 15vh, 8rem);
   transform-origin: center;
-  transition: transform var(--intro-open) var(--ease-material);
+  /* Opacity as well as transform: with no crescent left in the header there is
+     nothing to hand over to, so the mark settles and fades as the veil lifts
+     (components/Intro.tsx). The FLIP still uses only transform when a target
+     exists. */
+  transition:
+    transform var(--intro-open) var(--ease-material),
+    opacity var(--intro-open) var(--ease-material);
 }
 
 /* The nib. pathLength="1" makes the dash normalised, so the write does not
@@ -103,20 +109,13 @@ html[data-intro="run"] body {
   }
 }
 
-/* While the intro owns the mark, the header must not show a second one, and
-   must not replay the swing the write-on has just stood in for. */
-html[data-intro] .site-header-picto {
-  animation: none;
-}
-
-html[data-intro="run"] .site-header-picto,
+/* The header holds its name back while the intro owns the screen, then lets it
+   rise as the veil lifts. Removing the "run" override restores the base rule,
+   which restarts the animation — so the name arrives on cue. */
 html[data-intro="run"] .site-header-name {
   opacity: 0;
   animation: none;
 }
-
-/* Removing the "run" override restores the base rule, which restarts the
-   animation — so the wordmark rises the moment the crescent lands. */
 
 /* --------------------------------------------------------------------------
    Header
@@ -298,24 +297,16 @@ html[data-intro="run"] .site-header-name {
    tall inside an 80px bar; stacked at the old sizes it came to ~55px and the
    bar had to grow. At 1.5rem / 0.72rem it is ~40px — the header keeps its
    height and the lockup gains a second line. */
+/* One line, one element: the name.
+
+   It was a stacked lockup with the crescent above; the client asked for the
+   Latin name alone, so there is nothing left to stack and nothing left to
+   centre against. The tracking indent goes with it — that existed to pull a
+   letterspaced line back under the mark. */
 .site-header-mark {
   display: inline-flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.26rem;
   color: var(--taupe);
-}
-
-/* The Arabic-inspired letter, above the name.
-
-   `flex: none`, or the SVG has no intrinsic width to defend and the flex
-   container shrinks it to nothing — which is exactly what happened at phone
-   widths, leaving the wordmark with no crescent. */
-.site-header-picto {
-  flex: none;
-  width: auto;
-  height: 1.5rem;
-  animation: crescent-swing 1400ms var(--ease-material) both;
 }
 
 /* Set in Jost, not Marcellus.
@@ -330,15 +321,12 @@ html[data-intro="run"] .site-header-name {
    Uppercase with wide tracking, which is how the artwork sets it. */
 .site-header-name {
   font-family: var(--font-body), Arial, sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.86rem;
   font-weight: 400;
   /* Wider tracking at the smaller size: the name is now the base of a stacked
      lockup rather than a line of type, and it has to hold its own width under
      the mark. The 0.2em that suited 0.92rem reads cramped at 0.72. */
   letter-spacing: 0.26em;
-  /* The tracking adds a trailing space after the last letter, which throws the
-     name left of the crescent above it. */
-  text-indent: 0.26em;
   text-transform: uppercase;
   line-height: 1;
   color: var(--ink);
@@ -618,14 +606,9 @@ html[data-intro="run"] .site-header-name {
    -------------------------------------------------------------------------- */
 
 @media (max-width: 939px) {
-  .site-header-name {
-    display: none;
-  }
-
-  .site-header-picto {
-    height: 1.7rem;
-  }
-
+  /* The name used to be hidden here and the crescent shown instead. There is
+     no crescent in the bar any more, so hiding the name would leave the header
+     with no mark at all. */
   .site-header-end > .site-lang,
   .site-header-end > .site-cart {
     display: none;
@@ -763,10 +746,14 @@ html[data-intro="run"] .site-header-name {
   padding-bottom: clamp(2rem, 4.5vw, 3.4rem);
   background: linear-gradient(
     to top,
-    rgba(62, 42, 29, 0.88) 0%,
-    rgba(62, 42, 29, 0.78) 24%,
-    rgba(62, 42, 29, 0.6) 46%,
-    rgba(62, 42, 29, 0.36) 66%,
+    rgba(62, 42, 29, 0.9) 0%,
+    rgba(62, 42, 29, 0.82) 24%,
+    /* 0.66, not 0.60. The headline sits in this band and measured 2.93:1
+       against a 3.0 floor — the grain's bright specks are what the worst-pixel
+       check catches, and four points of alpha buys the margin back without
+       touching the wood's grain lower down. */
+    rgba(62, 42, 29, 0.66) 46%,
+    rgba(62, 42, 29, 0.4) 66%,
     rgba(62, 42, 29, 0.13) 84%,
     rgba(62, 42, 29, 0) 100%
   );
@@ -2322,5 +2309,49 @@ html[data-intro="run"] .site-header-name {
   .cart-panel,
   .cart-checkout {
     transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The hero title, on a phone: the artwork, not type set to look like it
+
+   Desktop keeps the words. At 390px the same heading is the client's own
+   lettering — the footer wordmark with the crescent dropped. The mark is not
+   repeated here because it is a mark: one appearance per screen, and on this
+   one it belongs to the intro that writes it.
+
+   The h1 keeps its text and only hides it VISUALLY here, so the page still has
+   a real level-one heading and its accessible name is words rather than a
+   decorative graphic.
+   -------------------------------------------------------------------------- */
+
+.hero-title-mark {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .hero-title-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /*
+     Width, not height. The trimmed box is 2:1, so a width sets the height and
+     the lockup scales as one thing; capping it at 21rem stops it running the
+     full bleed on a large phone, where a logo edge-to-edge reads as a banner
+     rather than as a mark.
+  */
+  .hero-title-mark {
+    display: block;
+    width: min(76%, 21rem);
+    height: auto;
+    color: var(--ink-inverse);
   }
 }

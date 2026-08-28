@@ -2735,3 +2735,51 @@ the enquiry they always had. Nothing invents a price to make a button work (§5)
 > serves a build without the files you just wrote, and `/fr/checkout` came back
 > as a 500 that looked like a code error. Kill every PID on the port, wait, then
 > start one, and check the listener count is exactly one.
+
+
+## 38. The header is the name alone
+
+The client asked for the crescent out of the bar: the Latin name only, at every
+width. One lockup now, one line, Jost at 0.86rem with 0.26em tracking.
+
+> §2 records the crescent as *"the favicon, the loading mark, and the mobile
+> header."* Two of those three still hold — it is still the favicon and still
+> the mark the intro writes, and it is still in the footer as part of the
+> client's own artwork. The third was their call.
+
+**The intro lost its destination.** It used to FLIP the written crescent onto
+the header picto — same SVG, same viewBox, so matching centre and width landed
+them exactly and no cross-fade was needed. With nothing to land on, the mark
+settles and fades as the veil lifts. Still one element; there is never a moment
+with two crescents on screen.
+
+`morph()` keeps the FLIP branch: give any header mark `data-mark-target` and it
+picks it up again with no other change. It takes the first target with a
+non-zero box, so a lockup that only appears at one breakpoint works too.
+
+> A short-lived version put the client's whole `Wordmark` in the phone bar. It
+> needed the bar at **6.75rem** to be legible — the artwork is a tall stacked
+> block whose name lives in the bottom 45%, and at 80px it came out 30px wide
+> with "ROOTS" about four pixels tall. Recorded because it is the constraint
+> anyone reaching for that file in a header will hit.
+
+### Two checker bugs, both the same shape
+
+**`visibility: hidden` keeps its geometry.** The nav panel closes with
+`visibility` rather than `display` or the `hidden` attribute, because neither of
+those can be transitioned — so its links still report a real box while being
+invisible and out of the tab order. `contrast-photo.mjs` and
+`hero-audition.mjs` measured them against the hero photograph and reported
+**four confident failures for text nobody can see**. Both now skip anything at
+`visibility: hidden` or `opacity: 0`, which `contrast-scroll.mjs` has always
+done.
+
+> I first "fixed" this by adding `.site-panel[hidden] { display: none }` — the
+> right rule for the language menu, the wrong diagnosis here, because the panel
+> never carries that attribute. Reverted. **Check how a thing is actually hidden
+> before adding a rule for how you assume it is.**
+
+**The desktop hero headline drifted to 2.93:1** against a 3.0 floor once the
+grain went on — the worst-pixel check catches the grain's bright specks. The
+plate's mid-band went 0.60 → 0.66 at 46%, which buys the margin back without
+touching the wood's grain lower down. All hero and header text clears again.
