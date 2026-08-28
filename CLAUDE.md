@@ -1462,6 +1462,33 @@ until the colours converge. The stagger is the animation anyone actually sees.
 Desktop is untouched — nav visible, language and cart in the bar, wordmark
 present, toggle hidden, panel never opened.
 
+### The phone hero title is the artwork, not type
+
+Desktop keeps the words. Below 768px the h1 renders the client's own lettering
+instead — the footer wordmark with the crescent dropped, via a `crescent` prop
+on `Wordmark` rather than a second copy of sixteen paths.
+
+**Dropping the crescent means trimming the viewBox.** Left at `0 0 96.57 132.1`
+the lettering would float at the bottom of a box that is 64% empty, and every
+layout using it would have to compensate for space that is not there. The
+trimmed box is the lettering's own bounds — `0 84.03 96.58 48.08`, almost
+exactly 2:1 — measured with `getBBox()` on the rendered paths, not guessed.
+
+The h1 keeps its text and hides it **visually** at that width, so the page still
+has a real level-one heading and its accessible name is words rather than a
+decorative graphic.
+
+> **No text-contrast script can see a logo.** The title is an SVG now, so
+> `contrast-photo.mjs` skips it — it collects text nodes. `scripts/hero-mark-contrast.mjs`
+> samples the photograph under the mark's box and measures cream against the
+> WORST pixel there, not the average: an average passes happily over a lamp.
+>
+> At `min(76%, 21rem)` the lettering reached up into the lamp's glow and the
+> worst pixel measured **3.15:1** — over the 3:1 large text needs, with nothing
+> to spare on a photograph that may be replaced. The plate's ramp is deepest at
+> the bottom edge, so a shorter mark sits lower in it: at 68% it measures
+> **4.07:1**.
+
 ### Still outstanding after this pass
 
 - **`/shipping`, `/terms`, `/privacy`, `/withdrawal` are still 404s** and the

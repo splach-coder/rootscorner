@@ -2350,7 +2350,16 @@ html[data-intro="run"] .site-header-name {
   */
   .hero-title-mark {
     display: block;
-    width: min(76%, 21rem);
+    /*
+       68%, not 76%.
+
+       The plate's ramp is deepest at the bottom edge, so a shorter mark sits
+       lower in it. At 76% the top of the lettering reached up into the lamp's
+       glow and the worst pixel under it measured 3.15:1 — over the 3:1 large
+       text needs, with nothing to spare on a photograph that may be replaced.
+       Measured with scripts/hero-mark-contrast.mjs.
+    */
+    width: min(68%, 19rem);
     height: auto;
     color: var(--ink-inverse);
   }
