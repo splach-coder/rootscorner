@@ -100,6 +100,16 @@ type Dictionary = {
     photographsRail: string;
     more: string;
     room: string;
+    /** The full-screen view. Every string here names a control, not a feeling. */
+    zoom: {
+      open: string;
+      close: string;
+      in: string;
+      out: string;
+      reset: string;
+      hint: string;
+      hintTouch: string;
+    };
   };
   storyPage: {
     lede: string;
@@ -439,6 +449,15 @@ const en: Dictionary = {
     photographsRail: "Photographs of this piece",
     more: "Continue looking",
     room: "Room",
+    zoom: {
+      open: "Look closer",
+      close: "Close",
+      in: "Zoom in",
+      out: "Zoom out",
+      reset: "Fit to screen",
+      hint: "Scroll to zoom · drag to move",
+      hintTouch: "Pinch to zoom · drag to move",
+    },
   },
   storyPage: {
     lede: "A collection put together by one person, in one place.",
@@ -813,6 +832,15 @@ const fr: Dictionary = {
     photographsRail: "Photographies de cette pièce",
     more: "Continuer à regarder",
     room: "Salle",
+    zoom: {
+      open: "Regarder de près",
+      close: "Fermer",
+      in: "Agrandir",
+      out: "Réduire",
+      reset: "Ajuster à l’écran",
+      hint: "Molette pour agrandir · glisser pour déplacer",
+      hintTouch: "Pincer pour agrandir · glisser pour déplacer",
+    },
   },
   storyPage: {
     lede: "Une collection réunie par une personne, dans un lieu.",

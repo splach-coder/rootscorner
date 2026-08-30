@@ -162,9 +162,16 @@ const browser = await chromium.launch({ executablePath: CHROME, headless: true }
         landed: window.__landed ?? "morph transition never ended",
         introDisplay: getComputedStyle(document.querySelector(".intro")).display,
         scrollLocked: getComputedStyle(document.body).overflow === "hidden",
-        headerPicto: +getComputedStyle(document.querySelector("[data-mark-target]")).opacity,
-        headerName: +getComputedStyle(document.querySelector(".site-header-name")).opacity,
-        pictoAnimation: getComputedStyle(document.querySelector("[data-mark-target]")).animationName,
+        /* The bar carries no crescent, so there is usually no FLIP target and
+           `landed` reads "morph transition never ended" by design — the mark
+           settles and fades instead. Queried defensively so this check keeps
+           working either way rather than crashing on a null element. */
+        headerPicto: (() => {
+          const el = document.querySelector("[data-mark-target]");
+          return el ? +getComputedStyle(el).opacity : "no target — settle-and-fade";
+        })(),
+        headerName: +getComputedStyle(document.querySelector(".site-header-lockup")).opacity,
+        markFaded: +getComputedStyle(document.querySelector(".intro-mark")).opacity,
         heroRevealed: document.querySelector(".hero-wall")?.classList.contains("is-visible"),
       })),
       null,

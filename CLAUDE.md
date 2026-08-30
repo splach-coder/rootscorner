@@ -2810,3 +2810,494 @@ done.
 grain went on — the worst-pixel check catches the grain's bright specks. The
 plate's mid-band went 0.60 → 0.66 at 46%, which buys the margin back without
 touching the wood's grain lower down. All hero and header text clears again.
+
+## 39. The logo is the client's artwork — the name alone, at every width
+
+§38 replaced the header lockup with "The Roots Corner" set in Jost. Close to the
+logo's letterforms, but not them — and **a logo reassembled out of a typeface
+every time it is drawn is not a logo.** The bar now carries the client's own
+Illustrator export: `Wordmark crescent={false}`, whose viewBox is trimmed to the
+lettering's own bounds. Nothing redrawn, only placed and scaled (§2).
+
+**No crescent, at any width.** It went to the desktop bar mid-session and the
+client asked for it out again, so the phone rule became the rule. It remains the
+favicon, the mark the intro writes, and half the footer lockup.
+
+### Why it is not the stacked artwork
+
+The file stacks the crescent above the name. Rendered that way and sized so the
+name is *readable*, it made a **153px header** — a fifth of a laptop screen of
+chrome on a site whose argument is that the pieces are the stars. Measured:
+
+| | bar height | "ROOTS" |
+|---|---|---|
+| Stacked, fitting the 80px bar | 80px | ~8px tall — illegible |
+| Stacked, name legible | **153px** | legible |
+| Crescent beside the name | 80px | legible |
+| **Name alone** (shipped) | **80px** | legible |
+
+The lockup is a tall block whose name lives in its **bottom ~45%**, so height is
+the wrong lever — it spends almost all of it on the crescent. §38 hit this same
+wall from the other side putting the full `Wordmark` in the phone bar.
+
+> **Size the lockup by WIDTH, not height.** The name spans the full width of the
+> box, so width decides legibility and height follows. The first attempt set
+> `height: 3.4rem` and got a 40px-wide mark.
+
+`--header-h` stays at **5rem**. A desktop override was tried and reverted — it
+is a token precisely because every page's top padding, sticky offset and
+`scroll-margin` follow it, so raising it moves eight pages.
+
+### The intro has no FLIP target, by design
+
+With no crescent in the bar, `morph()` finds no `[data-mark-target]` and the
+written mark settles and fades as the veil lifts — §38's behaviour, unchanged.
+Verified: write coverage 102.37%, mark fades to `opacity 0`, veil gone, scroll
+unlocked. The FLIP branch is kept: give a header mark `data-mark-target` and it
+resumes with no other change.
+
+> **Renaming a header class means grepping `scripts/` too.** `intro-frames.mjs`
+> held a stale `.site-header-name` and then an unconditional
+> `[data-mark-target]`, and **crashed on a null element** both times. It now
+> queries the target defensively and reports "no target — settle-and-fade"
+> rather than dying.
+
+### `scripts/header-mark-contrast.mjs` — because no text checker can see a logo
+
+The header mark is an SVG, and `contrast-photo.mjs` and `contrast-scroll.mjs`
+both collect **text nodes** — so the bar's logo passed every existing check by
+being invisible to all of them. This is §38's `hero-mark-contrast.mjs` argument
+applied to the header.
+
+It hides the mark, photographs what was behind it, and scores the mark's colour
+against the **worst** pixel there, not the average — an average passes happily
+over a lamp. Floor is 3:1 (WCAG 1.4.11, non-text contrast). Measured:
+**desktop 4.93:1 · phone 11.44:1**.
+
+### Verified
+
+`intro-frames` · `contrast-photo` (all hero and header text, both widths) ·
+`header-mark-contrast` · `audit` on `/fr`, `/en`, `/fr/collection`, `/fr/story`
+— 0 unrevealed under reduced motion, 0px phone overflow, focus ring on every
+stop. Build warning-free.
+
+> **Note for macOS:** every script here defaults `CHROME_PATH` to a **Windows**
+> Chrome path. On a Mac, export it:
+> `CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"`.
+
+## 40. The header's colour glitch — three bugs, one symptom
+
+Reported as: the bar goes brown when you click the logo to come back from
+another page, the page loads dark then snaps light, and it stays wrong until you
+scroll a little. Three separate causes, all measured.
+
+### 1. `body` was still painting night
+
+```css
+body { background: var(--hour-night); }   /* rgb(31,29,27) */
+```
+
+That was the no-JS fallback from when the ground fell all the way to night. §29
+removed the descent — `Ground.tsx` now starts at ecru and stops at golden, and
+only the footer is dark — so the dark body stopped being a fallback and became a
+**flash**. `.ground` is a client component and paints at hydration, **measured
+at ~613ms on a cold start**; until then the whole viewport was night.
+
+Now `--hour-morning` (`#f7f5f2`), which is exactly `Ground`'s first stop
+`[247, 245, 242]`. Nothing to snap from, on the slowest connection or with
+scripting off. Verified: `body` reads `rgb(247,245,242)` from the first frame.
+
+> **A fallback colour has to track whatever it is a fallback FOR.** This one
+> outlived its reason by two sections of this document.
+
+### 2. `scroll-behavior: smooth` was animating navigation
+
+It sat on `html` unconditionally, so it applied to *every* scroll the browser
+performs — including the jump to the top on a route change. Clicking the logo
+from the foot of a long page did not go to the new page: it **flew** there, a
+measured **~1.2s** of animated travel back through the old page, with the header
+re-reading every section streaming past and changing tone the whole way.
+
+It is now behind `html[data-anchor]`, which `Header.tsx` stamps for the length
+of an in-page anchor click and clears after 1200ms. The three real anchors
+(`#main`, `#selection`, `#demander`) still glide — verified, 25 distinct scroll
+positions eased 0 → 820 — and navigation is instant.
+
+> `scroll-behavior` must sit on the **scrolling element**. Putting it on
+> `:target` does nothing at all; that was the first attempt.
+
+> This is the same rule §19 records biting the measuring scripts, which all
+> have to pass `behavior: "instant"`. The site had the identical bug in
+> production and nobody had connected the two.
+
+### 3. The bar *travelled* to the new page's tone instead of arriving at it
+
+`.site-header` carries `transition: background-color 700ms`. That is right while
+scrolling — the tone should follow the room, not snap — and wrong across a
+navigation, where it means the new page **inherits the old page's colour and
+spends most of a second fading out of it.** Coming back from a footer that fills
+half the screen with brown, that fade *is* the flash.
+
+`Header.tsx` sets `.is-repainting` (which is `transition: none !important`) for
+90ms across a route change, then releases it. Ordinary scrolling animates
+exactly as before.
+
+### And the measure effect never re-ran
+
+`useEffect(..., [])`. The sections it measures belong to the *page*, and a route
+change replaces them wholesale — but nothing re-measured, and no scroll event
+fires on a navigation, so the bar kept the last page's state until the visitor
+nudged it. That is the "you need to scroll a little to correct it".
+
+It is `[pathname]` now, plus a double-`rAF` and a 250ms re-measure for
+late-arriving images that change section heights.
+
+### Measured, before and after
+
+| | before | after |
+|---|---|---|
+| body on load | `rgb(31,29,27)` for ~613ms | `rgb(247,245,242)` from frame 1 |
+| scroll on nav | animated 5649 → 0 over ~1.2s | jumps in one step |
+| header on arrival | faded 0.94 → 0 over ~600ms | correct on the first frame |
+
+### `is-dark` is currently unreachable
+
+Worth knowing before anyone debugs it. `[data-tone="dark"]` exists only on the
+footer, and on every page the footer's top sits **below the maximum scroll
+position** — `/story` ends at 6355 with the footer starting at 6786. So it never
+crosses the header's 40px measuring line and `.is-dark` never applies. Measured
+0 dark frames on every page. The code is kept because the footer could grow or a
+dark section could return, but do not assume it is exercised.
+
+### Two more checkers crashed on stale selectors
+
+`intro-guards.mjs` assumed `.intro` and `[data-mark-target]` were present and
+died on a null element — the third instance of this exact failure in two
+sessions (§39). Both are queried defensively now.
+
+Its **no-JS branch had never worked**: it called `page.evaluate` with scripting
+disabled, which cannot run, and hung until the 30s navigation timeout. It reads
+CDP layout metrics instead — the honest question there is whether the page
+renders and scrolls, not what the DOM says. Now reports
+`PASS — page renders and scrolls`.
+
+### Verified
+
+`audit` on six routes · `contrast-scroll` on `/fr`, `/fr/collection`,
+`/fr/story` · `contrast-photo` · `header-mark-contrast` · `intro-frames` ·
+`intro-guards` (all five scenarios, exit 0) · build warning-free.
+
+## 41. The doorways on a phone — a directory, not a grid of tiles
+
+The first attempt at this was a spacing fix: stack the name over the count so
+the name gets the full column width. It stopped the wrapping and it was still
+the wrong answer, because **the grid itself was the problem.**
+
+### Why the grid had to go
+
+Two columns of ~145px cards is the shape of a shop's category tiles — the
+catalogue presentation the brief bans — and at that size neither half of a card
+can do its job. The photograph is too small to show what a Tamegroute glaze
+looks like; the name is too narrow to hold, so four of the seven French labels
+broke mid-phrase. *"Tabourets & sièges"* split its own ampersand onto line two.
+
+The count made it worse twice over: sharing the name's row it ate ~30px of the
+width that **caused** the wrap, and `align-items: baseline` then pinned it to the
+FIRST line, so beside a two-line name it floated halfway up and the two columns
+came out at different heights.
+
+**This section is not merchandise. It is an index** — seven ways in, with a
+count each — and the strongest form for an index on a narrow screen is a list
+you read down.
+
+### The design
+
+Each doorway is a full-width band:
+
+```
+┌──────┐
+│      │  01   Tabourets & sièges
+│ img  │       12 PIÈCES
+└──────┘
+──────────────────────────────────
+```
+
+| | |
+|---|---|
+| **The plate** | 3.4rem wide at **2:3** — the ratio most of this photography was actually shot at, so the crop takes nothing off the object. Deliberately small: it is a keyed swatch telling you what is behind the door, not the door. |
+| **The numeral** | The room's position in the directory, in clay, tabular. |
+| **The name** | 1.28rem with the whole width to itself. Six of seven set on one line in French, **all seven** in English. |
+| **The count** | Directly under the name, at its left edge. |
+| **The rule** | One hairline per band — the same one the register and the rails use. |
+
+The section falls from **1407px to 877px**, and the tap target goes from 104px
+where it was a card's whole height to 104px of band — unchanged, but now the
+whole width is hittable rather than half of it.
+
+> **The words are centred against the plate, not stretched across it.** The
+> first version made name and count rows one and two of a grid as tall as the
+> photograph, which stranded the count at the bottom of the band with a hole
+> between it and the name it belongs to. `.doorway-said` is a wrapper holding
+> them as one block; the plate sets the height and the block sits in the middle
+> of it.
+>
+> On desktop that wrapper is **`display: contents`**, so it vanishes from the
+> box tree and name and count remain direct grid items of `.doorway-link` —
+> which is what lets the markup change without touching the desktop layout.
+
+### Two decisions worth keeping
+
+**The count says its noun on a phone, and does not on desktop.** In a card the
+numeral sits tight against the name and reads unambiguously as a quantity. In
+the directory it stands on its own line, where "12" could be a price, a year or
+a room number. Both strings are rendered and **CSS picks one** — the server
+cannot know the viewport, and a JS swap would flash. The dictionaries already
+carried `category.count` / `countOne`, so the singular is right: *Lumière* holds
+exactly one piece.
+
+**Numbering categories is safe where numbering objects was not.** §24 refused
+accession-style numbers on the register because a number beside an antique
+object reads as an age, an edition size or a provenance mark — invented
+provenance by implication. These number the seven **categories of the site's own
+navigation**. A number beside a category is a list position and nothing else.
+It is `aria-hidden`, since the list order carries no meaning for a screen reader.
+
+### Desktop is provably untouched
+
+The phone block is `@media (max-width: 699px)`; the desktop grid starts at
+`700px`. Measured after every change: section height **1241px**, twelve-column
+track, all seven names on one line at 24px, index `display: none`, counts
+rendering as bare numerals — identical to before.
+
+### Verified
+
+| | 390px | 320px |
+|---|---|---|
+| Names wrapping, FR | 1 of 7 (was 4) | 1 of 7 |
+| Names wrapping, EN | **0 of 7** | 1 of 7 |
+| Horizontal overflow | 0px | 0px |
+
+`audit` on `/fr` and `/en` · `contrast-scroll` PASS on both · build
+warning-free.
+
+## 42. The rooms on a phone — the covers, not the names
+
+Same report as §41, different component: the **collection page**'s rooms rail,
+not the homepage's doorways. They share an eyebrow — *"Par où commencer"* —
+which is why they read as one thing, but §30 made them deliberately different.
+
+This took two passes, and the first one is the lesson.
+
+### Pass one fixed the symptom
+
+`.rooms-rail` is a wrapping flex row: right at desktop width, where eight short
+names and their counts sit on one line. At 390px it wraps onto four, and every
+line ends wherever the next name happens not to fit — so the right edge is
+ragged and each line trails dead ground. *"Céramiques de Tamegroute"* is wider
+than half the screen and takes a line to itself.
+
+Setting it as a vertical list, one room per line with a leader rule to its
+count, fixed the raggedness. It was tidy and it was still **eight rows of pure
+text, a whole screen deep, before a visitor reaches a single object.**
+
+> **Arranging text better does not stop it being text.** If the complaint is
+> "too much text", the answer is usually not a better text layout.
+
+### Pass two: the rooms become their own photographs
+
+`categories()` has always returned a `cover` per room — the homepage uses those
+same images — and the rail was the one place that threw it away. This page is
+the shop; what someone wants here is to see what is in a room, not to read its
+name.
+
+So below 700px the rooms are a band of covers you push sideways: 3:4 frames at
+34vw, name and count beneath, bleeding off the right edge. **218px instead of
+418.** The cut last cell is honest — there really is more, one push away.
+
+The gesture is the site's own: `.instagram-strip` is the same construction, so
+this reads as something the site already does rather than a new component.
+
+| | |
+|---|---|
+| Rail (≥700px) | unchanged — one line, 59px |
+| List (pass one) | 418px, 8 rows of text |
+| **Strip (shipped)** | **218px, 8 covers** |
+
+### Three real bugs, all caught by measuring
+
+**The leading gutter has to be a margin on the first cell, not padding on the
+scroller.** `padding-inline-start` on a flex scroller is laid out once and then
+scrolled past: the strip opened with its first cover flush to the screen edge
+instead of aligned to the eyebrow above it — `firstCellLeft: 0` against the
+text's `20`. A margin belongs to the cell and travels with it.
+`scroll-padding-left` keeps snapping honest about it.
+
+**"Toute la collection" was missing.** The strip rendered only `rooms`, so the
+way back to everything vanished on the phone. It leads the strip now, as it
+leads the rail — set as words on ground at a cover's exact footprint, because it
+has no cover and **borrowing a piece's photograph to stand for "all of it" would
+make one object speak for thirty-eight.**
+
+> ### ⚠️ The a11y bug this pattern always has
+>
+> The strip is `aria-hidden` — every cell duplicates a rail link, and offering
+> both would double every room in the tab order for a gesture neither a keyboard
+> nor a screen reader can use. Two things then went wrong, and a tab-through
+> found both:
+>
+> **A scroll container is keyboard-focusable by default**, so the browser can
+> scroll it with the arrow keys. Correct in general; inside an `aria-hidden`
+> subtree it is a tab stop leading into hidden content, which is exactly what
+> WCAG forbids. `tabIndex={-1}`.
+>
+> **The rail was `display: none`,** which removed it from the accessibility tree
+> as well as the layout — so a phone visitor on a screen reader had **no way to
+> reach the rooms at all.** It is visually hidden (the `.sr-only` technique) and
+> still in the tree.
+>
+> Measured after: **0** tab stops inside the strip, **7** in the rail, 8 links
+> in the tree.
+
+### Desktop and the cards are untouched
+
+The client's instruction was that the cards are good as they are. This block
+only ever addresses `.rooms-rail` and `.rooms-strip`.
+
+| width | strip | rail visible | cards |
+|---|---|---|---|
+| 1440 | — | yes | 4 across |
+| **700** | — | yes | 3 across |
+| **699** | 358px | no (in tree) | 3 across |
+| 390 | 218px | no (in tree) | 2 across |
+| 320 | 186px | no (in tree) | 2 across |
+
+Desktop downloads **none** of the cover images: they are rendered at every
+viewport and hidden in CSS rather than branched in JS — the server cannot know
+the width and a post-hydration swap would flash — but `sizes` resolves to
+`(min-width: 700px) 0px`, so next/image fetches nothing. Verified: 7 images
+loaded at 390px, **0 at 1440**.
+
+### Verified
+
+`audit` on `/fr/collection`, `/en/collection`, `/fr/collection/stools` and
+`/en/collection/vases` — 0 unrevealed, 0px overflow at every width tested ·
+`contrast-scroll` PASS both locales · build warning-free.
+
+## 43. The strip looks through itself, once — after the words have landed
+
+The strip bleeds off the right edge so its last cell is visibly cut — which is
+how it says *there is more, one push away* without an arrow. That reads if you
+are looking at it, and it does not if the covers were below the fold when you
+arrived. So the first time the strip is seen it drifts sideways on its own,
+holds, and eases back: **0 → 281 → hold → 0**, about 3.2s.
+
+At the far point the visible rooms are *Pièces africaines · Objets · Pots &
+contenants* — rooms that are not on screen at rest. It shows you the collection
+rather than telling you to swipe.
+
+`components/RoomsStrip.tsx`. A client wrapper around the same markup; the cells
+are still server-rendered.
+
+### The sequencing bug, and why it was invisible in a screenshot
+
+The strip **was not wrapped in a reveal at all**, so it sat at full opacity from
+37ms while everything around it settled. Measured:
+
+| | before |
+|---|---|
+| eyebrow *begins* fading in | 1557ms |
+| **strip starts moving** | **2228ms** |
+| eyebrow finally readable | 2379ms |
+
+It moved **151ms before its own heading could be read**, and 671ms after that
+heading had merely started to appear. Two animations arguing, not one gesture —
+and no still frame can show it.
+
+The strip now carries `.reveal` with the same 120ms stagger the rail beside it
+uses, and the drift waits `revealDelay + 1100 + 420` — its own stagger, the
+full `--dur-reveal`, and a settle:
+
+| | after |
+|---|---|
+| eyebrow readable | 2263ms |
+| strip settled | 2396ms (133ms behind it — a stagger) |
+| **strip moves** | **3247ms**, 851ms after everything is readable |
+
+> **Anything sequenced against `Reveal` must wait for `--dur-reveal`, not for
+> the reveal to START.** The trigger fires when the element crosses 88% of the
+> viewport; the transition then takes a further 1100ms. Timing off the trigger
+> lands you in the middle of the fade.
+
+### Two traps the restructure created
+
+**Reduced motion still has to SHOW the strip.** The early return for
+`prefers-reduced-motion` used to be free, because the strip was always visible.
+Now `.reveal` starts at `opacity: 0`, so returning before `setVisible(true)`
+would leave the covers permanently invisible. Same for the `played` early
+return on a return visit. `scripts/audit.mjs` is what guards this — *0 reveal
+elements still transparent*.
+
+**The overflow check moved into `play()`.** It ran on mount and bailed out when
+`scrollWidth - clientWidth <= 8`, which on desktop is always true because the
+strip is `display: none` and measures zero — so it would have skipped the reveal
+along with the drift. It belongs where the drift is decided, not where the
+component mounts.
+
+### Once per page load — a module-scope flag, not storage
+
+```ts
+let played = false;   // module scope
+```
+
+The scope is the specification: a module variable survives client-side
+navigation (coming back from a piece is quiet) and dies on a real reload (a
+refresh plays it again). **Deliberately not `sessionStorage`** — that is the
+intro veil's rule (§21), and it would stay quiet across a refresh too.
+
+> **Test this by CLICKING, not with `page.goto`.** A `goto` is a real page load
+> and correctly resets the flag; a test that leaves the page that way reports a
+> replay and looks like a broken "once" rule. Verified with real in-app
+> navigation: return **1** scroll position, hard reload **101**.
+
+### It never fights the visitor
+
+`pointerdown`, `touchstart`, `wheel` and `keydown` abort it instantly, and so
+does any scroll whose position is not the one the last frame wrote — `expected`
+compared with a 2px tolerance is how a hand is told apart from the animation.
+
+**An abort leaves the strip where the hand put it.** Snapping back to 0 would
+throw away the position the visitor just chose. Measured: interrupted at 273,
+released at 288, still 288 two and a half seconds later.
+
+> ### ⚠️ Scroll snap quantises programmatic writes
+>
+> The first version jumped **0 → 144 and stayed there** — two distinct positions
+> in 300 frames. `scroll-snap-type` acts on every write to `scrollLeft`, not
+> only on a user's gesture, so a per-frame animation is snapped to the nearest
+> cell and a 1.5s glide collapses into one jump.
+>
+> `.rooms-strip.is-looking { scroll-snap-type: none }` for the length of the
+> gesture, removed in `cleanup()` so it returns however the gesture ended,
+> including an abort. After: **101** distinct positions.
+
+> `scrollLeft` is driven per frame rather than with
+> `scrollTo({ behavior: "smooth" })` for two reasons: that property is armed
+> only for anchor jumps now (§40), and a native smooth scroll cannot be
+> interrupted mid-flight, which would break the abort above.
+
+The on-screen test is the same rAF-throttled rect check `Reveal` uses — not
+IntersectionObserver, for the reason components/Reveal.tsx documents.
+
+### Verified
+
+| | |
+|---|---|
+| Sequence | eyebrow 2263 → strip settled 2396 → moves 3247 |
+| Return navigation | 1 position (quiet), opacity 1 |
+| Hard reload | 101 positions (plays) |
+| Reduced motion | 1 position, **opacity 1** |
+| Desktop | strip `display: none`, rail `flex` |
+
+`audit` on `/fr/collection`, `/en/collection`, `/fr/collection/stools` — 0
+unrevealed, 0px overflow · `contrast-scroll` PASS both locales · build
+warning-free.

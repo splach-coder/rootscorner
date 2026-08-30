@@ -131,6 +131,7 @@ export default async function PiecePage({
                 { n: piece.images.length },
               )}
               railLabel={t.piece.photographsRail}
+              zoomLabels={t.piece.zoom}
             />
           </div>
 

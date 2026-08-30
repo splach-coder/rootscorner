@@ -13,10 +13,21 @@ const browser = await chromium.launch({ executablePath: CHROME, headless: true }
 const state = (page) =>
   page.evaluate(() => ({
     intro: document.documentElement.dataset.intro ?? "(absent)",
-    veil: getComputedStyle(document.querySelector(".intro")).display,
+    /* Queried defensively throughout. `.intro` is absent entirely when the
+       gate decides not to run, and the bar carries no crescent — so there is
+       normally no [data-mark-target] at all (§39). Both used to be assumed
+       present and crashed this check on a null element. */
+    veil: (() => {
+      const el = document.querySelector(".intro");
+      return el ? getComputedStyle(el).display : "(no .intro)";
+    })(),
     scrollLocked: getComputedStyle(document.body).overflow === "hidden",
-    pictoOpacity: +getComputedStyle(document.querySelector("[data-mark-target]")).opacity,
-    pictoAnim: getComputedStyle(document.querySelector("[data-mark-target]")).animationName,
+    mark: (() => {
+      const el = document.querySelector("[data-mark-target]");
+      return el
+        ? { opacity: +getComputedStyle(el).opacity, anim: getComputedStyle(el).animationName }
+        : "no target — settle-and-fade";
+    })(),
     invisible: [...document.querySelectorAll("body *")]
       .filter((el) => {
         const s = getComputedStyle(el);
@@ -84,16 +95,30 @@ const settle = (page) =>
     javaScriptEnabled: false,
   });
   const page = await ctx.newPage();
-  await page.goto("http://localhost:3111/fr?intro", { waitUntil: "load" });
+  await page.goto("http://localhost:3111/fr?intro", { waitUntil: "commit" });
+
+  /* `page.evaluate` cannot run with scripting disabled — it hung here until the
+     30s navigation timeout. The question this branch actually asks is "can a
+     visitor without JS see and scroll the page", and that is answered by the
+     RENDERED result, not by querying the DOM: `.intro` is `display: none`
+     unless the inline gate stamps data-intro="run", and that gate is script.
+
+     Measured with the CDP layout metrics instead, which need no page script. */
+  const cdp = await page.context().newCDPSession(page);
+  const { cssContentSize, cssLayoutViewport } = await cdp.send("Page.getLayoutMetrics");
+  const veilPixels = await page.locator(".intro").count();
   console.log(
     "no js         ",
-    JSON.stringify(
-      await page.evaluate(() => ({
-        veil: getComputedStyle(document.querySelector(".intro")).display,
-        scrollLocked: getComputedStyle(document.body).overflow === "hidden",
-        pictoOpacity: +getComputedStyle(document.querySelector("[data-mark-target]")).opacity,
-      })),
-    ),
+    JSON.stringify({
+      introInDom: veilPixels,
+      scrollable: cssContentSize.height > cssLayoutViewport.clientHeight,
+      pageHeight: Math.round(cssContentSize.height),
+      // A visitor with no script must never be left on a veil or a locked page.
+      verdict:
+        cssContentSize.height > cssLayoutViewport.clientHeight
+          ? "PASS — page renders and scrolls"
+          : "FAIL — nothing to scroll",
+    }),
   );
   await ctx.close();
 }

@@ -6,7 +6,7 @@ import { Wordmark } from "@/components/BrandMarks";
 import Newsletter from "@/components/Newsletter";
 import PieceLabel from "@/components/PieceLabel";
 import PieceFrame from "@/components/PieceFrame";
-import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
+import { fill, getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
 import {
   categories,
   featuredPieces,
@@ -279,8 +279,42 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                         />
                       )}
                     </Reveal>
-                    <span className="doorway-name display d-3">{label}</span>
-                    <span className="doorway-count label">{cat.count}</span>
+                    {/* Wrapped so the phone list can centre the words against
+                        the photograph as one block. On desktop `.doorway-said`
+                        is `display: contents`, so these three land straight in
+                        the link's own grid exactly as they did before. */}
+                    <span className="doorway-said">
+                      {/* The position in the directory. Shown only on the phone
+                          list, where the doorways read as an index; hidden on
+                          desktop, where they are a set of cards and a rank would
+                          be a claim nobody made. Two digits so the column of
+                          numerals is even. */}
+                      <span className="doorway-index label" aria-hidden="true">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="doorway-name display d-3">{label}</span>
+                      {/* The bare numeral, and the word for it.
+
+                          On desktop the count sits tight against the name in a
+                          card, where a lone digit reads unambiguously as a
+                          quantity — and desktop is to be left exactly as it
+                          was. In the phone directory the count stands on its
+                          own line, where "12" could be a price, a year or a
+                          room number, so it needs its noun.
+
+                          Both are rendered and CSS picks one, rather than
+                          branching on a viewport width the server cannot know.
+                          The dictionaries already carry the phrase, with the
+                          singular "Lumière" needs: it holds exactly one piece. */}
+                      <span className="doorway-count label">
+                        <span className="doorway-count-bare">{cat.count}</span>
+                        <span className="doorway-count-said">
+                          {fill(cat.count === 1 ? t.category.countOne : t.category.count, {
+                            n: cat.count,
+                          })}
+                        </span>
+                      </span>
+                    </span>
                   </Link>
                 </li>
               );

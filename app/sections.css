@@ -112,7 +112,7 @@ html[data-intro="run"] body {
 /* The header holds its name back while the intro owns the screen, then lets it
    rise as the veil lifts. Removing the "run" override restores the base rule,
    which restarts the animation — so the name arrives on cue. */
-html[data-intro="run"] .site-header-name {
+html[data-intro="run"] .site-header-lockup {
   opacity: 0;
   animation: none;
 }
@@ -137,6 +137,19 @@ html[data-intro="run"] .site-header-name {
     border-color 700ms var(--ease-material),
     transform 600ms var(--ease-material),
     color 700ms var(--ease-material);
+}
+
+/* On a route change the bar must ARRIVE at the new page's tone, not travel to
+   it. The 700ms fade above is right while scrolling — the tone should follow
+   the room, not snap — but across a navigation it means the new page inherits
+   the old one's colour and spends most of a second fading out of it. Coming
+   back from a footer that reads as brown, that fade IS the flash.
+
+   Header.tsx sets this for one frame after `pathname` changes, then removes it.
+   `transition: none` rather than a 0s duration so nothing is left mid-flight. */
+.site-header.is-repainting,
+.site-header.is-repainting * {
+  transition: none !important;
 }
 
 /* Retracts while reading downward, returns on the first upward move. The pieces
@@ -171,15 +184,25 @@ html[data-intro="run"] .site-header-name {
 }
 
 .site-header.is-dark .site-header-mark,
-.site-header.is-dark .site-header-name,
-.site-header.is-dark .site-nav-link,
-.site-header.is-dark /* The cart's handle. Same register as the nav so it reads as one of the
-   utilities rather than as a button bolted on. */
+.site-header.is-dark .site-header-lockup,
+.site-header.is-dark .site-nav-link {
+  color: var(--ink-inverse);
+}
+
+/* The cart's handle. Same register as the nav so it reads as one of the
+   utilities rather than as a button bolted on.
+
+   The mark is 20px in a 44px target: the hit area is padding, not size, so the
+   glyph stays the weight of a hairline while the tap target clears the floor.
+   `align-items: center` rather than baseline — an SVG has no baseline of its
+   own and would sit on the box's bottom edge. */
 .site-cart {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.3rem;
+  align-items: center;
+  gap: 0.34rem;
   min-height: 44px;
+  min-width: 44px;
+  justify-content: center;
   padding-inline: 0.5rem;
   color: var(--ink);
   letter-spacing: 0.2em;
@@ -187,18 +210,32 @@ html[data-intro="run"] .site-header-name {
   font-size: 0.7rem;
 }
 
+/* An SVG with no intrinsic width cannot defend itself in a flex row — the same
+   collapse the picto hit (CLAUDE.md §22). */
+.site-cart-mark {
+  flex: none;
+  display: block;
+}
+
+/* The panel variant keeps its word, so it is a row again rather than a square
+   target and it lines up with the languages beside it. */
+.site-cart-worded {
+  min-width: 0;
+  justify-content: flex-start;
+  padding-inline: 0;
+}
+
 /* Not a filled badge. A disc of solid colour in this palette reads as a
    notification from a different kind of site; the count sits in clay, in the
    same type as everything else, and the eye still finds it because it is the
-   only number in the bar. */
-.site-cart-sep {
-  color: var(--ink-soft);
-}
+   only number in the bar.
 
+   Beside a mark rather than a word, it no longer needs the separator the word
+   required — there is nothing for it to run into. */
 .site-cart-count {
   color: var(--clay-ink);
   font-variant-numeric: tabular-nums;
-  /* The label's 0.2em tracking would push the digit off its own separator. */
+  /* The label's 0.2em tracking would push the digit off the mark. */
   letter-spacing: 0;
 }
 
@@ -208,9 +245,7 @@ html[data-intro="run"] .site-header-name {
 }
 
 .site-header.is-dark .site-cart-count,
-.site-header.is-dark .site-cart-sep,
-.site-header.is-on-hero .site-cart-count,
-.site-header.is-on-hero .site-cart-sep {
+.site-header.is-on-hero .site-cart-count {
   color: var(--ink-inverse-soft);
 }
 
@@ -237,7 +272,7 @@ html[data-intro="run"] .site-header-name {
 }
 
 .site-header.is-on-hero .site-header-mark,
-.site-header.is-on-hero .site-header-name,
+.site-header.is-on-hero .site-header-lockup,
 .site-header.is-on-hero .site-nav-link,
 .site-header.is-on-hero .site-menu-toggle,
 .site-header.is-on-hero .site-lang,
@@ -289,46 +324,30 @@ html[data-intro="run"] .site-header-name {
   justify-self: end;
 }
 
-/* Stacked, which is the order of the client's own artwork: the crescent above
-   the name, exactly as the footer sets it and as the supplied wordmark is
-   drawn (§2).
+/* The client's artwork, not the name typeset.
 
-   Both parts shrink to pay for it. Side by side the lockup was one line ~33px
-   tall inside an 80px bar; stacked at the old sizes it came to ~55px and the
-   bar had to grow. At 1.5rem / 0.72rem it is ~40px — the header keeps its
-   height and the lockup gains a second line. */
-/* One line, one element: the name.
+   It was a <span> set in Jost — close to the logo's letterforms but not them,
+   and a logo reassembled out of a typeface every time it is drawn is not a
+   logo. This is the Illustrator export itself (§2), nothing redrawn.
 
-   It was a stacked lockup with the crescent above; the client asked for the
-   Latin name alone, so there is nothing left to stack and nothing left to
-   centre against. The tracking indent goes with it — that existed to pull a
-   letterspaced line back under the mark. */
+   The crescent is not in the bar at any width (see Header.tsx). It is still the
+   favicon, the mark the intro writes, and half of the footer lockup. */
 .site-header-mark {
   display: inline-flex;
   align-items: center;
   color: var(--taupe);
 }
 
-/* Set in Jost, not Marcellus.
+/* Sized by WIDTH, not height.
 
-   §15 moved this to the display face because a 0.7rem letterspaced grotesque
-   read as system chrome. That diagnosis was right and the cure was wrong: the
-   problem was the SIZE, not the face. The client's actual logo sets "ROOTS" in
-   a geometric sans, and Jost was chosen for this project precisely because it
-   echoes the circular construction of that wordmark (§12) — so the header now
-   uses the letterforms the brand itself uses, at a size that can carry them.
-
-   Uppercase with wide tracking, which is how the artwork sets it. */
-.site-header-name {
-  font-family: var(--font-body), Arial, sans-serif;
-  font-size: 0.86rem;
-  font-weight: 400;
-  /* Wider tracking at the smaller size: the name is now the base of a stacked
-     lockup rather than a line of type, and it has to hold its own width under
-     the mark. The 0.2em that suited 0.92rem reads cramped at 0.72. */
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  line-height: 1;
+   The name is the part that has to be readable and it spans the full width of
+   this box, so width is the dimension that decides legibility — height follows.
+   Sizing by height is what produced a 40px mark with "ROOTS" eight pixels tall
+   on the first attempt, which is §38's finding restated. */
+.site-header-lockup {
+  display: block;
+  width: 6rem;
+  height: auto;
   color: var(--ink);
   animation: mark-rise 1100ms var(--ease-material) 120ms both;
 }
@@ -1065,9 +1084,163 @@ html[data-intro="run"] .site-header-name {
   grid-area: name;
 }
 
+/* The directory numeral belongs to the phone list only. On desktop the cards
+   are laid out in rows a visitor reads as a set, and numbering a set of tiles
+   adds a rank nobody asked for. */
+.doorway-index {
+  display: none;
+}
+
+/* Desktop keeps the bare numeral it has always had; the phone list swaps in the
+   full phrase below. Rendered both ways and chosen in CSS, because the server
+   cannot know the viewport and a JS swap would flash. */
+.doorway-count-said {
+  display: none;
+}
+
+/* A wrapper the phone list needs and desktop must not see: `contents` makes it
+   vanish from the box tree, so name and count remain direct grid items of
+   .doorway-link and the desktop layout is untouched. */
+.doorway-said {
+  display: contents;
+}
+
 .doorway-count {
   grid-area: count;
   color: var(--ink-soft);
+}
+
+/* ==========================================================================
+   Phone: the doorways become a directory, not a grid of tiles
+   ==========================================================================
+
+   Two columns of ~145px cards is the shape of a shop's category tiles — the
+   catalogue presentation the brief bans — and at that size neither half works:
+   the photograph is too small to show what a Tamegroute glaze looks like, and
+   the name is too narrow to hold, so four of the seven French labels wrapped
+   mid-phrase.
+
+   Shrinking the type would have treated the symptom. The real problem is that a
+   GRID is the wrong form here. This section is not merchandise; it is an index
+   — seven ways in, with a count each — and the strongest form for an index on a
+   narrow screen is a list you read DOWN.
+
+   So each doorway becomes a full-width band, read left to right:
+
+       ┌──────┐
+       │      │  01                          Tabourets & sièges
+       │ img  │  ─────────────────────────────────────────────
+       │      │                                    12 pièces
+       └──────┘
+
+   The name gets the whole width and never wraps. The photograph becomes a tall
+   narrow plate at the leading edge — a 2:3 upright, which is the ratio nearly
+   all this photography was shot at, so nothing is cropped to fit. The number is
+   the room's position in the directory, and the rule under the name is the same
+   hairline the register and the rails already use.
+
+   Desktop cannot see any of this: its grid starts at 700px and this block ends
+   at 699px. */
+@media (max-width: 699px) {
+  .doorways {
+    display: block;
+    margin-top: clamp(1.8rem, 5vw, 2.6rem);
+    /* The list is bounded by rules, so it needs one at the top to close it. */
+    border-top: 1px solid var(--rule);
+  }
+
+  /* Every band is identical, including the last: the full-width landscape card
+     that the 2-column grid needed to fill its empty seventh cell has no reason
+     to exist in a list, where there is no cell to fill. */
+  .doorways-7 .doorway:last-child {
+    grid-column: auto;
+  }
+
+  .doorway {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* The words are CENTRED against the plate, not stretched across its height.
+
+     The first version put the name on row one and the count on row two of a
+     grid as tall as the photograph, which left the count stranded at the bottom
+     of the band with a hole between it and the name it belongs to. The plate
+     sets the band's height; the words are a block that sits in the middle of
+     it, so name and count stay together whatever the plate does. */
+  .doorway-link {
+    display: grid;
+    grid-template-areas: "frame said";
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 1rem;
+    padding-block: 0.7rem;
+  }
+
+  .doorway-said {
+    grid-area: said;
+    display: grid;
+    grid-template-areas:
+      "index name"
+      ".     count";
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    column-gap: 0.75rem;
+    row-gap: 0.3rem;
+  }
+
+  /* A tall narrow plate rather than a card.
+
+     2:3 upright — the ratio most of this photography was actually shot at, so
+     the crop takes nothing off the object. 3.6rem wide is deliberately small:
+     it is a keyed swatch telling you what is behind the door, not the door. */
+  .doorway-link .frame {
+    grid-area: frame;
+    width: 3.4rem;
+    aspect-ratio: 2 / 3;
+  }
+
+  /* The position in the directory, set as a numeral.
+
+     NOT an accession number, and it is worth saying why the distinction is safe
+     here where §24 forbade it on the register: these number the seven CATEGORIES
+     of the site's own navigation, not the objects. A number beside a category is
+     a list position; a number beside an antique object reads as an age or an
+     edition, which is invented provenance. */
+  .doorway-index {
+    grid-area: index;
+    display: block;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    color: var(--clay-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .doorway-name {
+    grid-area: name;
+    min-height: 0;
+    font-size: 1.28rem;
+    line-height: 1.15;
+  }
+
+  /* The count sits on the second row, under the name, aligned to the far edge
+     so the bands share a common right margin and the list reads as a column of
+     quantities as well as a column of names. */
+  /* Directly under the name, indented to its left edge — a fact about the room
+     rather than a numeral parked at the far margin. */
+  .doorway-count {
+    grid-area: count;
+    justify-self: start;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .doorway-count-bare {
+    display: none;
+  }
+
+  .doorway-count-said {
+    display: inline;
+  }
 }
 
 .doorway-link .frame img {

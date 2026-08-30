@@ -107,6 +107,183 @@
   color: var(--ink-soft);
 }
 
+/* The strip is the phone's form of this nav; the rail above is the desktop's.
+   Only one is ever visible. */
+.rooms-strip {
+  display: none;
+}
+
+/* ==========================================================================
+   Phone: the rooms become a strip of their own covers
+   ==========================================================================
+
+   The rail is a wrapping flex row, which is right at desktop width — eight
+   short names and their counts on one line. At 390px it wraps onto four, and
+   wrapping is what broke it: each line ended wherever the next name happened
+   not to fit, so the right edge was ragged and every line trailed dead ground.
+   "Céramiques de Tamegroute" is wider than half the screen and took a line to
+   itself.
+
+   Setting it as a vertical list fixed the raggedness and left the real problem
+   standing: eight rows of pure text, a whole screen deep, before a visitor
+   reaches a single object. This page is the shop. What someone wants here is to
+   see what is in a room, not to read its name.
+
+   So the rooms become their own photographs, in a band you push sideways.
+   `categories()` has always carried a cover per room — the homepage uses the
+   same images — and the rail was the one place that threw it away. It costs one
+   band instead of a screen, and the cut edge at the right is honest: there
+   really is more, one push away.
+
+   The gesture is the site's own. The Instagram strip (sections.css) is the same
+   construction — a flex row that scrolls in x, snaps by proximity, hides its
+   scrollbar and bleeds off the right gutter — so this reads as something the
+   site already does rather than as a new component. */
+@media (max-width: 699px) {
+  /* The rail is hidden VISUALLY, not removed.
+
+     `display: none` took it out of the accessibility tree as well as the
+     layout, and since the strip that replaces it is `aria-hidden`, a phone
+     visitor using a screen reader was left with no way to reach the rooms at
+     all. This is the .sr-only technique: the real list of links stays in the
+     tree, correctly ordered, and the strip is the sighted, pointer-driven form
+     of the same nav. */
+  .rooms-rail {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* A scroll container is keyboard-focusable by default so it can be scrolled
+     with the arrow keys — correct in general, and wrong inside an aria-hidden
+     subtree, where it was the one tab stop leading into hidden content. The
+     rail above carries every one of these destinations for a keyboard. */
+  .rooms-strip {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: clamp(0.9rem, 3vw, 1.3rem);
+    /* Bleeds off the right edge: the strip starts at the page gutter and runs
+       past the screen, so the last cell is visibly cut rather than tidily
+       ending — which is what says "there is more" without an arrow. The shell's
+       own padding is cancelled so the left edge still lines up with the text
+       above it. */
+    margin-inline: calc(var(--gutter) * -1);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scroll-padding-left: var(--gutter);
+    scrollbar-width: none;
+    /* A horizontal scroller must never make the PAGE scroll horizontally. */
+    max-width: calc(100% + var(--gutter) * 2);
+  }
+
+  .rooms-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Snapping is suspended while the one-shot look-through drives scrollLeft.
+
+     Scroll snap acts on every programmatic write, so a per-frame animation gets
+     quantised to the nearest cell: the drift collapsed from a 1.5s glide into a
+     single jump of 144px and never came back. RoomsStrip adds this class for
+     the length of the gesture and removes it after, so the visitor's own
+     scrolling still snaps exactly as before. */
+  .rooms-strip.is-looking {
+    scroll-snap-type: none;
+  }
+
+  /* 34vw shows three and a sliver of the fourth at 390px, which is what makes
+     the row legible as a row rather than as one big card with neighbours. */
+  /* The leading gutter is a MARGIN on the first cell, not padding on the
+     scroller. Padding-inline-start on a flex scroller is laid out once and then
+     scrolled past — the strip opened with its first cover flush to the screen
+     edge instead of aligned to the eyebrow above it, and measured
+     firstCellLeft: 0 against the text's 20. A margin belongs to the cell, so it
+     travels with it. Scroll-padding keeps snapping honest about it. */
+  .rooms-strip-cell:first-child {
+    margin-left: var(--gutter);
+  }
+
+  .rooms-strip-cell:last-child {
+    margin-right: var(--gutter);
+  }
+
+  .rooms-strip-cell {
+    flex: 0 0 34vw;
+    scroll-snap-align: start;
+    display: grid;
+    gap: 0.5rem 0.5rem;
+    grid-template-areas:
+      "frame frame"
+      "name  count";
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    color: var(--ink);
+  }
+
+  /* 3:4 — the ratio nearly all this photography was shot at, so the cover is
+     not cropped to fit a shape it was never made for. */
+  .rooms-strip-frame {
+    grid-area: frame;
+    display: block;
+    aspect-ratio: 3 / 4;
+  }
+
+  .rooms-strip-name {
+    grid-area: name;
+    font-size: 0.82rem;
+    line-height: 1.25;
+    /* Two lines reserved so the counts sit on one baseline across the row and
+       the strip reads as a band — the same reason .card-said carries one
+       (§30). */
+    min-height: calc(2 * 1.25em);
+  }
+
+  .rooms-strip-count {
+    grid-area: count;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* "Toute la collection" has no cover, so it is a plate of ground the width of
+     a cover with the words set in it — the same footprint as its neighbours, so
+     the row keeps one baseline, and legible as the state you are in rather than
+     as a card you have not opened yet. */
+  .rooms-strip-all {
+    color: var(--clay-ink);
+  }
+
+  .rooms-strip-all-said {
+    grid-area: frame;
+    display: flex;
+    align-items: flex-end;
+    aspect-ratio: 3 / 4;
+    padding-bottom: 0.15rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.95rem;
+    line-height: 1.2;
+  }
+
+  /* Left in the count area, so it sits on the same baseline as every other
+     room's count across the row. Putting it in `name` dropped it a line below
+     its neighbours and it read as detached from the words above it. */
+  .rooms-strip-all .rooms-strip-count {
+    color: var(--clay-ink);
+  }
+
+  /* The words are the label here, not a cover, so the name cell is empty and
+     its reserved two lines would leave a hole. */
+  .rooms-strip-all .rooms-strip-name {
+    display: none;
+  }
+}
+
 /* --------------------------------------------------------------------------
    The cards
 
@@ -294,12 +471,56 @@
    holds still; the photograph sits in it at whatever shape it was shot, which
    keeps the no-cropping rule (§24) intact. */
 
+/* The stage is a <button>, because it opens the full-screen view — so it has
+   to have its button-ness taken off it and its focus ring put back on. */
 .gallery-stage {
   position: relative;
+  display: block;
   width: 100%;
   /* A little taller than it was: since width cannot grow the picture, height is
      the only lever a large screen has. */
   height: min(76svh, 44rem);
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: inherit;
+  /* The photograph is the affordance, and this is what says so. */
+  cursor: zoom-in;
+}
+
+/* "Look closer" — on the GROUND beneath the photograph, never on it.
+ *
+ * It was placed over the bottom of the frame and measured across the
+ * collection: 8.63:1 on the pale stools, and 1.01:1 on the Senufo stool and
+ * the Baule chair, whose dark wood fills the lower frame. That is the hero's
+ * problem in miniature (§22) — a mixed-luminance set where NO single ink
+ * clears 4.5 across it, and §18 forbids the scrim that would rescue one.
+ *
+ * So it sits below the frame on the page's own ground, where the colour is
+ * known and the contrast is the same on all 38 pieces. Quiet until asked for,
+ * and off touch entirely: there is no hover to reveal it, and a permanent
+ * badge on every piece is the clutter the brief bans. */
+.gallery-open {
+  display: block;
+  margin-top: 0.6rem;
+  color: var(--ink-soft);
+  opacity: 0;
+  transition: opacity var(--dur-hover) var(--ease-material);
+}
+
+/* A sibling now, not a descendant. Revealed by hovering EITHER the stage or
+   the label itself, so it does not flicker as the pointer crosses between
+   them. */
+.gallery-stage:hover + .gallery-open,
+.gallery-stage:focus-visible + .gallery-open,
+.gallery-open:hover {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .gallery-open {
+    display: none;
+  }
 }
 
 .gallery-shot {
@@ -387,6 +608,242 @@
   margin-left: 0.9rem;
   padding-left: 0.9rem;
   border-left: 1px solid var(--rule);
+}
+
+/* --- The full-screen view ------------------------------------------------
+
+   THE SURROUND IS THE PAGE'S OWN GROUND, NOT A BLACK SCRIM. Every piece in
+   this collection is photographed on pale plaster, and §18 is explicit that
+   nothing may be laid over a piece photograph to make a background effect
+   work. A dark surround would be exactly that at full screen: the same warm
+   object on black is a different photograph. So the overlay is
+   --hour-morning, the colour the page opens on, and what fills the screen is
+   the wall the piece was shot against.
+
+   Do not "improve" this with a dark backdrop. It is the same argument as the
+   hero's, and it has been made three times in this file. */
+
+.zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  /* Named rows, NOT source order.
+     The surround is the first child in the markup, so with bare
+     `auto minmax(0,1fr) auto` it landed in the leading `auto` row and
+     collapsed to 0 height — which then made `max-height: 100%` on the
+     photograph resolve against 0 and be ignored, so a 2160px image rendered
+     at full size and hung off the screen. Naming the areas makes the layout
+     independent of the order the elements happen to be written in. */
+  grid-template-rows: [bar] auto [stage] minmax(0, 1fr) [rail] auto;
+  background: var(--hour-morning);
+  animation: zoom-in-veil 260ms var(--ease-dissolve) both;
+}
+
+.zoom-bar {
+  grid-row: bar;
+}
+
+.zoom-surface {
+  grid-row: stage;
+}
+
+.zoom-rail {
+  grid-row: rail;
+}
+
+@keyframes zoom-in-veil {
+  from {
+    opacity: 0;
+  }
+}
+
+.zoom-surface {
+  position: relative;
+  overflow: hidden;
+  /* NOT a grid.
+     The frame was a grid item with max-width/max-height: 100%, and a
+     percentage max-* on a grid item resolves against a track the grid is
+     still sizing FROM THAT ITEM — so a 1440x2160 photograph came out at
+     1440x2160 inside an 828px-tall surface and hung off the screen. §33
+     records the same trap on the story portrait plate.
+
+     The frame is absolutely positioned against this box instead, which gives
+     the percentages a resolved containing block to measure against. */
+  display: block;
+  /* The gesture is ours: the browser must not steal the pinch or the drag. */
+  touch-action: none;
+  cursor: zoom-in;
+}
+
+.zoom-surface[data-zoomed] {
+  cursor: grab;
+}
+
+.zoom-surface[data-zoomed]:active {
+  cursor: grabbing;
+}
+
+/* Centred by inset + margin auto rather than by a grid, so the percentages
+   below have a resolved containing block. */
+.zoom-frame {
+  position: absolute;
+  inset: 0;
+  /* The child is pinned to these insets, so no centring mechanism is needed:
+     object-fit does the centring inside the box. */
+  display: block;
+  /* Transform origin is the centre because the pan offset is computed about
+     the centre in PieceZoom.tsx. The two must agree or the photograph walks
+     away from the cursor as it magnifies. */
+  transform-origin: center center;
+  will-change: transform;
+  /* The frame spans the whole surface, so a click anywhere would land on it
+     and the "click the surround to close" test would never fire. The frame is
+     transparent to the pointer; the photograph inside it is not. */
+  pointer-events: none;
+}
+
+
+/* The photograph FILLS the frame and is contained inside it, rather than being
+   shrunk to fit by max-width/max-height.
+
+   `max-height: 100%` on a grid item resolves against a track the grid is still
+   sizing from that item, so it was being ignored and a 2160px-tall photograph
+   rendered at natural size. Giving the image the frame's full box and letting
+   `object-fit: contain` do the fitting sidesteps percentage resolution
+   entirely — and contain is already the rule this page lives by (§24: no
+   photograph is ever cropped). */
+.zoom-frame img {
+  /* Pinned to the frame, NOT sized by width/height percentages.
+
+     next/image emits its own `height: auto` for an intrinsically-sized image
+     and it beat every `height: 100%` written here — the computed value stayed
+     2160px and `max-height` stayed `none`, so a full-length photograph hung
+     720px off the bottom of the screen on desktop while phone happened to
+     look right. Absolute insets are not a size declaration, so there is
+     nothing for it to override. */
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* The point of the whole feature: at 3x a smoothed image is mush, and what
+     a visitor came to see is the grain and the wear. */
+  image-rendering: high-quality;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.zoom-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem clamp(1rem, 4vw, 2.5rem);
+}
+
+.zoom-close {
+  justify-self: start;
+  color: var(--ink);
+  /* 44px hit target on the priority device, without moving the layout. */
+  padding-block: 0.7rem;
+  margin-block: -0.7rem;
+  background: none;
+  border: 0;
+}
+
+.zoom-hint {
+  justify-self: center;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.zoom-controls {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.zoom-step {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  display: grid;
+  place-items: center;
+  padding: 0 0.5rem;
+  background: none;
+  border: 0;
+  color: var(--ink);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  transition: opacity var(--dur-hover) var(--ease-material);
+}
+
+.zoom-step:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.zoom-rail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 clamp(1rem, 4vw, 2.5rem) 1.1rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.zoom-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.zoom-thumb {
+  flex: none;
+  display: block;
+  height: 3.4rem;
+  padding: 0;
+  background: none;
+  border: 0;
+  /* Inset, not a border: a border changes the box and shifts every thumbnail
+     after it by a pixel each time the selection moves. */
+  box-shadow: inset 0 0 0 1px transparent;
+  opacity: 0.5;
+  transition:
+    opacity var(--dur-hover) var(--ease-material),
+    box-shadow var(--dur-hover) var(--ease-material);
+}
+
+.zoom-thumb img {
+  display: block;
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zoom-thumb:hover,
+.zoom-thumb:focus-visible {
+  opacity: 0.85;
+}
+
+.zoom-thumb.is-active {
+  opacity: 1;
+  box-shadow: inset 0 0 0 1px var(--clay);
+}
+
+/* On a phone the hint is the one thing that can go: the gesture is already
+   the one every visitor uses on every photograph they have ever opened, and
+   the bar has three controls to fit in 390px. */
+@media (max-width: 599px) {
+  .zoom-hint {
+    display: none;
+  }
+
+  .zoom-bar {
+    grid-template-columns: 1fr auto;
+  }
 }
 
 /* --- The label ----------------------------------------------------------- */
@@ -590,8 +1047,18 @@
 
 @media (prefers-reduced-motion: reduce) {
   .gallery-shot,
-  .gallery-thumb {
+  .gallery-thumb,
+  .gallery-open,
+  .zoom-thumb,
+  .zoom-step {
     transition: none;
+  }
+
+  /* The ENTRANCE stops. The zoom itself does not: it is a control, and
+     refusing to move under a visitor's finger because they asked for less
+     motion breaks the feature rather than calming it. */
+  .zoom {
+    animation: none;
   }
 }
 
@@ -1398,7 +1865,7 @@ textarea.inquiry-input {
 
 /* No max-height on a phone. Capping it made `object-fit: cover` crop the
    frame's own ratio and cut the legs off the chair — on this site the object
-   has to stand whole. The 2/3 ratio is the source ratio, so it never crops. */
+   has to stand whole. */
 .desk-frame {
   aspect-ratio: 2 / 3;
   width: 100%;
@@ -1413,6 +1880,113 @@ textarea.inquiry-input {
 .desk-plate-link {
   display: block;
 }
+
+/* --------------------------------------------------------------------------
+   The desk on a phone
+
+   Everything below is scoped under 940px, where the desk stacks. The rules
+   above it were written for the two-column composition and three of them are
+   actively wrong once it becomes one column.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 939px) {
+  /*
+     The desk is not one screen on a phone, so it must stop pretending to be.
+
+     `min-height: 100svh` is right at desktop, where type and photograph sit
+     side by side and genuinely fill one screen. Stacked, the same rule
+     measured 1148px against an 844px viewport — 1.36 screens, so the
+     photograph was cut across the middle by the fold with no way to read it
+     as either one composition or two. `align-content: center` then had a
+     216px surplus to distribute and pushed the whole block off-centre.
+
+     Letting it size to its content puts the type on the first screen and the
+     photograph whole on the second, which is what stacking actually wants.
+  */
+  .desk {
+    min-height: 0;
+    align-content: start;
+  }
+
+  /*
+     The frame takes the piece's own ratio, and never crops.
+
+     `aspect-ratio: 2/3` is the ratio of MOST of this photography, not all of
+     it: 6 of the 38 lead images differ and three are landscape at 3/2. A
+     visitor arriving from `?piece=vintage-moroccan-shelf-berbere` got a 1.5
+     source forced into a 0.667 box by `object-fit: cover` — 56% of the
+     photograph discarded, and the shelf cropped out of its own picture while
+     the label underneath still read "Vintage Moroccan Shelf".
+
+     `object-fit: contain` against a natural-ratio box is the same decision
+     the piece page made for exactly this reason (CLAUDE.md §24, §36): the
+     stage holds still, the photograph sits in it at whatever shape it was
+     shot. The height cap is what keeps a 2/3 portrait from running past the
+     fold; a landscape frame simply comes out shorter.
+  */
+  /* The frame shrinks to the photograph rather than spanning the column, so
+     the picture hangs from the same left edge as the title, the lede and the
+     channel keys. Left the full width, a portrait sat centred in it and read
+     as indented from a margin nothing else on the page uses. */
+  .desk-frame {
+    aspect-ratio: auto;
+    max-height: 62svh;
+    width: fit-content;
+    margin-inline: 0;
+  }
+
+  /*
+     WIDTH FOLLOWS THE HEIGHT CAP — it is not forced to 100%.
+
+     `width: 100%` with `max-height: 62svh` sets the element box to the full
+     column width and then clamps its height, so a 2/3 portrait ended up in a
+     643x558 LANDSCAPE box. `contain` fitted the photograph to the height and
+     `object-position: left` pinned it, leaving ~290px of dead ground down the
+     right of the frame — visible on any screen between about 700 and 939px.
+
+     `width: auto` with `max-width: 100%` lets the height cap decide the width,
+     so the box is the photograph's own shape at every ratio: a portrait comes
+     out narrow and tall, a landscape wide and short, and neither has ground
+     beside it. object-position then has nothing left to do, because the box no
+     longer exceeds the picture.
+  */
+  .desk-frame img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 62svh;
+    object-fit: contain;
+  }
+
+  /*
+     The channels are a directory, so they get a rule each.
+
+     ONE COLUMN, STATED — not left to `auto-fit`.
+
+     `auto-fit, minmax(11rem, 1fr)` only collapses to a single column below
+     about 700px, so between 700 and 939 it resolved to TWO columns (plus a
+     phantom third at 0px) while the `gap: 0` below was already applying. The
+     result on a large phone and every small tablet: two channels jammed edge
+     to edge, their keys at different heights because each column is its own
+     grid item, and the `+ .desk-channel-item` hairline drawn as a stray line
+     above the right-hand column instead of between two stacked ones.
+
+     The row gap stays 0 because the hairline below carries the separation —
+     the same device the ways list and the register use, so the block reads as
+     a directory rather than a loose stack.
+  */
+  .desk-channel {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .desk-channel-item + .desk-channel-item {
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--rule);
+  }
+}
+
 
 @media (min-width: 940px) {
   .desk-inner {
@@ -1497,6 +2071,34 @@ textarea.inquiry-input {
   line-height: 1.55;
   color: var(--ink-soft);
   max-width: 30rem;
+}
+
+/* --------------------------------------------------------------------------
+   The ways list on a phone
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 599px) {
+  /*
+     The number goes above the name rather than beside it.
+
+     A fixed 2.6rem first column costs 3.5rem of a 350px measure, and the one
+     route whose name needs the width — "Quelque chose que vous avez vu" —
+     is the one that loses it. It wrapped to two lines while its three
+     siblings sat on one, so the rows measured 116 / 116 / 110 / 138 and the
+     list stopped reading as a ruled set.
+
+     Stacked, the numeral keeps its indexical job and the name gets the whole
+     column. This is the same move §41 made for the doorways, for the same
+     reason and at the same width.
+  */
+  .way {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .way-no {
+    padding-top: 0;
+  }
 }
 
 /* The eyebrow (and the address, when there is one) must not read as the label

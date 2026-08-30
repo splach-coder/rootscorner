@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import CartButton from "./CartButton";
+import { Wordmark } from "./BrandMarks";
 import type { Locale } from "@/lib/dictionaries";
 
 /**
@@ -49,6 +50,8 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
   const [retracted, setRetracted] = useState(false);
   const [open, setOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  /* True for one frame after a navigation, to kill the tone transition. */
+  const [repainting, setRepainting] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
 
@@ -101,13 +104,80 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
       if (!frame) frame = requestAnimationFrame(measure);
     };
 
+    /*
+      Arrive at the new page's tone rather than travelling to it.
+
+      The bar carries a 700ms background transition, which is right while
+      scrolling and wrong across a navigation: the new page would inherit the
+      old page's colour and fade out of it. Coming back from a dark footer that
+      fade IS the flash. Suppressed while the first measurement lands, then
+      released so ordinary scrolling animates exactly as before.
+    */
+    setRepainting(true);
+    const release = window.setTimeout(() => setRepainting(false), 90);
+
     measure();
+
+    /*
+      Measure again once the new page has actually laid out.
+
+      A route change swaps the sections under a header that is still wearing the
+      last page's tone, and no scroll event fires to correct it — so the bar sat
+      opaque (or dark, arriving from a footer) until the visitor nudged the
+      page. Two frames is enough for the new DOM to be measurable; the timeout
+      covers a late-arriving image changing the section heights under it.
+    */
+    const settle = [
+      requestAnimationFrame(() => requestAnimationFrame(measure)),
+      window.setTimeout(measure, 250),
+    ] as const;
+
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(settle[0]);
+      window.clearTimeout(settle[1]);
+      window.clearTimeout(release);
       if (frame) cancelAnimationFrame(frame);
+    };
+    // Re-runs on navigation: the sections it measures are the page's, not the
+    // header's, and they are replaced wholesale under it.
+  }, [pathname]);
+
+  /*
+    Smooth scrolling, armed only for an anchor jump.
+
+    globals.css keeps `scroll-behavior` behind `html[data-anchor]` because on
+    `html` unconditionally it also animated the browser's jump-to-top on a route
+    change — a second of flight back through the old page. This stamps the
+    attribute when a same-page link is clicked and clears it once the jump has
+    settled, so #main, #selection and #demander still glide and navigation does
+    not.
+  */
+  useEffect(() => {
+    let clear = 0;
+
+    const onClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0) return;
+      const link = (event.target as HTMLElement | null)?.closest?.("a");
+      const href = link?.getAttribute("href");
+      if (!href?.startsWith("#") || href === "#") return;
+
+      document.documentElement.dataset.anchor = "";
+      window.clearTimeout(clear);
+      // Long enough for the glide to finish; harmless if it already has.
+      clear = window.setTimeout(() => {
+        delete document.documentElement.dataset.anchor;
+      }, 1200);
+    };
+
+    document.addEventListener("click", onClick);
+    return () => {
+      document.removeEventListener("click", onClick);
+      window.clearTimeout(clear);
+      delete document.documentElement.dataset.anchor;
     };
   }, []);
 
@@ -219,7 +289,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
         dark && !open ? " is-dark" : ""
       }${onHero && !open ? " is-on-hero" : ""}${open ? " is-menu-open" : ""}${
         retracted && !open ? " is-retracted" : ""
-      }`}
+      }${repainting ? " is-repainting" : ""}`}
     >
       <div className="site-header-bar shell">
         <nav className="site-nav" aria-label={labels.collection}>
@@ -235,19 +305,25 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
         </nav>
 
         <Link href={`/${locale}`} className="site-header-mark" aria-label="The Roots Corner">
-          {/* The name, and nothing else.
+          {/* The client's own artwork, not the name typeset.
 
-              The crescent is gone from the header at the client's instruction —
-              the Latin name alone. It is still the favicon, still the mark the
-              intro writes, and still in the footer as part of their own
-              artwork; it simply no longer sits in the bar.
+              It was a <span> set in Jost — close to the logo's letterforms but
+              not them, and a logo reassembled out of a typeface every time it
+              is drawn is not a logo. This is the Illustrator export itself
+              (§2), with its viewBox trimmed to the lettering's own bounds.
+              Nothing is redrawn, only placed and scaled.
 
-              Note for whoever picks this up: CLAUDE.md §2 records the crescent
-              as "the favicon, the loading mark, and the mobile header". Two of
-              those three still hold. The third was the client's call. */}
-          <span className="site-header-name" translate="no">
-            The&nbsp;Roots&nbsp;Corner
-          </span>
+              The crescent is not here at ANY width, at the client's
+              instruction — it briefly returned to the desktop bar and they
+              asked for it out again. It remains the favicon, the mark the intro
+              writes, and part of the footer lockup; it simply is not in the bar.
+
+              Dropping it also removes the intro's FLIP target, which is
+              deliberate and handled: `morph()` finds no `[data-mark-target]`
+              and the written crescent settles and fades as the veil lifts,
+              exactly as §38 describes. Give a header mark `data-mark-target`
+              and the FLIP branch picks it up again with no other change. */}
+          <Wordmark className="site-header-lockup" crescent={false} />
         </Link>
 
         <div className="site-header-end">
@@ -374,7 +450,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
             style={{ "--i": links.length } as React.CSSProperties}
           >
             <div className="site-panel-cart">
-              <CartButton label={cart} />
+              <CartButton label={cart} withLabel />
             </div>
 
             <ul className="site-panel-langs" aria-label={labels.switchLabel}>

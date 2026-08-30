@@ -77,6 +77,10 @@
      heading, which reads as a gap, not as air. The photographs got the
      difference. */
   --section-y: clamp(2.8rem, 5vw, 5rem);
+  /* Phone: the bar carries the lettering-only lockup at 1.55rem, so 5rem is
+     ample. Desktop grows in sections.css to carry the full stacked artwork —
+     it is a token rather than a constant precisely so page padding, sticky
+     offsets and scroll-margin all follow it. */
   --header-h: 5rem;
 
   /* --- Motion. Slow and material. Nothing springs. --- */
@@ -100,13 +104,53 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
   color-scheme: light;
+}
+
+/* Smooth scrolling is for ANCHOR JUMPS, not for navigation.
+
+   On `html` unconditionally, it applied to every scroll the browser performs —
+   including the jump to the top on a route change. Clicking the logo from the
+   foot of a long page therefore did not GO to the new page's top: it ANIMATED
+   there, ~1.2s of flight back through the whole old page, with the header
+   re-reading every section streaming past it and changing tone the whole way.
+   That is the brown flash, and it is also why the bar looked stuck until you
+   nudged the scroll.
+
+   `scroll-behavior` has to sit on the SCROLLING element to have any effect —
+   putting it on `:target` does nothing — so it stays on `html` and is switched
+   on only while an anchor jump is in flight. Header.tsx adds `data-anchor` for
+   the length of one, and the three in-page links on the site (#main, #selection,
+   #demander) still glide.
+
+   §19 records the same rule biting the measuring scripts, which all pass
+   `behavior: "instant"` to work around exactly this. */
+html[data-anchor] {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-anchor] {
+    scroll-behavior: auto;
+  }
 }
 
 body {
   margin: 0;
-  background: var(--hour-night);
+  /* Morning ecru — the colour the page actually starts on.
+
+     It was --hour-night, left over from when the ground fell all the way to
+     night and the last blocks of every page sat on brown. §29 removed that
+     descent: Ground.tsx now starts at ecru and stops at golden, and only the
+     footer paints itself dark.
+
+     So a dark body was no longer a fallback, it was a FLASH. .ground is a
+     client component and paints at hydration — measured at ~613ms on a cold
+     start — and until then the whole viewport showed night. Every page load
+     went dark, then snapped light. Matching the ground's own first colour
+     means there is nothing to snap from, on the slowest connection or with
+     scripting off entirely. */
+  background: var(--hour-morning);
   color: var(--ink);
   font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
   font-weight: 300;

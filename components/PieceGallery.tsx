@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { PieceImage } from "@/lib/catalog";
+import PieceZoom from "./PieceZoom";
 
 type PieceGalleryProps = {
   images: PieceImage[];
@@ -12,6 +13,16 @@ type PieceGalleryProps = {
   countLabel: string;
   /** Accessible name for the thumbnail rail. */
   railLabel: string;
+  /** Strings for the full-screen view. */
+  zoomLabels: {
+    open: string;
+    close: string;
+    in: string;
+    out: string;
+    reset: string;
+    hint: string;
+    hintTouch: string;
+  };
 };
 
 /**
@@ -44,14 +55,19 @@ export default function PieceGallery({
   name,
   countLabel,
   railLabel,
+  zoomLabels,
 }: PieceGalleryProps) {
   const [active, setActive] = useState(0);
+  const [zoomOpen, setZoomOpen] = useState(false);
   const railRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLButtonElement>(null);
 
   // Arrow keys move through the set while the gallery has focus inside it.
+  // Not while the full-screen view is open: it runs its own arrow keys, and
+  // two handlers on one key advances the set twice.
   useEffect(() => {
     const rail = railRef.current;
-    if (!rail) return;
+    if (!rail || zoomOpen) return;
 
     const onKey = (event: KeyboardEvent) => {
       if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
@@ -67,13 +83,31 @@ export default function PieceGallery({
 
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [active, images.length]);
+  }, [active, images.length, zoomOpen]);
+
+  // Closing returns focus to the stage that opened it, rather than dropping the
+  // visitor back at the top of the document.
+  const closeZoom = () => {
+    setZoomOpen(false);
+    stageRef.current?.focus();
+  };
 
   if (images.length === 0) return null;
 
   return (
     <div className="gallery">
-      <div className="gallery-stage">
+      {/* The stage is the trigger. A photograph on a shop page is the thing a
+          visitor reaches for, so the affordance belongs on the picture itself
+          rather than on a separate control beside it — but it has to be a real
+          button, not a div with a click handler, or it is unreachable by
+          keyboard and unannounced by a screen reader. */}
+      <button
+        type="button"
+        className="gallery-stage"
+        ref={stageRef}
+        onClick={() => setZoomOpen(true)}
+        aria-label={`${zoomLabels.open} — ${name}`}
+      >
         {images.map((image, i) => (
           <Image
             key={image.file}
@@ -90,7 +124,14 @@ export default function PieceGallery({
             className={i === active ? "gallery-shot is-active" : "gallery-shot"}
           />
         ))}
-      </div>
+      </button>
+
+      {/* Outside the stage button, so it cannot change the stage's height —
+          and on the page ground, where its contrast is the same on all 38
+          pieces rather than depending on how dark the wood happens to be. */}
+      <span className="gallery-open label" aria-hidden="true">
+        {zoomLabels.open}
+      </span>
 
       {images.length > 1 && (
         <>
@@ -130,6 +171,18 @@ export default function PieceGallery({
             <span className="gallery-count-of">{countLabel}</span>
           </p>
         </>
+      )}
+
+      {zoomOpen && (
+        <PieceZoom
+          images={images}
+          name={name}
+          index={active}
+          onIndex={setActive}
+          onClose={closeZoom}
+          labels={zoomLabels}
+          railLabel={railLabel}
+        />
       )}
     </div>
   );

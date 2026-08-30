@@ -8,3 +8,12 @@ next-env.d.ts
 shots/
 
 .data/
+
+# npm cache — CLAUDE.md mandates `npm install --cache ./.npm-cache`
+# because the Bash sandbox blocks writes to ~/.npm. It is a build artefact and
+# must never be committed: it put 60 files and a single 41MB blob into a commit.
+.npm-cache/
+
+# Throwaway measuring scripts. The keepers have real names.
+scripts/_*.mjs
+scripts/.*.mjs
