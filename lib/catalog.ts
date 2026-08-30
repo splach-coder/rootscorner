@@ -15,6 +15,84 @@ import rawCatalog from "@/docs/catalog.json";
 import rawImages from "@/docs/images.json";
 
 /**
+ * Lines the scraper swept up that are not product copy.
+ *
+ * The scrape took whatever prose sat in each product's tab panels, and on 9 of
+ * the 38 pieces that included THE OLD SITE'S ENTIRE FOOTER — copyright, nav,
+ * and the legal menu — which then rendered under "Entretien" as if the way to
+ * care for a Baule chair were "Contact · FAQ · Imprint · Privacy Policy".
+ * Seven more carry Jimdo's own template placeholder, the shipping-restrictions
+ * boilerplate that ships with the builder and was never filled in.
+ *
+ * Filtered HERE rather than edited out of docs/catalog.json, because that file
+ * is the client's record as scraped and stays that way — the same reason
+ * lib/specs.ts rejects placeholder dimensions instead of rewriting them (§14).
+ * When Shopify replaces this source the whole problem goes with it.
+ *
+ * Anchored patterns only. A loose /contact/i would eat a real sentence telling
+ * someone to get in touch about a piece.
+ */
+const NOT_PRODUCT_COPY: RegExp[] = [
+  /^this is a good place for any specific policies/i,
+  /* Jimdo's own authoring prompts, addressed to the shop owner and never
+     replaced. They were rendering to customers as the product description on
+     11 pieces — "Describe your product in detail so that customers have all
+     the information they need." */
+  /^describe your product in detail/i,
+  /^use this text to briefly describe your product/i,
+  /^authentic craftsmanship & ethnic-inspired decor/i,
+  /^©$/,
+  /^\d{4}-\d{4} the roots corner\.?$/i,
+  /^(contact|faq|imprint|privacy policy|cookie settings)$/i,
+  /^(delivery|withdrawal) policy$/i,
+  /^terms and conditions$/i,
+  /^withdraw contract$/i,
+  /* The tab HEADINGS, swept in as though they were content — so the page
+     printed its own "Entretien" heading and then the word "Care" as the
+     first line under it. */
+  /^(care|details|description)$/i,
+];
+
+const isProductCopy = (line: string): boolean => {
+  const text = line.trim();
+  if (text === "") return false;
+  return !NOT_PRODUCT_COPY.some((pattern) => pattern.test(text));
+};
+
+/** Drop the furniture, keep the client's own words, preserve their order. */
+const cleanProse = (lines: string[] | undefined): string[] =>
+  (lines ?? []).filter(isProductCopy);
+
+/**
+ * Rejoin a paragraph the scrape hard-wrapped into separate lines.
+ *
+ * Two pieces — the blackened clay pot and the wabi-sabi vase lamp — have their
+ * description stored as 7 and 9 fragments, split at the width of the old site's
+ * column: "This traditional Moroccan clay pot, handcrafted using" / "ancestral
+ * pottery techniques, embodies both" / … Each fragment rendered as its own
+ * paragraph, so the page showed a ragged stack of one-line stubs.
+ *
+ * A fragment is a line that does not end a sentence and is followed by one that
+ * does not begin one. Joining on that test rather than on line count leaves
+ * genuine one-sentence bullets — which is most of this data — untouched.
+ *
+ * This reflows the client's words; it does not alter them (§11).
+ */
+const reflow = (lines: string[]): string[] => {
+  const out: string[] = [];
+  for (const line of lines) {
+    const previous = out[out.length - 1];
+    const continues =
+      previous !== undefined &&
+      !/[.!?:;]["')\]]?$/.test(previous.trim()) &&
+      /^[a-z(]/.test(line.trim());
+    if (continues) out[out.length - 1] = `${previous} ${line.trim()}`;
+    else out.push(line.trim());
+  }
+  return out;
+};
+
+/**
  * `w`/`h` are the photograph's own pixel size, measured by
  * scripts/image-dims.mjs. The piece page shows each image at its own
  * proportion rather than cropped to a house ratio — ratios in this set run
@@ -138,9 +216,19 @@ const pieces: Piece[] = (rawCatalog as RawCatalogEntry[]).map((entry, i) => {
     dimensions: entry.dimensions ?? null,
     available: entry.availability !== "OutOfStock",
     delivery: entry.delivery ?? null,
-    description: entry.description ?? [],
-    details: entry.details ?? [],
-    care: entry.care ?? [],
+    ...(() => {
+      const description = reflow(cleanProse(entry.description));
+      const care = cleanProse(entry.care);
+      /* The scrape put the same paragraph in two tabs on some pieces, so the
+         page printed it once under "À propos de cette pièce" and again under
+         "Le détail". Identical text under two headings reads as a bug, and
+         showing it twice does not make it truer. */
+      const details = cleanProse(entry.details);
+      const isRepeat =
+        details.length > 0 && details.join(" ").trim() === description.join(" ").trim();
+
+      return { description, details: isRepeat ? [] : details, care };
+    })(),
   };
 });
 
