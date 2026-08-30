@@ -3301,3 +3301,128 @@ IntersectionObserver, for the reason components/Reveal.tsx documents.
 `audit` on `/fr/collection`, `/en/collection`, `/fr/collection/stools` — 0
 unrevealed, 0px overflow · `contrast-scroll` PASS both locales · build
 warning-free.
+
+## 46. The French pages are French — and the scrape was dirtier than anyone had looked
+
+Three jobs in one pass: clean the product data, translate it, and rewrite the
+one legal document that was lying about this site. Checkout and the email/
+WhatsApp credentials are deliberately untouched — those are the client's
+decisions (§37, §24).
+
+### The old site's footer was printing as care instructions
+
+Nobody had read a product page to the bottom. `care` and `details` are whatever
+prose sat in the old site's tab panels, and the scraper took all of it:
+
+| what | pieces |
+|---|---|
+| The old site's whole FOOTER — ©, nav, the legal menu | **9** |
+| Jimdo's shipping-restrictions placeholder | 7 |
+| Jimdo's authoring prompts — *"Describe your product in detail…"* | 11 |
+| The tab HEADINGS (`Care`, `Details`) swept in as content | several |
+| `details` repeating `description` word for word | 1 |
+| A description hard-wrapped into 7–9 one-line fragments | 2 |
+
+So `/fr/piece/baule-chair-cote-d-ivoire` told a visitor that the way to care for
+a Baule chair is *"Contact · FAQ · Imprint · Privacy Policy · Terms and
+Conditions"*. It had been live the whole time.
+
+All of it is filtered in `lib/catalog.ts`, **not** edited out of
+`docs/catalog.json` — that file is the client's record as scraped and stays
+that way, the same argument `lib/specs.ts` makes for placeholder dimensions
+(§14). Patterns are anchored: a loose `/contact/i` would eat a real sentence
+telling someone to get in touch.
+
+`reflow()` rejoins the hard-wrapped paragraphs by asking whether a line ends a
+sentence and the next begins one, so genuine one-sentence bullets — most of
+this data — are untouched.
+
+> **The honest number got worse.** Descriptions were reported as 22 of 38.
+> Four of those were Jimdo placeholder text, so it is **18**. Coverage went
+> down because the count was wrong, not because anything was lost.
+
+### The translation — 223 lines, keyed by the English
+
+`lib/product-fr.ts`. Translation, never authorship (§11): where the English is
+silent on an origin or an era, the French is silent too.
+
+- **Names are NOT translated.** "Dogon Stool" stays. Tribal and regional
+  attributions are proper nouns in the trade, and inventing a French name for
+  an object whose name is the client's own record is the invention §5 forbids.
+  Several names also carry typos (§13) that are the client's to correct.
+- **The delivery window is translated literally** — *"1 à 2 semaines"* — while
+  the FAQ still says 3–8 weeks (§9.3). Reconciling it would be taking a
+  position on the client's behalf.
+- Keys are the English sentence, so **an untranslated line falls back to
+  English rather than vanishing** — the safe direction to fail, and every entry
+  stays independently reviewable by the client.
+
+### ⚠️ The scrape contains non-breaking spaces
+
+One sits between "Traditionally" and "used" in the Senufo description. A key
+typed with an ordinary space **silently fails to match**, and the line falls
+back to English while looking correct in the diff, in the terminal, and on the
+page. `frLine()` normalises U+00A0/U+202F/U+2007 and collapses whitespace before
+the lookup.
+
+The tell was one sentence appearing in **both** the "untranslated" and the
+"stale" list at once. That can only happen when two strings that must be equal
+are not — and it cost three wrong diagnoses (a greedy regex, a wrapped line, a
+duplicate key) before I compared the two strings codepoint by codepoint, which
+is what I should have done first.
+
+> **Diff the bytes before theorising about the parser.** Both strings printed
+> identically at every step.
+
+`scripts/check-fr.mjs` reports untranslated lines, stale keys, and **non-Latin
+characters in the French** — the last because I typed a Chinese `变` into a
+sentence about temperature and no human review would have caught it. Currently
+**223 / 223, 0 stale, 0 foreign**.
+
+### The cookie policy is now ours, and it is the only one that is
+
+Every other legal document here is the client's text transcribed verbatim,
+typos included (§24). The cookie policy is not, because **theirs is factually
+wrong about this site**: it describes Jimdo, Stripe, PayPal, Cloudflare, Google
+Maps and Google Analytics with named cookies and lifetimes, and this build
+loads none of them.
+
+Reproducing it would have told every visitor — and every regulator — that
+trackers are running which are not. The rule against inventing facts cuts in
+this direction too.
+
+Verified against the code, not assumed: **no `document.cookie`, no
+`Set-Cookie`, no cookies() — this site sets no cookies at all**; no analytics
+and no third-party script tags; exactly two first-party storage keys,
+`trc:cart` (localStorage) and `trc:intro` (sessionStorage).
+
+`LegalDoc.source` is now `string | null`, and `null` means *ours, not theirs*.
+A transcription without a source is one nobody can check, so the type makes the
+distinction impossible to lose.
+
+> ⚠️ **Re-check this document when the stack changes.** Turning on Shopify
+> checkout, Analytics or Search Console adds third-party cookies and makes it
+> wrong in the other direction. It is accurate for this build and no other.
+
+### The four footer 404s were already fixed
+
+§25 records `/shipping`, `/terms`, `/privacy`, `/withdrawal` as dead links.
+They are not: the footer points at `/legal/*` and **all 65 internal links
+across six pages return 200.** That was fixed at some point and this file never
+caught up — I repeated the stale note as fact before crawling. **Crawl before
+reporting a broken link.**
+
+### Verified
+
+`check-fr` 223/223 · `zoom-check` 31/31 · `audit` and `contrast-scroll` PASS on
+`/fr/piece/…`, `/en/piece/…`, `/fr/legal/cookies`, `/fr/contact`,
+`/fr/collection`, `/fr` · English pages confirmed unchanged, no French leaking
+into `/en` · build warning-free, 123 pages.
+
+### Still deliberately not done
+
+**Checkout** and **the contact credentials** (`RESEND_API_KEY`,
+`CONTACT_EMAIL`, `NEXT_PUBLIC_WHATSAPP`) — both need the client. And the
+returns/delivery contradictions (§9.2, §9.3) still need a decision with legal
+input before `/legal/withdrawal` and `/legal/delivery` can be anything but the
+client's own contradictory text.

@@ -17,6 +17,18 @@ import {
   relatedPieces,
 } from "@/lib/catalog";
 import { displayName } from "@/lib/specs";
+import { frLine, frLines } from "@/lib/product-fr";
+
+/**
+ * The client's product copy, in the reading language.
+ *
+ * Translation only, never authorship (§11): an untranslated line falls back to
+ * the client's English rather than vanishing, so the page is always complete
+ * and `scripts/check-fr.mjs` is what reports the gap. Product NAMES are
+ * deliberately not translated — see the docblock in lib/product-fr.ts.
+ */
+const say = (locale: Locale, lines: string[]) =>
+  locale === "fr" ? frLines(lines) : lines;
 
 export function generateStaticParams() {
   return locales.flatMap((locale) =>
@@ -38,7 +50,15 @@ export async function generateMetadata({
   // The client's own first sentence where there is one; otherwise the site's
   // uniqueness line. Never a generated description of an object nobody
   // described — that is exactly the invented copy CLAUDE.md §5 forbids.
-  const description = piece.description[0] ?? t.selection.unique;
+  // Translated too: this is the sentence Google prints under the French page,
+  // and an English meta description on a /fr URL is the one place a
+  // half-translated site is most visible.
+  const first = piece.description[0];
+  const description = first
+    ? locale === "fr"
+      ? frLine(first)
+      : first
+    : t.selection.unique;
   const image = piece.images[0];
 
   return {
@@ -204,7 +224,7 @@ export default async function PiecePage({
               {piece.delivery && (
                 <dl className="piece-delivery">
                   <dt className="label">{t.piece.delivery}</dt>
-                  <dd>{piece.delivery}</dd>
+                  <dd>{locale === "fr" ? frLine(piece.delivery) : piece.delivery}</dd>
                   <dd className="label piece-delivery-note">{t.piece.deliveryNote}</dd>
                 </dl>
               )}
@@ -222,7 +242,7 @@ export default async function PiecePage({
               <Reveal className="piece-story">
                 <p className="label">{t.piece.about}</p>
                 <div className="prose piece-prose">
-                  {piece.description.map((line, i) => (
+                  {say(locale, piece.description).map((line, i) => (
                     <p key={i} className={i === 0 ? "lede" : undefined}>
                       {line}
                     </p>
@@ -236,7 +256,7 @@ export default async function PiecePage({
                 <div className="piece-spec-block">
                   <p className="label">{t.piece.details}</p>
                   <ul className="piece-spec-list">
-                    {piece.details.map((line, i) => (
+                    {say(locale, piece.details).map((line, i) => (
                       <li key={i}>{line}</li>
                     ))}
                   </ul>
@@ -247,7 +267,7 @@ export default async function PiecePage({
                 <div className="piece-spec-block">
                   <p className="label">{t.piece.care}</p>
                   <ul className="piece-spec-list">
-                    {piece.care.map((line, i) => (
+                    {say(locale, piece.care).map((line, i) => (
                       <li key={i}>{line}</li>
                     ))}
                   </ul>

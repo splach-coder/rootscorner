@@ -48,8 +48,16 @@ export type LegalBlock =
 export type LegalDoc = {
   slug: string;
   title: string;
-  /** The page on the client's live site this was transcribed from. */
-  source: string;
+  /**
+   * The page on the client's live site this was transcribed from.
+   *
+   * `null` means the document is OURS, not theirs — currently only the cookie
+   * policy, because the client's published one describes the old Jimdo stack
+   * (Stripe, PayPal, Cloudflare, Google Analytics) and this build runs none of
+   * it. Everything else here is their text, verbatim, and a transcription
+   * without a source is a transcription nobody can check.
+   */
+  source: string | null;
   blocks: LegalBlock[];
 };
 
@@ -265,78 +273,77 @@ const en: Record<string, LegalDoc> = {
     ],
   },
 
+  /**
+   * REWRITTEN, not transcribed — the one document here that is not the
+   * client's own text, and the reason is that theirs is factually wrong about
+   * this site.
+   *
+   * Their published policy describes the Jimdo build: Stripe, PayPal,
+   * Cloudflare, Google Maps and Google Analytics, with named cookies and
+   * lifetimes for each. This build loads none of them. Reproducing it would
+   * have told every visitor that trackers are running which are not, and told
+   * every regulator the same — a false statement in a compliance document is
+   * worse than a plain one, and CLAUDE.md's rule against inventing facts cuts
+   * in this direction too.
+   *
+   * Everything below was VERIFIED against the code, not assumed:
+   *
+   *   - no `document.cookie`, no `Set-Cookie`, no cookies() — this site sets
+   *     no cookies at all
+   *   - no analytics, no tag manager, no third-party script tags
+   *   - exactly two browser-storage keys, both first-party and functional:
+   *     `trc:cart` (localStorage, the cart) and `trc:intro` (sessionStorage,
+   *     so the opening animation plays once per visit)
+   *
+   * ⚠️ THIS MUST BE RE-CHECKED WHEN THE STACK CHANGES. Turning on Shopify
+   * checkout, Google Analytics or Search Console adds third-party cookies and
+   * makes this document wrong in the other direction. It is accurate for the
+   * build as it stands and for nothing else.
+   */
   cookies: {
     slug: "cookies",
     title: "Cookie Policy",
-    source: "https://www.therootscorner.com/cookie-settings/",
+    // Ours, not theirs — see the note on `source` in LegalDoc.
+    source: null,
     blocks: [
       {
         kind: "p",
-        text: "This website uses cookies. You will find more information about the types of cookies used and you can activate them individually in their respective categories. You can adjust your cookie settings at any time by clicking on the link at the bottom of this site.",
+        text: "This website does not use cookies, and it does not use analytics, advertising or third-party tracking of any kind. No consent banner is shown because there is nothing to consent to.",
       },
 
-      { kind: "h", text: "Strictly necessary" },
+      { kind: "h", text: "What is stored on your device" },
       {
         kind: "p",
-        text: "Strictly necessary cookies ensure that the elements of this website function properly. These cookies cannot therefore be deactivated. They are used exclusively by this website and are therefore internal cookies, which means that any information recorded by these cookies will be sent back to this website.",
+        text: "Two small pieces of information are saved by your own browser so that the site works as you would expect. They are stored on your device only, they are never sent to us or to anyone else, and they contain nothing that identifies you.",
       },
       {
         kind: "dl",
         items: [
           [
-            "Stripe",
-            "This is essential in order to enable payments powered by Stripe via this store. Provider: Stripe Inc., 185 Berry Street, Suite 550, San Francisco, CA 94107, USA.",
+            "Your basket",
+            "The pieces you have added, so that your basket is still there if you close the tab and come back. Kept until you clear it or your browser clears its site data.",
           ],
           [
-            "PayPal",
-            "This is essential in order to enable payments powered by Paypal via this store. Provider: PayPal (Europe) S.à r.l. et Cie S.C.A., 22-24 Boulevard Royal, 2449 Luxembourg.",
-          ],
-          [
-            "Cloudflare",
-            "Cloudflare is a service providing increased security and performance for websites. Cloudflare offers a content delivery network (“CDN”) to improve the loading times of the website. Provider: Cloudflare Inc., 101 Townsend St, San Francisco, CA 94107, USA. Cookie names and lifetimes: __cfruid (session), __cf_bm (30 minutes), __cf_clearance (30 minutes).",
-          ],
-          [
-            "Web Store State",
-            "Essential local storage for the correct functioning of this store and for the continued saving of the visitor’s current shop state. Provider: Jimdo GmbH, Stresemannstrasse 375, 22761 Hamburg, Germany.",
+            "The opening animation",
+            "A note that you have already seen the animation, so that it plays once per visit rather than every time you open a page. Cleared when you close the browser.",
           ],
         ],
       },
-
-      { kind: "h", text: "Functional" },
       {
         kind: "p",
-        text: "Functional cookies enable this website to offer you certain functions and to store information already provided (such as a name or language selection) in order to offer you improved and personalised functions.",
-      },
-      {
-        kind: "dl",
-        items: [
-          [
-            "Google Maps",
-            "These cookies are set by Google as part of the use of Google Maps. Provider: Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA or, if you are resident in the EU, Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland.",
-          ],
-        ],
+        text: "You can delete both at any time by clearing this site's data in your browser settings. The site continues to work if you do; you will simply start with an empty basket.",
       },
 
-      { kind: "h", text: "Marketing / Third Party" },
+      { kind: "h", text: "Payment" },
       {
         kind: "p",
-        text: "Marketing/third-party cookies come from external advertising agencies (among others) and are used to collect information about the websites you visit, in order to create targeted advertising for you, for example.",
+        text: "Payment is handled by our payment provider on their own pages. When you go there to pay, that provider's own privacy and cookie terms apply to what happens on those pages. Nothing about a payment is processed on this site.",
       },
-      { kind: "p", text: "No cookies in this category." },
 
-      { kind: "h", text: "Performance" },
+      { kind: "h", text: "Links to other services" },
       {
         kind: "p",
-        text: "Performance cookies collect information about how a web page is used. We use them to better understand how our pages are used, in order to improve their content and functionality.",
-      },
-      {
-        kind: "dl",
-        items: [
-          [
-            "Google Analytics",
-            "These cookies collect anonymous information for analysis purposes, as to how visitors use and interact with this website. Provider: Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA or, if you are resident in the EU, Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland. Cookie names: _ga, _gat, _gid. Lifetime: 2 years.",
-          ],
-        ],
+        text: "Some links lead to services we do not run, such as Instagram, WhatsApp and Airbnb. Following one takes you to that company, whose own terms then apply. We do not embed their tracking on this site.",
       },
     ],
   },
