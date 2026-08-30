@@ -10,6 +10,7 @@ import Ground from "@/components/Ground";
 import Intro from "@/components/Intro";
 import CartProvider from "@/components/CartProvider";
 import CartPanel from "@/components/CartPanel";
+import CookieConsent from "@/components/CookieConsent";
 import { getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
 
 /**
@@ -152,6 +153,10 @@ export default async function LocaleLayout({
           <main id="main">{children}</main>
           <Footer locale={locale as Locale} t={t.footer} legal={t.legal} />
           <CartPanel locale={locale as Locale} t={t.cart} />
+          {/* Renders nothing while the site sets no cookies (lib/consent.ts).
+              Last in the body so it is the final tab stop rather than standing
+              between the visitor and the page they came to read. */}
+          <CookieConsent locale={locale as Locale} t={t.consent} />
         </CartProvider>
       </body>
     </html>

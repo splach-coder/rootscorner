@@ -63,6 +63,27 @@ type Dictionary = {
     done: string;
     error: string;
   };
+  consent: {
+    /** The banner. */
+    title: string;
+    body: string;
+    accept: string;
+    reject: string;
+    settings: string;
+    policy: string;
+    /** The preferences panel. */
+    panelTitle: string;
+    panelBody: string;
+    save: string;
+    close: string;
+    necessaryName: string;
+    necessaryBody: string;
+    necessaryAlways: string;
+    analyticsName: string;
+    analyticsBody: string;
+    marketingName: string;
+    marketingBody: string;
+  };
   social: { follow: string };
   collection: {
     eyebrow: string;
@@ -399,6 +420,28 @@ const en: Dictionary = {
     note: "Unsubscribe whenever you like.",
     done: "You’re on the list.",
     error: "That address didn’t go through. Try again, or write to us on Instagram.",
+  },
+  consent: {
+    title: "Cookies",
+    body: "We use cookies to understand how this site is used. Nothing is set without your agreement, and the pieces you have chosen are remembered either way.",
+    accept: "Accept",
+    reject: "Refuse",
+    settings: "Choose",
+    policy: "Cookie Policy",
+    panelTitle: "Choose what you allow",
+    panelBody: "You can change this at any time from the Cookie Policy page.",
+    save: "Save my choice",
+    close: "Close",
+    necessaryName: "Strictly necessary",
+    necessaryBody:
+      "Remembers the pieces in your cart and shows the opening animation once. Kept on your own device, never sent anywhere.",
+    necessaryAlways: "Always on",
+    analyticsName: "Measurement",
+    analyticsBody:
+      "Counts visits and shows us which pieces are looked at, so the selection can be shown better. Never used to identify you.",
+    marketingName: "Advertising",
+    marketingBody:
+      "Would let advertising be tailored to you on other sites. Nothing on this site does this today.",
   },
   social: { follow: "Follow" },
   collection: {
@@ -786,6 +829,28 @@ const fr: Dictionary = {
     note: "Désinscription quand vous voulez.",
     done: "Vous êtes sur la liste.",
     error: "Cette adresse n’est pas passée. Réessayez, ou écrivez-nous sur Instagram.",
+  },
+  consent: {
+    title: "Cookies",
+    body: "Nous utilisons des cookies pour comprendre comment ce site est utilisé. Rien n’est déposé sans votre accord, et les pièces que vous avez choisies sont conservées dans tous les cas.",
+    accept: "Accepter",
+    reject: "Refuser",
+    settings: "Choisir",
+    policy: "Politique de cookies",
+    panelTitle: "Choisissez ce que vous autorisez",
+    panelBody: "Vous pouvez modifier ce choix à tout moment depuis la page Politique de cookies.",
+    save: "Enregistrer mon choix",
+    close: "Fermer",
+    necessaryName: "Strictement nécessaires",
+    necessaryBody:
+      "Conservent les pièces de votre panier et affichent l’animation d’ouverture une seule fois. Stockés sur votre appareil, jamais transmis.",
+    necessaryAlways: "Toujours actifs",
+    analyticsName: "Mesure d’audience",
+    analyticsBody:
+      "Comptent les visites et indiquent quelles pièces sont regardées, afin de mieux présenter la sélection. Jamais utilisés pour vous identifier.",
+    marketingName: "Publicité",
+    marketingBody:
+      "Permettraient d’adapter la publicité vous concernant sur d’autres sites. Rien sur ce site ne le fait aujourd’hui.",
   },
   social: { follow: "Suivre" },
   collection: {

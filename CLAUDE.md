@@ -3426,3 +3426,166 @@ into `/en` · build warning-free, 123 pages.
 returns/delivery contradictions (§9.2, §9.3) still need a decision with legal
 input before `/legal/withdrawal` and `/legal/delivery` can be anything but the
 client's own contradictory text.
+
+## 47. Swipe the photograph
+
+The thumbnails and the click-to-change already existed (§36). Two things did
+not: the **photograph itself ignored touch entirely** — `touch-action: auto`,
+no handler — so on a phone the only way to change image was to hit a 4.4rem
+target; and the rail **hid three of its eight thumbnails with the scrollbar
+suppressed**, so nothing said there were more.
+
+Dragging the picture sideways is what anyone who has used a phone tries first.
+
+### Three rules that stop it fighting the page
+
+**The gesture is claimed only once it is clearly horizontal.** Until the pointer
+has moved further across than down, the browser keeps it. `touch-action: pan-y`
+says the same thing to the compositor, and the two must agree. `none` would make
+the largest element on the page a dead zone a phone visitor cannot scroll past —
+which is the version of this feature that gets shipped by accident.
+
+**A swipe must not open the zoom.** The stage is a `<button>`, so a drag ending
+on it still fires a click. A `swiped` ref swallows exactly that one. Without it
+every swipe also opens the full-screen view.
+
+**Mouse drags do not swipe.** Touch and pen only. A pointer-agnostic version
+made a mis-aimed desktop click jump to a different photograph, which is worse
+than having no gesture. Desktop gets the rail, the arrow keys, and a trackpad
+two-finger swipe — a `wheel` event, taken only when horizontal-dominant.
+
+The 48px threshold matters: below it a tap that wobbled would steal the click
+and the zoom would feel like it opens at random.
+
+> The trackpad path needs a **cooling gate**. One flick is reported as dozens of
+> wheel events, and ungated a single swipe runs the entire set.
+
+> `wheel` is attached natively and non-passively — React's `onWheel` is passive,
+> so `preventDefault()` there is ignored and the page scrolls while you are
+> trying to move through the set. Same trap the zoom overlay hit (§44).
+
+### Inside the zoom, swipe is gated on SCALE
+
+The same gesture works in the full-screen view, but only while fitted. Once
+magnified a horizontal drag is a **pan** — the visitor is moving around inside
+one picture, and skipping to the next would throw away what they were looking
+at. Gated on `scale <= 1.01`, not on distance.
+
+### The rail follows, and the fade points the right way
+
+`scrollIntoView({ block: "nearest" })` on every change, so the active thumbnail
+is never off-screen — swipe past three hidden ones and the rail keeps up.
+
+The cut edge is faded with a **mask**, not a gradient overlay: §18 forbids
+laying anything over a piece photograph, and thumbnails are photographs. A mask
+changes what is drawn rather than painting something on top.
+
+> **The fade has to follow WHICH side has more.** A permanent trailing fade
+> stays lit at the end of the rail and dims the thumbnail you just selected,
+> turning a signpost into a bug. `data-overflow` is `start` / `end` / `both`,
+> re-measured on scroll and on resize, and absent when nothing is hidden.
+
+### Verified
+
+`scripts/swipe-check.mjs` — 24 checks, phone and desktop, all passing. It drives
+real pointer events rather than photographing the result, because every one of
+these is invisible in a screenshot: that a swipe changes the photograph, that it
+does **not** also open the zoom, that a tap still does, that a 20px wobble does
+nothing, that a vertical drag and a mouse drag are both ignored, that the page
+still scrolls with a finger on the photograph, and that the fade marks the edge
+that actually has more.
+
+`zoom-check` 31/31 still passing · `audit` and `contrast-scroll` PASS on
+`/fr/piece/…`, `/en/piece/…`, `/fr/collection` · `check-fr` 223/223 · build
+warning-free, 123 pages.
+
+> **A screenshot of the rail caught the other session's new cookie banner**
+> sitting over the bottom of the viewport, which is exactly where the rail is.
+> Any script clipping the foot of the page now has to remove `.consent` as well
+> as `nextjs-portal` (§28).
+
+## 44. Cookie consent — built, and deliberately dormant
+
+A full consent system: banner, preferences panel, per-category storage,
+withdrawal, both locales. `lib/consent.ts` · `components/CookieConsent.tsx`.
+
+**It renders nothing today, and that is the feature.**
+
+### Why it is switched off
+
+This site sets no cookies. Verified, not assumed: no `document.cookie`, no
+`Set-Cookie`, no analytics, no tag manager, no third-party script tag. The only
+browser storage is `trc:cart` and `trc:intro`, both first-party and strictly
+functional — and strictly necessary storage requires no consent under GDPR or
+ePrivacy.
+
+The site's own Cookie Policy already says so, in as many words:
+
+> *"No consent banner is shown because there is nothing to consent to."*
+
+So a banner today would make that page false and would ask a visitor to consent
+to tracking that does not happen. The CNIL — the relevant regulator for a
+French-market site — treats a banner with nothing behind it as a dark pattern,
+and §5's rule against stating things that are not true binds hardest in a
+compliance document.
+
+`consentNeeded()` returns false until `NEXT_PUBLIC_GA_ID` or
+`NEXT_PUBLIC_MARKETING_PIXEL` is set. Then the banner appears on its own, with
+nothing to retrofit.
+
+> ### ⚠️ Turning on Analytics, Search Console or Shopify checkout is TWO jobs
+> Set the flag **and** rewrite `cookies` in `lib/legal.ts`, which currently
+> states there are none. A compliance document that is wrong in the permissive
+> direction is worse than no document at all. Both are noted in `.env.example`.
+
+### What makes it compliant rather than decorative
+
+| | |
+|---|---|
+| **Refuse is exactly as easy as Accept** | Same ground, same border, same weight, side by side, one tap each |
+| **Nothing runs before a choice** | `allows()` defaults to deny — silence is not consent |
+| **Dismissal is not consent** | No ✕, Escape does not close it, no outside-click. The only ways out are Accept, Refuse, or saving a choice |
+| **Withdrawable** | `clearConsent()`, from the Cookie Policy page, any time |
+| **Re-asked after 182 days** | CNIL's own recommendation; 13 months is its maximum |
+
+> **Equal styling is not equal prominence.** With identical padding, *"Accepter"*
+> still came out **138px against "Refuser"'s 128** — a longer word. That is a
+> small asymmetry and it is exactly the axis a regulator measures. The pair is
+> an equal-track grid now, so the words sit inside whatever that is: **170px
+> each on a phone, 117 on desktop**, and it holds for any language added later.
+
+**There is no toggle for "strictly necessary".** A switch that cannot be
+switched is the specific pattern regulators name. It states *Always on* and
+explains what it covers.
+
+**An answer does not survive a new category.** `storedConsent()` records which
+categories were on offer, and returns null — meaning *ask again* — if the site
+has since added one this visitor never saw. Their old answer cannot stand for a
+question they were never asked.
+
+### It is a notice, not a modal
+
+`aria-modal="false"`, no focus trap on the banner, page stays readable and
+usable behind it. Blocking a whole site until someone answers a cookie question
+is its own dark pattern. The *panel* does trap focus, because that one is a
+dialog — Escape closes the panel and returns to the banner, without deciding
+anything.
+
+The switch is drawn in the site's own hairlines over a real `<input
+type="checkbox">`, so it is a checkbox to a keyboard and a screen reader and
+only its appearance is ours. Focus rings are cream, since the site's ink ring
+would vanish on the umber ground.
+
+> The assembly is capped at `100svh - var(--header-h)` and the panel scrolls
+> inside it. Uncapped, opening the panel pushed the whole thing past the top of
+> the screen and covered the site's own navigation — a visitor deciding about
+> cookies must still be able to leave the page.
+
+### Verified
+
+Dormant: banner absent, nothing written to storage. Armed with a test
+`NEXT_PUBLIC_GA_ID`: banner appears · buttons equal at both widths · panel opens
+with 2 rows and no toggle on "necessary" · Accept stores `analytics: true` ·
+Refuse stores `false` and persists across reload · Escape neither dismisses nor
+stores. `audit` clean on `/fr`, `/en`, `/fr/legal/cookies` **and** with the
+banner rendered · `contrast-scroll` PASS · build warning-free.

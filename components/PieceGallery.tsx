@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { PieceImage } from "@/lib/catalog";
 import PieceZoom from "./PieceZoom";
 
@@ -62,6 +62,149 @@ export default function PieceGallery({
   const railRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLButtonElement>(null);
 
+  const step = useCallback(
+    (delta: number) =>
+      setActive((i) => (i + delta + images.length) % images.length),
+    [images.length],
+  );
+
+  /* --- Swipe ------------------------------------------------------------
+   *
+   * The rail is precise — it jumps to a known shot — but on a phone it asks
+   * you to hit a 4.4rem target, and the photograph itself, which is the
+   * biggest thing on the screen, ignored touch entirely. Dragging the picture
+   * sideways is what anyone who has ever used a phone will try first.
+   *
+   * Three rules make it behave rather than fight the page:
+   *
+   * 1. THE GESTURE IS CLAIMED ONLY ONCE IT IS CLEARLY HORIZONTAL. Until the
+   *    pointer has moved further across than down, the browser keeps it and
+   *    the page scrolls normally. Claiming on the first pixel would make the
+   *    gallery a dead zone you cannot scroll past on a phone.
+   * 2. A SWIPE MUST NOT OPEN THE ZOOM. The stage is a <button>, so a drag
+   *    that ends on it still fires a click; `swiped` suppresses exactly that
+   *    one.
+   * 3. MOUSE DRAGS DO NOT SWIPE. A pointer-agnostic version made desktop
+   *    text-selection feel broken and, worse, made a mis-aimed click open a
+   *    different photograph. Touch and pen only; desktop has the rail, the
+   *    arrow keys, and a trackpad two-finger swipe (a wheel event, handled
+   *    separately below).
+   */
+  const swipe = useRef<{ x: number; y: number; axis: "" | "x" | "y" } | null>(null);
+  const swiped = useRef(false);
+
+  const onPointerDown = (event: React.PointerEvent) => {
+    if (event.pointerType === "mouse") return;
+    swipe.current = { x: event.clientX, y: event.clientY, axis: "" };
+    swiped.current = false;
+  };
+
+  const onPointerMove = (event: React.PointerEvent) => {
+    const from = swipe.current;
+    if (!from) return;
+
+    if (from.axis !== "") return;
+
+    const dx = event.clientX - from.x;
+    const dy = event.clientY - from.y;
+    if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+
+    from.axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+    /* A vertical drag is the page's, and we never take it back. */
+    if (from.axis === "y") swipe.current = null;
+  };
+
+  const onPointerUp = (event: React.PointerEvent) => {
+    const from = swipe.current;
+    swipe.current = null;
+    if (!from || from.axis !== "x") return;
+
+    const dx = event.clientX - from.x;
+    /* 48px, not a few pixels: below that it is a tap that wobbled, and
+       stealing it would make the zoom feel like it opens at random. */
+    if (Math.abs(dx) < 48) return;
+
+    swiped.current = true;
+    step(dx < 0 ? 1 : -1);
+  };
+
+  /* Trackpad two-finger swipe, for desktop.
+   *
+   * Attached natively and non-passively because React's onWheel is passive,
+   * so preventDefault() there is ignored and the PAGE scrolls while you are
+   * trying to move through the set — the same trap the zoom overlay hit.
+   *
+   * Only horizontal-dominant wheel events are taken, so an ordinary vertical
+   * scroll over the gallery still scrolls the page. */
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || zoomOpen || images.length < 2) return;
+
+    let cooling = false;
+    const onWheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      if (Math.abs(event.deltaX) < 12) return;
+      event.preventDefault();
+      if (cooling) return;
+      cooling = true;
+      /* A trackpad flick is one gesture reported as dozens of events; without
+         a gate a single swipe runs the whole set. */
+      window.setTimeout(() => (cooling = false), 420);
+      step(event.deltaX > 0 ? 1 : -1);
+    };
+
+    stage.addEventListener("wheel", onWheel, { passive: false });
+    return () => stage.removeEventListener("wheel", onWheel);
+  }, [step, zoomOpen, images.length]);
+
+  /* Keep the rail showing where you are.
+   *
+   * Eight thumbnails measure 486px in a 350px rail, so three sit off-screen
+   * with the scrollbar deliberately hidden — move past them by swiping and the
+   * active thumbnail is somewhere you cannot see, which makes the rail look
+   * broken rather than scrollable. `nearest` so it only moves when it has to. */
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const thumb = rail.querySelectorAll("button")[active];
+    thumb?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+  }, [active]);
+
+  /* Whether the rail actually has anything hidden.
+   *
+   * CSS cannot ask, so the fade on the trailing edge is driven from here —
+   * and it has to be re-measured on resize, because a rail that overflows at
+   * 390px does not at 1440 and a stale fade dims the last thumbnail of a set
+   * that is entirely visible. */
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+
+    const measure = () => {
+      const overflows = rail.scrollWidth > rail.clientWidth + 1;
+      if (!overflows) {
+        delete rail.dataset.overflow;
+        return;
+      }
+      /* WHICH edge has more, not merely whether any does.
+         A single trailing fade stays on at the end of the rail and dims the
+         very thumbnail you just selected — the fade has to mean "more this
+         way", so it belongs only on a side that actually has more. */
+      const atStart = rail.scrollLeft <= 1;
+      const atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 1;
+      rail.dataset.overflow = atStart ? "end" : atEnd ? "start" : "both";
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(rail);
+    rail.addEventListener("scroll", measure, { passive: true });
+    return () => {
+      observer.disconnect();
+      rail.removeEventListener("scroll", measure);
+    };
+  }, [images.length]);
+
   // Arrow keys move through the set while the gallery has focus inside it.
   // Not while the full-screen view is open: it runs its own arrow keys, and
   // two handlers on one key advances the set twice.
@@ -105,7 +248,21 @@ export default function PieceGallery({
         type="button"
         className="gallery-stage"
         ref={stageRef}
-        onClick={() => setZoomOpen(true)}
+        onClick={() => {
+          /* The swipe that just ended also fires a click on this button.
+             Swallow that one, or every swipe opens the full-screen view. */
+          if (swiped.current) {
+            swiped.current = false;
+            return;
+          }
+          setZoomOpen(true);
+        }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={() => {
+          swipe.current = null;
+        }}
         aria-label={`${zoomLabels.open} — ${name}`}
       >
         {images.map((image, i) => (

@@ -486,6 +486,21 @@
   text-align: inherit;
   /* The photograph is the affordance, and this is what says so. */
   cursor: zoom-in;
+  /* `pan-y`, NOT `none`.
+     The horizontal gesture is ours — swipe moves through the set — and the
+     vertical one stays the browser's, so a phone visitor can still scroll the
+     page with a finger that happens to land on the photograph. `none` would
+     make the largest element on the page a dead zone you cannot scroll past.
+     The JS axis test mirrors this; both have to agree. */
+  touch-action: pan-y;
+  /* A swipe on an image otherwise starts a native drag on desktop and a
+     text-selection flicker on touch. */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.gallery-stage img {
+  -webkit-user-drag: none;
 }
 
 /* "Look closer" — on the GROUND beneath the photograph, never on it.
@@ -554,6 +569,46 @@
   overscroll-behavior-x: contain;
   scrollbar-width: none;
   max-width: 100%;
+  scroll-behavior: smooth;
+}
+
+/* Eight thumbnails measure 486px in a 350px rail, so three sit off-screen and
+   the scrollbar is hidden. Fading the cut edge is what says "there is more
+   this way" without adding a control: the strip stops looking like it ends and
+   starts looking like it continues.
+
+   A mask rather than a gradient overlay — §18 forbids laying anything over a
+   piece photograph, and these are photographs. A mask changes what is drawn,
+   not what is painted on top of it.
+
+   The fade follows WHICH side has more. A permanent trailing fade stays lit at
+   the end of the rail and dims the thumbnail you just selected, which turns a
+   signpost into a bug. No attribute at all means nothing is hidden. */
+.gallery-rail[data-overflow="end"] {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
+}
+
+.gallery-rail[data-overflow="start"] {
+  -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 2.5rem), transparent);
+  mask-image: linear-gradient(to left, #000 calc(100% - 2.5rem), transparent);
+}
+
+.gallery-rail[data-overflow="both"] {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 2.5rem,
+    #000 calc(100% - 2.5rem),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 2.5rem,
+    #000 calc(100% - 2.5rem),
+    transparent
+  );
 }
 
 .gallery-rail::-webkit-scrollbar {

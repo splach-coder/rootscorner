@@ -249,6 +249,29 @@ export default function PieceZoom({
   };
 
   const onPointerUp = (event: React.PointerEvent) => {
+    /* Swipe to the next photograph — but ONLY while fitted to the screen.
+     *
+     * Once magnified, a horizontal drag is a pan: the visitor is moving around
+     * inside one picture, and skipping to the next one would throw away what
+     * they were looking at. So this is gated on scale, not on distance. It is
+     * also touch/pen only, matching the gallery below — a mouse drag on a
+     * fitted photograph is far more likely to be a mis-aimed click. */
+    const from = start.current;
+    if (
+      from &&
+      event.pointerType !== "mouse" &&
+      images.length > 1 &&
+      view.current.scale <= 1.01 &&
+      pointers.current.size === 1
+    ) {
+      const dx = event.clientX - from.x;
+      const dy = event.clientY - from.y;
+      if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) {
+        moved.current = true; // so the surround-click test does not close it
+        onIndex((index + (dx < 0 ? 1 : -1) + images.length) % images.length);
+      }
+    }
+
     pointers.current.delete(event.pointerId);
     if (pointers.current.size < 2) gesture.current = null;
     if (pointers.current.size === 0) start.current = null;

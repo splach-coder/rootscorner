@@ -2537,3 +2537,291 @@ html[data-intro="run"] .site-header-lockup {
     color: var(--ink-inverse);
   }
 }
+
+/* --------------------------------------------------------------------------
+   Cookie consent
+
+   Renders only when something on the site actually sets a cookie — see
+   lib/consent.ts. The visual argument is the same as everywhere else: a
+   hairline, ground, and space. No shadow, no radius, no card.
+
+   It sits on the umber the footer runs on, because a notice that has to be
+   answered should not read as another quiet block of the page — it is the one
+   thing on screen asking for a decision. Cream on umber measures 9.9:1, the
+   same pair §37 established for the Send button.
+   -------------------------------------------------------------------------- */
+
+.consent {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column-reverse;
+  /* Never taller than the screen minus the header: the site's own way out must
+     stay reachable while a visitor is deciding. */
+  max-height: calc(100svh - var(--header-h));
+  background: var(--hour-night);
+  color: var(--ink-inverse);
+  border-top: 1px solid var(--rule-inverse);
+  animation: consent-rise 700ms var(--ease-material) 400ms both;
+}
+
+/* It arrives from below rather than fading in place: a notice that materialises
+   on top of the page reads as an error, one that slides up reads as a drawer.
+   Delayed so it never competes with the page's own reveal. */
+@keyframes consent-rise {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .consent {
+    animation: none;
+  }
+}
+
+.consent-inner {
+  display: grid;
+  gap: 1rem clamp(1.5rem, 4vw, 3rem);
+  padding-block: clamp(1rem, 3vw, 1.4rem);
+}
+
+@media (min-width: 860px) {
+  .consent-inner {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}
+
+.consent-title {
+  color: var(--ink-inverse-soft);
+}
+
+.consent-body {
+  margin-top: 0.4rem;
+  max-width: 52ch;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--ink-inverse);
+}
+
+.consent-policy {
+  color: var(--ink-inverse);
+  white-space: nowrap;
+}
+
+.consent-acts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* "Choose" spans both tracks above the pair on a phone, so the two decisions
+   stay side by side and equal at every width rather than wrapping apart. */
+.consent-more {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 520px) {
+  .consent-acts {
+    grid-template-columns: auto 1fr 1fr;
+  }
+
+  .consent-more {
+    grid-column: auto;
+  }
+}
+
+/* Accept and Refuse are the SAME control.
+
+   Identical size, weight, ground and border — the only difference is the word.
+   A filled "Accept" beside a ghosted "Refuse" is the exact asymmetry the CNIL
+   fines for, and it would also be a lie about which one this site prefers. */
+/* Equal WIDTH, not merely equal styling.
+
+   "Accepter" is a longer word than "Refuser", so identical padding still gave
+   Accept a 10px wider button — 138 against 128. That is a small asymmetry and
+   it is exactly the axis regulators measure, so the pair is laid out in a
+   two-column grid of equal tracks and the words sit inside whatever that is.
+   Holds in both languages and in any language added later. */
+.consent-btn {
+  min-height: 44px;
+  padding: 0.6rem 1.4rem;
+  border: 1px solid var(--ink-inverse);
+  background: transparent;
+  color: var(--ink-inverse);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-hover) var(--ease-material),
+    color var(--dur-hover) var(--ease-material);
+}
+
+.consent-btn:hover {
+  background: var(--ink-inverse);
+  color: var(--hour-night);
+}
+
+/* Quieter, because it opens a choice rather than making one. */
+.consent-more {
+  min-height: 44px;
+  padding: 0.6rem 0.2rem;
+  border: 0;
+  background: none;
+  color: var(--ink-inverse-soft);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-thickness: 1px;
+}
+
+.consent-more:hover {
+  color: var(--ink-inverse);
+}
+
+/* --- the panel --- */
+
+/* The panel opens above the notice, so the assembly grows UPWARD from the
+   bottom edge. Left uncapped it reached past the header and covered the site's
+   own navigation; the cap is on the whole component, and the panel is the part
+   that scrolls, so the decision buttons are never pushed off screen. */
+.consent-panel {
+  border-top: 1px solid var(--rule-inverse);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
+}
+
+.consent-panel-inner {
+  padding-block: clamp(1.2rem, 3vw, 1.8rem);
+}
+
+.consent-list {
+  margin-top: 1rem;
+  border-top: 1px solid var(--rule-inverse);
+}
+
+.consent-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 1rem clamp(1rem, 3vw, 2rem);
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--rule-inverse);
+}
+
+.consent-row-name {
+  font-size: 0.95rem;
+  color: var(--ink-inverse);
+}
+
+.consent-row-body {
+  margin-top: 0.3rem;
+  max-width: 60ch;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--ink-inverse-soft);
+}
+
+.consent-always {
+  color: var(--ink-inverse-soft);
+  white-space: nowrap;
+  padding-top: 0.2rem;
+}
+
+/* A switch drawn in the site's own hairlines rather than an OS control, which
+   would be the one piece of foreign chrome on the page. The real checkbox is
+   still there underneath, so it is a checkbox to a screen reader and to the
+   keyboard — only its appearance is ours. */
+.consent-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 0.2rem;
+  cursor: pointer;
+}
+
+.consent-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.consent-switch-track {
+  display: block;
+  width: 2.6rem;
+  height: 1.35rem;
+  border: 1px solid var(--ink-inverse-soft);
+  border-radius: 999px;
+  transition: border-color var(--dur-hover) var(--ease-material);
+}
+
+.consent-switch-dot {
+  display: block;
+  width: 0.75rem;
+  height: 0.75rem;
+  margin: 0.24rem;
+  border-radius: 999px;
+  background: var(--ink-inverse-soft);
+  transition:
+    transform var(--dur-hover) var(--ease-material),
+    background-color var(--dur-hover) var(--ease-material);
+}
+
+.consent-switch input:checked ~ .consent-switch-track {
+  border-color: var(--ink-inverse);
+}
+
+.consent-switch input:checked ~ .consent-switch-track .consent-switch-dot {
+  background: var(--ink-inverse);
+  transform: translateX(1.2rem);
+}
+
+/* The focus ring has to be visible on the dark ground, where the site's default
+   ink ring would disappear. */
+.consent-switch input:focus-visible ~ .consent-switch-track {
+  outline: 1px solid var(--ink-inverse);
+  outline-offset: 3px;
+}
+
+.consent-btn:focus-visible,
+.consent-more:focus-visible {
+  outline: 1px solid var(--ink-inverse);
+  outline-offset: 3px;
+}
+
+.consent-note {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--ink-inverse-soft);
+}
+
+.consent-acts-panel {
+  margin-top: 1.2rem;
+}
+
+/* "Enregistrer mon choix" is three words and wrapped to two lines inside an
+   equal-width track. The panel's row has no Accept/Refuse pair to keep level,
+   so its buttons size to their own words instead. */
+.consent-acts-panel {
+  grid-template-columns: 1fr auto;
+}
+
+.consent-acts-panel .consent-more {
+  grid-column: auto;
+  justify-self: start;
+}
+
+.consent-acts-panel .consent-btn {
+  white-space: nowrap;
+}
