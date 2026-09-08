@@ -447,13 +447,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             {t.story.eyebrow}
           </Reveal>
 
-          <Reveal delay={60} className="story-journey">
-            <span className="story-place display d-3">Paris</span>
-            <span className="story-rule" aria-hidden="true" />
-            <span className="story-place story-place-here display d-3">Marrakech</span>
+          {/* §6: no route, no cities, no timeline. A short introduction to
+              the house and a discreet way through to the whole of it. */}
+          <Reveal as="h2" delay={60} className="display d-1 story-heading">
+            {t.story.heading}
           </Reveal>
 
-          <Reveal as="blockquote" delay={120} className="story-quote display">
+          <Reveal as="p" delay={120} className="lede story-lede">
             {t.story.body[0]}
           </Reveal>
         </div>

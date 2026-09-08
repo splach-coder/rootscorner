@@ -3589,3 +3589,67 @@ with 2 rows and no toggle on "necessary" · Accept stores `analytics: true` ·
 Refuse stores `false` and persists across reload · Escape neither dismisses nor
 stores. `audit` clean on `/fr`, `/en`, `/fr/legal/cookies` **and** with the
 banner rendered · `contrast-scroll` PASS · build warning-free.
+
+---
+
+## 48. The client's final report — first pass
+
+`The_Roots_Corner_Compte_rendu_final_site.pdf`, sixteen numbered sections. What
+was done, and what each decision turned on.
+
+### Done
+
+| § | | |
+|---|---|---|
+| 1 | Homepage | Logo LEFT, menu right — the bar used to centre the mark with the nav split around it, which reads as a masthead; theirs reads as a rule with a name at one end. Lockup 6rem → 5.25rem. The hero already carried the title, "PIÈCES RARES. HISTOIRES. MATIÈRES." and a discreet "LA COLLECTION". |
+| 2 | Find a piece from a photograph | The enquiry now takes an image and sends it as an attachment on the same message. |
+| 3 | Contact | Their copy, verbatim, including the invitation to send a photo. |
+| 4 | Gradient | Ends on `#e9ddca` instead of `#ddcdb6` — 14 units of red across the run instead of 26. |
+| 5 | Prices | `/ pièce` on the four pieces photographed as more than one. |
+| 6 | Our Story | Paris → Marrakech, the ruled route and the city title card are gone. |
+| 7 | Heritage | Their four movements, verbatim, with the closing line at scale. |
+| 8 | The founder | Their paragraph, verbatim. |
+| 9 | Collection | Categories numbered 01–07 in one place. |
+| 10 | Rugs | Three named entries at the top of the page, anchored to the three regions. |
+| 11 | Made to measure | Four numbered steps, each with the instruction they wrote, and "COMMENCER UN TAPIS". |
+| 13 | The cooperative | Kept whole, under their heading "Les mains". |
+| 14 | Le temps fait la pièce | Their wording replaces our paraphrase — "son âme", not "sa valeur". |
+
+### §5 is a list, not a rule
+
+Four pieces say in the client's own record that more than one is shown:
+`dogon-tribal-staff` ("61 cm and 55 cm"), `tamegroute-candle-s-and-m` ("(S & M)"),
+`handmade-ceramic-candlestick-tamgroute` ("38 cm / 22 cm") and
+`tuareg-tent-stakes` (a plural name).
+
+Deliberately NOT included: `authentic-wooden-tent-peg`, whose "Between 73 et 83
+cm" is a RANGE for one peg, and the pedestal bowl, whose "53 cm * 18 cm" is one
+object's two measurements. Inferring "two numbers means two objects" would have
+marked both — and mispricing in either direction is worse than asking. The list
+is in `lib/catalog.ts` and needs the client's confirmation.
+
+### §2 travels with the message
+
+`kind: "file"` on the enquiry field, read to base64 in the browser and posted in
+the same JSON body, so it arrives as an attachment on the same email. A
+multipart upload would need its own endpoint and its own failure path; this
+keeps one route and one failure story.
+
+The filename is **rebuilt server-side** (`piece.jpg`) from the extension alone —
+it becomes part of a MIME part, so a caller-supplied one is a caller-supplied
+header. Content must be clean base64 and must decode within 5 MB. Verified
+against a stub: a real 749 KB JPEG arrives with the right magic bytes.
+
+### Still open
+
+- **§1's "arriver directement sur la page d'accueil"** reads two ways: the root
+  already redirects straight to the homepage, so it may mean the intro veil
+  (§21) — a once-per-session 1.5s write-on. Removing a signature gesture is not
+  a call to make from an ambiguous line. **Ask.**
+- **§12** — the available-rugs shelf exists (`readyRugs()`, `WOVEN_RUGS`) and is
+  empty because no rug is in the catalogue. Add entries with `category: "rugs"`
+  and it fills itself. Nothing more to build until the shoot lands.
+- **§15 client accounts** — needs Shopify customer accounts, which needs the
+  store. Not scaffolded: an account area that cannot authenticate is the same
+  mistake as a form that cannot send.
+- **§16** is guidance, not a task.

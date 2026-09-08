@@ -2660,3 +2660,208 @@ textarea.inquiry-input {
 .mrirt-wool {
   color: var(--clay-ink);
 }
+
+/* --------------------------------------------------------------------------
+   Our Story, after the client's §6
+
+   One column at reading measure, no photograph beside the words, no ruled
+   route between two cities. The page is asked to be very simple and it is: an
+   eyebrow, a lede, a paragraph or two, and a room between the movements.
+   -------------------------------------------------------------------------- */
+
+.chapter-inner-plain {
+  max-width: 40rem;
+}
+
+.chapter-prose > p + p {
+  margin-top: 1.15em;
+}
+
+.chapter-prose > .lede {
+  color: var(--ink);
+}
+
+/* The homepage's introduction to the house — short, and answered by a link. */
+.story-heading {
+  margin-top: 0.7rem;
+  max-width: 16ch;
+}
+
+.story-lede {
+  margin-top: 1.4rem;
+  color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   §11 — the made-to-measure journey
+
+   Four numbered steps, each with the instruction the client wrote for it, and
+   the button that starts one. It replaced a specification list whose every
+   value read "Au choix", which told a visitor nothing they could act on.
+   -------------------------------------------------------------------------- */
+
+.rugs-steps {
+  display: grid;
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--rule);
+}
+
+.rugs-step {
+  display: grid;
+  grid-template-columns: 2.6rem 1fr;
+  gap: 0.9rem;
+  padding-block: 1rem 1.1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.rugs-step-no {
+  color: var(--ink-faint);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  padding-top: 0.4em;
+}
+
+.rugs-step-said {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.rugs-step-name {
+  color: var(--ink);
+}
+
+.rugs-step-note {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 30rem;
+}
+
+.rugs-steps-note {
+  margin-top: 1.6rem;
+}
+
+/* The same filled plate the enquiry form's Send uses — the site has exactly
+   two commitments a visitor can complete and they should look alike. */
+.rugs-start {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 1.4rem;
+  padding: 0.9rem 2rem;
+  background: var(--umber);
+  color: var(--ink-inverse);
+  transition: background-color var(--dur-hover) var(--ease-material);
+}
+
+.rugs-start:hover,
+.rugs-start:focus-visible {
+  background: var(--ink);
+}
+
+/* §10 — the three entries, named at the top of the rugs page. */
+.mrirt-entry-list {
+  display: grid;
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--rule);
+  max-width: 46rem;
+}
+
+.mrirt-entry {
+  border-bottom: 1px solid var(--rule);
+}
+
+.mrirt-entry-link {
+  display: grid;
+  grid-template-columns: 2.6rem 1fr;
+  gap: 0.9rem;
+  padding-block: 1.1rem 1.2rem;
+}
+
+.mrirt-entry-no {
+  color: var(--ink-faint);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  padding-top: 0.4em;
+}
+
+.mrirt-entry-said {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.mrirt-entry-name {
+  color: var(--ink);
+  transition: color var(--dur-hover) var(--ease-material);
+}
+
+.mrirt-entry-link:hover .mrirt-entry-name,
+.mrirt-entry-link:focus-visible .mrirt-entry-name {
+  color: var(--clay-ink);
+}
+
+.mrirt-entry-note {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/* §5 — "/ pièce" rides with the figure, quieter than it, so the price reads
+   as one thing rather than as a number with a footnote. */
+.wall-label-unit {
+  color: var(--ink-faint);
+  font-size: 0.86em;
+}
+
+/* §2 — the invitation to send a photograph, and the field that takes one. */
+.desk-find {
+  margin-top: 1rem;
+  font-size: 0.92rem;
+}
+
+.inquiry-file {
+  display: block;
+  width: 100%;
+  margin-top: 0.6rem;
+  padding: 0.7rem 0;
+  font-family: var(--font-body), Arial, sans-serif;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+/* The button Chrome and Safari draw inside a file input is the one control on
+   this site we do not draw ourselves, so it is dressed to match the rest:
+   a hairline, not a grey chip. */
+.inquiry-file::file-selector-button {
+  margin-right: 1rem;
+  padding: 0.55rem 1.1rem;
+  font: inherit;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  cursor: pointer;
+  transition: border-color var(--dur-hover) var(--ease-material);
+}
+
+.inquiry-file::file-selector-button:hover {
+  border-color: var(--clay);
+}
+
+.inquiry-toobig {
+  color: var(--clay-ink);
+}
+
+/* §9 — the room's number, set as a prefix from the data attribute so the
+   markup stays a plain link and screen readers are not made to read a
+   position that carries no meaning for them. */
+.rooms-rail-link[data-no]::before {
+  content: attr(data-no);
+  margin-right: 0.55rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-faint);
+}

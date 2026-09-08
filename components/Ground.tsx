@@ -34,12 +34,24 @@ import { useEffect, useRef } from "react";
 type RGB = [number, number, number];
 
 /** The hours of daylight, as a fraction of LIGHT_RUN. */
+/*
+   The client's report, §4: keep the gradient but lighten where it lands —
+   white through to a warm, mid-toned golden beige, and NOT on to the deep
+   gold it used to finish on. "Lumineux, doux, naturel."
+
+   The end stop was #ddcdb6 and is now #e9ddca: 14 units of red across the
+   whole run instead of 26, so the day turns even more quietly than before.
+   That only helps the ink — golden was the darkest ground text ever sat on
+   and the floor has risen, so every contrast measurement gains margin.
+
+   --hour-golden is deliberately left alone: it is still the token other
+   things paint with, and it is no longer where the ground finishes.
+*/
 const LIGHT: [number, RGB][] = [
   [0.0, [247, 245, 242]], // ecru — morning
-  [0.36, [244, 240, 233]], // late morning
-  [0.62, [239, 232, 220]], // midday
-  [0.83, [231, 220, 203]], // afternoon
-  [1.0, [221, 205, 182]], // golden
+  [0.4, [245, 241, 235]],
+  [0.72, [240, 233, 222]],
+  [1.0, [233, 221, 202]], // warm golden beige, mid-toned
 ];
 
 /**

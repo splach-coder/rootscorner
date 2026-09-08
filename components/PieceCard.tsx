@@ -8,7 +8,7 @@ import type { Locale } from "@/lib/dictionaries";
 type PieceCardProps = {
   piece: Piece;
   locale: Locale;
-  labels: { material: string; origin: string; dimensions: string };
+  labels: { material: string; origin: string; dimensions: string; perPiece: string };
   /** The room this piece is in, already translated. Absent inside a room. */
   room?: string;
   /** "Sold" in the current language. */

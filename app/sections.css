@@ -305,19 +305,31 @@ html[data-intro="run"] .site-header-lockup {
 /* Desktop: nav left, the mark in the centre, utilities right. The mark sits in
    its own middle column so it stays optically centred whatever the nav and
    utilities happen to measure — which they do not, across two languages. */
+/*
+   §1 of the client's final report: logo on the left, menu on the right, very
+   discreetly. The bar used to centre the mark with the nav split around it —
+   a composition that reads as a masthead. Theirs reads as a rule across the
+   top with a name at one end, which is quieter, and quieter is the ask.
+
+   Three columns rather than two so the nav and the utilities form one cluster
+   on the right instead of drifting apart across a single 1fr.
+*/
 @media (min-width: 940px) {
   .site-header-bar {
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: auto 1fr auto;
     gap: 1.5rem;
   }
 }
 
 .site-header-bar > .site-nav {
-  justify-self: start;
+  justify-self: end;
 }
 
 .site-header-bar > .site-header-mark {
-  justify-self: center;
+  /* First in the bar, whatever its place in the markup — the mark is written
+     into the middle of the DOM because the intro morphs onto it. */
+  order: -1;
+  justify-self: start;
 }
 
 .site-header-bar > .site-header-end {
@@ -344,9 +356,12 @@ html[data-intro="run"] .site-header-lockup {
    this box, so width is the dimension that decides legibility — height follows.
    Sizing by height is what produced a 40px mark with "ROOTS" eight pixels tall
    on the first attempt, which is §38's finding restated. */
+/* §1: slightly smaller. Sized by WIDTH, because the lettering spans the whole
+   box and the height follows — and the irregular baseline that is part of the
+   identity is in the artwork, so scaling keeps it. */
 .site-header-lockup {
   display: block;
-  width: 6rem;
+  width: 5.25rem;
   height: auto;
   color: var(--ink);
   animation: mark-rise 1100ms var(--ease-material) 120ms both;

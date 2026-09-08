@@ -1,11 +1,17 @@
-import { formatPrice, type Piece } from "@/lib/catalog";
+import { formatPrice, isMultiple, type Piece } from "@/lib/catalog";
 import { displayName, labelFor } from "@/lib/specs";
 import type { Locale } from "@/lib/dictionaries";
 
 type PieceLabelProps = {
   piece: Piece;
   locale: Locale;
-  labels: { material: string; origin: string; dimensions: string };
+  labels: {
+    material: string;
+    origin: string;
+    dimensions: string;
+    /** §5 — the per-unit suffix, where several pieces are shown together. */
+    perPiece: string;
+  };
   /**
    * `wall` sits under a photograph, `plate` is the standalone detail label, and
    * `sell` is the shop tile: name and price, nothing else.
@@ -72,7 +78,18 @@ export default function PieceLabel({
         </dl>
       )}
 
-      {price && <p className="wall-label-price">{price}</p>}
+      {price && (
+        <p className="wall-label-price">
+          {price}
+          {/* §5: several of this piece are photographed together, so the price
+              has to say which one it is for. Appended to the figure rather
+              than set beside it — a visitor reads "180 € / pièce" as one
+              thing and "180 €" plus a footnote as two. */}
+          {isMultiple(piece) && (
+            <span className="wall-label-unit"> {labels.perPiece}</span>
+          )}
+        </p>
+      )}
     </div>
   );
 }

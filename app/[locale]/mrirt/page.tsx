@@ -69,6 +69,13 @@ export async function generateMetadata({
  * exist yet has no dimensions, and the schema omits a field rather than
  * inventing one (§5).
  */
+/** Where each of §10's three entries actually goes on this page. */
+const ENTRY_ANCHORS: Record<string, string> = {
+  ready: "#disponibles",
+  order: "#sur-commande",
+  how: "#sur-commande",
+};
+
 export default async function MrirtPage({
   params,
 }: {
@@ -83,10 +90,10 @@ export default async function MrirtPage({
   const ready = readyRugs();
 
   const axes = [
-    { key: "size", label: t.rugs.axes.size, hint: t.mrirtPage.sizeHint },
-    { key: "colour", label: t.rugs.axes.colour, hint: t.mrirtPage.hint },
-    { key: "design", label: t.rugs.axes.design, hint: t.mrirtPage.hint },
-    { key: "texture", label: t.rugs.axes.texture, hint: t.mrirtPage.hint },
+    { key: "size", label: t.rugs.axes.size, hint: t.rugs.axisNotes.size },
+    { key: "colour", label: t.rugs.axes.colour, hint: t.rugs.axisNotes.colour },
+    { key: "design", label: t.rugs.axes.design, hint: t.rugs.axisNotes.design },
+    { key: "texture", label: t.rugs.axes.texture, hint: t.rugs.axisNotes.texture },
   ];
 
   const fields: InquiryField[] = [
@@ -152,18 +159,30 @@ export default async function MrirtPage({
             {/* The four terms, stated once here as a specification. The form at
                 the foot asks for the same four as fields, so they are not
                 repeated as a list — this is the only place they are ruled. */}
+            {/* §11: the four are a JOURNEY, not a specification. Numbered,
+                each with the one line of instruction the client wrote for it,
+                and answered by the button that starts one. "Au choix" said
+                nothing a visitor could act on. */}
             <Reveal delay={170} className="mrirt-terms">
               <p className="label mrirt-label-order">{t.rugs.order}</p>
-              <dl className="rugs-axes">
-                {axes.map((axis) => (
-                  <div key={axis.key} className="rugs-axis">
-                    <dt className="label rugs-axis-key">{axis.label}</dt>
-                    <dd className="rugs-axis-value">
-                      {locale === "fr" ? "Au choix" : "Yours to set"}
-                    </dd>
-                  </div>
+              <ol className="rugs-steps">
+                {axes.map((axis, i) => (
+                  <li key={axis.key} className="rugs-step">
+                    <span className="label rugs-step-no">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="rugs-step-said">
+                      <span className="display d-3 rugs-step-name">{axis.label}</span>
+                      <span className="rugs-step-note">{axis.hint}</span>
+                    </span>
+                  </li>
                 ))}
-              </dl>
+              </ol>
+
+              <p className="prose rugs-steps-note">{t.rugs.axesNote}</p>
+              <a href="#demander" className="label rugs-start">
+                {t.rugs.startCta}
+              </a>
             </Reveal>
 
           </div>
@@ -175,6 +194,35 @@ export default async function MrirtPage({
            Deliberately the short section: two columns of text between two full
            ones, so the page has somewhere to breathe that is not an accident of
            a tall photograph. --- */}
+      {/* §10 — three entries, named and separated.
+
+           The report is explicit that rugs already woven must not be mixed
+           with rugs made to order, and that the structure has to be easy to
+           extend. Naming the three at the top is what makes the separation
+           legible before a visitor has scrolled past any of it. */}
+      <section className="section mrirt-entries">
+        <div className="shell">
+          <Reveal as="p" className="label mrirt-eyebrow">
+            {t.mrirtPage.entriesEyebrow}
+          </Reveal>
+          <ol className="mrirt-entry-list">
+            {t.mrirtPage.entries.map((entry, i) => (
+              <li key={entry.key} className="mrirt-entry">
+                <a href={ENTRY_ANCHORS[entry.key]} className="mrirt-entry-link">
+                  <span className="label mrirt-entry-no">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="mrirt-entry-said">
+                    <span className="display d-3 mrirt-entry-name">{entry.name}</span>
+                    <span className="mrirt-entry-note">{entry.note}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
       <section className="section mrirt-pair">
         <div className="shell mrirt-pair-inner">
           {/* Both passages stack in one column. Splitting them left and right
@@ -229,7 +277,7 @@ export default async function MrirtPage({
            The shelf is empty today and says so. Inventing two rugs to make the
            row look full would be inventing stock, which is the one kind of
            invention a shop actually punishes a visitor for (§5). --- */}
-      <section className="section mrirt-ready">
+      <section id="disponibles" className="section mrirt-ready">
         <div className="shell">
           <Reveal className="mrirt-ready-head">
             <p className="label mrirt-eyebrow">{t.mrirtPage.readyEyebrow}</p>
@@ -294,7 +342,7 @@ export default async function MrirtPage({
            These were two sections and both were half empty: a photograph whose
            whole job is to convey scale, and a form whose first question is size.
            Put together they fill each other, and the page loses a section. --- */}
-      <section className="section mrirt-order">
+      <section id="sur-commande" className="section mrirt-order">
         <div className="shell mrirt-order-inner">
           <div className="mrirt-ask">
             <Reveal>
@@ -323,6 +371,7 @@ export default async function MrirtPage({
                   optional: t.form.optional,
                   viaInstagram: t.form.viaInstagram,
                   viaWhatsapp: t.form.viaWhatsapp,
+                  photoTooBig: t.form.photoTooBig,
                 }}
               />
             </Reveal>

@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 
 export type InquiryField = {
   name: string;
   label: string;
   hint?: string;
-  kind?: "text" | "email" | "textarea";
+  kind?: "text" | "email" | "textarea" | "file";
   required?: boolean;
   defaultValue?: string;
 };
@@ -30,6 +30,8 @@ type InquiryFormProps = {
     optional: string;
     viaInstagram: string;
     viaWhatsapp: string;
+    /** §2 — shown when the photograph someone attached is too large to send. */
+    photoTooBig: string;
   };
 };
 
@@ -66,6 +68,8 @@ export default function InquiryForm({
   labels,
 }: InquiryFormProps) {
   const [state, setState] = useState<State>("idle");
+  const [tooBig, setTooBig] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
   /** What the visitor typed, kept so a failed send can carry it onward. */
   const [written, setWritten] = useState("");
 
@@ -91,6 +95,33 @@ export default function InquiryForm({
       .filter((field) => field.value.length > 0);
 
     setWritten(answered.map((f) => `${f.label}: ${f.value}`).join("\n"));
+    /*
+      §2 — the photograph of a piece someone is trying to find.
+
+      Read here and sent as base64 in the same JSON body as the message, so it
+      arrives as an attachment on the same email. A multipart upload would need
+      its own endpoint and its own failure path; this keeps one route and one
+      failure story, and 5 MB is far more than a phone photograph needs.
+    */
+    const file = fileRef.current?.files?.[0] ?? null;
+    let photo: { filename: string; contentBase64: string } | null = null;
+
+    if (file) {
+      if (file.size > 5_000_000) {
+        setTooBig(true);
+        return;
+      }
+      setTooBig(false);
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      let binary = "";
+      // Chunked: String.fromCharCode(...bytes) blows the argument limit on
+      // anything larger than a thumbnail.
+      for (let i = 0; i < bytes.length; i += 8192) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
+      }
+      photo = { filename: file.name, contentBase64: btoa(binary) };
+    }
+
     setState("sending");
 
     try {
@@ -101,6 +132,7 @@ export default function InquiryForm({
           topic,
           fields: answered,
           replyTo: String(data.get("email") ?? ""),
+          photo,
           // The honeypot travels with the rest; the server decides.
           company: String(data.get("company") ?? ""),
         }),
@@ -142,7 +174,17 @@ export default function InquiryForm({
               )}
             </label>
 
-            {field.kind === "textarea" ? (
+            {field.kind === "file" ? (
+              <input
+                id={id}
+                ref={fileRef}
+                name={field.name}
+                type="file"
+                accept="image/*"
+                aria-describedby={hintId}
+                className="inquiry-file"
+              />
+            ) : field.kind === "textarea" ? (
               <textarea
                 id={id}
                 name={field.name}
@@ -202,6 +244,12 @@ export default function InquiryForm({
           autoComplete="off"
         />
       </div>
+
+      {tooBig && (
+        <p className="inquiry-hint inquiry-toobig" role="alert">
+          {labels.photoTooBig}
+        </p>
+      )}
 
       <div className="inquiry-actions">
         <button

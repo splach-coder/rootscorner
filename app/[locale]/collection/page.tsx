@@ -110,11 +110,16 @@ export default async function CollectionPage({
               <span className="rooms-rail-count">{pieces.length}</span>
             </span>
 
-            {rooms.map((room) => (
+            {/* §9 — the categories are numbered and grouped in one place, so
+                the collection has a structure a visitor can hold in their head
+                rather than a list that happens to be in an order. "Toute la
+                collection" leads it, as the way to everything. */}
+            {rooms.map((room, i) => (
               <Link
                 key={room.slug}
                 href={`/${locale}/collection/${room.slug}`}
                 className="rooms-rail-link"
+                data-no={String(i + 1).padStart(2, "0")}
               >
                 {t.categories.items[room.slug] ?? room.slug}
                 <span className="rooms-rail-count">{room.count}</span>

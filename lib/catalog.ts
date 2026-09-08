@@ -232,6 +232,39 @@ const pieces: Piece[] = (rawCatalog as RawCatalogEntry[]).map((entry, i) => {
   };
 });
 
+/**
+ * Pieces photographed as more than one object.
+ *
+ * §5 of the client's report: where several are shown together, the price shown
+ * has to say plainly that it is the price for one. Getting that wrong in either
+ * direction is a real mispricing, so this is an EXPLICIT LIST rather than a
+ * rule inferred from the data — and it is short enough for the client to check
+ * in one reading.
+ *
+ * Each of these says so in the client's own record:
+ *   dogon-tribal-staff                       "61 cm and 55 cm" — two staffs
+ *   tamegroute-candle-s-and-m                "(S & M)" — two sizes
+ *   handmade-ceramic-candlestick-tamgroute   "38 cm / 22 cm" — two candlesticks
+ *   tuareg-tent-stakes                       a plural name
+ *
+ * Deliberately NOT included, because their two numbers are one object's
+ * measurements and not two objects: authentic-wooden-tent-peg ("Between 73 et
+ * 83 cm" is a range for a single peg) and the pedestal bowl ("53 cm * 18 cm").
+ *
+ * ⚠ To be confirmed with the client. A piece wrongly marked here understates
+ * what a buyer pays for; one wrongly left off overstates it.
+ */
+export const SOLD_AS_MULTIPLE: readonly string[] = [
+  "dogon-tribal-staff",
+  "tamegroute-candle-s-and-m",
+  "handmade-ceramic-candlestick-tamgroute",
+  "tuareg-tent-stakes",
+];
+
+export function isMultiple(piece: Piece): boolean {
+  return SOLD_AS_MULTIPLE.includes(piece.slug);
+}
+
 export function allPieces(): Piece[] {
   return pieces;
 }

@@ -1,5 +1,6 @@
 import {
   cleanFields,
+  cleanPhoto,
   isTopic,
   safeReplyTo,
   sendEnquiry,
@@ -19,8 +20,15 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/** A request body larger than this is not an enquiry. */
-const MAX_BODY_BYTES = 16_000;
+/**
+ * A request body larger than this is not an enquiry.
+ *
+ * Generous because of §2: an enquiry may carry a photograph of the piece
+ * someone is trying to find, and 5 MB of image is about 6.7 MB once base64 has
+ * inflated it. lib/enquiry.ts enforces the real image limit; this only stops
+ * something absurd from being read into memory at all.
+ */
+const MAX_BODY_BYTES = 9_000_000;
 
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
@@ -102,6 +110,7 @@ export async function POST(request: Request) {
     payload.topic,
     fields,
     safeReplyTo(payload.replyTo),
+    cleanPhoto(payload.photo),
   );
 
   if (!result.ok) {

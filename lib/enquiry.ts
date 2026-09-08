@@ -46,6 +46,51 @@ export function enquiryFrom(): string | null {
 export type EnquiryField = { label: string; value: string };
 
 /**
+ * A photograph of the piece a visitor is trying to find (§2 of the client's
+ * report). Sent as an attachment rather than a link, so it arrives in the same
+ * message as the question and nothing has to be hosted.
+ */
+export type EnquiryPhoto = { filename: string; contentBase64: string };
+
+/** What a browser will actually produce from a camera roll. */
+const PHOTO_TYPES: Record<string, string> = {
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+  png: "image/png",
+  webp: "image/webp",
+  heic: "image/heic",
+  heif: "image/heif",
+  gif: "image/gif",
+};
+
+/** 5 MB of image is about 6.7 MB of base64. Anything larger is not a phone photo. */
+const MAX_PHOTO_BYTES = 5_000_000;
+
+/**
+ * Accept a photograph only if it is one, and give it a name WE choose.
+ *
+ * The filename becomes part of a MIME part, so a caller-supplied one is a
+ * caller-supplied header: it is reduced to its extension and rebuilt. The
+ * content has to be clean base64 and has to decode to something within the
+ * size limit — a string that is not base64 would otherwise be forwarded to
+ * Resend and fail there instead of here.
+ */
+export function cleanPhoto(input: unknown): EnquiryPhoto | null {
+  if (!input || typeof input !== "object") return null;
+  const { filename, contentBase64 } = input as Record<string, unknown>;
+  if (typeof filename !== "string" || typeof contentBase64 !== "string") return null;
+
+  const ext = filename.toLowerCase().split(".").pop() ?? "";
+  if (!PHOTO_TYPES[ext]) return null;
+
+  if (!/^[A-Za-z0-9+/]+={0,2}$/.test(contentBase64)) return null;
+  // 4 base64 characters carry 3 bytes.
+  if ((contentBase64.length * 3) / 4 > MAX_PHOTO_BYTES) return null;
+
+  return { filename: `piece.${ext}`, contentBase64 };
+}
+
+/**
  * Subjects are chosen HERE, from a fixed set, and never taken from the request.
  *
  * The subject becomes a mail header. Letting a caller supply it hands them a
@@ -118,6 +163,7 @@ export async function sendEnquiry(
   topic: EnquiryTopic,
   fields: EnquiryField[],
   replyTo: string | null,
+  photo: EnquiryPhoto | null = null,
 ): Promise<{ ok: true } | { ok: false; status: number; detail: string }> {
   const key = process.env.RESEND_API_KEY;
   const to = enquiryTo();
@@ -143,6 +189,14 @@ export async function sendEnquiry(
       // Present only when the address passed validation, so replying to an
       // enquiry can never be made to address someone the visitor chose.
       ...(replyTo ? { reply_to: replyTo } : {}),
+      // §2: the photograph of the piece to find, if one was attached.
+      ...(photo
+        ? {
+            attachments: [
+              { filename: photo.filename, content: photo.contentBase64 },
+            ],
+          }
+        : {}),
     }),
   });
 

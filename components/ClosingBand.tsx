@@ -8,7 +8,7 @@ import type { Locale } from "@/lib/dictionaries";
 type ClosingBandProps = {
   locale: Locale;
   t: { eyebrow: string; heading: string; cta: string };
-  labels: { material: string; origin: string; dimensions: string };
+  labels: { material: string; origin: string; dimensions: string; perPiece: string };
   /** Slugs already shown on this page, so nothing appears twice on one screen. */
   exclude?: string[];
 };

@@ -41,7 +41,11 @@ type Dictionary = {
     body: string[];
     cta: string;
     axes: { size: string; colour: string; design: string; texture: string };
+    /** §11 — one line of instruction under each of the four. */
+    axisNotes: { size: string; colour: string; design: string; texture: string };
     axesNote: string;
+    /** §11 — the button that starts a made-to-measure rug. */
+    startCta: string;
     /** Names what the photographs actually are. They are not of a rug. */
     figure: { caption: string; plateAlt: string; detailAlt: string };
     /** Why no finished rug is pictured: there isn't one until you order it. */
@@ -51,7 +55,14 @@ type Dictionary = {
     wool: string;
     invite: string;
   };
-  pieceLabel: { material: string; origin: string; dimensions: string };
+  pieceLabel: {
+    material: string;
+    origin: string;
+    dimensions: string;
+    /** §5 — appended to the price where several pieces are shown together. */
+    perPiece: string;
+    perPieceNote: string;
+  };
   shop: { eyebrow: string; heading: string; cta: string; sold: string };
   newsletter: {
     eyebrow: string;
@@ -133,22 +144,29 @@ type Dictionary = {
     };
   };
   storyPage: {
-    lede: string;
-    from: string;
-    to: string;
+    /**
+     * §7 of the client's report — the house's own ADN, in four movements, plus
+     * the line that closes them. This replaced a page built around the
+     * founder's route from Paris; §6 asks for the house, not the journey.
+     */
+    heritage: { eyebrow: string; body: string[] }[];
+    heritageClose: string;
+    /** §8, verbatim. */
+    founder: string[];
     founderEyebrow: string;
-    placeEyebrow: string;
-    artisansEyebrow: string;
-    purposeEyebrow: string;
-    purpose: string;
-    missionEyebrow: string;
-    missionHeading: string;
   };
   mrirtPage: {
     lede: string;
     place: string;
     coopEyebrow: string;
     coopHeading: string;
+    /**
+     * §10 — the three ways into the rugs, named and separated. The report is
+     * explicit that already-made rugs and made-to-order rugs must not be
+     * mixed, and that the structure has to be easy to extend.
+     */
+    entriesEyebrow: string;
+    entries: { key: string; name: string; note: string }[];
     formEyebrow: string;
     formHeading: string;
     hint: string;
@@ -195,13 +213,14 @@ type Dictionary = {
     heading: string;
     lede: string;
     channelsEyebrow: string;
-    placeEyebrow: string;
     placeNote: string;
     instagramNote: string;
     formEyebrow: string;
     pieceRef: string;
     subjectEyebrow: string;
     waysEyebrow: string;
+    /** §3 — the invitation to send a photo of a piece to be found. */
+    findLede: string;
     whatsappNote: string;
     emailKey: string;
     /** The four real routes an enquiry takes. Order is the order shown. */
@@ -219,6 +238,10 @@ type Dictionary = {
     optional: string;
     viaInstagram: string;
     viaWhatsapp: string;
+    /** §2 — the photograph field, and what it says when the file is too big. */
+    photo: string;
+    photoHint: string;
+    photoTooBig: string;
     subject: string;
   };
   closing: { eyebrow: string; heading: string; cta: string };
@@ -362,14 +385,19 @@ const en: Dictionary = {
   },
   story: {
     eyebrow: "Our Story",
-    heading: "Paris, then Marrakech",
+    /*
+      §6 of the client's report: the page is about the house, not about a
+      route. "Paris, then Marrakech", the ruled line between two cities and
+      the timeline are all gone — from here and from the story page — and the
+      homepage now carries a short introduction and a discreet link, which is
+      exactly what they asked for.
+    */
+    heading: "Pieces with a soul",
     body: [
-      // Brief §7: the client's own sentence, translated to English.
-      "One day I decided to leave the noise of Paris for the calm of Marrakech.",
-      // Live site, About us — Mission and Vision, verbatim.
+      "At The Roots Corner we believe an interior is not simply made up of objects. It is built around pieces that have a presence, a material, a history.",
       "Through a carefully curated collection, The Roots Corner brings together unique pieces that are meant to be lived with, appreciated and passed on.",
     ],
-    cta: "Read the whole story",
+    cta: "Read more",
   },
   rugs: {
     eyebrow: "Made to measure",
@@ -383,8 +411,20 @@ const en: Dictionary = {
     cta: "Start a rug",
     // The four axes are the client's own words: "customizable in size, color,
     // design, and texture". They are the real form fields, not invented ones.
-    axes: { size: "Size", colour: "Colour", design: "Design", texture: "Texture" },
-    axesNote: "Woven to your measurements. Tell us the four and we will come back to you.",
+    axes: {
+      size: "The dimensions",
+      colour: "The colour",
+      design: "The pattern",
+      texture: "The texture",
+    },
+    axisNotes: {
+      size: "Tell us the dimensions you want.",
+      colour: "Choose the colour, or the world of colours, you have in mind.",
+      design: "Choose the style or the pattern you want.",
+      texture: "Choose the texture and the finish you want.",
+    },
+    axesNote: "Woven to your measurements. Tell us your four choices and we will come back to you.",
+    startCta: "Start a rug",
     figure: {
       // The client's own product name, verbatim. The object in these frames is
       // the weaving comb, and the caption has to say so — nothing on this page
@@ -404,7 +444,13 @@ const en: Dictionary = {
     invite:
       "Tell us what you’re dreaming of — size, colors, inspiration — and we’ll be in touch to bring your vision to life with our artisans.",
   },
-  pieceLabel: { material: "Material", origin: "Origin", dimensions: "Dimensions" },
+  pieceLabel: {
+    material: "Material",
+    origin: "Origin",
+    dimensions: "Dimensions",
+    perPiece: "/ piece",
+    perPieceNote: "Price per piece",
+  },
   shop: {
     eyebrow: "In the shop",
     heading: "Available now",
@@ -503,24 +549,65 @@ const en: Dictionary = {
     },
   },
   storyPage: {
-    lede: "A collection put together by one person, in one place.",
-    from: "Paris",
-    to: "Marrakech",
+    heritage: [
+      {
+        eyebrow: "Pieces with a soul",
+        body: [
+          "At The Roots Corner we believe an interior is not simply made up of objects. It is built around pieces that have a presence, a material, a history.",
+          "We travel through places, markets and workshops in search of singular work: hand-woven rugs, antique objects, carved pieces and materials shaped by time. Each piece is chosen for what it tells as much as for what it brings to a room.",
+        ],
+      },
+      {
+        eyebrow: "Heritage as material",
+        body: [
+          "Long before they became decoration, these objects were part of daily life. They accompanied families, gestures, encounters, generations. Their beauty lies partly in their imperfections: a patina, an irregularity, a mark left by time. These are not flaws to be erased. They are the marks that make the piece.",
+        ],
+      },
+      {
+        eyebrow: "Meeting the makers",
+        body: [
+          "The Roots Corner seeks above all to understand what lies behind each creation: the materials, the gestures, the traditions, the people who shape them. From Morocco to Cameroon, every encounter opens onto a different world and onto knowledge that deserves to be kept.",
+        ],
+      },
+      {
+        eyebrow: "Pieces that outlast",
+        body: [
+          "We are not trying to follow trends. We are looking for pieces able to outlive them. Objects that find their place in a room naturally, that change with it, and that go on saying something as the years pass.",
+        ],
+      },
+    ],
+    heritageClose: "Every piece has a history. The next one could be yours.",
+    founder: [
+      "Dahab is drawn to travel, to materials and to craft. Always looking for singular pieces, she likes to meet the people who shape them, to understand their history, and to give them a place in interiors where they can go on living.",
+      "A passion for objects that outlast their time and have something to say.",
+    ],
     founderEyebrow: "The founder",
-    placeEyebrow: "The place",
-    artisansEyebrow: "The hands",
-    purposeEyebrow: "The intent",
-    // Verbatim from the client's own About page, therootscorner.com/about-us.
-    purpose:
-      "To share a world of meaningful objects and create a lasting appreciation for pieces that carry history, purpose, and character.",
-    missionEyebrow: "What the collection is for",
-    missionHeading: "Lived with, appreciated, passed on",
   },
   mrirtPage: {
     lede: "Nothing here is in stock. A Mrirt rug begins as four decisions.",
     // The client's own sentence places Mrirt "in Morocco's Middle Atlas".
     place: "Middle Atlas, Morocco",
-    coopEyebrow: "Who weaves it",
+    // §13: "LES MAINS — Une coopérative du Moyen Atlas". Their words, and the
+    // report is explicit that this part must not be shortened.
+    entriesEyebrow: "Three ways in",
+    entries: [
+      {
+        key: "ready",
+        name: "Vintage & modern rugs — available",
+        note: "Rugs already woven and for sale, with photographs, dimensions and prices.",
+      },
+      {
+        key: "order",
+        name: "Made to order",
+        note: "Rugs woven for you, to your own wishes and your own dimensions.",
+      },
+      {
+        key: "how",
+        name: "How to order your rug",
+        note: "The steps: dimensions, style, colours, exchanges, and the final go-ahead.",
+      },
+    ],
+    coopEyebrow: "The hands",
     coopHeading: "A cooperative in the Middle Atlas",
     formEyebrow: "The draft",
     formHeading: "Tell us the four",
@@ -568,12 +655,13 @@ const en: Dictionary = {
   },
   contactPage: {
     heading: "Write to us",
-    lede:
-      "About a piece, about a rug, about getting something delivered — or to ask what an object actually is.",
+    // §3 of the client's report, translated. The French is the original.
+    lede: "A question about a piece, a rug or an order?",
+    findLede:
+      "Seen a piece on Instagram or in an older post and want to find it again? Just send us a photograph, or a few details about it. We will do our best to track it down and tell you about it.",
     channelsEyebrow: "How to reach us",
-    placeEyebrow: "The place",
     placeNote: "Sourced in Morocco, put together in Marrakech.",
-    instagramNote: "Pieces appear here before they are listed.",
+    instagramNote: "Pieces are often shown here before they go up on the site.",
     formEyebrow: "A message",
     pieceRef: "If it is about a piece, its number helps.",
     subjectEyebrow: "You are asking about",
@@ -608,6 +696,9 @@ const en: Dictionary = {
     optional: "optional",
     viaInstagram: "Write on Instagram",
     viaWhatsapp: "Take it to WhatsApp",
+    photo: "A photograph of the piece",
+    photoHint: "A screenshot from Instagram or Pinterest is perfect. Up to 5 MB.",
+    photoTooBig: "That image is over 5 MB. Send a smaller one, or describe the piece instead.",
     subject: "The Roots Corner",
   },
   closing: {
@@ -659,8 +750,9 @@ const en: Dictionary = {
   },
   materials: {
     eyebrow: "Matter",
-    heading: "The marks are the point",
-    body: "Wear, patina, a repair someone made a long time ago. These are not flaws to be corrected before a piece is photographed — they are the reason it is worth having.",
+    // Their §14, translated. The French is the original.
+    heading: "Time makes the piece",
+    body: "Wear, patina, an old repair. These are not flaws to erase before the photograph — they are what gives a piece its soul.",
   },
   invitation: {
     heading: "Come and look properly",
@@ -782,12 +874,13 @@ const fr: Dictionary = {
   },
   story: {
     eyebrow: "Notre histoire",
-    heading: "Paris, puis Marrakech",
+    // §7's opening, verbatim — the short introduction §6 asks the homepage for.
+    heading: "Des pièces qui ont une âme",
     body: [
-      "Un jour, j’ai décidé de quitter le tumulte parisien pour la sérénité de Marrakech.",
+      "Chez The Roots Corner, nous croyons qu’un intérieur ne se compose pas simplement d’objets. Il se construit autour de pièces qui ont une présence, une matière, une histoire.",
       "À travers une collection soigneusement choisie, The Roots Corner réunit des pièces uniques, faites pour être vécues, appréciées et transmises.",
     ],
-    cta: "Lire toute l’histoire",
+    cta: "En savoir plus",
   },
   rugs: {
     eyebrow: "Sur mesure",
@@ -798,8 +891,21 @@ const fr: Dictionary = {
       "Chaque pièce est tissée main sur commande, entièrement personnalisable en taille, couleur, motif et texture.",
     ],
     cta: "Commencer un tapis",
-    axes: { size: "Taille", colour: "Couleur", design: "Motif", texture: "Texture" },
-    axesNote: "Tissé à vos mesures. Dites-nous les quatre et nous revenons vers vous.",
+    axes: {
+      size: "Les dimensions",
+      colour: "La couleur",
+      design: "Le motif",
+      texture: "La texture",
+    },
+    axisNotes: {
+      size: "Indiquez les dimensions souhaitées.",
+      colour: "Choisissez la couleur ou l’univers de couleurs souhaité.",
+      design: "Choisissez le style ou le motif souhaité.",
+      texture: "Choisissez la texture et le rendu souhaités.",
+    },
+    startCta: "Commencer un tapis",
+    // §11 of the report, verbatim.
+    axesNote: "Tissé à vos mesures. Dites-nous vos quatre choix et nous revenons vers vous.",
     figure: {
       caption: "Peigne ancien utilisé pour le tissage des tapis marocains",
       plateAlt: "Peigne à tisser ancien vu de dessus, sur un mur de plâtre",
@@ -813,7 +919,14 @@ const fr: Dictionary = {
     invite:
       "Dites-nous ce dont vous rêvez — taille, couleurs, inspiration — et nous reviendrons vers vous pour donner vie à votre projet avec nos artisans.",
   },
-  pieceLabel: { material: "Matière", origin: "Origine", dimensions: "Dimensions" },
+  pieceLabel: {
+    material: "Matière",
+    origin: "Origine",
+    dimensions: "Dimensions",
+    // §5 of the report, verbatim.
+    perPiece: "/ pièce",
+    perPieceNote: "Prix par pièce",
+  },
   shop: {
     eyebrow: "À la boutique",
     heading: "Disponible maintenant",
@@ -908,25 +1021,68 @@ const fr: Dictionary = {
     },
   },
   storyPage: {
-    lede: "Une collection réunie par une personne, dans un lieu.",
-    from: "Paris",
-    to: "Marrakech",
+    // Everything in this block is §7 and §8 of the client's report, verbatim.
+    heritage: [
+      {
+        eyebrow: "Des pièces qui ont une âme",
+        body: [
+          "Chez The Roots Corner, nous croyons qu’un intérieur ne se compose pas simplement d’objets. Il se construit autour de pièces qui ont une présence, une matière, une histoire.",
+          "Nous parcourons les lieux, les marchés et les ateliers à la recherche de créations singulières : tapis tissés à la main, objets anciens, pièces sculptées et matières façonnées par le temps. Chaque pièce est choisie pour ce qu’elle raconte autant que pour ce qu’elle apporte à un intérieur.",
+        ],
+      },
+      {
+        eyebrow: "L’héritage comme matière",
+        body: [
+          "Longtemps avant de devenir des éléments de décoration, ces objets faisaient partie du quotidien. Ils accompagnaient les familles, les gestes, les rencontres et les générations. Leur beauté réside aussi dans leurs imperfections : une patine, une irrégularité, une trace laissée par le temps. Ce ne sont pas des défauts à effacer. Ce sont les marques qui font la pièce.",
+        ],
+      },
+      {
+        eyebrow: "À la rencontre des savoir-faire",
+        body: [
+          "The Roots Corner cherche avant tout à comprendre ce qui se trouve derrière chaque création : les matières, les gestes, les traditions, les personnes qui les façonnent. Du Maroc au Cameroun, chaque rencontre ouvre la porte à un univers différent et à des savoir-faire qui méritent d’être préservés.",
+        ],
+      },
+      {
+        eyebrow: "Des pièces pour traverser le temps",
+        body: [
+          "Nous ne cherchons pas à suivre les tendances. Nous cherchons des pièces capables de les traverser. Des objets qui trouvent naturellement leur place dans un intérieur, qui évoluent avec lui et qui, au fil des années, continuent de raconter quelque chose.",
+        ],
+      },
+    ],
+    heritageClose: "Chaque pièce a une histoire. La prochaine pourrait être la vôtre.",
+    founder: [
+      "Dahab est passionnée par les voyages, les matières et les savoir-faire. Toujours à la recherche de pièces singulières, elle aime découvrir celles et ceux qui les façonnent, comprendre leur histoire et leur donner une place dans des intérieurs où elles pourront continuer à vivre.",
+      "Une passion pour les objets qui traversent le temps et racontent quelque chose.",
+    ],
     founderEyebrow: "La fondatrice",
-    placeEyebrow: "Le lieu",
-    artisansEyebrow: "Les mains",
-    purposeEyebrow: "L’intention",
     // Translation of the client's own About sentence, not authorship (§11).
     // "purpose" is rendered "utilité" — these are objects that were made to be
     // used, which is what the English means here.
-    purpose:
-      "Partager un monde d’objets qui ont du sens, et faire naître un attachement durable pour des pièces qui portent une histoire, une utilité et un caractère.",
-    missionEyebrow: "Ce à quoi sert la collection",
-    missionHeading: "Vécues, appréciées, transmises",
   },
   mrirtPage: {
     lede: "Rien ici n’est en stock. Un tapis Mrirt commence par quatre décisions.",
     place: "Moyen Atlas, Maroc",
-    coopEyebrow: "Qui le tisse",
+    // §13 of the report: "LES MAINS — Une coopérative du Moyen Atlas".
+    // §10 of the report, verbatim.
+    entriesEyebrow: "Trois entrées",
+    entries: [
+      {
+        key: "ready",
+        name: "Tapis vintage & tapis modernes — disponibles",
+        note: "Les tapis déjà réalisés et disponibles à la vente, avec photos, dimensions et prix.",
+      },
+      {
+        key: "order",
+        name: "Tapis sur commande",
+        note: "Les tapis que vous souhaitez faire réaliser selon vos envies et vos dimensions.",
+      },
+      {
+        key: "how",
+        name: "Comment commander votre tapis",
+        note: "Les étapes : dimensions, style, couleurs, échanges, validation.",
+      },
+    ],
+    coopEyebrow: "Les mains",
     coopHeading: "Une coopérative du Moyen Atlas",
     formEyebrow: "Le patron",
     formHeading: "Dites-nous les quatre",
@@ -968,12 +1124,13 @@ const fr: Dictionary = {
   },
   contactPage: {
     heading: "Écrivez-nous",
-    lede:
-      "Pour une pièce, pour un tapis, pour faire livrer quelque chose — ou simplement pour demander ce qu’est un objet.",
+    // §3 of the client's report, verbatim.
+    lede: "Une question sur une pièce, un tapis ou une commande ?",
+    findLede:
+      "Vous avez aperçu une pièce sur Instagram ou dans une ancienne publication et souhaitez la retrouver ? Envoyez-nous simplement une photo ou quelques informations sur la pièce. Nous ferons notre possible pour la retrouver et vous renseigner.",
     channelsEyebrow: "Comment nous joindre",
-    placeEyebrow: "Le lieu",
     placeNote: "Chinée au Maroc, réunie à Marrakech.",
-    instagramNote: "Les pièces paraissent ici avant d’être mises en ligne.",
+    instagramNote: "Les pièces sont souvent présentées ici avant d’être mises en ligne sur le site.",
     formEyebrow: "Un message",
     pieceRef: "S’il s’agit d’une pièce, son numéro nous aide.",
     subjectEyebrow: "Vous nous écrivez au sujet de",
@@ -1004,6 +1161,9 @@ const fr: Dictionary = {
     optional: "facultatif",
     viaInstagram: "Écrire sur Instagram",
     viaWhatsapp: "Reprendre sur WhatsApp",
+    photo: "Une photo de la pièce",
+    photoHint: "Une capture d’Instagram ou de Pinterest convient parfaitement. Jusqu’à 5 Mo.",
+    photoTooBig: "Cette image dépasse 5 Mo. Envoyez-en une plus légère, ou décrivez-nous la pièce.",
     subject: "The Roots Corner",
   },
   closing: {
@@ -1052,8 +1212,9 @@ const fr: Dictionary = {
   },
   materials: {
     eyebrow: "Matière",
-    heading: "Les marques font la pièce",
-    body: "L’usure, la patine, une réparation faite il y a longtemps. Ce ne sont pas des défauts à corriger avant la photo — c’est ce qui donne à la pièce sa valeur.",
+    // §14 of the client's report, verbatim.
+    heading: "Le temps fait la pièce",
+    body: "L’usure, la patine, une réparation ancienne. Ce ne sont pas des défauts à effacer avant la photo — c’est ce qui donne à la pièce son âme.",
   },
   invitation: {
     heading: "Venez regarder vraiment",

@@ -111,6 +111,20 @@ export default async function ContactPage({
       hint: t.contactPage.pieceRef,
       defaultValue: opener,
     },
+    /*
+      §2 — a piece is not always findable by a reference number.
+
+      Someone who saw it on Instagram or Pinterest, or in a post that is no
+      longer up, has a picture and nothing else. So the enquiry takes one, and
+      it travels as an attachment on the same message rather than as a second
+      thing they have to send somewhere else.
+    */
+    {
+      name: "photo",
+      label: t.form.photo,
+      kind: "file",
+      hint: t.form.photoHint,
+    },
   ];
 
   const ways = [
@@ -153,6 +167,9 @@ export default async function ContactPage({
             <p className="label">{t.nav.contact}</p>
             <h1 className="display desk-title">{t.contactPage.heading}</h1>
             <p className="lede desk-lede">{t.contactPage.lede}</p>
+            {/* §2 and §3: the page's real invitation — send a photograph of a
+                piece you saw and we will try to find it. Their words. */}
+            <p className="prose desk-find">{t.contactPage.findLede}</p>
 
             {/* The channels, on the first screen and at full size. These are
                 the things a visitor can act on immediately, so they sit above
@@ -306,6 +323,7 @@ export default async function ContactPage({
                 optional: t.form.optional,
                 viaInstagram: t.form.viaInstagram,
                 viaWhatsapp: t.form.viaWhatsapp,
+                photoTooBig: t.form.photoTooBig,
               }}
             />
           </Reveal>
