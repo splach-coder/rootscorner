@@ -146,9 +146,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   its own instruction rather than stacking one beneath it. */}
               <div className="hero-line">
                 <p className="hero-tagline label">{t.hero.tagline}</p>
-                <a href="#selection" className="hero-cue label">
+                {/* Goes to the collection, not down the page.
+
+                    It used to be an in-page anchor to the featured trio below,
+                    which is not what a link labelled "LA COLLECTION" promises —
+                    a visitor who clicks it wants the collection, and §1 of the
+                    client's report calls it a link, not a scroll cue. */}
+                <Link href={`/${locale}/collection`} className="hero-cue label">
                   {t.hero.scrollCue}
-                </a>
+                </Link>
               </div>
             </div>
 

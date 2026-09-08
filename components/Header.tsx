@@ -153,7 +153,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
     `html` unconditionally it also animated the browser's jump-to-top on a route
     change — a second of flight back through the old page. This stamps the
     attribute when a same-page link is clicked and clears it once the jump has
-    settled, so #main, #selection and #demander still glide and navigation does
+    settled, so #main, #demander and #comment still glide and navigation does
     not.
   */
   useEffect(() => {

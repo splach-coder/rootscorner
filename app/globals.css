@@ -120,8 +120,8 @@ html {
    `scroll-behavior` has to sit on the SCROLLING element to have any effect —
    putting it on `:target` does nothing — so it stays on `html` and is switched
    on only while an anchor jump is in flight. Header.tsx adds `data-anchor` for
-   the length of one, and the three in-page links on the site (#main, #selection,
-   #demander) still glide.
+   the length of one, and the in-page links on the site (#main, #demander and
+   #comment) still glide.
 
    §19 records the same rule biting the measuring scripts, which all pass
    `behavior: "instant"` to work around exactly this. */
