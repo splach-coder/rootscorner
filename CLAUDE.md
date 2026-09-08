@@ -3640,6 +3640,24 @@ it becomes part of a MIME part, so a caller-supplied one is a caller-supplied
 header. Content must be clean base64 and must decode within 5 MB. Verified
 against a stub: a real 749 KB JPEG arrives with the right magic bytes.
 
+### Two things the first pass got wrong, found by checking rather than trusting
+
+**§1 asked for the name in the CENTRE and I had left it bottom-left**, then
+reported the item as done because the hero already carried the right three
+elements. It carried them in the wrong place. The hero plate is now a centred
+title page — name, short phrase, discreet link — and the editorial note that
+used to sit bottom-right is dropped above 940px: four things centred reads as a
+stack rather than a composition, and that sentence is said again a screen
+further down in the presentation section.
+
+Measured after: title box centred to within 5px of the viewport centre, and all
+hero and header text still clears on the photograph (worst 11.28:1).
+
+**§10's third entry pointed at the wrong place.** "Comment commander votre
+tapis" and "Tapis sur commande" both anchored to `#sur-commande`, so two of the
+three named entries went to the same section. The third now lands on the four
+steps, which is what it describes.
+
 ### Still open
 
 - **§1's "arriver directement sur la page d'accueil"** reads two ways: the root

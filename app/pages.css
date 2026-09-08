@@ -2865,3 +2865,9 @@ textarea.inquiry-input {
   letter-spacing: 0.16em;
   color: var(--ink-faint);
 }
+
+/* The anchor for §10's third entry. Zero height; the header offset comes from
+   scroll-margin so the heading it jumps to is not hidden under the bar. */
+.mrirt-steps-anchor {
+  scroll-margin-top: calc(var(--header-h) + 2rem);
+}

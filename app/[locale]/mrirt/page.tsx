@@ -73,7 +73,7 @@ export async function generateMetadata({
 const ENTRY_ANCHORS: Record<string, string> = {
   ready: "#disponibles",
   order: "#sur-commande",
-  how: "#sur-commande",
+  how: "#comment",
 };
 
 export default async function MrirtPage({
@@ -163,6 +163,10 @@ export default async function MrirtPage({
                 each with the one line of instruction the client wrote for it,
                 and answered by the button that starts one. "Au choix" said
                 nothing a visitor could act on. */}
+            {/* Reveal renders one element and takes no id, so the anchor for
+                §10's third entry sits on a plain element beside it — the same
+                pattern the form anchor above already uses. */}
+            <div id="comment" className="mrirt-steps-anchor" />
             <Reveal delay={170} className="mrirt-terms">
               <p className="label mrirt-label-order">{t.rugs.order}</p>
               <ol className="rugs-steps">

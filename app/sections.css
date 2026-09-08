@@ -2840,3 +2840,45 @@ html[data-intro="run"] .site-header-lockup {
 .consent-acts-panel .consent-btn {
   white-space: nowrap;
 }
+
+/* --------------------------------------------------------------------------
+   §1 of the client's final report — the name in the CENTRE
+
+   "Au centre : « THE ROOTS Corner », avec une typographie élégante et bien
+   aérée", then the short phrase, then the discreet link. The hero used to set
+   all three bottom-left with an editorial note squared off bottom-right; that
+   is a magazine cover, and what is asked for is a title page.
+
+   The note goes with it. Four things centred reads as a stack rather than a
+   composition, and the same sentence is said again a screen further down in
+   the presentation section — so the hero keeps the three the report names.
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 940px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .hero-note {
+    display: none;
+  }
+}
+
+.hero-title {
+  text-wrap: balance;
+}
+
+.hero-line {
+  justify-content: center;
+}
+
+/* Below 940 the plate is already a single column; centring it there too keeps
+   the two widths telling the same story. */
+@media (max-width: 939px) {
+  .hero-inner {
+    justify-items: center;
+    text-align: center;
+  }
+}
