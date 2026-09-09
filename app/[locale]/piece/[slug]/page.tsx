@@ -15,6 +15,7 @@ import {
   formatPrice,
   pieceBySlug,
   relatedPieces,
+  isMultiple,
 } from "@/lib/catalog";
 import { displayName } from "@/lib/specs";
 import { frLine, frLines } from "@/lib/product-fr";
@@ -182,7 +183,21 @@ export default async function PiecePage({
               <div className="piece-action">
                 {piece.available ? (
                   <>
-                    {price && <p className="piece-price display d-3">{price}</p>}
+                    {price && (
+                      <p className="piece-price display d-3">
+                        {price}
+                        {/* §5 — this listing holds more than one object, so the
+                            figure has to say which one it is for. This page is
+                            where it matters most: it is the only place a buyer
+                            sees the price beside the button that spends it. */}
+                        {isMultiple(piece) && (
+                          <span className="wall-label-unit">
+                            {" "}
+                            {t.pieceLabel.perPiece}
+                          </span>
+                        )}
+                      </p>
+                    )}
 
                     {/* Buy, or ask.
 

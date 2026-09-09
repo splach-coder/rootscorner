@@ -84,7 +84,16 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const featured = featuredPieces();
   const cats = categories();
   const loom = loomShots();
-  const shop = shopSelection(8, cats.map((c) => c.cover?.slug ?? ""));
+  /*
+    Four, not eight.
+
+    The client's word on it: the shop is welcome on the homepage but "pas
+    autant... il y'en a bcp bcp bcp, c'est répétitif". Eight tiles is a
+    catalogue page happening a second time before the visitor has reached the
+    collection; four is one row, which reads as a sample and leaves the
+    catalogue to the page that is one.
+  */
+  const shop = shopSelection(4, cats.map((c) => c.cover?.slug ?? ""));
   const feed = instagramFrames();
 
   const axes = [

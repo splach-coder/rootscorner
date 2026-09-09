@@ -259,6 +259,11 @@ export const SOLD_AS_MULTIPLE: readonly string[] = [
   "tamegroute-candle-s-and-m",
   "handmade-ceramic-candlestick-tamgroute",
   "tuareg-tent-stakes",
+  // Confirmed by the client: this listing holds two DIFFERENT boards, not two
+  // of one — "49 cm / 31 cm", one price. "/ pièce" is still the right thing to
+  // say, and the more necessary for it: a buyer seeing two objects and one
+  // figure would otherwise reasonably assume the figure covers both.
+  "decorative-wooden-tray",
 ];
 
 export function isMultiple(piece: Piece): boolean {

@@ -3671,3 +3671,24 @@ steps, which is what it describes.
   store. Not scaffolded: an account area that cannot authenticate is the same
   mistake as a form that cannot send.
 - **§16** is guidance, not a task.
+
+### Her answers to the first pass
+
+- **§5** — she confirmed one we had missed: `decorative-wooden-tray` holds **two
+  different boards** in one listing at one price ("49 cm / 31 cm"). Different
+  objects rather than two of a kind, which makes "/ pièce" more necessary, not
+  less: a buyer seeing two things and one figure would reasonably assume the
+  figure covers both. Five pieces now carry it.
+- **The suffix was missing where it matters most.** `PieceLabel` carried it, but
+  the piece page renders its own price beside the buy button — the only place a
+  visitor sees the figure next to the thing that spends it. Fixed; verified on
+  the tray, the Dogon staff, and a single piece that must NOT show it.
+- **§9** — "on peut faire la boutique à l'accueil mais pas autant... c'est
+  répétitif." The homepage shop grid drops from eight tiles to **four**: one
+  row, which reads as a sample, leaving the catalogue to the page that is one.
+- **Inspiration** — she sent three sites rather than the screenshots:
+  homura.com.co, thecorner.studio, benirugs.com. Homura and Beni are already
+  §3's references; thecorner.studio is the "Corner Studio" of report §9 and is
+  new. The dark-ground reference in §1 is almost certainly Homura.
+- **Photography** — Yasmin is sending it.
+- **§15** — confirmed as wanted, after the shop opens.
