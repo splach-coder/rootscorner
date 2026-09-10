@@ -1531,22 +1531,30 @@
   margin-bottom: 1rem;
 }
 
-/* The tool, not the subject: the smallest frame on the page, under the passage
-   about the weavers. It stood in for the rug itself until the client's own rug
-   photography arrived; it is no longer asked to do that. */
-.mrirt-tool {
-  margin: clamp(1.6rem, 3.5vw, 2.4rem) 0 0;
+/* The material, answering the passages about it.
+
+   This column held the antique weaving comb at 18rem — a stand-in from when
+   there was no photograph of the material at all (§23) — and measured 1247px
+   against a 551px text column beside it. Beni's craft pages answer a passage
+   about wool with a macro of the wool, and the client's Drive has now sent one.
+
+   One photograph that belongs, not two that fill: §32's rule is to load a
+   column, and the way to load it is with the right thing rather than more
+   things. 4/5 rather than the source's 2/3, because at 2/3 the frame alone ran
+   152px past the text — the crop comes off a macro whose subject continues
+   past every edge anyway. */
+.mrirt-yarn {
+  margin: 0;
   display: grid;
   gap: 0.85rem;
-  justify-items: start;
+  align-content: start;
 }
 
-.mrirt-tool-frame {
-  aspect-ratio: 2 / 3;
-  width: min(80%, 18rem);
+.mrirt-yarn-frame {
+  aspect-ratio: 4 / 5;
 }
 
-.mrirt-tool-caption {
+.mrirt-figure-caption {
   color: var(--ink-soft);
   max-width: 20rem;
 }

@@ -6,7 +6,7 @@ import Reveal from "@/components/Reveal";
 import InquiryForm, { type InquiryField } from "@/components/InquiryForm";
 import ClosingBand from "@/components/ClosingBand";
 import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
-import { RUG_SHOTS, WOVEN_RUGS, loomShots, readyRugs } from "@/lib/catalog";
+import { RUG_SHOTS, WOVEN_RUGS, readyRugs } from "@/lib/catalog";
 import PieceCard from "@/components/PieceCard";
 import { INSTAGRAM, whatsappDigits } from "@/lib/site";
 
@@ -84,7 +84,6 @@ export default async function MrirtPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale as Locale);
-  const loom = loomShots();
   const rug = t.mrirtPage.rug;
   // Empty until the client stocks finished rugs — see readyRugs() in lib/catalog.
   const ready = readyRugs();
@@ -279,22 +278,40 @@ export default async function MrirtPage({
             </Reveal>
           </div>
 
-          {loom && (
-            <figure className="mrirt-tool">
-              <Reveal variant="frame" delay={180} className="frame mrirt-tool-frame">
-                <Image
-                  src={loom.detail}
-                  alt={t.mrirtPage.combAlt}
-                  width={2000}
-                  height={3000}
-                  sizes="(max-width: 900px) 62vw, 22vw"
-                />
-              </Reveal>
-              <Reveal as="figcaption" delay={240} className="label mrirt-tool-caption">
-                {t.rugs.figure.caption}
-              </Reveal>
-            </figure>
-          )}
+          {/* The material, at size.
+
+               This column held the antique weaving comb at 18rem, which left
+               most of the track empty beside the passages — and the comb was
+               only ever there because there was no photograph of the material
+               (§23: "the instrument, because the rug does not exist yet"). The
+               client's Drive has now sent one, so the workaround stands down.
+               Measured: the comb column ran 696px past the text beside it;
+               §32's rule is that a column is loaded, not padded, and the answer
+               here was one photograph that belongs rather than two that fill.
+
+               The comb is not lost. It is a piece in the collection with its
+               own page, and it is lying on the rug in the plate at the top of
+               this page.
+
+               THE CAPTION SAYS ONLY WHAT IS IN THE FRAME. These are skeins of
+               dyed yarn drying in Marrakech, photographed by the house. Calling
+               them wool, or tying them to a Mrirt rug, would be exactly the
+               provenance §5 forbids — and this page in particular may never let
+               anything be mistaken for the rug it cannot show. */}
+          <figure className="mrirt-yarn">
+            <Reveal variant="frame" delay={140} className="frame mrirt-yarn-frame">
+              <Image
+                src="/place/dyed-yarn.jpg"
+                alt={t.mrirtPage.yarnAlt}
+                width={1333}
+                height={2000}
+                sizes="(max-width: 900px) 100vw, 34vw"
+              />
+            </Reveal>
+            <Reveal as="figcaption" delay={200} className="label mrirt-figure-caption">
+              {t.mrirtPage.yarnCaption}
+            </Reveal>
+          </figure>
         </div>
       </section>
 

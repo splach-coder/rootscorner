@@ -189,6 +189,10 @@ type Dictionary = {
     matterHeading: string;
     pileAlt: string;
     combAlt: string;
+    /** The client's own Marrakech photography, from their Drive. Says only
+        what is visibly in the frame — no origin, no attribution (§5). */
+    yarnAlt: string;
+    yarnCaption: string;
     roomEyebrow: string;
     roomHeading: string;
     roomNote: string;
@@ -625,6 +629,8 @@ const en: Dictionary = {
     matterHeading: "Thickness you can put a hand into",
     pileAlt: "Close view of the pile: the depth of the wool and the woven lines through it",
     combAlt: "The metal of the weaving comb, engraved with Berber designs",
+    yarnAlt: "Skeins of dyed yarn hung to dry, lit from behind",
+    yarnCaption: "Dyed yarn drying, Marrakech",
     roomEyebrow: "In a room",
     roomHeading: "How big is yours",
     // Size is the first of the four terms, and the only one a photograph can
@@ -1100,6 +1106,8 @@ const fr: Dictionary = {
     matterHeading: "Une épaisseur où la main entre",
     pileAlt: "Gros plan du velours : l’épaisseur de la laine et les lignes du tissage",
     combAlt: "Le métal du peigne à tisser, gravé de motifs berbères",
+    yarnAlt: "Écheveaux de fil teint suspendus à sécher, à contre-jour",
+    yarnCaption: "Fil teint mis à sécher, Marrakech",
     roomEyebrow: "Dans une pièce",
     roomHeading: "Quelle taille pour le vôtre",
     roomNote: "La taille est la première chose que nous vous demanderons.",

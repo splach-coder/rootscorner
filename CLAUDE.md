@@ -3855,3 +3855,89 @@ as objects". The brief bans small photos; the reference is not a licence.
 both widths · `contrast-scroll` PASS both · `audit` PASS both · `/fr/contact`
 re-checked for the reset change (PASS, `.ways` now at 72 with its eyebrow) ·
 build warning-free. Page 6706 → 6580px desktop.
+## 51. The client's Drive — reached, mapped, and the first frames placed
+
+§49 recorded the folder as unreachable. **It is not.** The connector is not
+authorised, but the link the client sent is publicly readable, and real Chrome
+lists and downloads it — the same lesson as §27's Instagram fetch, which failed
+with `curl` and worked with a browser.
+
+### The tree
+
+```
+<shared root>
+├── TRC content    → maison → shoot 2
+├── TRC content-2  → maison · siteweb (4 numbered folders)
+├── TRC content-3  → maison · siteweb (10 numbered folders)
+└── TRC content-4  → jamaa fna → feed (38) · stories (14)
+                     maison · siteweb (30 numbered folders) · videos
+```
+
+The `siteweb` folders are **numbered 1–39** across three trees. That is almost
+certainly the 38-product catalogue (§8), one folder per piece — which would be
+the original photography §13 has wanted since the first day, replacing the
+2000px Jimdo CDN derivatives. **Nobody has opened them yet.** Do that before
+re-shooting or re-cropping anything.
+
+`jamaa fna` is the folder the client named in their message — *"la photo que
+Dahab veut absolument utiliser… dans le document « Jamaa El Fna »"*. Which one
+of the 52 frames she means is still unknown. **Ask; do not pick.**
+
+### What the frames are
+
+All 38 of `feed` are **2:3 portrait, 1411×2117 up to 4000×6000, 2–16 MB** —
+true originals, not derivatives. The subject is the Marrakech medina at golden
+hour: alleys, doorways, plaster, shadow, souk stalls, rugs hung out against the
+sky, skeins of dyed yarn drying, the Koutoubia at dusk.
+
+That is the brief's **section 6** — *"images de matières, artisans, voyages ou
+lieux"* — which §13 lists as owed and which the site has been serving with close
+crops of pieces. It is not product photography and must not be used as any.
+
+### Eight are in the repo, at web size
+
+`public/place/`, longest edge 2000px, mozjpeg q80 — about 250 KB each against
+originals up to 16 MB. `docs/place-images.json` records each one's dimensions,
+its Drive folder and its original filename, so any frame can be traced back.
+
+> **The filenames say what is visibly in the frame and nothing more** —
+> `dyed-yarn`, `rugs-sky`, `shadow-tree`, `city-dusk`. No origin, no
+> attribution, no date. Seven of the eight have **no description at all** in the
+> manifest, because a 300px contact-sheet thumbnail is not enough to describe a
+> photograph truthfully and §5 says omit rather than guess. Write one when the
+> frame is actually placed and can be looked at.
+
+### The first placement, and what it retired
+
+`/mrirt`'s material column held the antique weaving comb at 18rem. That was
+never a design choice: §23 put it there **because there was no photograph of a
+rug or of the material**, and the section has carried the workaround ever since.
+
+`dyed-yarn.jpg` replaces it. Measured, the comb column ran **1247px against a
+551px text column**; the yarn alone at 4/5 comes to 586, and the section is
+level. §32's rule is to load a column rather than pad it — and the way to load
+it is with the right photograph, not with more photographs.
+
+The comb is not lost: it is a piece in the collection with its own page, and it
+is lying on the rug in the plate at the top of the same page.
+
+> **The caption is `Fil teint mis à sécher, Marrakech` — dyed YARN, not wool.**
+> Marrakech dyers' souks hang viscose and sabra as readily as wool, and the
+> passage beside it is the client's own copy about the wool of a Mrirt rug. To
+> caption this frame as that wool would tie a street photograph to a product,
+> which is §5's invented provenance with a camera. This page above all may never
+> let anything be mistaken for the rug it cannot show (§23).
+
+### Still to do with it
+
+- **Open the numbered `siteweb` folders** and match them to `docs/catalog.json`.
+  That is the original product photography, and it is the largest single
+  quality win left in the build.
+- **Ask which « Jamaa El Fna » frame Dahab means.** `scripts/hero-audition.mjs`
+  before it goes anywhere near the hero: no frame in this collection has ever
+  carried the hero text unscrimmed (§23), and a new one is not exempt.
+- **A portrait of Dahab** is still not in anything opened so far. `maison` and
+  `shoot 2` are unexamined.
+- The remaining seven in `public/place/` are unused. The homepage's *matière*
+  section is the obvious home — §29 flags that it is headed *"Les marques font
+  la pièce"* with no close-up of a mark in it.
