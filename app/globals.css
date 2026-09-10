@@ -188,7 +188,19 @@ dd {
   margin: 0;
 }
 
-ul {
+/* `ol` is in the reset for a reason worth keeping.
+
+   It was not, and every ordered list on this site draws its own numerals — the
+   contact page's four ways in, the rugs page's four terms, its three entries.
+   Two of those escaped the UA marker only because they happen to set
+   `display: grid`, which stops a list item generating one. The third does not,
+   so /mrirt printed "1. 01", "2. 02", "3. 03" down the page.
+
+   A list that numbers itself must not also be numbered by the browser, and
+   relying on a `display` value to suppress that is a trap for whoever next
+   changes the layout. */
+ul,
+ol {
   margin: 0;
   padding: 0;
   list-style: none;

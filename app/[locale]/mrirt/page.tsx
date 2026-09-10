@@ -126,14 +126,30 @@ export default async function MrirtPage({
            card on the shelf, where being its own rug is the point. --- */}
       <section className="section mrirt-plate">
         <div className="shell mrirt-plate-inner">
-          <Reveal variant="frame" className="frame mrirt-plate-frame bleed-left">
+          {/* The rug is PRESENTED, not cropped.
+
+              Beni Rugs — the reference the client says she loves — shoots every
+              rug flat and whole on a warm plate a shade off the page, with the
+              order panel beside it. That plate is the single strongest thing
+              they do, and it is the one device this page can take literally.
+              It also fixes a real defect: this frame is 9/16 and we were
+              cropping it to a square, so the page about rugs was showing a
+              patch of wool. The photograph is contained now; the plate is what
+              fills the box.
+
+              §24 warns that a frame tint reads as grey letterbox bars. That was
+              a tint nobody asked for, on a photograph that filled its column.
+              This one runs to the viewport edge and is wider than the picture
+              on purpose, which is what makes it read as a surface the rug is
+              laid on rather than as a box the rug failed to fill. */}
+          <Reveal variant="frame" className="frame mrirt-stage bleed-left">
             <Image
               src={RUG_SHOTS.rug}
               alt={rug.alt}
               width={1800}
               height={3200}
               priority
-              sizes="(max-width: 900px) 100vw, 52vw"
+              sizes="(max-width: 900px) 100vw, 56vw"
             />
           </Reveal>
 
@@ -166,6 +182,17 @@ export default async function MrirtPage({
             {/* Reveal renders one element and takes no id, so the anchor for
                 §10's third entry sits on a plain element beside it — the same
                 pattern the form anchor above already uses. */}
+            {/* The four terms, as the ORDER PANEL Beni puts beside the rug.
+
+                Their panel is the page's spine: the choices are the product, so
+                each one gets a key and a bounded row, and the whole column is
+                closed by a single filled action running its full width. Ours
+                carries the client's own numbering (report §11) inside that
+                shape — the numbers were their instruction and stay.
+
+                What changed is where it sits and how much of the column it
+                owns. It used to be a list floating in a stack; it is now the
+                thing you came to the page to use, standing against the rug. */}
             <div id="comment" className="mrirt-steps-anchor" />
             <Reveal delay={170} className="mrirt-terms">
               <p className="label mrirt-label-order">{t.rugs.order}</p>

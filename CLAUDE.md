@@ -3764,3 +3764,94 @@ sold-out is a normal state rather than an edge case (§6).
 honestly today, and now fails **into a channel that works**. Checkout (§37).
 And the returns and delivery contradictions (§9.2, §9.3), which still need a
 decision with legal input.
+## 50. The rugs page, after Beni — the plate, the panel, the gutter
+
+The client named three sites and said *"J'adore j'adore"* against benirugs.com.
+This applies what that site actually does to `/mrirt`. Studied in a real
+browser rather than from memory — `/craft`, `/collections/shop-all` and a
+made-to-order rug page, measured for tracks, type sizes and image ratios.
+
+### What Beni does, measured
+
+| | |
+|---|---|
+| **The plate** | Every rug is shot flat and whole on a warm surface a shade off the page, with the order panel beside it at roughly one third. The rug is never cropped to fit a column. |
+| **The panel is the spine** | Breadcrumb, name with the figure squared off right, one paragraph, then the choices as bounded labelled rows, closed by ONE filled dark bar the full width of the column. |
+| **The gutter is 8px** | Twelve columns, `gap: 8px`. The generosity is in the margin around a block, never between two photographs. |
+| Type | Two faces only, one weight each: a serif for names and headings, a 12–13px sans at 1.68px tracking for every label. |
+
+That last row is the useful confirmation: it is what this site already does with
+Marcellus and Jost (§12). The direction the build has been on is the one they
+say they love, so this pass changes composition, not language.
+
+### The plate fixed a real defect
+
+`mrirt-rug.jpg` is **9/16**, and the frame was a square with `object-fit:
+cover`. The page about rugs was showing a patch of wool.
+
+`.mrirt-stage` contains the photograph and the plate fills the box —
+`rgba(190,171,147,.18)`, translucent rather than a fixed hex, because the page
+ground is scroll-driven (§19) and a flat colour would drift out of step with the
+light underneath it.
+
+> §24 records a frame tint reading as **grey letterbox bars**. That was a tint
+> nobody asked for, behind a photograph that filled its column. This one bleeds
+> to the viewport edge and is wider than the picture on purpose, which is the
+> difference between a surface and a box something failed to fill. The grain
+> drops to `0.05` here (§28 sets `0.13`): over flat wash rather than a
+> photograph, the standard amount reads as compression noise, not as film.
+
+**It is a stage, not a ratio** — the piece page's own mechanism (§36). At
+`aspect-ratio: 3/4` the plate came out 1040px against a 740px panel, which is
+§32's hole with the photograph on the other side of it. And it cannot be capped
+with `max-height`: with `aspect-ratio` set that shrinks the WIDTH, and the bleed
+to the viewport edge silently disappears (§32 again). So the plate takes
+`height: min(78svh, 46rem)` and the width still comes from the grid track.
+
+### The panel, and the one filled bar
+
+The four terms keep the client's numbering — report §11 asked for numbered
+steps and that is their instruction, not a style choice. What changed is that
+they are now the column's whole job rather than a list floating in a stack, and
+`.rugs-start` spans the panel instead of sitting inline. As a chip it read as a
+third link among links; as a bar it says the column above it was a form.
+
+Still the only filled element on the page, still the brand's umber (§37).
+
+### Two holes closed, and a bug nobody had seen
+
+- **The three entries (report §10) were 46rem in a 79rem shell** — a third of
+  the width empty beside three short lines. They are an INDEX, not reading
+  matter (§41's argument for the doorways), so they are three columns under
+  three rules at ≥860px.
+- **The ready shelf's gap went from ~48px to 8px**, which is Beni's own number.
+  Two rug photographs nearly abutting are larger, not smaller — the brief's
+  "one large photo beats six small ones" stated as a measurement.
+- **`/mrirt` was printing "1. 01", "2. 02", "3. 03".** `ol` was not in the
+  reset, and every ordered list on this site draws its own numerals. Two of the
+  three escaped the UA marker only because they happen to set `display: grid`,
+  which stops a list item generating one; `.mrirt-entry` does not. Fixed in the
+  reset, not on the component — relying on a `display` value to suppress a
+  marker is a trap for whoever next changes the layout. It also removes the UA's
+  40px indent, which now aligns `.ways` on `/contact` with its own eyebrow.
+
+### What could NOT be taken from the reference
+
+**Beni's central move needs a photograph of a whole rug, and there is none.**
+`mrirt-rug.jpg` and `public/rugs-live/live-mrirt-full.jpg` are the same macro of
+pile with the weaving comb on it, and `mrirt-room.jpg` puts its rug in the
+bottom sixth of the frame (§32). So the plate presents the frame we have, whole
+and uncropped, and the page does not pretend to a shot it has not been sent.
+This is §13's debt, and it is the first thing to replace from the client's Drive.
+
+**Their two-across detail pairs were not taken either.** At a 1440 width each
+macro comes out ~227px, and §29 records cutting exactly that band here because
+"at a third of the width each, hard cropped, they read as swatches rather than
+as objects". The brief bans small photos; the reference is not a licence.
+
+### Verified
+
+`/fr/mrirt` and `/en/mrirt`: **0px overflow, 0 unrevealed, 0 missing alt** at
+both widths · `contrast-scroll` PASS both · `audit` PASS both · `/fr/contact`
+re-checked for the reset change (PASS, `.ways` now at 72 with its eyebrow) ·
+build warning-free. Page 6706 → 6580px desktop.

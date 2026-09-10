@@ -1455,12 +1455,36 @@
   gap: clamp(2rem, 5vw, 3.5rem);
 }
 
-/* 4/5 on a phone; square once the label and the four terms sit beside it. The
-   source is 9/16 and at this width the native ratio runs past 1100px tall,
-   which re-opens the void the layout exists to close. The weaving comb sits at
-   43–72% of the frame, so a centred crop keeps it either way. */
-.mrirt-plate-frame {
+/* THE PLATE — after benirugs.com, the reference the client named.
+
+   Every rug on that site is shot flat and whole on a warm surface a shade off
+   the page, with the order panel beside it. The rug is presented; it is never
+   cropped to fit a column. That is the one device this page can take literally,
+   and it also removes a defect: the source is 9/16, this frame used to be a
+   square, so the page about rugs was showing a patch of wool.
+
+   So the photograph is CONTAINED and the plate fills the box. The plate is a
+   translucent wash rather than a fixed colour, because the page ground is
+   scroll-driven (§19) — a flat hex would drift out of step with the ground
+   underneath it as the light moves. This tracks it.
+
+   Padding is what makes it read as a surface rather than as a letterbox (§24):
+   the plate is deliberately wider than the picture on every side. */
+.mrirt-stage {
   aspect-ratio: 4 / 5;
+  padding: clamp(1.4rem, 4vw, 2.6rem);
+  background: rgba(190, 171, 147, 0.18);
+}
+
+.mrirt-stage img {
+  object-fit: contain;
+}
+
+/* The grain is the site's own texture over a PHOTOGRAPH (§28). Most of this box
+   is now flat wash, where the same amount reads as compression noise rather
+   than as film, so it comes down here. */
+.mrirt-stage {
+  --grain: 0.05;
 }
 
 /* Label → the four terms → a detail. Three blocks, because one label beside a
@@ -1559,10 +1583,16 @@
    page spent a pass removing. They take the full width — a max-width here put
    ~340px of empty ground back at the right edge, which is the same hole with a
    different name. Two large photographs is the brief's own preference. */
+/* The gutter is Beni's, and it is the third thing their pages do: rug beside
+   rug at an 8px gap, so the generosity is in the margin AROUND the pair and not
+   in the space between two photographs. Measured on their own grid — `gap:
+   8px`, twelve columns. Closing ours from ~48px buys both frames the width
+   instead of spending it on ground, which is the brief's "one large photo beats
+   six small ones" said as a number. */
 @media (min-width: 640px) {
   .mrirt-ready-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(2rem, 4vw, 3rem);
+    gap: 8px;
   }
 }
 
@@ -1605,14 +1635,30 @@
 }
 
 @media (min-width: 900px) {
+  /* Beni gives the rug roughly two thirds of the screen and the order panel
+     one. Ours is less lopsided because our panel carries four numbered terms
+     and theirs carries four selects — but the rug leads, which it did not
+     before. With `bleed-left` the plate also reclaims the gutter. */
   .mrirt-plate-inner {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
     column-gap: clamp(2.5rem, 5vw, 4rem);
     align-items: start;
   }
 
-  .mrirt-plate-frame {
-    aspect-ratio: 1 / 1;
+  /* A STAGE, not a ratio — the piece page's own mechanism (§36).
+
+     A ratio here made the plate 1040px tall against a 740px panel, which is
+     §32's hole with the photograph on the other side of it: a tall frame cannot
+     be balanced by spacing, only by matching it. And the plate cannot be
+     shortened with `max-height`, because with `aspect-ratio` set that shrinks
+     the WIDTH to match and the bleed to the viewport edge silently disappears.
+
+     So the plate takes a height and the photograph is contained in it — which
+     is what Beni's rug plates do, and what this site already does on every
+     piece page. The width still comes from the grid track, so the bleed holds. */
+  .mrirt-stage {
+    aspect-ratio: auto;
+    height: min(78svh, 46rem);
   }
 
   .mrirt-pair-inner {
@@ -2742,13 +2788,19 @@ textarea.inquiry-input {
 }
 
 /* The same filled plate the enquiry form's Send uses — the site has exactly
-   two commitments a visitor can complete and they should look alike. */
+   two commitments a visitor can complete and they should look alike.
+
+   It spans the panel now, after Beni: their order column ends in one dark bar
+   the full width of the choices above it, which is what tells you the column
+   was a form and this is the end of it. As an inline chip it read as a third
+   link in a stack of links. It is still the only filled element on the page. */
 .rugs-start {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   min-height: 44px;
   margin-top: 1.4rem;
-  padding: 0.9rem 2rem;
+  padding: 1rem 2rem;
   background: var(--umber);
   color: var(--ink-inverse);
   transition: background-color var(--dur-hover) var(--ease-material);
@@ -2804,6 +2856,36 @@ textarea.inquiry-input {
   font-size: 0.9rem;
   line-height: 1.55;
   color: var(--ink-soft);
+}
+
+/* Three across on a wide screen.
+
+   Stacked, the list is 46rem in a 79rem shell — a third of the width left
+   empty beside three short lines, which is the same hole the plate above it
+   just lost. These three are an INDEX, not reading matter (the same argument
+   §41 makes for the doorways), and Beni sets an index as one row of columns
+   under a shared rule rather than as a stack down the left edge.
+
+   The rules move with it: a stacked list draws one continuous line and rules
+   BETWEEN its items; a row of three draws one over each column. */
+@media (min-width: 860px) {
+  .mrirt-entry-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(1.6rem, 3vw, 2.6rem);
+    max-width: none;
+    border-top: 0;
+  }
+
+  .mrirt-entry {
+    border-top: 1px solid var(--rule);
+    border-bottom: 0;
+  }
+
+  .mrirt-entry-link {
+    grid-template-columns: 2.2rem 1fr;
+    align-content: start;
+    height: 100%;
+  }
 }
 
 /* §5 — "/ pièce" rides with the figure, quieter than it, so the price reads
