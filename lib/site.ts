@@ -54,12 +54,30 @@ export const ADDRESS = {
  * that string is what a visitor reads, and only the client knows how their own
  * number should be grouped. The link strips it back to digits itself.
  *
- * Switched off rather than invented, the same rule as CONTACT_EMAIL: a wrong
- * phone number is the single worst thing this site could publish, because it is
- * the one piece of information a visitor acts on without checking. Set
- * NEXT_PUBLIC_WHATSAPP to e.g. "+212 6 12 34 56 78" and it appears.
+ * SOURCED, 2026-09-09. The channel was switched off rather than invented for as
+ * long as we had nothing (the same rule as CONTACT_EMAIL): a wrong phone number
+ * is the single worst thing this site could publish, because it is the one
+ * piece of information a visitor acts on without checking. The house sent it
+ * directly, in reply to the request for it, as `0032495 72 11 28` — their own
+ * grouping, kept, with `0032` written as `+32` because that is what a phone
+ * reads and what wa.me needs.
+ *
+ * ⚠️ It is a BELGIAN number, not a Moroccan one, and that is not a typo to be
+ * corrected here: the house ships France / Belgium / Switzerland (CLAUDE.md §6)
+ * and this is the line they gave. They also sent a wa.me short link
+ * (`wa.me/message/G7AY3GTNCMF6I1`) for the same account. It is deliberately NOT
+ * used: a short link cannot carry `?text=`, so it would lose the piece
+ * reference the contact page and the enquiry fallback both open the chat with.
+ *
+ * NEXT_PUBLIC_WHATSAPP overrides it, and an empty string switches the channel
+ * off again — the environment is still the single place that decides.
  */
-export const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP?.trim() || null;
+const WHATSAPP_PUBLISHED = "+32 495 72 11 28";
+
+export const WHATSAPP =
+  process.env.NEXT_PUBLIC_WHATSAPP === undefined
+    ? WHATSAPP_PUBLISHED
+    : process.env.NEXT_PUBLIC_WHATSAPP.trim() || null;
 
 /**
  * A click-to-chat link, optionally opening with the message already written.

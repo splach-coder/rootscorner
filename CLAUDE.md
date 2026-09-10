@@ -3692,3 +3692,75 @@ steps, which is what it describes.
   new. The dark-ground reference in §1 is almost certainly Homura.
 - **Photography** — Yasmin is sending it.
 - **§15** — confirmed as wanted, after the shop opens.
+## 49. WhatsApp is on — and the photography has a home to come from
+
+The house answered the message asking for what was still owed. Three things
+came back, and only one of them is code.
+
+### The number
+
+> `0032495 72 11 28` — and a short link, `wa.me/message/G7AY3GTNCMF6I1`.
+
+`WHATSAPP` in lib/site.ts is no longer null. The channel, the piece-prefilled
+chat, and the enquiry form's failure handoff were all built in §24 and have
+been dormant since, waiting on exactly this value. Nothing else changed.
+
+It is published as **`+32 495 72 11 28`** — their own grouping, with `0032`
+written as `+32`, which is what a phone reads and what wa.me needs. Verified on
+the running build: the contact channel, `?piece=dogon-tribal-staff` opening the
+chat already saying *N° 24 · Dogon Tribal Staff*, and the Mrirt form's handoff.
+
+> **It is a BELGIAN number, and that is not a typo to correct.** The house ships
+> France / Belgium / Switzerland (§6) and this is the line they gave. Recorded
+> here because the instinct on a Marrakech site is to "fix" it to +212, and
+> silently changing a phone number is the worst edit this repo could make (§5).
+
+The **short link is deliberately not used.** `wa.me/message/…` cannot carry
+`?text=`, so adopting it would throw away the piece reference the contact page
+and the failure handoff both open the chat with — the whole reason
+`whatsappDigits()` is passed to the form rather than a finished link.
+
+`NEXT_PUBLIC_WHATSAPP` still overrides it, and an **empty string switches the
+channel off again**, so the environment remains the single place that decides.
+Same shape as `CONTACT_EMAIL`: sourced values become the default, unsourced ones
+stay off.
+
+### The photographs
+
+A Google Drive folder with *"toutes les photos de The Roots Corner"*, and one
+frame Dahab wants used, inside a document called **« Jamaa El Fna »**.
+
+**Nothing has been taken from it.** The link is not something this repo can
+reach, and the folder is the client's, so the files have to be downloaded and
+placed deliberately rather than pulled. When they land:
+
+| where it goes | what it unblocks |
+|---|---|
+| A portrait of Dahab | §13's oldest debt — `/story` still has no face |
+| Rug photography | §32's `readyRugs()` shelf, and §12 of the report |
+| Originals of anything already here | §13 — every product image is a 2000px CDN derivative, and the two Instagram interiors are 512×640 (§29) |
+
+The « Jamaa El Fna » frame is a **named request**, not a suggestion — it should
+be placed somewhere it is actually seen, and the obvious slot is the hero, which
+§23 records as chosen on measured headroom. Re-run `scripts/hero-audition.mjs`
+before swapping it: no frame in this collection has ever carried the hero text
+unscrimmed, and a new one is not exempt.
+
+### Beni Rugs, confirmed
+
+*"J'adore j'adore"* against benirugs.com. It has been §3's **primary structural
+reference** since the first day of this project, so there is nothing to change —
+which is the useful part: the direction the site is already built on is the one
+they say they love. Generous margins, large imagery, calm sans typography,
+artisan-forward narrative, all-caps only in the nav.
+
+Not a look to clone (§3, still). Beni is made-to-order production; this is
+antique and one-of-a-kind, and the closest thing to a house rule here is that
+sold-out is a normal state rather than an edge case (§6).
+
+### Still owed after this
+
+`RESEND_API_KEY` and a domain to send from — the form renders and fails
+honestly today, and now fails **into a channel that works**. Checkout (§37).
+And the returns and delivery contradictions (§9.2, §9.3), which still need a
+decision with legal input.
