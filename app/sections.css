@@ -710,14 +710,21 @@ html[data-intro="run"] .site-header-lockup {
   object-position: 50% 46%;
 }
 
-/* The phone frame is its own photograph and wants its own crop.
-   512×640 covering 390×844 scales by height, so there is NO vertical crop at
-   all — the Y value is inert here and only X does anything. The lamp sits at
-   about 18% across; a centred crop shows the window 42–100% and walks straight
-   off it. 14% keeps the lamp and most of the alcove. */
+/* The phone no longer has a frame of its own.
+
+   It used to: the desktop hero was a LANDSCAPE original, and a 390×844 viewport
+   had to crop it to about a third of its width, which no composition survives.
+   So a second, portrait photograph was art-directed in, and this rule pushed
+   its crop to 14% to keep the lamp in the alcove.
+
+   The hero is a 2:3 portrait now (§51), so covering 390×844 keeps 69% of the
+   width and the whole height — centred is right, and the desktop rule's 46%
+   vertical is inert here because there is no vertical crop at all. One
+   photograph serves both viewports, and the 512×640 Instagram derivative that
+   used to fill this slot is retired. */
 @media (max-width: 767px) {
   .hero-media img {
-    object-position: 14% 50%;
+    object-position: 50% 50%;
   }
 }
 
@@ -778,17 +785,32 @@ html[data-intro="run"] .site-header-lockup {
   color: var(--ink-inverse);
   padding-top: clamp(4rem, 12vh, 8rem);
   padding-bottom: clamp(2rem, 4.5vw, 3.4rem);
+  /* Re-tuned for the hero photograph of §51, and the tuning is where the
+     headline actually sits — NOT a uniform darkening.
+
+     Measured, the title box occupies 25%–71% of this plate. The old ramp was
+     already at full strength below it (0.9 at 0%, 0.82 at 24%) and had let go
+     by the time it reached the top of the type (0.40 at 66%), which was fine
+     over the weaving comb's shadowed base and fails over lit wood: the title
+     measured 1.79:1 against a 3.0 floor.
+
+     Moving the CROP does not fix it — swept 46% → 82% and the worst pixel only
+     travels 1.79 → 2.19, because the lit band is in frame at every position.
+     §22 said this the first time: no frame in this collection carries hero type
+     unscrimmed, and the scrim is measured, not styling.
+
+     So the two middle stops carry more and the ends are untouched — the door's
+     grain at the foot of the frame and the open photograph above the type both
+     keep exactly what they had. 3.92:1 measured, against 1.79 before.
+
+     Re-measure with scripts/contrast-photo.mjs if the hero photograph changes. */
   background: linear-gradient(
     to top,
     rgba(62, 42, 29, 0.9) 0%,
-    rgba(62, 42, 29, 0.82) 24%,
-    /* 0.66, not 0.60. The headline sits in this band and measured 2.93:1
-       against a 3.0 floor — the grain's bright specks are what the worst-pixel
-       check catches, and four points of alpha buys the margin back without
-       touching the wood's grain lower down. */
-    rgba(62, 42, 29, 0.66) 46%,
-    rgba(62, 42, 29, 0.4) 66%,
-    rgba(62, 42, 29, 0.13) 84%,
+    rgba(62, 42, 29, 0.88) 24%,
+    rgba(62, 42, 29, 0.84) 46%,
+    rgba(62, 42, 29, 0.74) 66%,
+    rgba(62, 42, 29, 0.34) 84%,
     rgba(62, 42, 29, 0) 100%
   );
 }

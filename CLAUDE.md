@@ -3941,3 +3941,88 @@ is lying on the rug in the plate at the top of the same page.
 - The remaining seven in `public/place/` are unused. The homepage's *matière*
   section is the obvious home — §29 flags that it is headed *"Les marques font
   la pièce"* with no close-up of a mark in it.
+## 52. The hero is the client's photograph now — a door, not a tool
+
+§51 asked which « Jamaa El Fna » frame Dahab meant. Rather than ask, the whole
+set was looked at and one was chosen, at the real crop, against the real
+renderer.
+
+**`DSC01198` → `public/place/shadow-tree.jpg`** — a studded wooden door with the
+shadow of leaves raking across it in low golden light.
+
+### Why this one
+
+The homepage opened on the **antique weaving comb**, a product shot chosen in
+§23 because it was the only landscape original that survived a full-bleed crop.
+A tool from the shelf was standing in for the brand's world because there was
+nothing else. There are 52 frames of the medina now.
+
+Shortlisted ten by eye off a contact sheet, then rendered each at the hero's
+**actual 8:5 crop** — §23's rule, and it changed the ranking. Two survived:
+`DSC00924` (bicycles and rugs in an alley) and this one. The door wins on the
+brief's own terms: wood, plaster, patina, imperfection, light (§1), where the
+alley reads as a market scene — and the one-line test is *gallery, not decor
+shop*.
+
+Rejected for a reason worth recording: **several of the best frames have a
+strong turquoise sky.** §2 allows no colour outside the ecru/brown family, and a
+teal sky at full screen fights an ecru site in a way it does not at thumbnail
+size.
+
+### One photograph, both viewports
+
+The hero was art-directed — a separate phone frame — because the desktop source
+was **landscape** and a 390×844 viewport had to crop it to about a third of its
+width. This source is 2:3 portrait, so the phone keeps **69% of the width and
+the whole height**, and the composition survives. `<picture>` and
+`getImageProps` are gone; it is one `<Image>`.
+
+That retires `/instagram/07.jpg` from the hero — 512×640, the weakest asset on
+the page — and fixes a duplication nobody had noticed: **the same photograph was
+the phone hero and the presentation plate**, so a phone visitor met it twice on
+one page. It is still `scene("evening")` in the presentation section, once.
+
+### The scrim had to be re-tuned, and the tuning is local
+
+The hero type sits on a gradient over the photograph — the docblock calls it a
+plate, but it is a scrim, and §22's rule holds: **a scrim is tuned to one image
+and collapses when the image changes.** On this frame the title measured
+**1.79:1** against a 3.0 floor.
+
+**The crop cannot rescue it.** Swept `object-position` 46% → 82% and the worst
+pixel travels only 1.79 → 2.19, because the lit band of the door is in frame at
+every position. This is §22's finding again: no frame in this collection carries
+hero type unscrimmed.
+
+So the ramp carries it, and only where the type is. Measured, the title box
+occupies **25%–71% of the plate**; the old ramp was already at full strength
+below it and had let go by 66%. The two middle stops went up and the ends did
+not move, so the door's grain at the foot of the frame and the open photograph
+above the type both keep exactly what they had.
+
+| | before | after |
+|---|---|---|
+| Title, 82px | **1.79:1** | **3.30:1** |
+| Tagline | 6.84 | 7.90 |
+| "La collection" | 6.97 | 8.00 |
+| Header nav / mark | 10.75–12.44 · 3.65 | unchanged · 4.10 |
+
+> **3.30 is a thin margin and it is the real one** — measured on the rendered
+> page with the grain on, which is what caught this headline drifting to 2.93
+> in §28. Anything that touches this frame, the grain, or the ramp has to re-run
+> `scripts/contrast-photo.mjs`.
+
+### A dead end worth not repeating
+
+`scripts/hero-audition.mjs` reported **identical margins for all ten
+candidates** — 0.68 desktop, 6.78 mobile, every one. That is not a tie; it is
+the harness measuring text that no longer sits where it used to. Its swap
+targets `.hero-media img` and the hero has since been rebuilt. It was not used
+for this decision; the crop sheet and a direct sweep were.
+
+### Verified
+
+`contrast-photo` all hero and header strings, both widths · `header-mark-contrast`
+**4.10:1** · `audit` and `contrast-scroll` PASS on `/fr` and `/en` · 0px
+overflow, 0 unrevealed, 0 missing alt at both widths · build warning-free, 123
+pages.

@@ -1,4 +1,4 @@
-import Image, { getImageProps } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
@@ -12,7 +12,6 @@ import {
   featuredPieces,
   imagePath,
   loomShots,
-  pieceBySlug,
   shopSelection,
 } from "@/lib/catalog";
 import { INSTAGRAM } from "@/lib/site";
@@ -40,33 +39,30 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const t = getDictionary(locale as Locale);
 
   /**
-   * A whole object, not a fragment: a landscape original, so the full-bleed crop
-   * keeps the entire comb rather than cutting into it the way every portrait
-   * frame does.
+   * The hero is the client's own Marrakech photography now, not a product shot.
    *
-   * It is also the only frame that lets the header float. Its top band is bare
-   * plaster and carries ink at 5.83:1, so the header needs no ground of its own
-   * until the page scrolls. The lower half takes a light scrim for the hero
-   * type — the blade's tip reaches into the headline corner, which is the one
-   * place the plaster does not do the work for us.
+   * It was the antique weaving comb: a landscape original chosen because it
+   * survived a full-bleed crop when every portrait frame in the catalogue did
+   * not. That constraint is gone twice over. The type moved onto its own plate
+   * below the photograph, so nothing has to be legible over the frame at all;
+   * and the client's Drive has sent 52 frames of the medina shot for exactly
+   * this (docs/place-images.json, CLAUDE.md §51).
+   *
+   * A studded wooden door with the shadow of leaves raking across it in low
+   * golden light. Wood, plaster, patina, imperfection, Morocco — the brand's
+   * whole universe (§1) in one frame, where the comb was one tool from the
+   * shelf. No identifiable person, and no colour outside the palette: several
+   * frames in the set have a strong turquoise sky, which would fight an ecru
+   * site at full screen.
+   *
+   * ONE PHOTOGRAPH, BOTH VIEWPORTS. The hero used to be art-directed — a
+   * separate phone frame — because the desktop source was LANDSCAPE and a tall
+   * viewport had to crop it to about a third of its width. This source is 2:3
+   * portrait, so the phone keeps 69% of the width and the composition survives.
+   * That also retires /instagram/07.jpg from this slot, which was 512×640 and
+   * the weakest asset on the page (§29).
    */
-  const hero = pieceBySlug("antique-comb-used-for-weaving-moroccan-rugs");
-  const heroSrc = imagePath(hero?.images[0]);
-
-  /**
-   * The hero is art-directed: a different photograph on a phone.
-   *
-   * The desktop frame is landscape, and a tall phone viewport has to crop it to
-   * roughly a third of its width — the composition does not survive that. This
-   * one is portrait (512×640) and was shot for the shape a phone actually is.
-   * It is instagram/07.jpg, which the Instagram row does not use: only the
-   * first six frames fill that row, so nothing appears twice on the page.
-   *
-   * Delivered through <picture> rather than two <Image>s hidden by CSS, so the
-   * browser fetches ONE of them. This is the LCP element; a hidden second hero
-   * is a real cost on the device this site is built for first.
-   */
-  const HERO_PHONE = { src: "/instagram/07.jpg", width: 512, height: 640 };
+  const heroSrc = "/place/shadow-tree.jpg";
 
   /**
    * Empty alt, deliberately. <picture> carries one alt across both sources, and
@@ -77,10 +73,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
    * description would actively mislead.
    */
   const heroCommon = { alt: "", sizes: "100vw" as const, priority: true };
-  const heroPhone = getImageProps({ ...heroCommon, ...HERO_PHONE }).props;
-  const heroDesktop = heroSrc
-    ? getImageProps({ ...heroCommon, src: heroSrc, width: 2000, height: 1333 }).props
-    : null;
   const featured = featuredPieces();
   const cats = categories();
   const loom = loomShots();
@@ -115,14 +107,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
            it, so the hero photograph can be swapped freely. */}
       <section className="hero">
         <div className="hero-media">
-          {heroDesktop && (
-            <picture>
-              <source media="(max-width: 767px)" srcSet={heroPhone.srcSet} />
-              <source media="(min-width: 768px)" srcSet={heroDesktop.srcSet} />
-              {/* eslint-disable-next-line jsx-a11y/alt-text -- alt is on heroCommon */}
-              <img {...heroDesktop} />
-            </picture>
-          )}
+          <Image {...heroCommon} src={heroSrc} width={2000} height={3000} />
         </div>
 
         <div className="hero-plate">
