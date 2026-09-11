@@ -4133,3 +4133,70 @@ three genuinely different places, which is what they did not do before (§48):
 missing alt** · `audit` and `contrast-scroll` PASS on both · `/fr/contact`
 re-checked, since the hint order and input spacing are shared by both forms
 (PASS) · build warning-free. Page 6689 → **6640px** desktop, 8058 on a phone.
+## 54. Our Story, rebuilt — it said its own name twice, and showed almost nothing
+
+Client review: redesign it. Two faults, both structural.
+
+### It said its own name twice
+
+The plate was built `heading={t.story.eyebrow}`, so the eyebrow and the title
+were the same three words: **"Notre histoire" over "Notre histoire"**. The title
+is `t.story.eyebrow` and the eyebrow is now **The Roots Corner** — the house's
+own name, the one label that belongs above this title and is not a claim.
+
+`t.story.heading` was not used for it, deliberately: that string is *"Des pièces
+qui ont une âme"*, which is also the first movement's eyebrow. Fixing one
+duplication by making another is not a fix.
+
+### Every movement was text with an empty half
+
+Four movements of the client's §7, each in a left column with the right half of
+the screen blank, broken only by two full-bleed rooms that started flush against
+the last line of the paragraph above them. On a site whose brief bans "too much
+text" and asks for photography that can be **seen large**, the one page about
+the house had almost none.
+
+**The fix was not a new device.** `.chapter-inner`, `.chapter-plate` and
+`.chapter-inner-flip` have been in the stylesheet since §34 and were left unused
+when the page was simplified in §48 — a movement, its photograph, and the side
+they sit on alternating so four in a row do not read as a template.
+
+§48 removed the ruled Paris→Marrakech route, the timeline and the city title
+card at the client's instruction, and **none of them comes back**. Those were
+graphic devices drawn around a shortage of pictures. This is pictures.
+
+The plates went **24rem → 30rem**. 24 was correct when they held Instagram's
+512×640 files and anything wider was an upscale; the Drive originals are
+1333×2000 (§51), so the ceiling moved.
+
+> ### ⚠️ `order` moves the items and leaves the tracks where they are
+>
+> A flipped chapter put the 30rem plate inside the `1fr` track and the prose
+> inside `auto`, so the photograph sat at the left edge of a 720px column and
+> the text began **240px further right than it should have** — a hole that looks
+> exactly like a spacing bug and is a grid bug. `.chapter-inner-flip` swaps the
+> tracks to `auto 1fr` as well as the order. Measured: the prose starts at 648
+> instead of 822.
+
+### The photographs, and what they do not claim
+
+Five frames from the client's Drive and one of their own rooms: a shopfront hung
+with weavings, the shadow of a wrought-iron railing on plaster, an alley in late
+sun, a dining room, a minaret at dusk.
+
+> **Alt text says only what is in the frame.** The third movement names *Morocco
+> and Cameroon*; nothing beside it claims to be either. A photograph placed next
+> to a sentence borrows that sentence's provenance unless it is described
+> plainly — the same reasoning §24 records for the artisans page, and the reason
+> none of these carries a caption.
+
+There is still **no portrait of Dahab** (§13). Her movement is her paragraph and
+the city she works in, described as exactly that — not a still life standing in
+for a face.
+
+### Verified
+
+`/fr/story` and `/en/story`, both widths: **0px overflow, 0 unrevealed, 0
+missing alt** · `audit` and `contrast-scroll` PASS on both · build
+warning-free. 5614 → **5950px** desktop, 7330 on a phone — the page grew by one
+screen and gained five photographs.

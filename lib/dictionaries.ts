@@ -154,6 +154,23 @@ type Dictionary = {
     /** §8, verbatim. */
     founder: string[];
     founderEyebrow: string;
+    /**
+     * Alt text for the photographs beside each movement — the client's own
+     * Marrakech frames (§51).
+     *
+     * Each says ONLY what is visible in the frame. No place name beyond the
+     * city, no attribution, and no tie to the sentence beside it: the third
+     * movement names Morocco and Cameroon, and captioning a Marrakech street
+     * photograph next to it would invent a provenance by proximity — the same
+     * reasoning §24 records for the artisans page.
+     */
+    frames: {
+      soul: string;
+      heritage: string;
+      hands: string;
+      time: string;
+      founder: string;
+    };
   };
   mrirtPage: {
     lede: string;
@@ -586,6 +603,13 @@ const en: Dictionary = {
       "A passion for objects that outlast their time and have something to say.",
     ],
     founderEyebrow: "The founder",
+    frames: {
+      soul: "Weavings hung at the entrance of a shop",
+      heritage: "The shadow of a wrought-iron railing across a plaster wall",
+      hands: "A figure walking up an alley in late afternoon sun",
+      time: "A dining room: pieces set on plaster shelves",
+      founder: "A minaret against the evening sky",
+    },
   },
   mrirtPage: {
     lede: "Nothing here is in stock. A Mrirt rug begins as four decisions.",
@@ -1061,6 +1085,13 @@ const fr: Dictionary = {
       "Une passion pour les objets qui traversent le temps et racontent quelque chose.",
     ],
     founderEyebrow: "La fondatrice",
+    frames: {
+      soul: "Des tissages suspendus à l’entrée d’une boutique",
+      heritage: "L’ombre d’une grille en fer forgé sur un mur de plâtre",
+      hands: "Une silhouette remonte une ruelle au soleil de fin de journée",
+      time: "Une salle à manger : pièces posées sur des étagères de plâtre",
+      founder: "Un minaret se détache sur le ciel du soir",
+    },
     // Translation of the client's own About sentence, not authorship (§11).
     // "purpose" is rendered "utilité" — these are objects that were made to be
     // used, which is what the English means here.

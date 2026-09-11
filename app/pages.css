@@ -1347,13 +1347,16 @@
   color: var(--ink-soft);
 }
 
-/* Instagram's files are 512x640; the plates are held near that so nothing is
-   upscaled. The two from public/rugs/ are larger and could go wider, but a
-   chapter plate that changed width between chapters would read as an accident.
-   One width, every chapter. */
+/* One width, every chapter — a plate that changed between movements would read
+   as an accident rather than as a rhythm.
+
+   24rem when these were Instagram's 512x640 files and anything wider was an
+   upscale. The client's Drive originals are 1333x2000 (§51), so the ceiling
+   moved: 30rem is the brief's "images must be viewable large" at the largest
+   this composition takes before the prose column stops holding a measure. */
 .chapter-plate {
   aspect-ratio: 4 / 5;
-  width: min(100%, 24rem);
+  width: min(100%, 30rem);
 }
 
 .founder-prose {
@@ -1389,12 +1392,23 @@
   }
 
   .chapter-plate {
-    width: 24rem;
+    width: 30rem;
     justify-self: end;
   }
 
-  /* Alternating which side the photograph sits on is what stops five chapters
-     in a row reading as a template. */
+  /* Alternating which side the photograph sits on is what stops four chapters
+     in a row reading as a template.
+
+     THE TRACKS SWAP WITH THE ORDER. `order` moves the items and leaves the
+     columns where they were, so a flipped chapter put the 30rem plate inside
+     the 1fr track and the prose inside `auto` — 240px of dead ground between
+     the photograph and the text that was supposed to answer it. Ordering
+     without re-sizing is the trap; the plate's track has to be the `auto` one
+     on whichever side it lands. */
+  .chapter-inner-flip {
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  }
+
   .chapter-inner-flip .chapter-said {
     order: 2;
   }
