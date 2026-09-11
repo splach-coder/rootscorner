@@ -2,8 +2,8 @@
  * The two parts of the business the brief never described.
  *
  * Both were found on the client's live site while transcribing the legal pages:
- * an Airbnb of two apartments in Marrakech, and a page paying tribute to the
- * artisans behind the pieces. Neither appears in the commercial proposal or the
+ * two apartments in Marrakech, and a page paying tribute to the artisans behind
+ * the pieces. Neither appears in the commercial proposal or the
  * brief, and the photography for both was pulled from the live site — see
  * docs/reference/pages/harvest.json for the capture.
  *
@@ -11,26 +11,44 @@
  */
 
 import type { Locale } from "./dictionaries";
+import { whatsappHref } from "./site";
 
 export type Apartment = {
   key: string;
   name: string;
   blurb: string;
-  /** The client's own Airbnb listing. Real links, taken off their live page. */
+  /**
+   * Where "book your stay" goes: a WhatsApp chat opened on this apartment.
+   *
+   * It was the client's own listing on a letting platform. They asked for the
+   * platform out — stays are arranged directly now — so the link is built from
+   * the house's own number and carries the apartment's name, the same way a
+   * piece enquiry carries its piece.
+   */
   href: string;
   image: { src: string; w: number; h: number; alt: string };
 };
 
 /**
- * The listings, verbatim from the "BOOK YOUR STAY" buttons on
- * therootscorner.com/our-airbnb/. The share tracking is left on the URLs as
- * the client set them — stripping it would quietly change what their own
- * analytics see.
+ * Booking, as a message rather than a platform.
+ *
+ * These were the two "BOOK YOUR STAY" buttons off the client's live page,
+ * carried with their own share tracking. The client asked for the platform
+ * removed: a stay is arranged directly now, on the same WhatsApp number the
+ * rest of the site uses.
+ *
+ * The chat opens already naming the apartment, so the house knows which one is
+ * being asked about before anyone types — exactly what a piece enquiry does
+ * with its piece (§24).
+ *
+ * `whatsappHref` returns null when no number is configured, which is a real
+ * state and not a defect: the environment is the single place that decides
+ * (§49). So this falls back to the contact page, which always exists and always
+ * reaches someone. The button can never be a link to nowhere.
  */
-const LISTINGS = {
-  one: "https://www.airbnb.fr/rooms/1373865440056311546?unique_share_id=dacb37a3-4bfc-4cab-bf1f-a671bdee5374&viralityEntryPoint=1&s=76&source_impression_id=p3_1777311626_P3qn3RvGwiKCA6jD",
-  two: "https://www.airbnb.fr/rooms/7242470?unique_share_id=62e4fb10-9c91-44c2-bfad-4f08ff3ce061&viralityEntryPoint=1&s=76&source_impression_id=p3_1777759823_P3kkDJ4d5quk3LCA",
-} as const;
+function bookHref(locale: Locale, apartment: string): string {
+  return whatsappHref(apartment) ?? `/${locale}/contact`;
+}
 
 /** Measured from the downloaded files, so nothing reflows as they decode. */
 const ROOM_SHOTS = {
@@ -46,7 +64,7 @@ export function apartments(locale: Locale): Apartment[] {
         name: "Appartement I",
         blurb:
           "Un appartement calme et pensé avec soin, près de la médina de Marrakech, où les intérieurs contemporains rencontrent les textures chaudes du Maroc.",
-        href: LISTINGS.one,
+        href: bookHref(locale, "Appartement I"),
         image: { ...ROOM_SHOTS.one, alt: "Séjour aux chaises noires" },
       },
       {
@@ -54,7 +72,7 @@ export function apartments(locale: Locale): Apartment[] {
         name: "Appartement II",
         blurb:
           "Notre second appartement offre une atmosphère plus intime, faite d’intérieurs chaleureux, de matières naturelles et d’un quotidien paisible.",
-        href: LISTINGS.two,
+        href: bookHref(locale, "Appartement II"),
         image: {
           ...ROOM_SHOTS.two,
           alt: "Objet décoratif dans une lumière douce",
@@ -69,7 +87,7 @@ export function apartments(locale: Locale): Apartment[] {
       name: "Apartment I",
       blurb:
         "A calm and thoughtfully designed apartment near the medina of Marrakech, blending contemporary interiors with warm Moroccan textures.",
-      href: LISTINGS.one,
+      href: bookHref(locale, "Apartment I"),
       // The client's own alt text on the live site.
       image: { ...ROOM_SHOTS.one, alt: "Living room with black chairs" },
     },
@@ -78,7 +96,7 @@ export function apartments(locale: Locale): Apartment[] {
       name: "Apartment II",
       blurb:
         "Our second apartment offers a more intimate atmosphere, shaped by warm interiors, natural textures and calm everyday living.",
-      href: LISTINGS.two,
+      href: bookHref(locale, "Apartment II"),
       image: {
         ...ROOM_SHOTS.two,
         alt: "A decorative item that creates a soothing atmosphere",

@@ -4200,3 +4200,77 @@ for a face.
 missing alt** · `audit` and `contrast-scroll` PASS on both · build
 warning-free. 5614 → **5950px** desktop, 7330 on a phone — the page grew by one
 screen and gained five photographs.
+## 55. The apartments — booked on WhatsApp, and photographed at last
+
+Two instructions from the client: take the letting platform off the site and
+arrange stays on WhatsApp, and use far more of the photography they sent.
+
+### Booking is a message now, not a platform
+
+`lib/house.ts` held the two "BOOK YOUR STAY" links off the client's live page,
+with their own share tracking intact. Both are gone. `bookHref()` builds a
+WhatsApp link from the house's own number (§49) carrying the apartment's name,
+so the chat opens already saying which flat is being asked about — exactly what
+a piece enquiry does with its piece (§24).
+
+`whatsappHref()` returns null when no number is configured, which is a real
+state and not a defect. **The fallback is the contact page**, which always
+exists and always reaches someone, so the one button on this page can never be
+a link to nowhere.
+
+Three other places had to follow, and missing any of them would have left the
+site contradicting itself:
+
+| | |
+|---|---|
+| `stay.heading` | "Our Airbnb" / "Notre Airbnb" → **"Our apartments" / "Nos appartements"** — the client's own other word for the same thing, from their `/accueil/` page. |
+| `stay.note` | "Booking is handled on Airbnb." → **"Booking is arranged on WhatsApp."** |
+| `lib/legal.ts` | The Privacy page lists the third parties a visitor can be handed to. It said "Instagram, WhatsApp and Airbnb"; there is no longer an Airbnb link on the site, so it says Instagram and WhatsApp. |
+
+> **A compliance document is a claim about the code.** Changing an outbound link
+> without changing the page that enumerates outbound links leaves a statement
+> that is wrong about its own site — the same failure §46 records for the cookie
+> policy, in the other direction.
+
+### The apartments are photographed now
+
+`TRC content-4/maison/shoot 1` in the client's Drive holds **29 frames at
+4000×6000**, 8–15 MB each: the best interior photography this project has. Four
+distinct scenes, the rest near-duplicate bursts.
+
+The page had two photographs, 1024×768 and 800×599, pulled off the live site.
+
+| | |
+|---|---|
+| **The opening** | `stay-living` full width. The page used to open on a paragraph. |
+| **The two apartments** | **Unchanged** — each keeps the frame it had on the client's own page, because that pairing is SOURCED: those two photographs sat with those two listings. |
+| **Inside** | Three frames hung at three sizes on three baselines — the kitchen, the shower, a candle on stone. |
+
+> **Nothing in the new shoot is assigned to an apartment.** The folder does not
+> say which of the two flats any frame is in. Captioning one "Appartement II"
+> would invent a fact about a room somebody is about to book, which is the
+> costliest place on the site to be wrong (§5). They are shown as the inside of
+> the apartments, and the alt text says only what is in each frame.
+
+> **Three equal tiles would have been a contact sheet.** §29 records cutting
+> exactly that composition here as "swatches rather than objects". Three sizes
+> on three baselines is the site's own `.hang`, and it lets the best frame be
+> large instead of averaging all three down.
+
+### The crop that decided whether it was a room
+
+The whole shoot is **2:3 portrait**, so a full-width band shows about **28% of
+the frame** — and where that 28% sits is the difference between an interior and
+a close-up of a table edge. The first attempt sat at 62% and landed on the
+floor. **34%** catches the shelf line, the objects on it and the table below.
+
+That is the general rule this shoot imposes: a portrait source in a landscape
+band is decided by `object-position`, not by height.
+
+### Verified
+
+`/fr/stay` and `/en/stay`, both widths: **0px overflow, 0 unrevealed, 0 missing
+alt** · `audit` and `contrast-scroll` PASS on both · booking links resolve to
+`wa.me/…?text=Appartement%20I` and `…II` · the word "Airbnb" returns **0** on
+every rendered page, including both Privacy pages · build warning-free. 2846 →
+**3838px** desktop.

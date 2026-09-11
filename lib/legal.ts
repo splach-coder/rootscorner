@@ -343,7 +343,7 @@ const en: Record<string, LegalDoc> = {
       { kind: "h", text: "Links to other services" },
       {
         kind: "p",
-        text: "Some links lead to services we do not run, such as Instagram, WhatsApp and Airbnb. Following one takes you to that company, whose own terms then apply. We do not embed their tracking on this site.",
+        text: "Some links lead to services we do not run, such as Instagram and WhatsApp. Following one takes you to that company, whose own terms then apply. We do not embed their tracking on this site.",
       },
     ],
   },

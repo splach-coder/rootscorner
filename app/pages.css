@@ -2664,8 +2664,75 @@ textarea.inquiry-input {
    can actually complete, and they should look like each other.
    -------------------------------------------------------------------------- */
 
+/* The opening room, the width of the page.
+
+   The page used to open on a paragraph. It has 29 frames of its own subject now
+   (§55) and the first thing a page about somewhere to stay should do is show
+   the place. Same device as the rugs page's opening, and the same reason: an
+   interior is a space, and a space reads at size or not at all. */
+.stay-opening {
+  margin-top: clamp(1.5rem, 4vw, 2.6rem);
+}
+
+.stay-opening-frame {
+  height: min(68svh, 40rem);
+  width: 100%;
+}
+
+/* The whole shoot is 2:3 portrait, so a full-width band shows about 28% of the
+   frame and WHERE that 28% sits decides whether this reads as a room or as a
+   close-up of a table edge. 34% catches the shelf line, the objects on it and
+   the table below — the three things that say "interior". Measured by looking;
+   62% was the first attempt and it landed on the floor. */
+.stay-opening-frame img {
+  object-position: 50% 34%;
+}
+
 .stay {
-  padding-bottom: clamp(14rem, 26vw, 24rem);
+  padding-bottom: clamp(3rem, 7vw, 5rem);
+}
+
+/* --------------------------------------------------------------------------
+   Inside — three frames, hung rather than gridded
+
+   Three equal tiles in a row is a contact sheet, and §29 records cutting
+   exactly that here as "swatches rather than objects". These are three sizes on
+   three baselines, which is the composition this site uses everywhere it shows
+   several things at once (.hang, §31) — and it lets the best frame be large
+   instead of averaging all three down.
+   -------------------------------------------------------------------------- */
+
+.stay-inside-key {
+  color: var(--ink-soft);
+}
+
+.stay-sheet {
+  display: grid;
+  gap: clamp(1.6rem, 4vw, 2.6rem);
+  margin-top: clamp(1.6rem, 4vw, 2.4rem);
+}
+
+.stay-plate .frame {
+  aspect-ratio: 2 / 3;
+}
+
+@media (min-width: 800px) {
+  .stay-sheet {
+    grid-template-columns: 34fr 24fr 30fr;
+    align-items: start;
+    column-gap: clamp(1.6rem, 3vw, 2.4rem);
+  }
+
+  /* Three different heights, so the row has a rhythm rather than a top edge.
+     The offsets are a fraction of each plate's own width, so they hold their
+     proportion as the row scales rather than drifting at one breakpoint. */
+  .stay-plate-2 {
+    margin-top: 14%;
+  }
+
+  .stay-plate-3 {
+    margin-top: 5%;
+  }
 }
 
 .stay-intro {

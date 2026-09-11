@@ -285,6 +285,21 @@ type Dictionary = {
     body: string[];
     book: string;
     note: string;
+    /**
+     * The apartment shoot from the client's Drive (§51).
+     *
+     * Every string says only what is in the frame. None of them names an
+     * apartment: nothing in the folder says which of the two any photograph is
+     * in, and a caption that guessed would be an invented fact about a room
+     * somebody is about to book.
+     */
+    inside: {
+      eyebrow: string;
+      living: string;
+      kitchen: string;
+      shower: string;
+      candle: string;
+    };
   };
   /** The artisans page — the client's own tribute to the people who make. */
   artisans: {
@@ -739,16 +754,26 @@ const en: Dictionary = {
   stay: {
     nav: "Stay",
     eyebrow: "Marrakech",
-    // The client's own page title.
-    heading: "Our Airbnb",
+    // Was "Our Airbnb" — their own page title. The client asked for the
+    // platform off the site, so the heading is their own other word for the
+    // same thing: on /accueil/ they write "nos appartements à louer".
+    heading: "Our apartments",
     body: [
       "More than a place to stay, The Roots Corner offers a unique way to experience Marrakech. Set in a peaceful location near the medina, our apartments bring together Moroccan craftsmanship, natural materials and timeless design.",
       "Each space has been thoughtfully curated to feel warm, welcoming and authentic. Inspired by Moroccan heritage and shaped by contemporary living, every apartment reflects a deep appreciation for craftsmanship, simplicity and detail.",
     ],
     book: "Book your stay",
     // Says where the button goes. A link that leaves the site should say so
-    // before it is clicked, not after.
-    note: "Booking is handled on Airbnb.",
+    // before it is clicked, not after — and this one opens a chat already
+    // naming the apartment.
+    note: "Booking is arranged on WhatsApp.",
+    inside: {
+      eyebrow: "Inside",
+      living: "A living room: a round table, a black chair, plaster shelves",
+      kitchen: "A kitchen corner: terracotta zellige, a ceramic lamp, a teapot on the shelf",
+      shower: "A walk-in shower, brass fittings and dark zellige",
+      candle: "A lit candle on a stone worktop",
+    },
   },
   artisans: {
     nav: "Artisans",
@@ -1213,7 +1238,7 @@ const fr: Dictionary = {
   stay: {
     nav: "Séjour",
     eyebrow: "Marrakech",
-    heading: "Notre Airbnb",
+    heading: "Nos appartements",
     body: [
       "Plus qu’un lieu où dormir, The Roots Corner propose une façon singulière de vivre Marrakech. Situés dans un endroit paisible près de la médina, nos appartements réunissent artisanat marocain, matières naturelles et design intemporel.",
       // Their own French for the apartments, from /accueil/.
@@ -1221,7 +1246,14 @@ const fr: Dictionary = {
     ],
     // Their word, from the button on /accueil/.
     book: "Réserver",
-    note: "La réservation se fait sur Airbnb.",
+    note: "La réservation se fait par WhatsApp.",
+    inside: {
+      eyebrow: "À l’intérieur",
+      living: "Un séjour : table ronde, chaise noire, étagères de plâtre",
+      kitchen: "Un coin cuisine : zellige terracotta, lampe en céramique, théière sur l’étagère",
+      shower: "Une douche à l’italienne, robinetterie en laiton et zellige sombre",
+      candle: "Une bougie allumée sur un plan de travail en pierre",
+    },
   },
   artisans: {
     nav: "Artisans",
