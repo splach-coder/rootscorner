@@ -136,19 +136,20 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 <Wordmark className="hero-title-mark" crescent={false} />
               </h1>
 
-              {/* Caption and action share a line, the way a wall label carries
-                  its own instruction rather than stacking one beneath it. */}
+              {/* The tagline alone.
+
+                  "LA COLLECTION" sat beside it as a discreet link — §1 of the
+                  client's report asked for one there, and it was pointed at
+                  /collection rather than at an in-page anchor. Removed at their
+                  instruction: the hero is the name, the line, and the
+                  photograph. The collection is the first item in the header nav
+                  on every screen, so nothing became unreachable.
+
+                  The wrapper stays. It carries the top margin and the centring,
+                  and a one-item flex row is the correct shape for a line that
+                  may take its action back. */}
               <div className="hero-line">
                 <p className="hero-tagline label">{t.hero.tagline}</p>
-                {/* Goes to the collection, not down the page.
-
-                    It used to be an in-page anchor to the featured trio below,
-                    which is not what a link labelled "LA COLLECTION" promises —
-                    a visitor who clicks it wants the collection, and §1 of the
-                    client's report calls it a link, not a scroll cue. */}
-                <Link href={`/${locale}/collection`} className="hero-cue label">
-                  {t.hero.scrollCue}
-                </Link>
               </div>
             </div>
 

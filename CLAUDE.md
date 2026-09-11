@@ -4026,3 +4026,22 @@ for this decision; the crop sheet and a direct sweep were.
 **4.10:1** · `audit` and `contrast-scroll` PASS on `/fr` and `/en` · 0px
 overflow, 0 unrevealed, 0 missing alt at both widths · build warning-free, 123
 pages.
+
+### "LA COLLECTION" is out of the hero
+
+Removed at the client's instruction. The hero is now the name, one line, and
+the photograph — nothing else.
+
+> **This reverses §1 of their own written report**, which asked for a discreet
+> "LA COLLECTION" in the hero. Recorded because the two instructions are in
+> direct conflict and the later one wins, not because the earlier one was
+> misread.
+
+Nothing became unreachable: *Collection* is the first item in the header nav at
+every width. `.hero-cue` and `hero.scrollCue` in both locales are **kept and
+marked dormant** rather than deleted — restoring the link is one `<Link>` in
+`app/[locale]/page.tsx` and nothing else.
+
+The title measures **3.43:1** after the change (3.30 before; the box did not
+move, and worst-pixel sampling varies a little between runs). Everything else
+on the hero is unchanged.

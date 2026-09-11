@@ -864,6 +864,11 @@ html[data-intro="run"] .site-header-lockup {
   margin-top: 1rem;
 }
 
+/* DORMANT. Nothing renders .hero-cue today: the "LA COLLECTION" link was taken
+   out of the hero at the client's instruction. It is kept, with its dictionary
+   string `hero.scrollCue` in both locales, because §1 of their own written
+   report asked for that link and it may well be asked for again — restoring it
+   is one <Link> in app/[locale]/page.tsx and nothing else. */
 .hero-cue {
   color: var(--ink-inverse);
   padding-bottom: 0.3em;
