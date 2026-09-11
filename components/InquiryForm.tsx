@@ -9,6 +9,17 @@ export type InquiryField = {
   kind?: "text" | "email" | "textarea" | "file";
   required?: boolean;
   defaultValue?: string;
+  /**
+   * A numeral for fields that are a sequence rather than a list — the four
+   * terms of a made-to-measure rug (report §11), which the client numbered.
+   *
+   * A numbered field does NOT print "(optional)". The numerals say these four
+   * are the thing being asked for, and one line above the block says none of
+   * them is required; repeating "(optional)" four times under a heading that
+   * invites you to describe a rug makes the page's one commercial action read
+   * as tentative.
+   */
+  no?: string;
 };
 
 type InquiryFormProps = {
@@ -166,13 +177,34 @@ export default function InquiryForm({
         const hintId = field.hint ? `${id}-hint` : undefined;
 
         return (
-          <div key={field.name} className="inquiry-field">
+          <div
+            key={field.name}
+            className={`inquiry-field${field.no ? " inquiry-field-no" : ""}`}
+          >
+            {field.no && (
+              <span className="label inquiry-no" aria-hidden="true">
+                {field.no}
+              </span>
+            )}
+
             <label className="label inquiry-label" htmlFor={id}>
               {field.label}
-              {!field.required && (
+              {!field.required && !field.no && (
                 <span className="inquiry-optional"> ({labels.optional})</span>
               )}
             </label>
+
+            {/* The hint sits ABOVE its input, not below it.
+
+                Below, it lands under the field's own rule and immediately above
+                the NEXT label, so on a form where every field carries one it
+                reads as an instruction for the wrong box. A hint is what to put
+                in the field; it has to come before the field. */}
+            {field.hint && (
+              <p id={hintId} className="inquiry-hint">
+                {field.hint}
+              </p>
+            )}
 
             {field.kind === "file" ? (
               <input
@@ -215,11 +247,6 @@ export default function InquiryForm({
               />
             )}
 
-            {field.hint && (
-              <p id={hintId} className="inquiry-hint">
-                {field.hint}
-              </p>
-            )}
           </div>
         );
       })}

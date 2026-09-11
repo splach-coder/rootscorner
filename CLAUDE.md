@@ -4045,3 +4045,91 @@ marked dormant** rather than deleted — restoring the link is one `<Link>` in
 The title measures **3.43:1** after the change (3.30 before; the box did not
 move, and worst-pixel sampling varies a little between runs). Everything else
 on the hero is unchanged.
+## 53. The rugs page, rebuilt — the form was the page, and the picture was small
+
+Client review, in their words: *"redesign the whole mrirt rugs, its not good at
+all, specially the form, the first image as well small on a big place."* Both
+are real defects with measurable causes.
+
+### The page asked the same four questions twice
+
+The four terms of a made-to-measure rug were a **numbered list** near the top —
+*"01 Les dimensions · Indiquez les dimensions souhaitées"* — and then the form
+at the foot asked for the same four under **the same four hints**. A visitor
+read the instruction, scrolled past three sections, and met it again as a box.
+
+That is why the form read as something bolted on rather than as the point of the
+page. **The numbered terms ARE the form now.** One block, one place, and the
+report's §11 numbering is carried by the fields themselves (`InquiryField.no`).
+
+A whole section and its CSS came out with it.
+
+### The opening photograph was small in a large surface
+
+§50 put it on a tinted plate, after Beni Rugs, who shoot every rug flat and
+whole on exactly such a surface. **Their rugs fill it.** This frame is 9/16, so
+`contain` drew the picture at about 70% of a box that was itself half the
+screen: a small photograph surrounded by ground, which is the one thing the
+brief bans outright.
+
+> **A device is not transferable without the material it was designed for.**
+> The plate works at Beni because a rug photographed flat is roughly as wide as
+> its frame. Ours is a tall macro. Taking the device and keeping our own
+> material produced the opposite of what the device does there.
+
+The plate is gone. The photograph is the **full width of the viewport** at
+`min(72svh, 42rem)`, `cover`. That crop is not the cropping §24 forbids: there
+is no object in this frame to cut into. It is a surface, and a surface is the
+one subject that loses nothing to a crop — every part of it is the subject.
+
+### The form, specifically
+
+| | |
+|---|---|
+| **The hint was under the rule** | It landed beneath its own field's rule and directly above the NEXT label, so on a form where every field carries one it read as an instruction for the wrong box. A hint is what to put in the field: it goes before the field. |
+| **"(facultatif)" four times** | Under a heading inviting someone to describe a rug, that made the page's one commercial action read as tentative. A numbered field no longer prints it — the line above the block already says none of the four is required. |
+| **Two left edges** | Four numbered rules started 2.4rem in and name / e-mail / message at the gutter. Every field on this form shares the numeral column now; the unnumbered ones simply have nothing in it. |
+| **The input floated off its hint** | `margin-top` 0.5rem plus the box's own padding opened a gap that read as a missing element, because an empty ruled input is invisible. 0.25rem. |
+
+### Two holes closed by measurement, not by spacing
+
+**The room photograph now travels with the form.** The form is 1283px and the
+photograph was 570. Sizing it up cannot close that — the rug is in the bottom
+sixth of that frame, so height comes off the top and a taller crop is mostly
+wall. So it is `position: sticky` instead, the way the wall label travels beside
+the photographs on a piece page (§24). The frame that carries SCALE is in view
+for the whole of the form whose first question is size. Measured after: **1283 /
+1283.**
+
+> The sticky element needs a **stretched wrapper**, and it cannot be the grid
+> item itself: `align-self: stretch` and `aspect-ratio` on one box is a fight
+> the ratio loses, and the photograph gets drawn the full height of the column.
+> §24 records the same trap from the other side, where a column that did not
+> stretch left sticky no track to travel.
+
+**The yarn photograph takes its column's height.** At its own 4/5 it drew 660
+against an 864 stack. A fixed ratio cannot track a column whose height is prose,
+so at desktop the frame gives up the ratio and takes the row. Measured: **864 /
+864.**
+
+**And the order bar is capped at 26rem.** Beni's spans its panel, and their
+panel is ~430px; ours closes a 720px column of prose, where full width stops
+reading as a button and starts reading as a banner.
+
+### Section order, and the three entries
+
+The client's §10 wants three named entries that do not mix. They now land in
+three genuinely different places, which is what they did not do before (§48):
+
+| entry | goes to | what is there |
+|---|---|---|
+| Tapis disponibles | `#disponibles` | the shelf of finished rugs |
+| Tapis sur commande | `#sur-commande` | what one is — the label, the wool, the weavers |
+| Comment commander | `#comment` | the form |
+
+### Verified
+
+`/fr/mrirt` and `/en/mrirt`, both widths: **0px overflow, 0 unrevealed, 0
+missing alt** · `audit` and `contrast-scroll` PASS on both · `/fr/contact`
+re-checked, since the hint order and input spacing are shared by both forms
+(PASS) · build warning-free. Page 6689 → **6640px** desktop, 8058 on a phone.

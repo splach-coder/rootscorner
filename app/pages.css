@@ -1448,51 +1448,34 @@
   margin-inline: 0;
 }
 
-/* --- 1. The rug, and the whole specification beside it ------------------- */
+/* --- 1. The rug, the full width of the page ------------------------------
 
-.mrirt-plate-inner {
+   It was contained on a tinted plate, after Beni Rugs, who shoot every rug flat
+   and whole on exactly such a surface. Their rugs FILL it. This frame is 9/16,
+   so containing it drew the picture at about 70% of a box that was itself half
+   the screen — a small photograph surrounded by ground, which is the one thing
+   the brief bans outright, and the client said so.
+
+   The plate is gone. The photograph is the width of the viewport and as tall as
+   it can be while leaving the page head on the same screen.
+
+   `cover` here is not the cropping §24 forbids: there is no object in this
+   frame to cut into. It is a surface, and a surface is the one subject that
+   loses nothing to a crop — every part of it is the subject. */
+
+.mrirt-opening {
+  margin-top: clamp(1.5rem, 4vw, 2.6rem);
   display: grid;
-  gap: clamp(2rem, 5vw, 3.5rem);
+  gap: 0.85rem;
 }
 
-/* THE PLATE — after benirugs.com, the reference the client named.
-
-   Every rug on that site is shot flat and whole on a warm surface a shade off
-   the page, with the order panel beside it. The rug is presented; it is never
-   cropped to fit a column. That is the one device this page can take literally,
-   and it also removes a defect: the source is 9/16, this frame used to be a
-   square, so the page about rugs was showing a patch of wool.
-
-   So the photograph is CONTAINED and the plate fills the box. The plate is a
-   translucent wash rather than a fixed colour, because the page ground is
-   scroll-driven (§19) — a flat hex would drift out of step with the ground
-   underneath it as the light moves. This tracks it.
-
-   Padding is what makes it read as a surface rather than as a letterbox (§24):
-   the plate is deliberately wider than the picture on every side. */
-.mrirt-stage {
-  aspect-ratio: 4 / 5;
-  padding: clamp(1.4rem, 4vw, 2.6rem);
-  background: rgba(190, 171, 147, 0.18);
+.mrirt-opening-frame {
+  height: min(72svh, 42rem);
+  width: 100%;
 }
 
-.mrirt-stage img {
-  object-fit: contain;
-}
-
-/* The grain is the site's own texture over a PHOTOGRAPH (§28). Most of this box
-   is now flat wash, where the same amount reads as compression noise rather
-   than as film, so it comes down here. */
-.mrirt-stage {
-  --grain: 0.05;
-}
-
-/* Label → the four terms → a detail. Three blocks, because one label beside a
-   frame this size is what left ~500px of empty ground before. */
-.mrirt-spec {
-  display: grid;
-  gap: clamp(1.8rem, 4vw, 2.8rem);
-  align-content: start;
+.mrirt-opening-caption {
+  color: var(--ink-soft);
 }
 
 .mrirt-label-name {
@@ -1643,48 +1626,61 @@
 }
 
 @media (min-width: 900px) {
-  /* Beni gives the rug roughly two thirds of the screen and the order panel
-     one. Ours is less lopsided because our panel carries four numbered terms
-     and theirs carries four selects — but the rug leads, which it did not
-     before. With `bleed-left` the plate also reclaims the gutter. */
-  .mrirt-plate-inner {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    column-gap: clamp(2.5rem, 5vw, 4rem);
-    align-items: start;
-  }
-
-  /* A STAGE, not a ratio — the piece page's own mechanism (§36).
-
-     A ratio here made the plate 1040px tall against a 740px panel, which is
-     §32's hole with the photograph on the other side of it: a tall frame cannot
-     be balanced by spacing, only by matching it. And the plate cannot be
-     shortened with `max-height`, because with `aspect-ratio` set that shrinks
-     the WIDTH to match and the bleed to the viewport edge silently disappears.
-
-     So the plate takes a height and the photograph is contained in it — which
-     is what Beni's rug plates do, and what this site already does on every
-     piece page. The width still comes from the grid track, so the bleed holds. */
-  .mrirt-stage {
-    aspect-ratio: auto;
-    height: min(78svh, 46rem);
-  }
-
+  /* The "what a rug is" pair. The stack is label + wool + weavers + the way
+     through to the form, which is what makes it tall enough to stand beside a
+     frame this size — §32's rule: a column is loaded, not padded. */
   .mrirt-pair-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.62fr);
-    align-items: start;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr);
+    align-items: stretch;
   }
 
-  /* Square at desktop, bottom-anchored. The rug is in the bottom sixth of this
-     photograph, so height comes off the top; a square keeps the floor, the
-     chair and the rug and gives up only the upper wall. */
+  /* The photograph takes whatever height the passages beside it come to.
+
+     At its own 4/5 it drew 660 against an 864 stack, which is §32's hole with
+     the picture on the short side this time. A fixed ratio cannot track a
+     column whose height is prose, so the frame gives up the ratio here and
+     takes the row instead; the caption keeps its own line under it.
+
+     Cropping a macro of dyed yarn costs nothing — it is a surface, and every
+     part of it is the subject (the same argument as the opening frame). */
+  .mrirt-yarn {
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .mrirt-yarn-frame {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  /* The room STAYS beside the form.
+
+     The form is the four terms plus a name, an address and a message — about
+     1100px of column — and the photograph is 570. Sizing the photograph up
+     cannot close that: its rug is in the bottom sixth of the frame, so height
+     comes off the top and a taller crop is mostly wall.
+
+     So it travels instead, the way the wall label does beside the photographs
+     on a piece page (§24). The frame that carries SCALE is in view for the
+     whole of the form whose first question is size, and §32's hole closes
+     without either column being padded.
+
+     `align-self: stretch` is load-bearing: the grid sets `align-items: start`,
+     which shrinks this column to its own content and leaves sticky no track to
+     travel — the exact trap §24 records on the piece page. */
+  .mrirt-room-column {
+    align-self: stretch;
+  }
+
   .mrirt-room-frame {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 3 / 4;
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
   }
 
   .mrirt-order-inner {
     grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
     column-gap: clamp(2.5rem, 5vw, 4rem);
-    align-items: start;
+    align-items: stretch;
   }
 
   /* Out to the viewport edge. The grid column keeps its width; the frame just
@@ -1735,8 +1731,12 @@
 
 .inquiry-input {
   width: 100%;
-  margin-top: 0.5rem;
-  padding: 0.55rem 0 0.6rem;
+  /* 0.25rem, not 0.5. The hint sits directly above the box now, and an empty
+     ruled input is invisible — so the old margin plus the box's own padding
+     opened a gap between a hint and the rule it belongs to that read as a
+     missing element. */
+  margin-top: 0.25rem;
+  padding: 0.5rem 0 0.55rem;
   font-family: var(--font-body), Arial, sans-serif;
   font-size: 1rem;
   font-weight: 300;
@@ -1774,10 +1774,69 @@ textarea.inquiry-input {
   min-height: 7rem;
 }
 
+/* The hint sits between the label and the input now, not under the rule.
+
+   Below the input it landed under that field's own rule and directly above the
+   NEXT label, so on a form where every field carries one — which is exactly
+   what the four terms of a rug are — it read as an instruction for the wrong
+   box. Margins flip with it. */
 .inquiry-hint {
-  margin-top: 0.45rem;
+  margin-top: 0.3rem;
   font-size: 0.8rem;
+  line-height: 1.5;
   color: var(--ink-faint);
+}
+
+/* --------------------------------------------------------------------------
+   The numbered fields — the four terms of a made-to-measure rug (§11)
+
+   The client numbered them, and they are a sequence rather than a list: you
+   settle size, then colour, then design, then texture. The numeral sits in its
+   own column so the label, the hint and the rule all line up on one left edge
+   whether a field is numbered or not — a numeral inline would indent the first
+   line of the label only, and the rule beneath would not move with it.
+   -------------------------------------------------------------------------- */
+
+.inquiry-field-no {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  column-gap: 0.9rem;
+}
+
+.inquiry-no {
+  grid-row: 1 / span 3;
+  padding-top: 0.25em;
+  color: var(--clay-ink);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Every other child of a numbered field takes the second column. */
+.inquiry-field-no > .inquiry-label,
+.inquiry-field-no > .inquiry-hint,
+.inquiry-field-no > .inquiry-input {
+  grid-column: 2;
+}
+
+/* And on a form where SOME fields are numbered, the rest keep the column too.
+
+   Four numbered terms followed by name, e-mail and message left two different
+   left edges down one form — the numbered rules started 2.4rem in and the
+   others at the gutter — which reads as a mistake rather than as a hierarchy.
+   The unnumbered fields simply have nothing in the first column. */
+.mrirt-form .inquiry-field {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  column-gap: 0.9rem;
+}
+
+.mrirt-form .inquiry-field > * {
+  grid-column: 2;
+}
+
+.mrirt-form .inquiry-no {
+  grid-column: 1;
 }
 
 .inquiry-actions {
@@ -2746,55 +2805,6 @@ textarea.inquiry-input {
   color: var(--ink-soft);
 }
 
-/* --------------------------------------------------------------------------
-   §11 — the made-to-measure journey
-
-   Four numbered steps, each with the instruction the client wrote for it, and
-   the button that starts one. It replaced a specification list whose every
-   value read "Au choix", which told a visitor nothing they could act on.
-   -------------------------------------------------------------------------- */
-
-.rugs-steps {
-  display: grid;
-  margin-top: 1.4rem;
-  border-top: 1px solid var(--rule);
-}
-
-.rugs-step {
-  display: grid;
-  grid-template-columns: 2.6rem 1fr;
-  gap: 0.9rem;
-  padding-block: 1rem 1.1rem;
-  border-bottom: 1px solid var(--rule);
-}
-
-.rugs-step-no {
-  color: var(--ink-faint);
-  font-size: 0.62rem;
-  letter-spacing: 0.16em;
-  padding-top: 0.4em;
-}
-
-.rugs-step-said {
-  display: grid;
-  gap: 0.3rem;
-}
-
-.rugs-step-name {
-  color: var(--ink);
-}
-
-.rugs-step-note {
-  font-size: 0.9rem;
-  line-height: 1.55;
-  color: var(--ink-soft);
-  max-width: 30rem;
-}
-
-.rugs-steps-note {
-  margin-top: 1.6rem;
-}
-
 /* The same filled plate the enquiry form's Send uses — the site has exactly
    two commitments a visitor can complete and they should look alike.
 
@@ -2806,6 +2816,10 @@ textarea.inquiry-input {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Beni's order bar spans its panel, and their panel is about 430px. This one
+     closes a 720px column of prose, where full width stops reading as a button
+     and starts reading as a banner. */
+  max-width: 26rem;
   min-height: 44px;
   margin-top: 1.4rem;
   padding: 1rem 2rem;
