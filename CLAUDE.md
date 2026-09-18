@@ -4274,3 +4274,103 @@ alt** · `audit` and `contrast-scroll` PASS on both · booking links resolve to
 `wa.me/…?text=Appartement%20I` and `…II` · the word "Airbnb" returns **0** on
 every rendered page, including both Privacy pages · build warning-free. 2846 →
 **3838px** desktop.
+## 56. Shopify is wired — the code is done, the store is not
+
+Asked: *"can we now link the shopify so the backend is shopify okey?"*
+
+The code side is finished. **Linking is three things and only one of them is
+ours**, so this is written to switch on the moment the other two exist rather
+than to wait for them.
+
+### What was written
+
+| | |
+|---|---|
+| `lib/shopify.ts` | The Storefront client — one pinned-version GraphQL call, the slug→variant map, and the two-token warning. |
+| `lib/checkout.ts` | `createShopifyCheckout` is real now: `cartCreate`, one line per slug at quantity 1, returning `cart.checkoutUrl`. |
+| `docs/shopify.json` | The slug→variant manifest. **Empty, and that is the supported state.** |
+| `scripts/shopify-link.mjs` | Reads the store and writes that manifest. |
+
+### What still blocks it, and why none of it is code
+
+1. **A Shopify store.** Nothing in this repo knows whether one exists yet. The
+   proposal prices it at ~9 EUR/month (§6).
+2. **A Storefront access token.**
+3. **The 38 pieces have to exist IN Shopify.** This is the real blocker and the
+   one that is easy to miss: a cart line references a **variant ID** and nothing
+   else. Until the products are in the store there is no ID to reference, and no
+   amount of front-end work substitutes for it.
+
+### The manifest is a separate file on purpose
+
+`docs/catalog.json` is the client's own record exactly as scraped and is
+deliberately never edited (§46), so the mapping onto *their* store lives in our
+own file. Same shape as `docs/instagram.json`: a manifest, empty by default,
+read at build time.
+
+> **Nobody types a `gid://shopify/ProductVariant/…` by hand.** They are opaque
+> 40-character strings, one per piece, and a single wrong character sells the
+> wrong object. `shopify-link.mjs` reads them from the store, matching by handle
+> or by exact normalised title, and **links a piece only when exactly one
+> product matches**. Ambiguity is reported and left out — an unlinked piece
+> keeps the enquiry it has always had, which is a working state; a mislinked one
+> takes money for the wrong thing.
+
+It also reports what is in the store but not in the catalogue, which is how a
+drifted store gets noticed rather than silently half-selling.
+
+### `paymentReady()` needs a linked piece, not just credentials
+
+```ts
+return storeConfigured() && linkedCount() > 0;
+```
+
+Credentials alone used to be enough. That was a trap: setting the two variables
+before adding any products would have **hidden the "payment is not active yet"
+notice and sent buyers to an empty Shopify cart**. The gap between "configured"
+and "able to sell something" is exactly where this would have broken.
+
+### All lines resolve, or none go
+
+A partially linked store is a real state — pieces get added over time. Dropping
+the unresolved lines would be the worst possible handling: the buyer arrives at
+Shopify with a **smaller order than the one they just reviewed**, and no way to
+know what happened.
+
+So one missing variant refuses the whole checkout, and it reports
+`not-connected` rather than `failed`. "Failed" invites a retry, and retrying
+cannot help — nothing about the next attempt differs until someone links that
+piece.
+
+### ⚠️ Two tokens, and only one may ever be public
+
+`NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN` is **meant** for the browser: it reads
+published products and creates a cart, and can do nothing else. Shipping it in a
+bundle is the intended use.
+
+`SHOPIFY_ADMIN_TOKEN` (§26, the newsletter) can read customers and orders and
+edit the store. **It must never be given a `NEXT_PUBLIC_` prefix** — that prefix
+is precisely what inlines a value into every bundle the site serves. Confusing
+the two compromises the store on the next deploy.
+
+### ⚠️ Switching payment on is still TWO jobs
+
+Shopify's hosted checkout sets third-party cookies, which makes `cookies` in
+`lib/legal.ts` — a document that currently states this site sets **none** —
+wrong in the permissive direction, and arms the consent banner (§44). The link
+script prints this warning after a successful `--write`, because a compliance
+document that is wrong in the permissive direction is worse than no document.
+
+### What is verified, and what is not
+
+**Verified:** build warning-free · the dormant path unchanged on the running
+site — a seeded two-piece cart renders both lines, totals 580 €, and prints
+*"Le paiement n'est pas encore activé"* **before** the button rather than after
+(§37) · `audit` clean on `/fr/checkout`, `/en/checkout`, `/fr`,
+`/fr/collection` · `contrast-scroll` PASS · the link script refuses cleanly with
+no store configured.
+
+> **The live path is NOT verified, and cannot be until a store exists.**
+> `cartCreate`, the checkout URL and the handover have never run against a real
+> Shopify. That is a genuine gap, not a formality: the first order placed
+> through this should be a test order somebody watches.
