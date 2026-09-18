@@ -4529,3 +4529,69 @@ the link renders in **both locales** with `target="_blank"` and
 `rel="noreferrer noopener"`, appears as a real tab stop with a focus ring, and
 `audit` stays clean — 0 unrevealed, 0px overflow at 390px. The tree was then
 rebuilt dormant.
+## 59. The product import — and a slug bug that would have matched 0 of 38
+
+The blocker on Shopify was never the code: it was that **the 38 pieces have to
+exist in the store**, because a cart line references a variant ID and nothing
+else. `scripts/shopify-csv.mjs` generates the import.
+
+**The runbook is `docs/SHOPIFY.md`** — self-contained, so the work can be
+finished on another machine without reading this file.
+
+### ⚠️ The handle is `slugOf(url)`, never a slug built from the name
+
+`lib/catalog.ts` derives a piece's slug from **the last segment of the client's
+own product URL**:
+
+```ts
+function slugOf(url: string): string {
+  return url.replace(/\/+$/, "").split("/").pop() ?? "";
+}
+```
+
+Those URLs contain runs like `handcrafted-wood-stool---cote-d-ivoire` — **three
+hyphens** — which no name-based slugify will ever produce.
+
+`scripts/shopify-link.mjs` as first written used `slugify(p.name)`. It would
+have reported **0 of 38 matched** while looking entirely reasonable, and the
+obvious next move would have been to blame the store or the import. Caught by
+checking the derivation against `docs/images.json`, whose keys are those same
+slugs: **38/38, no duplicates, no empties.** Both scripts take the URL now.
+
+> The lesson is narrow and worth keeping: **two systems agree on an identifier
+> only if they derive it the same way.** "It's a slug of the name" was a
+> reasonable assumption and it was wrong.
+
+### What the CSV sets, and what it deliberately does not
+
+38 products, **212 rows** (one per piece plus one per extra image), 36 in stock,
+2 at qty 0.
+
+| | |
+|---|---|
+| Title | Title-cased by **the same function the site displays**, so the order confirmation e-mail and the page the buyer just read say the same name. |
+| **Body (HTML)** | **Empty on purpose.** The site owns the copy; Shopify owns price, stock and fulfilment. The raw scrape carries the old site's FOOTER as care instructions (§46), and duplicating that filter list here would leave the project two copies to keep in step. |
+| Inventory | qty 1, policy **`deny`** — stock is one of everything (§6) and a one-of-a-kind must never oversell. |
+| **Weight** | **Not set.** Nothing in the client's data records one, and a guessed weight is a wrong shipping price charged to a real customer (§5). Shipping goes by price/zone until real weights exist. |
+
+### The images come from the old site, once
+
+The CSV points `Image Src` at the **live Jimdo CDN URLs** in `docs/images.json`,
+so **therootscorner.com must still be up at the moment of import**. Shopify
+copies each file onto its own CDN as it imports, so the dependency lasts only
+for that one operation — but take the old site down first and 38 products land
+with no photographs.
+
+Also: **do not open the CSV in Excel and re-save it.** It mangles `Côte
+D'Ivoire`. And the file is written **without a BOM** deliberately — a BOM ahead
+of the header turns the first column into `﻿Handle` and fails the import.
+
+### Verified
+
+`slugOf(url)` against the site's own manifest: **38/38, 0 duplicates, 0
+empties** · CSV: 38 products, 212 image rows, 36 in stock, 2 at qty 0, accents
+intact in the titles, extra-image rows carrying only handle + src + position ·
+the triple-hyphen handle survives into the file · `--check` writes nothing.
+
+**Still not verified, and cannot be:** the import itself and the live checkout.
+Neither has run against a real store.

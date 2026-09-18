@@ -51,14 +51,16 @@ if (!DOMAIN || !TOKEN) {
   process.exit(1);
 }
 
-/** Same normalisation lib/catalog.ts uses to build a slug from a name. */
-const slugify = (s) =>
-  s
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+/**
+ * The slug, exactly as lib/catalog.ts derives it: the last segment of the
+ * client's own product URL.
+ *
+ * NOT a slug built from the product name. They are different — the client's
+ * URLs contain runs like `stool---cote-d-ivoire` (three hyphens) that no
+ * name-based slugify produces — and getting this wrong matches 0 of 38 while
+ * looking entirely reasonable.
+ */
+const slugOf = (url) => (url || "").replace(/\/+$/, "").split("/").pop() ?? "";
 
 const norm = (s) =>
   s
@@ -70,7 +72,7 @@ const norm = (s) =>
 
 const catalog = JSON.parse(readFileSync(join(ROOT, "docs/catalog.json"), "utf8"));
 const pieces = (Array.isArray(catalog) ? catalog : Object.values(catalog)).map((p) => ({
-  slug: slugify(p.name),
+  slug: slugOf(p.url),
   name: p.name,
 }));
 
