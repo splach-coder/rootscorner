@@ -29,6 +29,8 @@ type Dictionary = {
     close: string;
     switchTo: string;
     switchLabel: string;
+    /** Shown only when a Shopify customer-account URL is configured. */
+    account: string;
   };
   hero: { tagline: string; intro: string; scrollCue: string };
   selection: { eyebrow: string; heading: string; unique: string; viewAll: string };
@@ -385,6 +387,7 @@ const en: Dictionary = {
     close: "Close",
     switchTo: "FR",
     switchLabel: "Voir ce site en français",
+    account: "My orders",
   },
   hero: {
     tagline: "Rare pieces. Stories. Materials.", // Brief §4, verbatim.
@@ -889,6 +892,7 @@ const fr: Dictionary = {
     close: "Fermer",
     switchTo: "EN",
     switchLabel: "View this site in English",
+    account: "Mes commandes",
   },
   hero: {
     tagline: "Pièces rares. Histoires. Matières.",

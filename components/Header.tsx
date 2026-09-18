@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import CartButton from "./CartButton";
+import { ACCOUNT_URL } from "@/lib/shopify";
 import { Wordmark } from "./BrandMarks";
 import type { Locale } from "@/lib/dictionaries";
 
@@ -32,6 +33,7 @@ type HeaderProps = {
     close: string;
     switchTo: string;
     switchLabel: string;
+    account: string;
   };
 };
 
@@ -393,6 +395,26 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
               ))}
             </ul>
           </div>
+          {/* Where a buyer checks on an order.
+
+              Rendered only when a customer-account URL is configured, because
+              until the store exists there are no orders to show and a link to
+              an empty account is worse than no link. Same rule as every other
+              channel on this site (§49).
+
+              External on purpose: Shopify hosts it and owns the sign-in, which
+              is passwordless. Nothing here handles a credential. */}
+          {ACCOUNT_URL && (
+            <a
+              href={ACCOUNT_URL}
+              className="label site-account"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {labels.account}
+            </a>
+          )}
+
           <CartButton label={cart} />
 
           <button
@@ -451,6 +473,17 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
           >
             <div className="site-panel-cart">
               <CartButton label={cart} withLabel />
+              {ACCOUNT_URL && (
+                <a
+                  href={ACCOUNT_URL}
+                  className="label site-panel-account"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  onClick={() => setOpen(false)}
+                >
+                  {labels.account}
+                </a>
+              )}
             </div>
 
             <ul className="site-panel-langs" aria-label={labels.switchLabel}>

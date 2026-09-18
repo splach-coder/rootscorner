@@ -4,27 +4,27 @@ New premium e-commerce site for **The Roots Corner**, a Marrakech-based curator 
 African, Moroccan and Indonesian artisanal pieces. Custom front-end, **Shopify as the
 commerce/payment engine**.
 
-**The one-line test for every decision:** does this feel like a *gallery of rare pieces*,
-or like a *decor shop*? Build the gallery.
+**The one-line test for every decision:** does this feel like a _gallery of rare pieces_,
+or like a _decor shop_? Build the gallery.
 
 ---
 
 ## 1. The brand
 
-| | |
-|---|---|
-| Name | The Roots Corner |
-| Founder | **Dahab** — left Paris for Marrakech; sources pieces personally |
-| Base | Marrakech, Morocco |
-| Tagline | **Rare pieces. Stories. Materials.** |
-| Instagram | [@therootscorner.m](https://www.instagram.com/therootscorner.m/) — primary traffic source |
-| Current site | `therootscorner.com` — **Jimdo Dolphin** builder. Reference only. |
+|              |                                                                                           |
+| ------------ | ----------------------------------------------------------------------------------------- |
+| Name         | The Roots Corner                                                                          |
+| Founder      | **Dahab** — left Paris for Marrakech; sources pieces personally                           |
+| Base         | Marrakech, Morocco                                                                        |
+| Tagline      | **Rare pieces. Stories. Materials.**                                                      |
+| Instagram    | [@therootscorner.m](https://www.instagram.com/therootscorner.m/) — primary traffic source |
+| Current site | `therootscorner.com` — **Jimdo Dolphin** builder. Reference only.                         |
 
 **Universe:** African pieces · antique & Mrirt rugs · wood · craft · antique objects ·
 natural materials · patina · imperfection · Wabi-Sabi · Marrakech/Morocco · travel and
 encounters with artisans.
 
-Authenticity must be *visible*. Nothing may suggest industrial or mass production.
+Authenticity must be _visible_. Nothing may suggest industrial or mass production.
 
 ### Positioning ladder — what a visitor should think, in order
 
@@ -40,26 +40,26 @@ Rarity, taste, authenticity, personal selection — **without artificial luxury 
 
 Logo and picto are **single-colour vectors**, fully recolourable.
 
-| Asset | File | Notes |
-|---|---|---|
-| Wordmark | [logo.svg](brand/logo.svg) | "The **ROOTS** Corner" + crescent, aspect 0.731 |
-| Picto | [picto.svg](brand/picto.svg) | Crescent alone, aspect 0.775 — favicon / mobile nav |
+| Asset    | File                         | Notes                                               |
+| -------- | ---------------------------- | --------------------------------------------------- |
+| Wordmark | [logo.svg](brand/logo.svg)   | "The **ROOTS** Corner" + crescent, aspect 0.731     |
+| Picto    | [picto.svg](brand/picto.svg) | Crescent alone, aspect 0.775 — favicon / mobile nav |
 
 **Logo colour: `#6C645D`** (warm taupe-greige) — from the supplied Illustrator SVG exports (authoritative).
 
-The crescent is an **Arabic-inspired "R"** for *Roots* — heritage, identity, connection.
+The crescent is an **Arabic-inspired "R"** for _Roots_ — heritage, identity, connection.
 It is the strongest single mark the brand owns. Use it as the favicon, the loading mark,
 and the mobile header. Do not redraw or restyle it.
 
 ### Palette — sampled from the brand portfolio, exact values
 
-| Role | Hex | Use |
-|---|---|---|
+| Role          | Hex       | Use                                        |
+| ------------- | --------- | ------------------------------------------ |
 | Ground / ecru | `#F7F5F2` | Default page background — the gallery wall |
-| Clay brown | `#866950` | Mid accent, dividers, secondary text |
-| Sand | `#BEAB93` | Muted fills, hover states, borders |
-| Deep brown | `#4B3123` | Primary text, dark sections |
-| Brand taupe | `#6C645D` | Logo, marks |
+| Clay brown    | `#866950` | Mid accent, dividers, secondary text       |
+| Sand          | `#BEAB93` | Muted fills, hover states, borders         |
+| Deep brown    | `#4B3123` | Primary text, dark sections                |
+| Brand taupe   | `#6C645D` | Logo, marks                                |
 
 Ecru · beige · sand · brown · soft black. **No pure `#000` and no pure `#FFF`.**
 No colour outside this family. Photography supplies all the warmth and contrast.
@@ -84,20 +84,20 @@ No colour outside this family. Photography supplies all the warmth and contrast.
 ❌ small photos ❌ cold feeling ❌ **invented information about the pieces**
 
 > **Motion note:** the commercial proposal promises scroll animations, hover effects and
-> page transitions; the brief bans "excessive animation." These reconcile as *slow, quiet,
-> material* motion — long fades, gentle image reveals, unhurried transitions. Nothing
+> page transitions; the brief bans "excessive animation." These reconcile as _slow, quiet,
+> material_ motion — long fades, gentle image reveals, unhurried transitions. Nothing
 > springy, parallax-heavy, or attention-seeking. When in doubt, less.
 
 ### References
 
-| Reference | Take from it |
-|---|---|
+| Reference                                     | Take from it                                                                                                                                 |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | **[benirugs.com](https://www.benirugs.com/)** | Primary structural reference. Generous margins, large imagery, calm sans typography, artisan-forward narrative, minimal all-caps (nav only). |
-| **Homura** | Cinematic storytelling — atmosphere, texture, warm light, slow close-ups over product shots. |
-| **Azuri** | Disciplined tonal consistency; warm, intentional, instantly recognisable. |
-| **Khayni** | Level of finish named in the commercial proposal. |
+| **Homura**                                    | Cinematic storytelling — atmosphere, texture, warm light, slow close-ups over product shots.                                                 |
+| **Azuri**                                     | Disciplined tonal consistency; warm, intentional, instantly recognisable.                                                                    |
+| **Khayni**                                    | Level of finish named in the commercial proposal.                                                                                            |
 
-Note Beni Rugs is a *structural* reference for calm and space — not a look to clone.
+Note Beni Rugs is a _structural_ reference for calm and space — not a look to clone.
 The Roots Corner is antique/one-of-a-kind, where Beni is made-to-order production.
 
 ---
@@ -106,7 +106,7 @@ The Roots Corner is antique/one-of-a-kind, where Beni is made-to-order productio
 
 ### Home — section order from the brief
 
-1. Large image / introduction — **THE ROOTS CORNER** · *Rare pieces. Stories. Materials.*
+1. Large image / introduction — **THE ROOTS CORNER** · _Rare pieces. Stories. Materials._
 2. A few strong pieces from the collection
 3. Short presentation of The Roots Corner
 4. Focus on rugs / African pieces / objects
@@ -120,7 +120,7 @@ Not everything needs to appear on the first page.
 ### Pages
 
 - **Home**
-- **Collection** — presented as a *selection*, never a catalogue. Very sparse per category.
+- **Collection** — presented as a _selection_, never a catalogue. Very sparse per category.
 - **Piece detail** — the most important page (see §5)
 - **Our Story** — personal but elegant; the Paris → Marrakech decision is the hinge
 - **Mrirt Rugs** — made-to-measure, **inquiry flow, not add-to-cart** (see §6)
@@ -143,6 +143,7 @@ provenance (if known) · availability.
 **Mandatory:** an **"Each piece is unique."** mention where relevant.
 
 > ### ⚠️ The non-negotiable content rule
+>
 > **Never invent an origin, an era, a provenance, or a story.**
 > This applies to me as much as to any copywriter. Where a field is unknown, omit the
 > field — do not fill it with plausible text. Placeholder copy in a draft must be
@@ -193,15 +194,15 @@ HTTPS · backups · **client must be able to edit products and prices easily**.
 
 **38 products scraped from the live site**, prices **€35–€480** (EUR, incl. VAT, plus shipping).
 
-| Current category | Count |
-|---|---|
-| Stools | 12 |
-| African decoration | 8 |
-| Decoration | 7 |
-| Pots | 5 |
-| Ceramics (Tamegroute) | 3 |
-| Vases | 2 |
-| Lamp | 1 |
+| Current category      | Count |
+| --------------------- | ----- |
+| Stools                | 12    |
+| African decoration    | 8     |
+| Decoration            | 7     |
+| Pots                  | 5     |
+| Ceramics (Tamegroute) | 3     |
+| Vases                 | 2     |
+| Lamp                  | 1     |
 
 Per-product fields captured: name, price, currency, availability, images (Jimdo CDN URLs),
 description, dimensions, product details, care instructions, delivery time.
@@ -216,21 +217,21 @@ Africa, Indonesia (Lombok), and tribal attributions (Dogon, Senufo, Baule, Tuare
 
 These are real contradictions in the source material. Do not silently pick a side.
 
-1. **Category taxonomy.** The brief proposes *Rugs · Objects · Wood · African Pieces ·
-   New Arrivals*; the live catalogue is organised *Stools · Pots · Vases · Ceramics ·
-   Decoration · African Decoration · Lamp*. A mapping is needed — and "Rugs" currently has
+1. **Category taxonomy.** The brief proposes _Rugs · Objects · Wood · African Pieces ·
+   New Arrivals_; the live catalogue is organised _Stools · Pots · Vases · Ceramics ·
+   Decoration · African Decoration · Lamp_. A mapping is needed — and "Rugs" currently has
    **no sellable stock items** (Mrirt is made-to-order).
 
-2. **Returns — legal risk.** Product pages state *"All sales are final"* / no returns, yet
+2. **Returns — legal risk.** Product pages state _"All sales are final"_ / no returns, yet
    the site sells to France, Belgium and the EU, where distance selling carries a 14-day
    right of withdrawal, and the site already publishes a `right-of-withdrawal` page. These
    contradict each other. Needs a decision, ideally with legal input.
 
 3. **Delivery times contradict.** Product pages say **1–2 weeks**; the FAQ says **3–8 weeks**
-   for Europe and *"may exceed one month"* for Asia/Americas/Australia. One must be correct.
+   for Europe and _"may exceed one month"_ for Asia/Americas/Australia. One must be correct.
 
 4. **Scope vs. proposal.** The commercial proposal quotes **4,000 DH / 2–3 working days**
-   for *Accueil, À propos, Services, Contact, Boutique* with basic SEO. The brief asks for
+   for _Accueil, À propos, Services, Contact, Boutique_ with basic SEO. The brief asks for
    materially more: rich piece pages, Our Story, a separate Mrirt inquiry flow, structured
    shipping zones, Analytics + Search Console. Also, a **"Services" page does not fit this
    brand**. Scope and timeline need re-alignment before build.
@@ -250,22 +251,22 @@ These are real contradictions in the source material. Do not silently pick a sid
 
 ## 10. Source documents
 
-| File | What it is |
-|---|---|
-| `Portfolio  The Roots Corner.pdf` | Brand communication & campaign strategy by La Rêveuzze Creates — logo analysis, palette, competitor/inspiration set |
-| `proposition_site_web_professionnelle.pdf` | Commercial proposal, 12 June 2026 — scope, pricing, Shopify architecture |
-| `therootscorner-logo.pdf` / `-picto.pdf` | Vector brand marks |
-| [docs/reference/](docs/reference/) | Extracted text of the above + old-site sitemap |
+| File                                       | What it is                                                                                                          |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `Portfolio  The Roots Corner.pdf`          | Brand communication & campaign strategy by La Rêveuzze Creates — logo analysis, palette, competitor/inspiration set |
+| `proposition_site_web_professionnelle.pdf` | Commercial proposal, 12 June 2026 — scope, pricing, Shopify architecture                                            |
+| `therootscorner-logo.pdf` / `-picto.pdf`   | Vector brand marks                                                                                                  |
+| [docs/reference/](docs/reference/)         | Extracted text of the above + old-site sitemap                                                                      |
 
 ---
 
 ## 11. Decisions taken (2026-08-27)
 
-| Decision | Choice | Consequence |
-|---|---|---|
-| **Stack** | **Next.js (App Router) + Shopify Storefront API** — headless | Total design/SEO control. Shopify runs cart + checkout only. Client edits products and prices in the Shopify admin. Deploy on Vercel. |
-| **Language** | **Bilingual FR + EN**, locale-prefixed URLs (`/fr/…`, `/en/…`) | Fits the FR/BE/CH shipping markets. All 38 product descriptions need French translation; `hreflang` + per-locale metadata required. |
-| **Sequence** | **Homepage first**, fully realised, then remaining page types | Design direction gets locked at the cheapest point to change it. |
+| Decision     | Choice                                                         | Consequence                                                                                                                           |
+| ------------ | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **Stack**    | **Next.js (App Router) + Shopify Storefront API** — headless   | Total design/SEO control. Shopify runs cart + checkout only. Client edits products and prices in the Shopify admin. Deploy on Vercel. |
+| **Language** | **Bilingual FR + EN**, locale-prefixed URLs (`/fr/…`, `/en/…`) | Fits the FR/BE/CH shipping markets. All 38 product descriptions need French translation; `hreflang` + per-locale metadata required.   |
+| **Sequence** | **Homepage first**, fully realised, then remaining page types  | Design direction gets locked at the cheapest point to change it.                                                                      |
 
 ### Translation rule
 
@@ -296,13 +297,13 @@ hangs below a label rail.
 
 **Typography.**
 
-| Role | Face | Why |
-|---|---|---|
-| Display | **Marcellus** | Inscriptional roman, low contrast, carved letterforms belonging to the same world as the carved wood in the photography. Deliberately *not* the high-contrast serif (Playfair/Cormorant) this brief attracts. It ships one weight only — hierarchy must come from size and tracking, which keeps every heading quiet. |
-| Body / UI | **Jost** | Geometric humanist echoing the circular construction of the ROOTS wordmark. Carries the "wall label" register: 0.7rem, uppercase, 0.22em tracking. |
+| Role      | Face          | Why                                                                                                                                                                                                                                                                                                                   |
+| --------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Display   | **Marcellus** | Inscriptional roman, low contrast, carved letterforms belonging to the same world as the carved wood in the photography. Deliberately _not_ the high-contrast serif (Playfair/Cormorant) this brief attracts. It ships one weight only — hierarchy must come from size and tracking, which keeps every heading quiet. |
+| Body / UI | **Jost**      | Geometric humanist echoing the circular construction of the ROOTS wordmark. Carries the "wall label" register: 0.7rem, uppercase, 0.22em tracking.                                                                                                                                                                    |
 
 **Motion.** One gesture, used everywhere, so the page has a single tempo: content settles
-in once, slowly (`Reveal`). Deliberately *not* scroll-linked — anything continuously tied
+in once, slowly (`Reveal`). Deliberately _not_ scroll-linked — anything continuously tied
 to scroll position reads as a gimmick on a site whose job is to hold still. Fully disabled
 under `prefers-reduced-motion`.
 
@@ -342,13 +343,13 @@ under `prefers-reduced-motion`.
 
 None of this can be invented (§5). Each blocks a specific piece of the build.
 
-| Missing | Blocks |
-|---|---|
-| **Rug photography** | Still nothing of a rug in the 212 files. The Mrirt section no longer waits on it — it carries the weaving comb instead (§23) — but a real rug would replace the wide plate. |
-| **A portrait of Dahab** | "Our Story" currently borrows a still life. The brief wants the reader to want to know the person behind the selection — that needs her face. |
-| **Artisans, travels, places, materials** | Home section 6 of the brief. Currently served by close crops of pieces, which is honest but narrower than asked. |
-| **Original high-resolution files** | Current images are CDN derivatives at 2000px (originals are ~12MB each; URLs recorded in `docs/images.json`). Fine for layout, not for a hero at 4K. |
-| **Product name cleanup** | Names are inconsistently cased in the source data and are normalised for display. Some carry typos — e.g. *"Cote d'Ivoire"* is missing its circumflex. Corrections should come from the client, not from us. |
+| Missing                                  | Blocks                                                                                                                                                                                                       |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Rug photography**                      | Still nothing of a rug in the 212 files. The Mrirt section no longer waits on it — it carries the weaving comb instead (§23) — but a real rug would replace the wide plate.                                  |
+| **A portrait of Dahab**                  | "Our Story" currently borrows a still life. The brief wants the reader to want to know the person behind the selection — that needs her face.                                                                |
+| **Artisans, travels, places, materials** | Home section 6 of the brief. Currently served by close crops of pieces, which is honest but narrower than asked.                                                                                             |
+| **Original high-resolution files**       | Current images are CDN derivatives at 2000px (originals are ~12MB each; URLs recorded in `docs/images.json`). Fine for layout, not for a hero at 4K.                                                         |
+| **Product name cleanup**                 | Names are inconsistently cased in the source data and are normalised for display. Some carry typos — e.g. _"Cote d'Ivoire"_ is missing its circumflex. Corrections should come from the client, not from us. |
 
 ### Still to build
 
@@ -366,7 +367,7 @@ gallery/catalog grammar), **web-design-guidelines** (Vercel), and **image-to-cod
 
 ### The single biggest change
 
-Scrollcraft's *gallery / catalog* grammar says: **museum labels, not marketing
+Scrollcraft's _gallery / catalog_ grammar says: **museum labels, not marketing
 copy — and every object gets the same label schema, no exceptions, because the
 schema is what makes it a collection instead of a grid.**
 
@@ -387,13 +388,13 @@ Fields the client has not supplied are **omitted, never filled**.
 Applying a uniform schema surfaced how patchy the source data is. Run
 `node scripts/coverage.mjs`:
 
-| | |
-|---|---|
-| Usable dimensions | **22 / 38** |
-| Descriptions | **22 / 38** |
+|                                               |              |
+| --------------------------------------------- | ------------ |
+| Usable dimensions                             | **22 / 38**  |
+| Descriptions                                  | **22 / 38**  |
 | Jimdo sample text still live as a "dimension" | **7 pieces** |
-| "Exact dimensions available very soon" | 8 pieces |
-| A lone `"S"` as the dimension | 1 piece |
+| "Exact dimensions available very soon"        | 8 pieces     |
+| A lone `"S"` as the dimension                 | 1 piece      |
 
 > An earlier note in §8 said "dimensions: 38/38". That counted non-empty
 > strings. The real figure is 22.
@@ -413,8 +414,8 @@ space, and translates the axis words (`Height → Hauteur`, `and → et`).
 ### Origin is never inferred
 
 `originOf()` reads only terms the client put in the piece name, and **does not
-resolve a cultural attribution into a country**. "Dogon Stool" yields *Dogon*,
-not *Mali*. The client never wrote Mali. On antique objects that inference is
+resolve a cultural attribution into a country**. "Dogon Stool" yields _Dogon_,
+not _Mali_. The client never wrote Mali. On antique objects that inference is
 frequently wrong, and it is precisely the invented provenance §5 forbids.
 Place names are translated (`Morocco → Maroc`); attributions are not.
 
@@ -422,8 +423,8 @@ Place names are translated (`Morocco → Maroc`); attributions are not.
 
 Beni Rugs shoot rugs **flat, filling the frame on a warm ground**, with a spec
 panel beside them (Colour / Size / Construction). The Mrirt section now mirrors
-that shape using the four axes from the client's own sentence — *"customizable
-in size, color, design, and texture"* — leading to an inquiry, not a cart.
+that shape using the four axes from the client's own sentence — _"customizable
+in size, color, design, and texture"_ — leading to an inquiry, not a cart.
 
 The rug frame is an **honest empty slot** at the right proportion. There is no
 rug photography in the 212 files, and Beni's photographs are a competitor's
@@ -494,15 +495,15 @@ cropped, its height is capped to the viewport, and the hero is exactly
 
 ### Everything else in that review
 
-| Complaint | Fix |
-|---|---|
+| Complaint                            | Fix                                                                                                                                                                                              |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Header "very basic, thin, looks bad" | Wordmark set in **Marcellus at 1.02rem**, not 0.7rem letterspaced sans — at that size a grotesque reads as system chrome, not a brand. Picto up to 2.05rem, taller bar, hairline rule on scroll. |
-| Animations "trigger before the time" | The observer used `rootMargin: -12%`, letting elements animate while still below the fold — by the time you scrolled there the movement was over. Now `rootMargin: 0` + `threshold: 0.12`. |
-| "image bigger than the screen" | Reveal scale reduced 1.055 → 1.03. |
-| "section bigger than the screen" | `--section-y` reduced from `clamp(5.5rem,13vw,12rem)` to `clamp(4.5rem,10vw,9rem)`; page is 8.5k not 9.3k. |
-| Mrirt "not creative" | Rebuilt as a **weaving draft**: the piece wide across the page, its four axes ruled beneath in Marcellus like warp lines. Frame widened to 5/2 — at 3/2 an empty slot read as a hole. |
-| Footer "AI slop" | Was four columns of link lists with a newsletter voice — the shape of a large retailer, which the brief bans. Now the mark, one line, one row of links. |
-| No logo animation | `crescent-swing`: the mark rotates up into place on load, the gesture the shape implies. Wordmark rises behind it. Both once, both honour reduced-motion. |
+| Animations "trigger before the time" | The observer used `rootMargin: -12%`, letting elements animate while still below the fold — by the time you scrolled there the movement was over. Now `rootMargin: 0` + `threshold: 0.12`.       |
+| "image bigger than the screen"       | Reveal scale reduced 1.055 → 1.03.                                                                                                                                                               |
+| "section bigger than the screen"     | `--section-y` reduced from `clamp(5.5rem,13vw,12rem)` to `clamp(4.5rem,10vw,9rem)`; page is 8.5k not 9.3k.                                                                                       |
+| Mrirt "not creative"                 | Rebuilt as a **weaving draft**: the piece wide across the page, its four axes ruled beneath in Marcellus like warp lines. Frame widened to 5/2 — at 3/2 an empty slot read as a hole.            |
+| Footer "AI slop"                     | Was four columns of link lists with a newsletter voice — the shape of a large retailer, which the brief bans. Now the mark, one line, one row of links.                                          |
+| No logo animation                    | `crescent-swing`: the mark rotates up into place on load, the gesture the shape implies. Wordmark rises behind it. Both once, both honour reduced-motion.                                        |
 
 ---
 
@@ -512,20 +513,20 @@ The ramp to night read as grey sludge. Two causes, both measurable.
 
 **1. `transparent` is not "no colour" — it is `rgba(0,0,0,0)`.**
 The ramp began `transparent → var(--hour-dusk)`, so every intermediate pixel
-was interpolating toward *black* and dragging the warm ground grey with it.
+was interpolating toward _black_ and dragging the warm ground grey with it.
 Any fade-out in this palette must start from the ground colour at zero alpha —
 `rgba(221, 205, 182, 0)` — never from `transparent`.
 
 **2. A direct golden→dusk interpolation loses saturation through the middle.**
 Measured as the max-min channel spread ("warmth"):
 
-| | golden | mid | dusk |
-|---|---|---|---|
-| straight to dusk | 39 | **36** | 33 |
-| via sand → clay → umber | 39 | **54** | 33 |
+|                         | golden | mid    | dusk |
+| ----------------------- | ------ | ------ | ---- |
+| straight to dusk        | 39     | **36** | 33   |
+| via sand → clay → umber | 39     | **54** | 33   |
 
-Warmth *sagging* through the middle is what the eye reads as mud. Routing the
-ramp through the brand's own `--sand` and `--clay` makes warmth *rise* into the
+Warmth _sagging_ through the middle is what the eye reads as mud. Routing the
+ramp through the brand's own `--sand` and `--clay` makes warmth _rise_ into the
 middle, which is what a room actually does as the sun drops.
 
 Verified on the rendered page: 39 → 42 → 44 → 49 → **54** → 46 → 37 → 33.
@@ -552,20 +553,20 @@ Golden to night is **159 units**. Matching that rate would need roughly
 
 Between about `#a08a6e` and `#6b4c39` **neither ink nor cream is readable**:
 
-| ground | dark ink | cream |
-|---|---|---|
-| sand `#beab93` | 7.06 | 1.85 |
-| `#a08a6e` | 4.75 | 2.74 |
-| clay `#866950` | 3.10 | 4.20 |
-| `#6b4c39` | 2.03 | 6.41 |
-| umber `#4b3123` | 1.32 | 9.89 |
+| ground          | dark ink | cream |
+| --------------- | -------- | ----- |
+| sand `#beab93`  | 7.06     | 1.85  |
+| `#a08a6e`       | 4.75     | 2.74  |
+| clay `#866950`  | 3.10     | 4.20  |
+| `#6b4c39`       | 2.03     | 6.41  |
+| umber `#4b3123` | 1.32     | 9.89  |
 
 So the descent must be **fast**, and the fast part must happen where there is
 **no text at all**.
 
 ### The brief already solved it
 
-Section 6 of the brief is *"images de matières, artisans, voyages ou lieux"* —
+Section 6 of the brief is _"images de matières, artisans, voyages ou lieux"_ —
 pure imagery — immediately before the invitation. Restoring the brief's real
 section order puts a wall of photographs exactly where the unreadable stretch
 has to fall.
@@ -605,11 +606,11 @@ effect work.
 
 The descent moved instead to **open ground below the wall**:
 
-| | |
-|---|---|
-| Image wall | 78.5% – 84.8% of page — ground stays **golden** behind and below it, close to the pale plaster the pieces are shot on |
-| Open runway | 84.8% – 90.5% — **538px of pure background**, no photograph, no text |
-| Text returns | 90.5%, on `#5e422d` — cream clears 7:1 |
+|              |                                                                                                                       |
+| ------------ | --------------------------------------------------------------------------------------------------------------------- |
+| Image wall   | 78.5% – 84.8% of page — ground stays **golden** behind and below it, close to the pale plaster the pieces are shot on |
+| Open runway  | 84.8% – 90.5% — **538px of pure background**, no photograph, no text                                                  |
+| Text returns | 90.5%, on `#5e422d` — cream clears 7:1                                                                                |
 
 Measured across the runway, warmth stays high the whole way — 39 → 50 → 61 →
 62 → 54 → 51 → 46 → 40 — so it descends through amber and clay rather than
@@ -643,13 +644,13 @@ in it.
 
 Verified at real viewports — each screen is a single flat tone:
 
-| progress | ground |
-|---|---|
-| 0.80 | `rgb(221,205,182)` |
-| 0.86 | `rgb(221,205,182)` |
-| 0.90 | `rgb(119,91,69)` |
-| 0.94 | `rgb(66,43,31)` |
-| 1.00 | `rgb(44,30,22)` |
+| progress | ground             |
+| -------- | ------------------ |
+| 0.80     | `rgb(221,205,182)` |
+| 0.86     | `rgb(221,205,182)` |
+| 0.90     | `rgb(119,91,69)`   |
+| 0.94     | `rgb(66,43,31)`    |
+| 1.00     | `rgb(44,30,22)`    |
 
 > **A stitched full-page screenshot can no longer represent this page.** Each
 > slice is captured at a different scroll position and therefore a different
@@ -692,7 +693,7 @@ one listener for the page, and it removes itself when nothing is pending.
 ## 20. The second look — hover swaps the piece photograph
 
 Hovering a piece crossfades to another photograph of the same piece, so the
-gesture answers *"what else is there to see"* rather than decorating.
+gesture answers _"what else is there to see"_ rather than decorating.
 
 ### Which image
 
@@ -744,13 +745,13 @@ named by the primary image. Keyboard users get it on `:focus-visible`.
 
 The crescent is an Arabic-inspired "R" (§2), so it arrives the way a letter
 arrives: **written**, from the top tip down and around to the tail — right to
-left, the direction that letterform is actually written. Then the *same
-element* travels and scales into the header's picto slot while the veil lifts.
+left, the direction that letterform is actually written. Then the _same
+element_ travels and scales into the header's picto slot while the veil lifts.
 
 ### Why it needed a derived path, not a dash on the outline
 
 The picto is a **filled outline, not a stroke**. Animating `stroke-dashoffset`
-on it traces the crescent's *silhouette* — the shape gets outlined, which is
+on it traces the crescent's _silhouette_ — the shape gets outlined, which is
 not writing. The fill has to be revealed through a **mask** whose content is one
 thick stroke running down the middle of the glyph.
 
@@ -760,20 +761,20 @@ by eye. The outline is one closed contour running from the thin tail up the
 halves are natural opposites. `scripts/centerline.mjs` resamples each half by
 normalised arc length and averages the pairs.
 
-| | |
-|---|---|
-| Centreline length | 159.71 units |
-| Furthest glyph point from it | **8.45** |
-| Mask stroke | **19** wide (needs ≥ 16.9) |
-| Measured coverage when written | **101.3 %** — no gap |
+|                                |                            |
+| ------------------------------ | -------------------------- |
+| Centreline length              | 159.71 units               |
+| Furthest glyph point from it   | **8.45**                   |
+| Mask stroke                    | **19** wide (needs ≥ 16.9) |
+| Measured coverage when written | **101.3 %** — no gap       |
 
 `pathLength="1"` on the nib makes the dash normalised, so nothing has to be
 measured at runtime.
 
 > **Do not test mask coverage by cloning the SVG into a data URI.** The class
 > that animates the nib lives in the document stylesheet, so the clone renders
-> with no dash at all and reports perfect coverage *however narrow the stroke
-> is*. The first version of this check passed with a stroke that could not
+> with no dash at all and reports perfect coverage _however narrow the stroke
+> is_. The first version of this check passed with a stroke that could not
 > possibly have worked. `scripts/intro-frames.mjs` drives the real element
 > through the Web Animations API instead — which also pauses the sequence,
 > since `Intro` waits on `.finished`.
@@ -804,8 +805,8 @@ went, spending the page's one gesture on nothing.
 
 The write is CSS, so it starts at **first paint**. The rest is JS, which starts
 at **hydration** — measured at over 500 ms on a cold production start.
-Sequencing the morph with a plain `setTimeout` therefore fired it *before the
-nib had finished*. `Intro` awaits the nib's own `animation.finished` instead.
+Sequencing the morph with a plain `setTimeout` therefore fired it _before the
+nib had finished_. `Intro` awaits the nib's own `animation.finished` instead.
 
 ### When it does not run
 
@@ -813,12 +814,12 @@ Decided **before first paint** by the inline gate in the layout, which stamps
 `data-intro` on `<html>`. Doing this in an effect would show a frame of the page
 first — the exact flash the intro exists to prevent.
 
-| | |
-|---|---|
-| Once per session | A 1.5 s veil on every reload is the "excessive animation" the brief bans |
-| Never under `prefers-reduced-motion` | The header keeps its own `crescent-swing` |
-| Never without scripting | `.intro` is `display:none` unless `data-intro="run"` |
-| Replay it | append **`?intro`** to any URL |
+|                                      |                                                                          |
+| ------------------------------------ | ------------------------------------------------------------------------ |
+| Once per session                     | A 1.5 s veil on every reload is the "excessive animation" the brief bans |
+| Never under `prefers-reduced-motion` | The header keeps its own `crescent-swing`                                |
+| Never without scripting              | `.intro` is `display:none` unless `data-intro="run"`                     |
+| Replay it                            | append **`?intro`** to any URL                                           |
 
 The gate also arms a 5 s failsafe that clears the lock and fires
 `trc:intro-done` on its own. Whatever happens to React afterwards, a broken
@@ -826,7 +827,7 @@ bundle can never leave a visitor on a blank veil or a page that will not scroll.
 
 > **The scroll lock breaks the measuring scripts.** Every Playwright page is a
 > fresh session, so the intro opens on every run, and a script that scrolls
-> shortly after load measures a page that *cannot move* — reporting it as
+> shortly after load measures a page that _cannot move_ — reporting it as
 > layout. All of them now call `skipIntro(page)` from `scripts/lib/no-intro.mjs`,
 > which seeds the gate's session key. Add it to any new script that scrolls.
 
@@ -842,7 +843,7 @@ Checks: `scripts/intro-frames.mjs` (coverage, landing, frames) and
 **Centred wordmark, nav split around it.** Nav left, mark in the middle,
 utilities right, in a `1fr auto 1fr` grid so the mark stays optically centred
 whatever the two languages measure. The split is meaningful, not decorative:
-the ways *into the collection* on the left, *the house* and how to reach it on
+the ways _into the collection_ on the left, _the house_ and how to reach it on
 the right. Four items on one side against a lone language switch on the other
 read as lopsided.
 
@@ -851,6 +852,7 @@ the pieces are the stars, and a bar pinned across every photograph is chrome
 nobody asked for. Never while the menu panel is open.
 
 Two bugs the change surfaced, both phone-only:
+
 - The picto collapsed to nothing. An SVG with `width: auto` has no intrinsic
   width to defend in a flex container. It needs `flex: none`.
 - With the inline nav hidden, a three-column grid left an empty `1fr` on the
@@ -862,16 +864,16 @@ Two bugs the change surfaced, both phone-only:
 **Only one of the 212 photographs survives a full-bleed crop.** All the
 landscape frames are overhead product shots on a pale wall. The room shot —
 carved Berber door, plaster, the pedestal bowl — is the only one that reads as
-a *scene*; everything else becomes an unreadable fragment at 16:9. It is now the
+a _scene_; everything else becomes an unreadable fragment at 16:9. It is now the
 hero, and the lamp took its place in the Story section.
 
 **The scrim is measured, not styling.** Against this frame:
 
-| | cream | note |
-|---|---|---|
-| pale plaster | **1.15:1** | fails everywhere |
-| header band | **1.32:1** | a transparent header is impossible here |
-| carved door | dark | *ink* fails here instead |
+|              | cream      | note                                    |
+| ------------ | ---------- | --------------------------------------- |
+| pale plaster | **1.15:1** | fails everywhere                        |
+| header band  | **1.32:1** | a transparent header is impossible here |
+| carved door  | dark       | _ink_ fails here instead                |
 
 It is a mixed-luminance photograph: **no text colour clears 4.5:1 across it
 unaided.** Rather than apologise for a scrim, the page uses it — the room falls
@@ -892,7 +894,7 @@ presentation section already says who this is.
 ground, so this screenshots it **with the text hidden** and reads the pixels
 that were behind each box.
 
-> Sampling inside a *visible* text box does not work: the glyphs are in the
+> Sampling inside a _visible_ text box does not work: the glyphs are in the
 > sample, so the darkest "background" pixel found is the text itself and
 > everything scores ~1.0:1. That first attempt reported four confident,
 > meaningless failures.
@@ -906,7 +908,7 @@ double-report it against a ground that is not there.
 ## 23. Mrirt — the instrument, because the rug does not exist yet
 
 The section used to hold an **empty slot** at rug proportion, labelled
-*"Photography to come"*, because there is no photograph of a rug anywhere in
+_"Photography to come"_, because there is no photograph of a rug anywhere in
 the 212 files and a competitor's is not an option.
 
 ### The reframe
@@ -919,25 +921,25 @@ that is the product's defining fact, not a gap to apologise for. It shows the
 The photographs are the client's own **antique Berber weaving comb**, which is
 itself a piece in the collection (`african-decoration`, €130). It is the only
 object in the whole catalogue connected to rug weaving — a grep for
-*rug · tapis · carpet · kilim · weav · wool* returns exactly one product.
+_rug · tapis · carpet · kilim · weav · wool_ returns exactly one product.
 
 Two frames, two registers:
 
-| | file | ratio |
-|---|---|---|
+|                                                                  | file            | ratio                                    |
+| ---------------------------------------------------------------- | --------------- | ---------------------------------------- |
 | **Plate** — the whole tool, flat overhead, the engraving legible | `…comb…-01.jpg` | 3/2, the only landscape frame in the set |
-| **Detail** — macro of the worked metal and the wooden handle | `…comb…-07.jpg` | 2/3 |
+| **Detail** — macro of the worked metal and the wooden handle     | `…comb…-07.jpg` | 2/3                                      |
 
 ### The caption is not decoration
 
 `t.rugs.figure.caption` carries the client's own product name verbatim —
-*"Peigne ancien utilisé pour le tissage des tapis marocains"*. **Nothing on this
+_"Peigne ancien utilisé pour le tissage des tapis marocains"_. **Nothing on this
 page may let a tool be mistaken for a rug**, and a museum-label caption is what
-prevents it. Same rule for the alt text: *"engraved with Berber designs and
-featuring a wooden handle"* is the client's description of this piece, not an
+prevents it. Same rule for the alt text: _"engraved with Berber designs and
+featuring a wooden handle"_ is the client's description of this piece, not an
 embellishment (§5).
 
-`t.rugs.order` — *"Chaque tapis est tissé main sur commande."* — sits directly
+`t.rugs.order` — _"Chaque tapis est tissé main sur commande."_ — sits directly
 above the four axes and says plainly why no finished rug is pictured. It is a
 restatement of the client's own sentence, not a new claim.
 
@@ -948,7 +950,7 @@ grid-template-columns: minmax(0, 2.25fr) minmax(0, 1fr);
 ```
 
 2.25 is **(3/2) ÷ (2/3)** — the ratio of the two source frames. Split that way,
-a landscape 3/2 and a portrait 2/3 come out at *exactly the same height*, so the
+a landscape 3/2 and a portrait 2/3 come out at _exactly the same height_, so the
 pair sits level with **no crop on either**.
 
 The first attempt used 1.85fr with `align-items: end`, which left the portrait
@@ -1047,7 +1049,7 @@ which is how an object is actually looked at in a gallery.
   block and the price ends up below as many as nine images.
 - **Sold is designed for, not handled.** Stock is one of everything, so it is
   frequent: the label states it, the register strikes the price, and the enquiry
-  action is *replaced* rather than left to fail.
+  action is _replaced_ rather than left to fail.
 
 ### Our Story — built to be beautiful with four sentences
 
@@ -1065,7 +1067,7 @@ visitor, and it would also let the client believe the asset had been covered.
 ### Mrirt — no cart, and no rug
 
 The one page that sells nothing. The four form fields are the four words in the
-client's own sentence — *size, colour, design, texture* — which is what makes
+client's own sentence — _size, colour, design, texture_ — which is what makes
 the form honest as well as short. The page shows the **weaving comb** figure the
 homepage now uses, captioned as exactly what it is: nothing here may let a tool
 be mistaken for a rug.
@@ -1082,7 +1084,7 @@ size, and the coordinate readout on the left — a piece standing at viewport
 height on the right. Same construction as the homepage hero, so the page belongs
 to the site before it asks anyone for anything.
 
-**The subject.** Arriving from a piece page, *that piece* is the photograph, with
+**The subject.** Arriving from a piece page, _that piece_ is the photograph, with
 "you are asking about" over its wall label and price, and the message opens
 already saying `No. 24 · Dogon Tribal Staff`. Piece pages therefore link as
 `?piece=<slug>`, not as a display string: a slug resolves back to the record, so
@@ -1108,12 +1110,12 @@ exist yet, and for the same reason.
 > `object-fit: cover` crop the frame's own ratio and cut the legs off the chair.
 
 Every fact on the page is one we hold: the client's own Instagram, and
-Marrakech's coordinates shown as *the city the collection is put together in*.
+Marrakech's coordinates shown as _the city the collection is put together in_.
 There is no telephone number and no street, because we have neither.
 
 **The client has not supplied a contact address** — their own proposal still
 lists it as outstanding. Contact details are the one kind of invented
-information a visitor would *act* on, so:
+information a visitor would _act_ on, so:
 
 - `lib/site.ts` holds `CONTACT_EMAIL` (from `NEXT_PUBLIC_CONTACT_EMAIL`), and it
   is the single place that decides.
@@ -1121,7 +1123,7 @@ information a visitor would *act* on, so:
   that can silently drop a message the way an unmonitored endpoint can. **This
   is the swap point for a real endpoint.**
 - Without one, it does **not** render inputs that could not be sent anywhere.
-  The same fields render as *what to put in a message*, and the action becomes
+  The same fields render as _what to put in a message_, and the action becomes
   Instagram — a real channel, the client's primary one, working today.
 
 > That fallback was wrong twice, the same way. The first version reused the
@@ -1153,7 +1155,7 @@ construction. Pages shorter than a viewport of gap fall back to a brief centred
 drop — visible, but bounded, and better than darkening under a paragraph.
 
 `ClosingBand` is what guarantees that gap on every page below the homepage. It
-is a last offer of the collection *and* it is load-bearing: full-bleed
+is a last offer of the collection _and_ it is load-bearing: full-bleed
 photography with nothing written over it, then open ground. **Do not put text
 over it, do not open gaps between the panes, and do not trim the runway
 padding.** Each one puts the unreadable stretch back under something that has to
@@ -1192,13 +1194,13 @@ say which register they belong to.
 
 `contrast-scroll` and `audit` now take a URL: `node scripts/audit.mjs <url>`.
 
-| | |
-|---|---|
-| Contrast across the whole scroll | PASS on all six new routes, both locales, and the homepage |
-| Reduced motion | 0 elements left transparent, every page |
-| Horizontal overflow at 390px | clean, every page |
-| Focus ring | present on every stop, every page |
-| Build | warning-free, 102 static pages (`/contact` is dynamic — it reads `?piece=`) |
+|                                  |                                                                             |
+| -------------------------------- | --------------------------------------------------------------------------- |
+| Contrast across the whole scroll | PASS on all six new routes, both locales, and the homepage                  |
+| Reduced motion                   | 0 elements left transparent, every page                                     |
+| Horizontal overflow at 390px     | clean, every page                                                           |
+| Focus ring                       | present on every stop, every page                                           |
+| Build                            | warning-free, 102 static pages (`/contact` is dynamic — it reads `?piece=`) |
 
 ### `suppressHydrationWarning` is shallow, and `<body>` needs its own
 
@@ -1243,11 +1245,11 @@ build error rather than a leak.
 
 Everything that becomes a mail header is decided server-side:
 
-| | |
-|---|---|
-| **Subject** | From a fixed two-entry map, keyed by `topic`. Never from the request — a caller-supplied subject is a caller-supplied header, which is the classic injection route. |
-| **From / To** | Environment only. |
-| **Reply-to** | Only if it passes a deliberately conservative pattern that rejects whitespace, newlines, commas and angle brackets. `a@b.com
+|               |                                                                                                                                                                     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Subject**   | From a fixed two-entry map, keyed by `topic`. Never from the request — a caller-supplied subject is a caller-supplied header, which is the classic injection route. |
+| **From / To** | Environment only.                                                                                                                                                   |
+| **Reply-to**  | Only if it passes a deliberately conservative pattern that rejects whitespace, newlines, commas and angle brackets. `a@b.com                                        |
 
 Bcc: victim@…` is dropped, not forwarded — asserted in the test below. |
 | **Body** | Plain text, trimmed, empty fields omitted, capped at 12 fields / 8 000 characters. |
@@ -1271,7 +1273,7 @@ on the reasoning that a form which cannot send is worse than none: the visitor
 believes they have written to someone and then hears nothing. **The client's
 call was that the page needs its form now and the credentials follow**, and that
 is fair — a contact page without one reads as unfinished, and the argument was
-never that a form is dangerous, only that a *silent* one is.
+never that a form is dangerous, only that a _silent_ one is.
 
 So the safety moved from hiding the form to what happens when it fails:
 
@@ -1332,7 +1334,7 @@ Six documents plus the FAQ, taken verbatim off the client's live site. Routes:
 all six in the client's own order, and the dead `/shipping` link is gone.
 
 **Getting the text required a visible browser.** therootscorner.com is behind
-Cloudflare, which answers 403 to curl *and* to headless Chrome. And it was taken
+Cloudflare, which answers 403 to curl _and_ to headless Chrome. And it was taken
 as text rather than through a summariser: this is legal copy, and the whole
 point is that it arrives unchanged. Raw captures are kept in
 `docs/reference/legal/*.txt` so any line in `lib/legal.ts` can be checked
@@ -1347,7 +1349,7 @@ better than a guess at what belongs in it.
 > **Three statements about returns, all published by the client, all
 > contradictory.** The Withdrawal Policy says returns are never accepted and all
 > sales are final. The Imprint says customers "benefit from the right of
-> withdrawal". And the live site publishes a *Withdraw contract* form stating
+> withdrawal". And the live site publishes a _Withdraw contract_ form stating
 > contracts may be withdrawn within 14 days. For an EU customer the third is the
 > legally operative one. **All three are on the new site exactly as written**,
 > because silently harmonising them would be taking a legal position on the
@@ -1360,8 +1362,8 @@ shipment — ordering more costs more to ship. Both reproduced, both flagged.
 
 **The cookie page describes the old stack.** Jimdo, Stripe, PayPal, Cloudflare,
 Google — none of which this build uses. It is transcribed because that is the
-client's published policy, but it is the one page here that is *factually wrong
-about the site it sits on*, and it has to be rewritten against the real stack
+client's published policy, but it is the one page here that is _factually wrong
+about the site it sits on_, and it has to be rewritten against the real stack
 before launch.
 
 ### What the imprint gave us
@@ -1379,7 +1381,7 @@ nothing to put there are now sourced, published by the house on its own pages:
 
 The live site has pages nobody had mentioned: **`/accueil/`** (a French
 homepage), **`/mrirt-rugs/`**, **`/our-airbnb/`** and **`/evenements/`**, plus
-the *Withdraw contract* form at `/withdrawal/`. None are in this build. The
+the _Withdraw contract_ form at `/withdrawal/`. None are in this build. The
 Airbnb and the events in particular are parts of the business the brief never
 described.
 
@@ -1397,14 +1399,14 @@ booking happens on Airbnb, because a link that hands a visitor to a third party
 should say so before it is clicked. Two photographs for two apartments, so
 neither is reused to suggest a room that was not photographed.
 
-**`/[locale]/artisans` — the collaboration.** This is the brief's §6, *"images de
-matières, artisans, voyages ou lieux"*, which §13 lists as content the client
+**`/[locale]/artisans` — the collaboration.** This is the brief's §6, _"images de
+matières, artisans, voyages ou lieux"_, which §13 lists as content the client
 owes. They had already written it. One paragraph and three place names is all
 there is, so the page is short and the photographs carry it.
 
 > **The photographs are not captioned with the places.** The images carry no
 > labels on the live site, so pairing a face or a workshop with one of the three
-> countries would invent a provenance *for a person*. The places are listed as a
+> countries would invent a provenance _for a person_. The places are listed as a
 > set; the photographs stand as photographs.
 
 ### The client writes French, and it is better than ours
@@ -1545,7 +1547,7 @@ anything already on screen now reveals regardless of the trigger.
 descendants, so a transparent header putting ink nav straight onto the dark
 carved door passed every test while being plainly unreadable in a screenshot.
 It now checks `.site-header` too, because over a full-bleed hero the thing
-behind the nav *is* the photograph.
+behind the nav _is_ the photograph.
 
 ### Why the header is frosted rather than transparent
 
@@ -1621,19 +1623,19 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 > **Numbering note:** two sessions have been appending to this file, so 22 and
 > 23 each appear twice. 25 is the next unused number, not the next in sequence.
 
-The brief asks for a *"very simple"* footer and §15 records why: an early
+The brief asks for a _"very simple"_ footer and §15 records why: an early
 four-column version with a newsletter voice was rejected as the shape of a large
 retailer. So this stays **three bands** — the house, the ways in, the fine
 print. What was wrong was never the amount. It was the composition.
 
 ### What was actually broken
 
-| | |
-|---|---|
-| **Half the width was empty** | Mark, name and tagline all stacked into the left column; the full-width rule under them drew attention to the void rather than reading as space. |
-| **The crescent floated** | It sat *beside* the name, bottom-aligned to the tagline, so it had no relationship to anything. |
-| **No sense of place** | Nothing said where the house is — on a site whose whole proposition is that one person finds these pieces. |
-| **Instagram was sixth in the nav row** | The brand's main traffic source (§1), styled as though it were another page of the site. |
+|                                        |                                                                                                                                                  |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Half the width was empty**           | Mark, name and tagline all stacked into the left column; the full-width rule under them drew attention to the void rather than reading as space. |
+| **The crescent floated**               | It sat _beside_ the name, bottom-aligned to the tagline, so it had no relationship to anything.                                                  |
+| **No sense of place**                  | Nothing said where the house is — on a site whose whole proposition is that one person finds these pieces.                                       |
+| **Instagram was sixth in the nav row** | The brand's main traffic source (§1), styled as though it were another page of the site.                                                         |
 
 ### The fixes
 
@@ -1651,7 +1653,7 @@ right; © left / legal right.
 > **start** of the second column — floating mid-page instead of answering the
 > mark across from it. That was the first attempt, and it looked like a bug.
 
-**`t.footer.place` is the base of the house**, from §1 — deliberately *not*
+**`t.footer.place` is the base of the house**, from §1 — deliberately _not_
 "sourced in Marrakech". The client's own copy says pieces are found "in Morocco
 and beyond", and narrowing that would be an invented provenance (§5).
 
@@ -1684,7 +1686,7 @@ phone block can reach the 860px composition.
 Three things centring alone does not fix:
 
 - **The lockup is a block-level SVG at its own width.** `justify-items: center`
-  centres the grid *item*; the box still needs `margin-inline: auto`.
+  centres the grid _item_; the box still needs `margin-inline: auto`.
 - **`max-width` without auto margins** pins the tagline's measure to the left
   edge, so centred text sits off-centre inside its own box.
 - **The legal separators are rendered leading** — each item is `· LABEL`. On one
@@ -1704,11 +1706,10 @@ right and the links should stay — but the legal three cannot be written here.
 §9 (#2) records that the returns position contradicts EU distance-selling law
 and needs legal input, and inventing that copy is exactly what §5 forbids.
 
-
 ## 26. Selling, not cataloguing — and where the sun goes down now
 
-The client's direction, in their words: *"needs a reshape of the design, we need
-to sell there, no need to tell them measures and all that stuff."*
+The client's direction, in their words: _"needs a reshape of the design, we need
+to sell there, no need to tell them measures and all that stuff."_
 
 That reverses §9's museum-label decision on the grids, and it is right for the
 job. The label schema came out of the scrollcraft gallery grammar and it is
@@ -1734,8 +1735,8 @@ be sold from the grid.
 
 The grid is deliberately plain: four across, every tile the same size and shape.
 The composition elsewhere is what says gallery; repeating it here would say
-gallery again, when what is needed at that point in the page is *these are for
-sale.*
+gallery again, when what is needed at that point in the page is _these are for
+sale._
 
 ### Seven doorways, two rows
 
@@ -1842,23 +1843,22 @@ different typeface every time it is drawn is not a logo. It uses `Wordmark`, the
 Illustrator export, whole. Still nothing redrawn (§2); only placed and scaled.
 
 **Open with the client:** they asked to "redesign that logo as well". This
-change redesigns the *lockup* — how the mark sits on the page. The mark itself
+change redesigns the _lockup_ — how the mark sits on the page. The mark itself
 is their registered artwork and §2 forbids redrawing it, so altering the glyph
 needs their explicit instruction, and `components/Intro.tsx` animates that exact
 path and would have to be re-derived with `scripts/centerline.mjs`.
-
 
 ## 27. Instagram frames cannot be fetched — a manifest instead
 
 The client asked for the good photographs on their Instagram to be pulled in.
 They cannot be. What was tried, so nobody spends the hour again:
 
-| attempt | result |
-|---|---|
-| `GET instagram.com/therootscorner.m/` with a browser UA | **200, but the login wall** — no `og:image`, no post media, 17 login markers in the HTML |
-| `GET /api/v1/users/web_profile_info/?username=…` with `X-IG-App-ID` | **429** |
-| `GET /therootscorner.m/?__a=1&__d=dis` | **201, empty body** — the endpoint is dead |
-| `cdninstagram.com` URLs in the returned HTML | 683 of them, every one `static.cdninstagram.com/rsrc.php/…` — Instagram's own login-page sprites, not photographs |
+| attempt                                                             | result                                                                                                            |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `GET instagram.com/therootscorner.m/` with a browser UA             | **200, but the login wall** — no `og:image`, no post media, 17 login markers in the HTML                          |
+| `GET /api/v1/users/web_profile_info/?username=…` with `X-IG-App-ID` | **429**                                                                                                           |
+| `GET /therootscorner.m/?__a=1&__d=dis`                              | **201, empty body** — the endpoint is dead                                                                        |
+| `cdninstagram.com` URLs in the returned HTML                        | 683 of them, every one `static.cdninstagram.com/rsrc.php/…` — Instagram's own login-page sprites, not photographs |
 
 Those were all **`curl`**, and that was the mistake: the profile is rendered by
 script, so a bare HTTP client has nothing to run. **`scripts/ig-fetch.mjs`** does
@@ -1875,7 +1875,7 @@ It writes `public/instagram/01.jpg…` and fills `docs/instagram.json`. If it fi
 nothing it saves `scripts/.ig-debug.png` so the next person can see what the
 browser actually got rather than guessing.
 
-Alt text that looks auto-generated — *"Photo by…"*, *"May be an image of…"* — is
+Alt text that looks auto-generated — _"Photo by…"_, _"May be an image of…"_ — is
 dropped rather than shipped. That is Instagram's captioner, not a description of
 the piece, and §5 applies.
 
@@ -1917,7 +1917,6 @@ The Basic Display API is not the route — it was retired.
 **Do not add a third-party embed widget.** It injects an external script, cannot
 be styled to this page, and hands the client's traffic to someone else.
 
-
 ## 28. Grain, and a feed that moves sideways
 
 ### Grain
@@ -1954,7 +1953,7 @@ gutter, but horizontal, so it cannot rhyme with the matter wall two sections
 below.
 
 The strip is `overflow-x: auto` inside `max-width: 100%`, so it never makes the
-*page* scroll sideways — `audit.mjs` confirms `scrollWidth 390 vs 390`.
+_page_ scroll sideways — `audit.mjs` confirms `scrollWidth 390 vs 390`.
 
 ### The footer is soft black, not brown
 
@@ -1972,7 +1971,7 @@ still nowhere near the pure `#000` the brief bans.
 **The hero was failing contrast, and had been for a while.** `contrast-photo.mjs`
 had not been run since the section rebuild. Four failures, the worst at
 **1.26:1**. The cause was `--ink-inverse-soft` on `.hero-note` and
-`.hero-tagline`: a legitimate second text weight *on the page ground*, where it
+`.hero-tagline`: a legitimate second text weight _on the page ground_, where it
 is measured against one known colour, but over a photograph there is no second
 weight available — there is only readable. Both are full `--ink-inverse` now,
 and the plate's mid-band stops went up a little (0.52 → 0.60 at 46%, 0.28 → 0.36
@@ -1993,7 +1992,6 @@ Now: every hero and header string passes at both widths, worst margin 3.16 / 3.
 > legible**. `contrast-photo.mjs` and `hero-audition.mjs` now remove
 > `nextjs-portal` before measuring. Any new script that samples rendered pixels
 > must do the same.
-
 
 ## 29. The sundown is gone, and the Instagram photographs arrived
 
@@ -2035,11 +2033,11 @@ drop under a paragraph. `[data-tone="dark"]` stays on the footer because
 
 `scripts/ig-fetch.mjs` returned **12 frames at 512×640**. Sorted:
 
-| | |
-|---|---|
+|                                   |                                            |
+| --------------------------------- | ------------------------------------------ |
 | Interiors — pieces in a real room | 01 (dining room), 07 (lit alcove at night) |
-| Pieces on the studio wall | 03, 04, 06, 09, 10 |
-| Branded posts with type baked in | 02 (جذور), 05, 08, 11 |
+| Pieces on the studio wall         | 03, 04, 06, 09, 10                         |
+| Branded posts with type baked in  | 02 (جذور), 05, 08, 11                      |
 
 The two interiors are the first photographs this project has ever had of the
 collection **standing in a house**, which is what the brief's section 6 asks
@@ -2071,24 +2069,24 @@ cropped, they read as swatches rather than as objects. Cut on the client’s
 instruction, and the section is better for it — the words, and one whole room
 where these pieces live.
 
-> Worth raising with the client: the heading is *“Les marques font la
-> pièce”* and there is now no close-up of a mark in the section. Either the
+> Worth raising with the client: the heading is _“Les marques font la
+> pièce”_ and there is now no close-up of a mark in the section. Either the
 > copy moves toward the room, or one large high-resolution detail comes back —
 > one, at size, not three fragments.
 
 ### Less space, bigger pictures, everywhere else
 
-The client's words: *"reduce that more space and big pictures."*
+The client's words: _"reduce that more space and big pictures."_
 
-| | before | after |
-|---|---|---|
-| `--section-y` | `clamp(3.5rem, 7vw, 7rem)` | `clamp(2.8rem, 5vw, 5rem)` |
-| `.page-head` top padding | header + `clamp(3.5rem, 11vw, 8rem)` | header + `clamp(1.6rem, 4.5vw, 3.2rem)` |
-| `.closing` bottom padding | `clamp(14rem, 26vw, 24rem)` | `clamp(2rem, 4vw, 3.2rem)` |
-| Collection rooms | 4 across | **3 across** (one line — `.doorways` is a 12-column grid) |
-| Closing band | 4 panes | **3 panes** |
-| `.piece-plate img` cap | `76svh` | **`88svh`** |
-| `.room-rail` margin-top | `clamp(4rem, 10vw, 8rem)` | `clamp(2.4rem, 5vw, 4rem)` |
+|                           | before                               | after                                                     |
+| ------------------------- | ------------------------------------ | --------------------------------------------------------- |
+| `--section-y`             | `clamp(3.5rem, 7vw, 7rem)`           | `clamp(2.8rem, 5vw, 5rem)`                                |
+| `.page-head` top padding  | header + `clamp(3.5rem, 11vw, 8rem)` | header + `clamp(1.6rem, 4.5vw, 3.2rem)`                   |
+| `.closing` bottom padding | `clamp(14rem, 26vw, 24rem)`          | `clamp(2rem, 4vw, 3.2rem)`                                |
+| Collection rooms          | 4 across                             | **3 across** (one line — `.doorways` is a 12-column grid) |
+| Closing band              | 4 panes                              | **3 panes**                                               |
+| `.piece-plate img` cap    | `76svh`                              | **`88svh`**                                               |
+| `.room-rail` margin-top   | `clamp(4rem, 10vw, 8rem)`            | `clamp(2.4rem, 5vw, 4rem)`                                |
 
 The principle behind the section-rhythm change, since it is the one that could
 drift back: **space only reads as generosity when there is something for it to
@@ -2101,11 +2099,10 @@ story 7415 · Mrirt 4258 · contact 2997.
 ### Presentation has a photograph now
 
 It was type on open ground with the right half of the row empty at every width,
-and the one thing it could not do was show what any of this is *for*. The lit
+and the one thing it could not do was show what any of this is _for_. The lit
 alcove sits in column two, spanning the statement and the prose. The grid rows
 are explicit — auto-placement put the prose in the plate's column and pushed the
 plate onto a fourth row of its own.
-
 
 ## 30. The collection page — cards, and the end of the register
 
@@ -2127,7 +2124,7 @@ number, origin and dimension columns it carried. Nothing else used it.
 
 > The data gaps did not stop existing. `node scripts/coverage.mjs` still reports
 > them, and the piece page still shows the full schema. What went away is the
-> page that *displayed* the gaps to a shopper, which was never that page's job.
+> page that _displayed_ the gaps to a shopper, which was never that page's job.
 
 ### The rooms became navigation
 
@@ -2161,7 +2158,7 @@ Two details that are load-bearing:
 - **`.card-said .wall-label-name` has a `min-height`** — three lines on a phone,
   two above 640px. Without it the prices step up and down across a row and the
   grid stops reading as rows. The phone value is larger because at two columns
-  the names wrap further: *"Handmade Pottery Vase Made in Morocco"* takes three.
+  the names wrap further: _"Handmade Pottery Vase Made in Morocco"_ takes three.
 
 **Sold is designed for, not handled.** Stock is one of everything, so it is
 frequent: `.card.is-gone` strikes the price and the state is stated, while the
@@ -2180,7 +2177,6 @@ sundown (§29), and there is no sundown.
 Next 16 rejects any `quality` an app uses that is not declared. `[75, 90]` — 75
 is the default, 90 is for the two Instagram interiors, which at 512×640 are the
 smallest files on the site and can least afford re-compression.
-
 
 ## 31. Four across, one grid, and a shelf
 
@@ -2207,7 +2203,7 @@ of one should put you in the corridor, not back at the front door.
 It has been three things now. Gapless full-bleed panes, which existed only to
 hide the sundown (§29). Then a shelf: objects bottom-aligned on one continuous
 rule, at three sizes. The client looked at both and asked for the composition
-already used on the piece page under *"Continuer à regarder"* — the **hang**:
+already used on the piece page under _"Continuer à regarder"_ — the **hang**:
 three works at three different heights, name and price beneath.
 
 That is the right call independent of taste. On a piece page a visitor meets
@@ -2215,7 +2211,7 @@ That is the right call independent of taste. On a piece page a visitor meets
 band — and meeting it in two different layouts reads as two different sites.
 There is now exactly one way this site says it, and both call sites use it. The
 CSS for the closing band is four rules, because `.hang` in sections.css already
-*is* the design.
+_is_ the design.
 
 `piece-more` also switched from the full wall label to `sell`. The schema
 belongs on a piece page, which is where that visitor already is — repeating
@@ -2245,8 +2241,8 @@ has already scrolled through.
 **Everywhere else on this site, photographs hang** — the homepage trio, the
 room, the matter wall. Here the pieces are put **down**: bottom-aligned on one
 rule running the width of the page, at three unequal sizes, largest in the
-middle so the row has a centre rather than a direction. That is what *"encore
-là"* looks like, and it is the one composition the site did not already have.
+middle so the row has a centre rather than a direction. That is what _"encore
+là"_ looks like, and it is the one composition the site did not already have.
 
 It works because every photograph in this collection is of an object standing on
 a surface near the foot of the frame, so a shared baseline genuinely lines the
@@ -2258,7 +2254,7 @@ three sizes read as three objects instead of three crops.
 > drawn as the top border of each column's caption; three abutting segments join
 > into one continuous line. Put the gap between the columns and the shelf comes
 > out dashed, which reads as a mistake rather than as a shelf. The columns are
-> held apart by padding *inside* them, with the outer edges unpadded so the line
+> held apart by padding _inside_ them, with the outer edges unpadded so the line
 > spans the full content width.
 
 On a phone the third piece stands down and the shelf is two: a shelf with a gap
@@ -2269,15 +2265,15 @@ there.
 
 ## 32. The Mrirt page — and why space is a content problem
 
-The page was built on a premise that no longer holds: *there is no photograph of
-a Mrirt rug, so show the instrument instead.* Three frames from the client's own
+The page was built on a premise that no longer holds: _there is no photograph of
+a Mrirt rug, so show the instrument instead._ Three frames from the client's own
 site have since arrived (`docs/site-images.json`, source `therootscorner.com`).
 
-| | ratio | what it is for |
-|---|---|---|
-| `mrirt-rug.jpg` 1800×3200 | 9/16 | The rug, with the weaving comb lying on the wool |
-| `mrirt-pile-trim.jpg` 784×784 | 1/1 | Macro of the pile — the proof of "generous thickness" |
-| `mrirt-room.jpg` 1206×1889 | ~0.638 | The only frame that carries **scale** |
+|                               | ratio  | what it is for                                        |
+| ----------------------------- | ------ | ----------------------------------------------------- |
+| `mrirt-rug.jpg` 1800×3200     | 9/16   | The rug, with the weaving comb lying on the wool      |
+| `mrirt-pile-trim.jpg` 784×784 | 1/1    | Macro of the pile — the proof of "generous thickness" |
+| `mrirt-room.jpg` 1206×1889    | ~0.638 | The only frame that carries **scale**                 |
 
 ### The rule this page produced
 
@@ -2291,7 +2287,7 @@ ground** beside the text, and the page read as mostly air.
 
 What that produced, in three sections instead of four:
 
-1. **The rug, bleeding off the left edge**, against a *stack*: the wall label →
+1. **The rug, bleeding off the left edge**, against a _stack_: the wall label →
    the four terms, ruled → a detail of the pile. One label alone left ~500px.
 2. **The wool and the weavers** — text only, and short on purpose, so the page
    has one place to breathe that is not an accident of a tall frame.
@@ -2306,7 +2302,7 @@ frames from reading as a template.
 ### Three traps, all hit
 
 **`max-height` silently breaks a bleed.** With `aspect-ratio` set, a
-`max-height` shrinks the *width* to match — so the frame stops reaching the
+`max-height` shrinks the _width_ to match — so the frame stops reaching the
 viewport edge and the bleed quietly disappears. Shorten a bleeding frame by
 changing its **ratio** at the breakpoint, never by capping its height.
 
@@ -2325,7 +2321,7 @@ The label is the site's own schema (§14) and every value comes from the client'
 Mrirt copy. **There is no dimensions row** — a rug that does not exist yet has
 no dimensions, and the schema omits a field rather than inventing one (§5). The
 comb is demoted, not deleted: it is the weaver's tool beside the passage about
-the weavers, and it also appears *inside* the hero photograph.
+the weavers, and it also appears _inside_ the hero photograph.
 
 `mrirt-pile-trim.jpg` exists because the original bakes an **8px border into the
 JPEG** — measured, not guessed — which reads as a hard frame against the ecru
@@ -2351,7 +2347,7 @@ Until then the shelf shows `WOVEN_RUGS` — the rugs the client has actually
 photographed — as **woven work, not priced stock**: no price, no dimensions, no
 stock state, no piece page, because none of those is known. Each card leads to
 the enquiry, which is how a dealer with unpriced one-offs really sells. The page
-lede follows the shelf too: *"nothing here is in stock"* becomes false the day
+lede follows the shelf too: _"nothing here is in stock"_ becomes false the day
 one is, so it swaps to `ledeStocked`.
 
 `scripts/preview-rugs.mjs inject|restore` proves the real-stock path renders by
@@ -2366,7 +2362,7 @@ leave a tree with `inject` applied.
 > stops being the subject, so it is cropped bottom-anchored.
 
 > **The caramel pile is a different rug from the cream hero.** It used to sit in
-> section 1 captioned as a detail *of that rug*, which the composition made
+> section 1 captioned as a detail _of that rug_, which the composition made
 > read as one object. It is now its own card, where being its own rug is the
 > point — and section 1's plate went square to keep the column balanced without
 > it.
@@ -2382,7 +2378,6 @@ every downstream scroll percentage and the ground's stops are tuned to those.
 
 > **Git Bash rewrites a bare `/fr/mrirt` argument into a Windows path** before
 > node sees it. `shoot-page.mjs` takes `fr/mrirt` and adds the slash itself.
-
 
 ## 33. Our Story, refined — and a 21,211px regression
 
@@ -2434,12 +2429,11 @@ say it better), and it is 22rem rather than a full column.
 
 > **A percentage width inside an `auto` grid track collapses.** The plate was
 > `width: min(100%, 18rem)` in a `grid-template-columns: auto …` track, so its
-> 100% resolved against a width the track was still deriving *from the plate* —
+> 100% resolved against a width the track was still deriving _from the plate_ —
 > and it came out at about 130px, the width of its own caption. The track states
 > the width now (`22rem 40rem`), and the plate fills it. That pairing also puts
 > the section at ~1070 of the 1264 available at 1440, instead of stopping two
 > thirds across and leaving the rest as an accident.
-
 
 ## 34. Our Story as chapters — and what the old site still had on it
 
@@ -2448,26 +2442,26 @@ say it better), and it is 22rem rather than a full column.
 `therootscorner.com` was scraped for products and for a handful of About lines,
 and three sentences on it had been missed. Re-read on the client's prompt:
 
-| where | sentence | now |
-|---|---|---|
-| `/about-us/` | *"To share a world of meaningful objects and create a lasting appreciation for pieces that carry history, purpose, and character."* | `storyPage.purpose` — the intent chapter |
-| `/` | *"Curated artisanal pieces for warm and authentic interiors."* | unused — a tagline, and the brand already has one |
-| `/` | *"Our apartments offer a quieter side of Marrakech…"* | **not used — see below** |
+| where        | sentence                                                                                                                            | now                                               |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `/about-us/` | _"To share a world of meaningful objects and create a lasting appreciation for pieces that carry history, purpose, and character."_ | `storyPage.purpose` — the intent chapter          |
+| `/`          | _"Curated artisanal pieces for warm and authentic interiors."_                                                                      | unused — a tagline, and the brand already has one |
+| `/`          | _"Our apartments offer a quieter side of Marrakech…"_                                                                               | **not used — see below**                          |
 
 The About sentence is the only place the client says **why** any of this exists
 rather than what it is. There is exactly one of it, which is what earns it a
 whole screen and the largest type on the page.
 
-> The French is a translation, not authorship (§11). `purpose` → *"utilité"*:
+> The French is a translation, not authorship (§11). `purpose` → _"utilité"_:
 > these are objects that were made to be used, which is what the English means
 > here. `raison d'être` would have been a different claim.
 
 > ### ⚠️ The client also rents apartments
 >
-> The old homepage carries: *"Our apartments offer a quieter side of Marrakech.
+> The old homepage carries: _"Our apartments offer a quieter side of Marrakech.
 > Thoughtfully designed and carefully curated, each space combines comfort,
 > simplicity and character to create a stay that feels authentic and
-> effortless."*
+> effortless."_
 >
 > **Nothing in the brief, the portfolio or the commercial proposal mentions
 > this.** It is a second business — accommodation — and it may well explain
@@ -2478,7 +2472,7 @@ whole screen and the largest type on the page.
 The contact page has no address on it, only a form — so `CONTACT_EMAIL` is still
 owed (§24). The FAQ confirms both contradictions §9 records, in the client's own
 words: **3–8 weeks** for Europe against **1–2 weeks** on the product pages, and
-*"All sales are therefore considered final"* against the EU's 14-day withdrawal
+_"All sales are therefore considered final"_ against the EU's 14-day withdrawal
 right.
 
 ### The page is chapters now
@@ -2521,7 +2515,6 @@ Both are transitions on the class `Reveal` already adds, so
 `prefers-reduced-motion` switches everything off in one block — verified, 0
 elements left transparent.
 
-
 ## 35. The header — the letter moves right, the name changes face, the language opens
 
 ### The Arabic-inspired letter sits above the name
@@ -2540,8 +2533,8 @@ the lockup is **40px** inside an 80px bar, so `--header-h` is untouched.
 > mark above it by half the tracking. The indent gives it back.
 
 **The intro needed no change at all.** `Intro.tsx` FLIPs the written crescent
-onto `[data-mark-target]` and measures that box **live**, so moving *and
-resizing* the mark is a markup change and nothing else. Verified after both:
+onto `[data-mark-target]` and measures that box **live**, so moving _and
+resizing_ the mark is a markup change and nothing else. Verified after both:
 `dx 0, dy 0, scaleErr 0`, write coverage 101.33%, veil gone, scroll unlocked.
 
 ### The name is set in Jost now
@@ -2558,7 +2551,7 @@ how the artwork sets it.
 
 A single "EN" link only reads as a control if you already know what it does — it
 states the destination and not the choice. The header now shows the **current**
-language with a caret, and opens a named list: *Français*, *English*.
+language with a caret, and opens a named list: _Français_, _English_.
 
 Endonyms, not translations: a French speaker scans for "Français", not for
 "French". The list is identical in both dictionaries, which is why `LANGS` lives
@@ -2584,7 +2577,6 @@ on Escape (returning focus to the toggle), and on choosing.
 > `.next` cache survives it. Stop the server, `rm -rf .next`, then start —
 > in that order, because deleting it under a running server produces 500s.
 
-
 > ### The dev server was being reaped mid-check
 >
 > Backgrounded `next dev` kept dying part-way through a Playwright run, which
@@ -2596,7 +2588,6 @@ on Escape (returning focus to the toggle), and on choosing.
 >   until curl -s -o /dev/null http://localhost:3111/fr; do sleep 1; done ; \
 >   node scripts/intro-frames.mjs
 > ```
-
 
 ## 36. The piece page — a gallery, and why the space was there
 
@@ -2664,7 +2655,6 @@ said in a stylesheet.
 > Start-Process cmd.exe -ArgumentList "/c npx next dev -p 3111 > log 2>&1" -WindowStyle Hidden
 > ```
 
-
 ### The plate is centred, because the photograph cannot get any wider
 
 Left-aligned at 1890 the block put **700px of nothing on the right**, which is
@@ -2683,21 +2673,20 @@ screen has: the stage went from `min(72svh, 40rem)` to `min(76svh, 44rem)`.
 The words now sit under a hairline rule with real air above it — the plate ends,
 the reading begins.
 
-
 ## 37. The shop works — cart, checkout, and one seam for Shopify
 
 Everything a buyer touches is finished. The only thing missing is a payment
 processor, and it plugs into exactly one function.
 
-| | |
-|---|---|
-| `lib/cart.ts` | State, storage, totals |
-| `components/CartProvider.tsx` | Shared client state |
-| `components/CartButton.tsx` | The handle in the header |
-| `components/CartPanel.tsx` | The panel |
-| `components/AddToCart.tsx` | The buy action |
-| `app/[locale]/checkout/` + `CheckoutOrder.tsx` | The review step |
-| **`lib/checkout.ts`** | **The seam** |
+|                                                |                          |
+| ---------------------------------------------- | ------------------------ |
+| `lib/cart.ts`                                  | State, storage, totals   |
+| `components/CartProvider.tsx`                  | Shared client state      |
+| `components/CartButton.tsx`                    | The handle in the header |
+| `components/CartPanel.tsx`                     | The panel                |
+| `components/AddToCart.tsx`                     | The buy action           |
+| `app/[locale]/checkout/` + `CheckoutOrder.tsx` | The review step          |
+| **`lib/checkout.ts`**                          | **The seam**             |
 
 ### The cart is a set of slugs, and that is a design decision
 
@@ -2770,14 +2759,13 @@ the enquiry they always had. Nothing invents a price to make a button work (§5)
 > as a 500 that looked like a code error. Kill every PID on the port, wait, then
 > start one, and check the listener count is exactly one.
 
-
 ## 38. The header is the name alone
 
 The client asked for the crescent out of the bar: the Latin name only, at every
 width. One lockup now, one line, Jost at 0.86rem with 0.26em tracking.
 
-> §2 records the crescent as *"the favicon, the loading mark, and the mobile
-> header."* Two of those three still hold — it is still the favicon and still
+> §2 records the crescent as _"the favicon, the loading mark, and the mobile
+> header."_ Two of those three still hold — it is still the favicon and still
 > the mark the intro writes, and it is still in the footer as part of the
 > client's own artwork. The third was their call.
 
@@ -2833,15 +2821,15 @@ favicon, the mark the intro writes, and half the footer lockup.
 ### Why it is not the stacked artwork
 
 The file stacks the crescent above the name. Rendered that way and sized so the
-name is *readable*, it made a **153px header** — a fifth of a laptop screen of
+name is _readable_, it made a **153px header** — a fifth of a laptop screen of
 chrome on a site whose argument is that the pieces are the stars. Measured:
 
-| | bar height | "ROOTS" |
-|---|---|---|
-| Stacked, fitting the 80px bar | 80px | ~8px tall — illegible |
-| Stacked, name legible | **153px** | legible |
-| Crescent beside the name | 80px | legible |
-| **Name alone** (shipped) | **80px** | legible |
+|                               | bar height | "ROOTS"               |
+| ----------------------------- | ---------- | --------------------- |
+| Stacked, fitting the 80px bar | 80px       | ~8px tall — illegible |
+| Stacked, name legible         | **153px**  | legible               |
+| Crescent beside the name      | 80px       | legible               |
+| **Name alone** (shipped)      | **80px**   | legible               |
 
 The lockup is a tall block whose name lives in its **bottom ~45%**, so height is
 the wrong lever — it spends almost all of it on the crescent. §38 hit this same
@@ -2901,7 +2889,9 @@ scroll a little. Three separate causes, all measured.
 ### 1. `body` was still painting night
 
 ```css
-body { background: var(--hour-night); }   /* rgb(31,29,27) */
+body {
+  background: var(--hour-night);
+} /* rgb(31,29,27) */
 ```
 
 That was the no-JS fallback from when the ground fell all the way to night. §29
@@ -2919,7 +2909,7 @@ scripting off. Verified: `body` reads `rgb(247,245,242)` from the first frame.
 
 ### 2. `scroll-behavior: smooth` was animating navigation
 
-It sat on `html` unconditionally, so it applied to *every* scroll the browser
+It sat on `html` unconditionally, so it applied to _every_ scroll the browser
 performs — including the jump to the top on a route change. Clicking the logo
 from the foot of a long page did not go to the new page: it **flew** there, a
 measured **~1.2s** of animated travel back through the old page, with the header
@@ -2937,13 +2927,13 @@ positions eased 0 → 820 — and navigation is instant.
 > have to pass `behavior: "instant"`. The site had the identical bug in
 > production and nobody had connected the two.
 
-### 3. The bar *travelled* to the new page's tone instead of arriving at it
+### 3. The bar _travelled_ to the new page's tone instead of arriving at it
 
 `.site-header` carries `transition: background-color 700ms`. That is right while
 scrolling — the tone should follow the room, not snap — and wrong across a
 navigation, where it means the new page **inherits the old page's colour and
 spends most of a second fading out of it.** Coming back from a footer that fills
-half the screen with brown, that fade *is* the flash.
+half the screen with brown, that fade _is_ the flash.
 
 `Header.tsx` sets `.is-repainting` (which is `transition: none !important`) for
 90ms across a route change, then releases it. Ordinary scrolling animates
@@ -2951,7 +2941,7 @@ exactly as before.
 
 ### And the measure effect never re-ran
 
-`useEffect(..., [])`. The sections it measures belong to the *page*, and a route
+`useEffect(..., [])`. The sections it measures belong to the _page_, and a route
 change replaces them wholesale — but nothing re-measured, and no scroll event
 fires on a navigation, so the bar kept the last page's state until the visitor
 nudged it. That is the "you need to scroll a little to correct it".
@@ -2961,11 +2951,11 @@ late-arriving images that change section heights.
 
 ### Measured, before and after
 
-| | before | after |
-|---|---|---|
-| body on load | `rgb(31,29,27)` for ~613ms | `rgb(247,245,242)` from frame 1 |
-| scroll on nav | animated 5649 → 0 over ~1.2s | jumps in one step |
-| header on arrival | faded 0.94 → 0 over ~600ms | correct on the first frame |
+|                   | before                       | after                           |
+| ----------------- | ---------------------------- | ------------------------------- |
+| body on load      | `rgb(31,29,27)` for ~613ms   | `rgb(247,245,242)` from frame 1 |
+| scroll on nav     | animated 5649 → 0 over ~1.2s | jumps in one step               |
+| header on arrival | faded 0.94 → 0 over ~600ms   | correct on the first frame      |
 
 ### `is-dark` is currently unreachable
 
@@ -3006,7 +2996,7 @@ Two columns of ~145px cards is the shape of a shop's category tiles — the
 catalogue presentation the brief bans — and at that size neither half of a card
 can do its job. The photograph is too small to show what a Tamegroute glaze
 looks like; the name is too narrow to hold, so four of the seven French labels
-broke mid-phrase. *"Tabourets & sièges"* split its own ampersand onto line two.
+broke mid-phrase. _"Tabourets & sièges"_ split its own ampersand onto line two.
 
 The count made it worse twice over: sharing the name's row it ate ~30px of the
 width that **caused** the wrap, and `align-items: baseline` then pinned it to the
@@ -3029,13 +3019,13 @@ Each doorway is a full-width band:
 ──────────────────────────────────
 ```
 
-| | |
-|---|---|
-| **The plate** | 3.4rem wide at **2:3** — the ratio most of this photography was actually shot at, so the crop takes nothing off the object. Deliberately small: it is a keyed swatch telling you what is behind the door, not the door. |
-| **The numeral** | The room's position in the directory, in clay, tabular. |
-| **The name** | 1.28rem with the whole width to itself. Six of seven set on one line in French, **all seven** in English. |
-| **The count** | Directly under the name, at its left edge. |
-| **The rule** | One hairline per band — the same one the register and the rails use. |
+|                 |                                                                                                                                                                                                                         |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **The plate**   | 3.4rem wide at **2:3** — the ratio most of this photography was actually shot at, so the crop takes nothing off the object. Deliberately small: it is a keyed swatch telling you what is behind the door, not the door. |
+| **The numeral** | The room's position in the directory, in clay, tabular.                                                                                                                                                                 |
+| **The name**    | 1.28rem with the whole width to itself. Six of seven set on one line in French, **all seven** in English.                                                                                                               |
+| **The count**   | Directly under the name, at its left edge.                                                                                                                                                                              |
+| **The rule**    | One hairline per band — the same one the register and the rails use.                                                                                                                                                    |
 
 The section falls from **1407px to 877px**, and the tap target goes from 104px
 where it was a card's whole height to 104px of band — unchanged, but now the
@@ -3059,7 +3049,7 @@ numeral sits tight against the name and reads unambiguously as a quantity. In
 the directory it stands on its own line, where "12" could be a price, a year or
 a room number. Both strings are rendered and **CSS picks one** — the server
 cannot know the viewport, and a JS swap would flash. The dictionaries already
-carried `category.count` / `countOne`, so the singular is right: *Lumière* holds
+carried `category.count` / `countOne`, so the singular is right: _Lumière_ holds
 exactly one piece.
 
 **Numbering categories is safe where numbering objects was not.** §24 refused
@@ -3078,11 +3068,11 @@ rendering as bare numerals — identical to before.
 
 ### Verified
 
-| | 390px | 320px |
-|---|---|---|
-| Names wrapping, FR | 1 of 7 (was 4) | 1 of 7 |
-| Names wrapping, EN | **0 of 7** | 1 of 7 |
-| Horizontal overflow | 0px | 0px |
+|                     | 390px          | 320px  |
+| ------------------- | -------------- | ------ |
+| Names wrapping, FR  | 1 of 7 (was 4) | 1 of 7 |
+| Names wrapping, EN  | **0 of 7**     | 1 of 7 |
+| Horizontal overflow | 0px            | 0px    |
 
 `audit` on `/fr` and `/en` · `contrast-scroll` PASS on both · build
 warning-free.
@@ -3090,7 +3080,7 @@ warning-free.
 ## 42. The rooms on a phone — the covers, not the names
 
 Same report as §41, different component: the **collection page**'s rooms rail,
-not the homepage's doorways. They share an eyebrow — *"Par où commencer"* —
+not the homepage's doorways. They share an eyebrow — _"Par où commencer"_ —
 which is why they read as one thing, but §30 made them deliberately different.
 
 This took two passes, and the first one is the lesson.
@@ -3100,7 +3090,7 @@ This took two passes, and the first one is the lesson.
 `.rooms-rail` is a wrapping flex row: right at desktop width, where eight short
 names and their counts sit on one line. At 390px it wraps onto four, and every
 line ends wherever the next name happens not to fit — so the right edge is
-ragged and each line trails dead ground. *"Céramiques de Tamegroute"* is wider
+ragged and each line trails dead ground. _"Céramiques de Tamegroute"_ is wider
 than half the screen and takes a line to itself.
 
 Setting it as a vertical list, one room per line with a leader rule to its
@@ -3118,17 +3108,16 @@ the shop; what someone wants here is to see what is in a room, not to read its
 name.
 
 So below 700px the rooms are a band of covers you push sideways: 3:4 frames at
-34vw, name and count beneath, bleeding off the right edge. **218px instead of
-418.** The cut last cell is honest — there really is more, one push away.
+34vw, name and count beneath, bleeding off the right edge. **218px instead of 418.** The cut last cell is honest — there really is more, one push away.
 
 The gesture is the site's own: `.instagram-strip` is the same construction, so
 this reads as something the site already does rather than a new component.
 
-| | |
-|---|---|
-| Rail (≥700px) | unchanged — one line, 59px |
-| List (pass one) | 418px, 8 rows of text |
-| **Strip (shipped)** | **218px, 8 covers** |
+|                     |                            |
+| ------------------- | -------------------------- |
+| Rail (≥700px)       | unchanged — one line, 59px |
+| List (pass one)     | 418px, 8 rows of text      |
+| **Strip (shipped)** | **218px, 8 covers**        |
 
 ### Three real bugs, all caught by measuring
 
@@ -3170,13 +3159,13 @@ make one object speak for thirty-eight.**
 The client's instruction was that the cards are good as they are. This block
 only ever addresses `.rooms-rail` and `.rooms-strip`.
 
-| width | strip | rail visible | cards |
-|---|---|---|---|
-| 1440 | — | yes | 4 across |
-| **700** | — | yes | 3 across |
+| width   | strip | rail visible | cards    |
+| ------- | ----- | ------------ | -------- |
+| 1440    | —     | yes          | 4 across |
+| **700** | —     | yes          | 3 across |
 | **699** | 358px | no (in tree) | 3 across |
-| 390 | 218px | no (in tree) | 2 across |
-| 320 | 186px | no (in tree) | 2 across |
+| 390     | 218px | no (in tree) | 2 across |
+| 320     | 186px | no (in tree) | 2 across |
 
 Desktop downloads **none** of the cover images: they are rendered at every
 viewport and hidden in CSS rather than branched in JS — the server cannot know
@@ -3193,13 +3182,13 @@ loaded at 390px, **0 at 1440**.
 ## 43. The strip looks through itself, once — after the words have landed
 
 The strip bleeds off the right edge so its last cell is visibly cut — which is
-how it says *there is more, one push away* without an arrow. That reads if you
+how it says _there is more, one push away_ without an arrow. That reads if you
 are looking at it, and it does not if the covers were below the fold when you
 arrived. So the first time the strip is seen it drifts sideways on its own,
 holds, and eases back: **0 → 281 → hold → 0**, about 3.2s.
 
-At the far point the visible rooms are *Pièces africaines · Objets · Pots &
-contenants* — rooms that are not on screen at rest. It shows you the collection
+At the far point the visible rooms are _Pièces africaines · Objets · Pots &
+contenants_ — rooms that are not on screen at rest. It shows you the collection
 rather than telling you to swipe.
 
 `components/RoomsStrip.tsx`. A client wrapper around the same markup; the cells
@@ -3210,11 +3199,11 @@ are still server-rendered.
 The strip **was not wrapped in a reveal at all**, so it sat at full opacity from
 37ms while everything around it settled. Measured:
 
-| | before |
-|---|---|
-| eyebrow *begins* fading in | 1557ms |
-| **strip starts moving** | **2228ms** |
-| eyebrow finally readable | 2379ms |
+|                            | before     |
+| -------------------------- | ---------- |
+| eyebrow _begins_ fading in | 1557ms     |
+| **strip starts moving**    | **2228ms** |
+| eyebrow finally readable   | 2379ms     |
 
 It moved **151ms before its own heading could be read**, and 671ms after that
 heading had merely started to appear. Two animations arguing, not one gesture —
@@ -3224,11 +3213,11 @@ The strip now carries `.reveal` with the same 120ms stagger the rail beside it
 uses, and the drift waits `revealDelay + 1100 + 420` — its own stagger, the
 full `--dur-reveal`, and a settle:
 
-| | after |
-|---|---|
-| eyebrow readable | 2263ms |
-| strip settled | 2396ms (133ms behind it — a stagger) |
-| **strip moves** | **3247ms**, 851ms after everything is readable |
+|                  | after                                          |
+| ---------------- | ---------------------------------------------- |
+| eyebrow readable | 2263ms                                         |
+| strip settled    | 2396ms (133ms behind it — a stagger)           |
+| **strip moves**  | **3247ms**, 851ms after everything is readable |
 
 > **Anything sequenced against `Reveal` must wait for `--dur-reveal`, not for
 > the reveal to START.** The trigger fires when the element crosses 88% of the
@@ -3241,8 +3230,8 @@ full `--dur-reveal`, and a settle:
 `prefers-reduced-motion` used to be free, because the strip was always visible.
 Now `.reveal` starts at `opacity: 0`, so returning before `setVisible(true)`
 would leave the covers permanently invisible. Same for the `played` early
-return on a return visit. `scripts/audit.mjs` is what guards this — *0 reveal
-elements still transparent*.
+return on a return visit. `scripts/audit.mjs` is what guards this — _0 reveal
+elements still transparent_.
 
 **The overflow check moved into `play()`.** It ran on mount and bailed out when
 `scrollWidth - clientWidth <= 8`, which on desktop is always true because the
@@ -3253,7 +3242,7 @@ component mounts.
 ### Once per page load — a module-scope flag, not storage
 
 ```ts
-let played = false;   // module scope
+let played = false; // module scope
 ```
 
 The scope is the specification: a module variable survives client-side
@@ -3297,13 +3286,13 @@ IntersectionObserver, for the reason components/Reveal.tsx documents.
 
 ### Verified
 
-| | |
-|---|---|
-| Sequence | eyebrow 2263 → strip settled 2396 → moves 3247 |
-| Return navigation | 1 position (quiet), opacity 1 |
-| Hard reload | 101 positions (plays) |
-| Reduced motion | 1 position, **opacity 1** |
-| Desktop | strip `display: none`, rail `flex` |
+|                   |                                                |
+| ----------------- | ---------------------------------------------- |
+| Sequence          | eyebrow 2263 → strip settled 2396 → moves 3247 |
+| Return navigation | 1 position (quiet), opacity 1                  |
+| Hard reload       | 101 positions (plays)                          |
+| Reduced motion    | 1 position, **opacity 1**                      |
+| Desktop           | strip `display: none`, rail `flex`             |
 
 `audit` on `/fr/collection`, `/en/collection`, `/fr/collection/stools` — 0
 unrevealed, 0px overflow · `contrast-scroll` PASS both locales · build
@@ -3321,18 +3310,18 @@ decisions (§37, §24).
 Nobody had read a product page to the bottom. `care` and `details` are whatever
 prose sat in the old site's tab panels, and the scraper took all of it:
 
-| what | pieces |
-|---|---|
-| The old site's whole FOOTER — ©, nav, the legal menu | **9** |
-| Jimdo's shipping-restrictions placeholder | 7 |
-| Jimdo's authoring prompts — *"Describe your product in detail…"* | 11 |
-| The tab HEADINGS (`Care`, `Details`) swept in as content | several |
-| `details` repeating `description` word for word | 1 |
-| A description hard-wrapped into 7–9 one-line fragments | 2 |
+| what                                                             | pieces  |
+| ---------------------------------------------------------------- | ------- |
+| The old site's whole FOOTER — ©, nav, the legal menu             | **9**   |
+| Jimdo's shipping-restrictions placeholder                        | 7       |
+| Jimdo's authoring prompts — _"Describe your product in detail…"_ | 11      |
+| The tab HEADINGS (`Care`, `Details`) swept in as content         | several |
+| `details` repeating `description` word for word                  | 1       |
+| A description hard-wrapped into 7–9 one-line fragments           | 2       |
 
 So `/fr/piece/baule-chair-cote-d-ivoire` told a visitor that the way to care for
-a Baule chair is *"Contact · FAQ · Imprint · Privacy Policy · Terms and
-Conditions"*. It had been live the whole time.
+a Baule chair is _"Contact · FAQ · Imprint · Privacy Policy · Terms and
+Conditions"_. It had been live the whole time.
 
 All of it is filtered in `lib/catalog.ts`, **not** edited out of
 `docs/catalog.json` — that file is the client's record as scraped and stays
@@ -3357,7 +3346,7 @@ silent on an origin or an era, the French is silent too.
   attributions are proper nouns in the trade, and inventing a French name for
   an object whose name is the client's own record is the invention §5 forbids.
   Several names also carry typos (§13) that are the client's to correct.
-- **The delivery window is translated literally** — *"1 à 2 semaines"* — while
+- **The delivery window is translated literally** — _"1 à 2 semaines"_ — while
   the FAQ still says 3–8 weeks (§9.3). Reconciling it would be taking a
   position on the client's behalf.
 - Keys are the English sentence, so **an untranslated line falls back to
@@ -3403,7 +3392,7 @@ Verified against the code, not assumed: **no `document.cookie`, no
 and no third-party script tags; exactly two first-party storage keys,
 `trc:cart` (localStorage) and `trc:intro` (sessionStorage).
 
-`LegalDoc.source` is now `string | null`, and `null` means *ours, not theirs*.
+`LegalDoc.source` is now `string | null`, and `null` means _ours, not theirs_.
 A transcription without a source is one nobody can check, so the type makes the
 distinction impossible to lose.
 
@@ -3528,7 +3517,7 @@ ePrivacy.
 
 The site's own Cookie Policy already says so, in as many words:
 
-> *"No consent banner is shown because there is nothing to consent to."*
+> _"No consent banner is shown because there is nothing to consent to."_
 
 So a banner today would make that page false and would ask a visitor to consent
 to tracking that does not happen. The CNIL — the relevant regulator for a
@@ -3541,32 +3530,33 @@ compliance document.
 nothing to retrofit.
 
 > ### ⚠️ Turning on Analytics, Search Console or Shopify checkout is TWO jobs
+>
 > Set the flag **and** rewrite `cookies` in `lib/legal.ts`, which currently
 > states there are none. A compliance document that is wrong in the permissive
 > direction is worse than no document at all. Both are noted in `.env.example`.
 
 ### What makes it compliant rather than decorative
 
-| | |
-|---|---|
-| **Refuse is exactly as easy as Accept** | Same ground, same border, same weight, side by side, one tap each |
-| **Nothing runs before a choice** | `allows()` defaults to deny — silence is not consent |
-| **Dismissal is not consent** | No ✕, Escape does not close it, no outside-click. The only ways out are Accept, Refuse, or saving a choice |
-| **Withdrawable** | `clearConsent()`, from the Cookie Policy page, any time |
-| **Re-asked after 182 days** | CNIL's own recommendation; 13 months is its maximum |
+|                                         |                                                                                                            |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Refuse is exactly as easy as Accept** | Same ground, same border, same weight, side by side, one tap each                                          |
+| **Nothing runs before a choice**        | `allows()` defaults to deny — silence is not consent                                                       |
+| **Dismissal is not consent**            | No ✕, Escape does not close it, no outside-click. The only ways out are Accept, Refuse, or saving a choice |
+| **Withdrawable**                        | `clearConsent()`, from the Cookie Policy page, any time                                                    |
+| **Re-asked after 182 days**             | CNIL's own recommendation; 13 months is its maximum                                                        |
 
-> **Equal styling is not equal prominence.** With identical padding, *"Accepter"*
+> **Equal styling is not equal prominence.** With identical padding, _"Accepter"_
 > still came out **138px against "Refuser"'s 128** — a longer word. That is a
 > small asymmetry and it is exactly the axis a regulator measures. The pair is
 > an equal-track grid now, so the words sit inside whatever that is: **170px
 > each on a phone, 117 on desktop**, and it holds for any language added later.
 
 **There is no toggle for "strictly necessary".** A switch that cannot be
-switched is the specific pattern regulators name. It states *Always on* and
+switched is the specific pattern regulators name. It states _Always on_ and
 explains what it covers.
 
 **An answer does not survive a new category.** `storedConsent()` records which
-categories were on offer, and returns null — meaning *ask again* — if the site
+categories were on offer, and returns null — meaning _ask again_ — if the site
 has since added one this visitor never saw. Their old answer cannot stand for a
 question they were never asked.
 
@@ -3574,7 +3564,7 @@ question they were never asked.
 
 `aria-modal="false"`, no focus trap on the banner, page stays readable and
 usable behind it. Blocking a whole site until someone answers a cookie question
-is its own dark pattern. The *panel* does trap focus, because that one is a
+is its own dark pattern. The _panel_ does trap focus, because that one is a
 dialog — Escape closes the panel and returns to the banner, without deciding
 anything.
 
@@ -3606,21 +3596,21 @@ was done, and what each decision turned on.
 
 ### Done
 
-| § | | |
-|---|---|---|
-| 1 | Homepage | Logo LEFT, menu right — the bar used to centre the mark with the nav split around it, which reads as a masthead; theirs reads as a rule with a name at one end. Lockup 6rem → 5.25rem. The hero already carried the title, "PIÈCES RARES. HISTOIRES. MATIÈRES." and a discreet "LA COLLECTION". |
-| 2 | Find a piece from a photograph | The enquiry now takes an image and sends it as an attachment on the same message. |
-| 3 | Contact | Their copy, verbatim, including the invitation to send a photo. |
-| 4 | Gradient | Ends on `#e9ddca` instead of `#ddcdb6` — 14 units of red across the run instead of 26. |
-| 5 | Prices | `/ pièce` on the four pieces photographed as more than one. |
-| 6 | Our Story | Paris → Marrakech, the ruled route and the city title card are gone. |
-| 7 | Heritage | Their four movements, verbatim, with the closing line at scale. |
-| 8 | The founder | Their paragraph, verbatim. |
-| 9 | Collection | Categories numbered 01–07 in one place. |
-| 10 | Rugs | Three named entries at the top of the page, anchored to the three regions. |
-| 11 | Made to measure | Four numbered steps, each with the instruction they wrote, and "COMMENCER UN TAPIS". |
-| 13 | The cooperative | Kept whole, under their heading "Les mains". |
-| 14 | Le temps fait la pièce | Their wording replaces our paraphrase — "son âme", not "sa valeur". |
+| §   |                                |                                                                                                                                                                                                                                                                                                 |
+| --- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Homepage                       | Logo LEFT, menu right — the bar used to centre the mark with the nav split around it, which reads as a masthead; theirs reads as a rule with a name at one end. Lockup 6rem → 5.25rem. The hero already carried the title, "PIÈCES RARES. HISTOIRES. MATIÈRES." and a discreet "LA COLLECTION". |
+| 2   | Find a piece from a photograph | The enquiry now takes an image and sends it as an attachment on the same message.                                                                                                                                                                                                               |
+| 3   | Contact                        | Their copy, verbatim, including the invitation to send a photo.                                                                                                                                                                                                                                 |
+| 4   | Gradient                       | Ends on `#e9ddca` instead of `#ddcdb6` — 14 units of red across the run instead of 26.                                                                                                                                                                                                          |
+| 5   | Prices                         | `/ pièce` on the four pieces photographed as more than one.                                                                                                                                                                                                                                     |
+| 6   | Our Story                      | Paris → Marrakech, the ruled route and the city title card are gone.                                                                                                                                                                                                                            |
+| 7   | Heritage                       | Their four movements, verbatim, with the closing line at scale.                                                                                                                                                                                                                                 |
+| 8   | The founder                    | Their paragraph, verbatim.                                                                                                                                                                                                                                                                      |
+| 9   | Collection                     | Categories numbered 01–07 in one place.                                                                                                                                                                                                                                                         |
+| 10  | Rugs                           | Three named entries at the top of the page, anchored to the three regions.                                                                                                                                                                                                                      |
+| 11  | Made to measure                | Four numbered steps, each with the instruction they wrote, and "COMMENCER UN TAPIS".                                                                                                                                                                                                            |
+| 13  | The cooperative                | Kept whole, under their heading "Les mains".                                                                                                                                                                                                                                                    |
+| 14  | Le temps fait la pièce         | Their wording replaces our paraphrase — "son âme", not "sa valeur".                                                                                                                                                                                                                             |
 
 ### §5 is a list, not a rule
 
@@ -3630,7 +3620,7 @@ Four pieces say in the client's own record that more than one is shown:
 `tuareg-tent-stakes` (a plural name).
 
 Deliberately NOT included: `authentic-wooden-tent-peg`, whose "Between 73 et 83
-cm" is a RANGE for one peg, and the pedestal bowl, whose "53 cm * 18 cm" is one
+cm" is a RANGE for one peg, and the pedestal bowl, whose "53 cm \* 18 cm" is one
 object's two measurements. Inferring "two numbers means two objects" would have
 marked both — and mispricing in either direction is worse than asking. The list
 is in `lib/catalog.ts` and needs the client's confirmation.
@@ -3699,6 +3689,7 @@ steps, which is what it describes.
   new. The dark-ground reference in §1 is almost certainly Homura.
 - **Photography** — Yasmin is sending it.
 - **§15** — confirmed as wanted, after the shop opens.
+
 ## 49. WhatsApp is on — and the photography has a home to come from
 
 The house answered the message asking for what was still owed. Three things
@@ -3715,7 +3706,7 @@ been dormant since, waiting on exactly this value. Nothing else changed.
 It is published as **`+32 495 72 11 28`** — their own grouping, with `0032`
 written as `+32`, which is what a phone reads and what wa.me needs. Verified on
 the running build: the contact channel, `?piece=dogon-tribal-staff` opening the
-chat already saying *N° 24 · Dogon Tribal Staff*, and the Mrirt form's handoff.
+chat already saying _N° 24 · Dogon Tribal Staff_, and the Mrirt form's handoff.
 
 > **It is a BELGIAN number, and that is not a typo to correct.** The house ships
 > France / Belgium / Switzerland (§6) and this is the line they gave. Recorded
@@ -3734,17 +3725,17 @@ stay off.
 
 ### The photographs
 
-A Google Drive folder with *"toutes les photos de The Roots Corner"*, and one
+A Google Drive folder with _"toutes les photos de The Roots Corner"_, and one
 frame Dahab wants used, inside a document called **« Jamaa El Fna »**.
 
 **Nothing has been taken from it.** The link is not something this repo can
 reach, and the folder is the client's, so the files have to be downloaded and
 placed deliberately rather than pulled. When they land:
 
-| where it goes | what it unblocks |
-|---|---|
-| A portrait of Dahab | §13's oldest debt — `/story` still has no face |
-| Rug photography | §32's `readyRugs()` shelf, and §12 of the report |
+| where it goes                      | what it unblocks                                                                                        |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| A portrait of Dahab                | §13's oldest debt — `/story` still has no face                                                          |
+| Rug photography                    | §32's `readyRugs()` shelf, and §12 of the report                                                        |
 | Originals of anything already here | §13 — every product image is a 2000px CDN derivative, and the two Instagram interiors are 512×640 (§29) |
 
 The « Jamaa El Fna » frame is a **named request**, not a suggestion — it should
@@ -3755,7 +3746,7 @@ unscrimmed, and a new one is not exempt.
 
 ### Beni Rugs, confirmed
 
-*"J'adore j'adore"* against benirugs.com. It has been §3's **primary structural
+_"J'adore j'adore"_ against benirugs.com. It has been §3's **primary structural
 reference** since the first day of this project, so there is nothing to change —
 which is the useful part: the direction the site is already built on is the one
 they say they love. Generous margins, large imagery, calm sans typography,
@@ -3771,21 +3762,22 @@ sold-out is a normal state rather than an edge case (§6).
 honestly today, and now fails **into a channel that works**. Checkout (§37).
 And the returns and delivery contradictions (§9.2, §9.3), which still need a
 decision with legal input.
+
 ## 50. The rugs page, after Beni — the plate, the panel, the gutter
 
-The client named three sites and said *"J'adore j'adore"* against benirugs.com.
+The client named three sites and said _"J'adore j'adore"_ against benirugs.com.
 This applies what that site actually does to `/mrirt`. Studied in a real
 browser rather than from memory — `/craft`, `/collections/shop-all` and a
 made-to-order rug page, measured for tracks, type sizes and image ratios.
 
 ### What Beni does, measured
 
-| | |
-|---|---|
-| **The plate** | Every rug is shot flat and whole on a warm surface a shade off the page, with the order panel beside it at roughly one third. The rug is never cropped to fit a column. |
+|                            |                                                                                                                                                                           |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **The plate**              | Every rug is shot flat and whole on a warm surface a shade off the page, with the order panel beside it at roughly one third. The rug is never cropped to fit a column.   |
 | **The panel is the spine** | Breadcrumb, name with the figure squared off right, one paragraph, then the choices as bounded labelled rows, closed by ONE filled dark bar the full width of the column. |
-| **The gutter is 8px** | Twelve columns, `gap: 8px`. The generosity is in the margin around a block, never between two photographs. |
-| Type | Two faces only, one weight each: a serif for names and headings, a 12–13px sans at 1.68px tracking for every label. |
+| **The gutter is 8px**      | Twelve columns, `gap: 8px`. The generosity is in the margin around a block, never between two photographs.                                                                |
+| Type                       | Two faces only, one weight each: a serif for names and headings, a 12–13px sans at 1.68px tracking for every label.                                                       |
 
 That last row is the useful confirmation: it is what this site already does with
 Marcellus and Jost (§12). The direction the build has been on is the one they
@@ -3862,6 +3854,7 @@ as objects". The brief bans small photos; the reference is not a licence.
 both widths · `contrast-scroll` PASS both · `audit` PASS both · `/fr/contact`
 re-checked for the reset change (PASS, `.ways` now at 72 with its eyebrow) ·
 build warning-free. Page 6706 → 6580px desktop.
+
 ## 51. The client's Drive — reached, mapped, and the first frames placed
 
 §49 recorded the folder as unreachable. **It is not.** The connector is not
@@ -3886,8 +3879,8 @@ the original photography §13 has wanted since the first day, replacing the
 2000px Jimdo CDN derivatives. **Nobody has opened them yet.** Do that before
 re-shooting or re-cropping anything.
 
-`jamaa fna` is the folder the client named in their message — *"la photo que
-Dahab veut absolument utiliser… dans le document « Jamaa El Fna »"*. Which one
+`jamaa fna` is the folder the client named in their message — _"la photo que
+Dahab veut absolument utiliser… dans le document « Jamaa El Fna »"_. Which one
 of the 52 frames she means is still unknown. **Ask; do not pick.**
 
 ### What the frames are
@@ -3897,8 +3890,8 @@ true originals, not derivatives. The subject is the Marrakech medina at golden
 hour: alleys, doorways, plaster, shadow, souk stalls, rugs hung out against the
 sky, skeins of dyed yarn drying, the Koutoubia at dusk.
 
-That is the brief's **section 6** — *"images de matières, artisans, voyages ou
-lieux"* — which §13 lists as owed and which the site has been serving with close
+That is the brief's **section 6** — _"images de matières, artisans, voyages ou
+lieux"_ — which §13 lists as owed and which the site has been serving with close
 crops of pieces. It is not product photography and must not be used as any.
 
 ### Eight are in the repo, at web size
@@ -3945,9 +3938,10 @@ is lying on the rug in the plate at the top of the same page.
   carried the hero text unscrimmed (§23), and a new one is not exempt.
 - **A portrait of Dahab** is still not in anything opened so far. `maison` and
   `shoot 2` are unexamined.
-- The remaining seven in `public/place/` are unused. The homepage's *matière*
-  section is the obvious home — §29 flags that it is headed *"Les marques font
-  la pièce"* with no close-up of a mark in it.
+- The remaining seven in `public/place/` are unused. The homepage's _matière_
+  section is the obvious home — §29 flags that it is headed _"Les marques font
+  la pièce"_ with no close-up of a mark in it.
+
 ## 52. The hero is the client's photograph now — a door, not a tool
 
 §51 asked which « Jamaa El Fna » frame Dahab meant. Rather than ask, the whole
@@ -3968,8 +3962,8 @@ Shortlisted ten by eye off a contact sheet, then rendered each at the hero's
 **actual 8:5 crop** — §23's rule, and it changed the ranking. Two survived:
 `DSC00924` (bicycles and rugs in an alley) and this one. The door wins on the
 brief's own terms: wood, plaster, patina, imperfection, light (§1), where the
-alley reads as a market scene — and the one-line test is *gallery, not decor
-shop*.
+alley reads as a market scene — and the one-line test is _gallery, not decor
+shop_.
 
 Rejected for a reason worth recording: **several of the best frames have a
 strong turquoise sky.** §2 allows no colour outside the ecru/brown family, and a
@@ -4007,11 +4001,11 @@ below it and had let go by 66%. The two middle stops went up and the ends did
 not move, so the door's grain at the foot of the frame and the open photograph
 above the type both keep exactly what they had.
 
-| | before | after |
-|---|---|---|
-| Title, 82px | **1.79:1** | **3.30:1** |
-| Tagline | 6.84 | 7.90 |
-| "La collection" | 6.97 | 8.00 |
+|                   | before             | after            |
+| ----------------- | ------------------ | ---------------- |
+| Title, 82px       | **1.79:1**         | **3.30:1**       |
+| Tagline           | 6.84               | 7.90             |
+| "La collection"   | 6.97               | 8.00             |
 | Header nav / mark | 10.75–12.44 · 3.65 | unchanged · 4.10 |
 
 > **3.30 is a thin margin and it is the real one** — measured on the rendered
@@ -4044,7 +4038,7 @@ the photograph — nothing else.
 > direct conflict and the later one wins, not because the earlier one was
 > misread.
 
-Nothing became unreachable: *Collection* is the first item in the header nav at
+Nothing became unreachable: _Collection_ is the first item in the header nav at
 every width. `.hero-cue` and `hero.scrollCue` in both locales are **kept and
 marked dormant** rather than deleted — restoring the link is one `<Link>` in
 `app/[locale]/page.tsx` and nothing else.
@@ -4052,16 +4046,17 @@ marked dormant** rather than deleted — restoring the link is one `<Link>` in
 The title measures **3.43:1** after the change (3.30 before; the box did not
 move, and worst-pixel sampling varies a little between runs). Everything else
 on the hero is unchanged.
+
 ## 53. The rugs page, rebuilt — the form was the page, and the picture was small
 
-Client review, in their words: *"redesign the whole mrirt rugs, its not good at
-all, specially the form, the first image as well small on a big place."* Both
+Client review, in their words: _"redesign the whole mrirt rugs, its not good at
+all, specially the form, the first image as well small on a big place."_ Both
 are real defects with measurable causes.
 
 ### The page asked the same four questions twice
 
 The four terms of a made-to-measure rug were a **numbered list** near the top —
-*"01 Les dimensions · Indiquez les dimensions souhaitées"* — and then the form
+_"01 Les dimensions · Indiquez les dimensions souhaitées"_ — and then the form
 at the foot asked for the same four under **the same four hints**. A visitor
 read the instruction, scrolled past three sections, and met it again as a box.
 
@@ -4091,12 +4086,12 @@ one subject that loses nothing to a crop — every part of it is the subject.
 
 ### The form, specifically
 
-| | |
-|---|---|
-| **The hint was under the rule** | It landed beneath its own field's rule and directly above the NEXT label, so on a form where every field carries one it read as an instruction for the wrong box. A hint is what to put in the field: it goes before the field. |
-| **"(facultatif)" four times** | Under a heading inviting someone to describe a rug, that made the page's one commercial action read as tentative. A numbered field no longer prints it — the line above the block already says none of the four is required. |
-| **Two left edges** | Four numbered rules started 2.4rem in and name / e-mail / message at the gutter. Every field on this form shares the numeral column now; the unnumbered ones simply have nothing in it. |
-| **The input floated off its hint** | `margin-top` 0.5rem plus the box's own padding opened a gap that read as a missing element, because an empty ruled input is invisible. 0.25rem. |
+|                                    |                                                                                                                                                                                                                                 |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **The hint was under the rule**    | It landed beneath its own field's rule and directly above the NEXT label, so on a form where every field carries one it read as an instruction for the wrong box. A hint is what to put in the field: it goes before the field. |
+| **"(facultatif)" four times**      | Under a heading inviting someone to describe a rug, that made the page's one commercial action read as tentative. A numbered field no longer prints it — the line above the block already says none of the four is required.    |
+| **Two left edges**                 | Four numbered rules started 2.4rem in and name / e-mail / message at the gutter. Every field on this form shares the numeral column now; the unnumbered ones simply have nothing in it.                                         |
+| **The input floated off its hint** | `margin-top` 0.5rem plus the box's own padding opened a gap that read as a missing element, because an empty ruled input is invisible. 0.25rem.                                                                                 |
 
 ### Two holes closed by measurement, not by spacing
 
@@ -4105,8 +4100,7 @@ photograph was 570. Sizing it up cannot close that — the rug is in the bottom
 sixth of that frame, so height comes off the top and a taller crop is mostly
 wall. So it is `position: sticky` instead, the way the wall label travels beside
 the photographs on a piece page (§24). The frame that carries SCALE is in view
-for the whole of the form whose first question is size. Measured after: **1283 /
-1283.**
+for the whole of the form whose first question is size. Measured after: **1283 / 1283.**
 
 > The sticky element needs a **stretched wrapper**, and it cannot be the grid
 > item itself: `align-self: stretch` and `aspect-ratio` on one box is a fight
@@ -4116,8 +4110,7 @@ for the whole of the form whose first question is size. Measured after: **1283 /
 
 **The yarn photograph takes its column's height.** At its own 4/5 it drew 660
 against an 864 stack. A fixed ratio cannot track a column whose height is prose,
-so at desktop the frame gives up the ratio and takes the row. Measured: **864 /
-864.**
+so at desktop the frame gives up the ratio and takes the row. Measured: **864 / 864.**
 
 **And the order bar is capped at 26rem.** Beni's spans its panel, and their
 panel is ~430px; ours closes a 720px column of prose, where full width stops
@@ -4128,11 +4121,11 @@ reading as a button and starts reading as a banner.
 The client's §10 wants three named entries that do not mix. They now land in
 three genuinely different places, which is what they did not do before (§48):
 
-| entry | goes to | what is there |
-|---|---|---|
-| Tapis disponibles | `#disponibles` | the shelf of finished rugs |
+| entry              | goes to         | what is there                                  |
+| ------------------ | --------------- | ---------------------------------------------- |
+| Tapis disponibles  | `#disponibles`  | the shelf of finished rugs                     |
 | Tapis sur commande | `#sur-commande` | what one is — the label, the wool, the weavers |
-| Comment commander | `#comment` | the form |
+| Comment commander  | `#comment`      | the form                                       |
 
 ### Verified
 
@@ -4140,6 +4133,7 @@ three genuinely different places, which is what they did not do before (§48):
 missing alt** · `audit` and `contrast-scroll` PASS on both · `/fr/contact`
 re-checked, since the hint order and input spacing are shared by both forms
 (PASS) · build warning-free. Page 6689 → **6640px** desktop, 8058 on a phone.
+
 ## 54. Our Story, rebuilt — it said its own name twice, and showed almost nothing
 
 Client review: redesign it. Two faults, both structural.
@@ -4151,8 +4145,8 @@ were the same three words: **"Notre histoire" over "Notre histoire"**. The title
 is `t.story.eyebrow` and the eyebrow is now **The Roots Corner** — the house's
 own name, the one label that belongs above this title and is not a claim.
 
-`t.story.heading` was not used for it, deliberately: that string is *"Des pièces
-qui ont une âme"*, which is also the first movement's eyebrow. Fixing one
+`t.story.heading` was not used for it, deliberately: that string is _"Des pièces
+qui ont une âme"_, which is also the first movement's eyebrow. Fixing one
 duplication by making another is not a fix.
 
 ### Every movement was text with an empty half
@@ -4191,8 +4185,8 @@ Five frames from the client's Drive and one of their own rooms: a shopfront hung
 with weavings, the shadow of a wrought-iron railing on plaster, an alley in late
 sun, a dining room, a minaret at dusk.
 
-> **Alt text says only what is in the frame.** The third movement names *Morocco
-> and Cameroon*; nothing beside it claims to be either. A photograph placed next
+> **Alt text says only what is in the frame.** The third movement names _Morocco
+> and Cameroon_; nothing beside it claims to be either. A photograph placed next
 > to a sentence borrows that sentence's provenance unless it is described
 > plainly — the same reasoning §24 records for the artisans page, and the reason
 > none of these carries a caption.
@@ -4207,6 +4201,7 @@ for a face.
 missing alt** · `audit` and `contrast-scroll` PASS on both · build
 warning-free. 5614 → **5950px** desktop, 7330 on a phone — the page grew by one
 screen and gained five photographs.
+
 ## 55. The apartments — booked on WhatsApp, and photographed at last
 
 Two instructions from the client: take the letting platform off the site and
@@ -4228,10 +4223,10 @@ a link to nowhere.
 Three other places had to follow, and missing any of them would have left the
 site contradicting itself:
 
-| | |
-|---|---|
-| `stay.heading` | "Our Airbnb" / "Notre Airbnb" → **"Our apartments" / "Nos appartements"** — the client's own other word for the same thing, from their `/accueil/` page. |
-| `stay.note` | "Booking is handled on Airbnb." → **"Booking is arranged on WhatsApp."** |
+|                |                                                                                                                                                                                                  |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `stay.heading` | "Our Airbnb" / "Notre Airbnb" → **"Our apartments" / "Nos appartements"** — the client's own other word for the same thing, from their `/accueil/` page.                                         |
+| `stay.note`    | "Booking is handled on Airbnb." → **"Booking is arranged on WhatsApp."**                                                                                                                         |
 | `lib/legal.ts` | The Privacy page lists the third parties a visitor can be handed to. It said "Instagram, WhatsApp and Airbnb"; there is no longer an Airbnb link on the site, so it says Instagram and WhatsApp. |
 
 > **A compliance document is a claim about the code.** Changing an outbound link
@@ -4247,11 +4242,11 @@ distinct scenes, the rest near-duplicate bursts.
 
 The page had two photographs, 1024×768 and 800×599, pulled off the live site.
 
-| | |
-|---|---|
-| **The opening** | `stay-living` full width. The page used to open on a paragraph. |
+|                        |                                                                                                                                                           |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **The opening**        | `stay-living` full width. The page used to open on a paragraph.                                                                                           |
 | **The two apartments** | **Unchanged** — each keeps the frame it had on the client's own page, because that pairing is SOURCED: those two photographs sat with those two listings. |
-| **Inside** | Three frames hung at three sizes on three baselines — the kitchen, the shower, a candle on stone. |
+| **Inside**             | Three frames hung at three sizes on three baselines — the kitchen, the shower, a candle on stone.                                                         |
 
 > **Nothing in the new shoot is assigned to an apartment.** The folder does not
 > say which of the two flats any frame is in. Captioning one "Appartement II"
@@ -4281,9 +4276,10 @@ alt** · `audit` and `contrast-scroll` PASS on both · booking links resolve to
 `wa.me/…?text=Appartement%20I` and `…II` · the word "Airbnb" returns **0** on
 every rendered page, including both Privacy pages · build warning-free. 2846 →
 **3838px** desktop.
+
 ## 56. Shopify is wired — the code is done, the store is not
 
-Asked: *"can we now link the shopify so the backend is shopify okey?"*
+Asked: _"can we now link the shopify so the backend is shopify okey?"_
 
 The code side is finished. **Linking is three things and only one of them is
 ours**, so this is written to switch on the moment the other two exist rather
@@ -4291,12 +4287,12 @@ than to wait for them.
 
 ### What was written
 
-| | |
-|---|---|
-| `lib/shopify.ts` | The Storefront client — one pinned-version GraphQL call, the slug→variant map, and the two-token warning. |
-| `lib/checkout.ts` | `createShopifyCheckout` is real now: `cartCreate`, one line per slug at quantity 1, returning `cart.checkoutUrl`. |
-| `docs/shopify.json` | The slug→variant manifest. **Empty, and that is the supported state.** |
-| `scripts/shopify-link.mjs` | Reads the store and writes that manifest. |
+|                            |                                                                                                                   |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `lib/shopify.ts`           | The Storefront client — one pinned-version GraphQL call, the slug→variant map, and the two-token warning.         |
+| `lib/checkout.ts`          | `createShopifyCheckout` is real now: `cartCreate`, one line per slug at quantity 1, returning `cart.checkoutUrl`. |
+| `docs/shopify.json`        | The slug→variant manifest. **Empty, and that is the supported state.**                                            |
+| `scripts/shopify-link.mjs` | Reads the store and writes that manifest.                                                                         |
 
 ### What still blocks it, and why none of it is code
 
@@ -4311,7 +4307,7 @@ than to wait for them.
 ### The manifest is a separate file on purpose
 
 `docs/catalog.json` is the client's own record exactly as scraped and is
-deliberately never edited (§46), so the mapping onto *their* store lives in our
+deliberately never edited (§46), so the mapping onto _their_ store lives in our
 own file. Same shape as `docs/instagram.json`: a manifest, empty by default,
 read at build time.
 
@@ -4372,7 +4368,7 @@ document that is wrong in the permissive direction is worse than no document.
 
 **Verified:** build warning-free · the dormant path unchanged on the running
 site — a seeded two-piece cart renders both lines, totals 580 €, and prints
-*"Le paiement n'est pas encore activé"* **before** the button rather than after
+_"Le paiement n'est pas encore activé"_ **before** the button rather than after
 (§37) · `audit` clean on `/fr/checkout`, `/en/checkout`, `/fr`,
 `/fr/collection` · `contrast-scroll` PASS · the link script refuses cleanly with
 no store configured.
@@ -4381,6 +4377,7 @@ no store configured.
 > `cartCreate`, the checkout URL and the handover have never run against a real
 > Shopify. That is a genuine gap, not a formality: the first order placed
 > through this should be a test order somebody watches.
+
 ## 57. The Shopify plan — and a figure in the proposal that was four years stale
 
 The store exists (`cru1uj-cf`) and the client is registered in **France**. Two
@@ -4395,18 +4392,18 @@ not a Plus feature. This site talks to Shopify only through that API, so Grow
 lower card rate and a lower third-party-gateway fee, which only pay for
 themselves at volume.
 
-| | monthly | annual |
-|---|---|---|
+|           | monthly           | annual         |
+| --------- | ----------------- | -------------- |
 | **Basic** | **€36/mo** (~$39) | ~€27/mo (~$29) |
-| Grow | ~$105 | ~$79 |
-| Advanced | ~$399 | ~$299 |
+| Grow      | ~$105             | ~$79           |
+| Advanced  | ~$399             | ~$299          |
 
 Annual saves ~25% (~€108/year) and was **not** taken: it locks a year before the
 shop has sold anything.
 
 ### ⚠️ The proposal's "~9 EUR/month" was a plan that no longer exists
 
-§6 carried *"Costs (per proposal, indicative): Shopify ~9 EUR/month"* straight
+§6 carried _"Costs (per proposal, indicative): Shopify ~9 EUR/month"_ straight
 from `proposition_site_web_professionnelle.pdf`, and I repeated it to the client
 before checking. It is the old **Shopify Lite** plan at $9/month, **discontinued
 in June 2022**.
@@ -4430,10 +4427,10 @@ Belgium and Switzerland. The imprint registers the business in Marrakech (§24)
 while the WhatsApp number is Belgian and prices are in EUR, so which entity
 invoices was a real question — and the answer decides the cost of every order:
 
-| store registered in | how cards are taken | per order |
-|---|---|---|
-| **France** (actual) | Shopify Payments | **2.9% + €0.30** |
-| Morocco | CMI gateway (1.5–2.5%) **+ Shopify's 2% third-party fee on Basic** | ~3.5–4.5% |
+| store registered in | how cards are taken                                                | per order        |
+| ------------------- | ------------------------------------------------------------------ | ---------------- |
+| **France** (actual) | Shopify Payments                                                   | **2.9% + €0.30** |
+| Morocco             | CMI gateway (1.5–2.5%) **+ Shopify's 2% third-party fee on Basic** | ~3.5–4.5%        |
 
 On a €150 piece that is about **€4.65 against €7–9**, and the Morocco route also
 needs a CMI contract with a Moroccan bank — weeks of paperwork rather than
@@ -4462,3 +4459,73 @@ exactly Basic with Shopify Payments.
 6. `node scripts/shopify-link.mjs --write`.
 7. Rewrite `cookies` in lib/legal.ts and arm the consent banner (§44) — not
    optional, and not separable from step 3.
+## 58. Customer accounts — §15, and almost none of it is ours to build
+
+Report §15 asked for an *espace client*: somewhere a buyer signs in and sees
+what they bought, what has shipped and what is still coming. §48 recorded it as
+wanted *after* the shop opens, and deliberately did not scaffold it — *"an
+account area that cannot authenticate is the same mistake as a form that cannot
+send."*
+
+That objection is answered by not building one. **Shopify hosts customer
+accounts**, exactly as it hosts checkout (§37), and for the same reasons:
+
+| | |
+|---|---|
+| The orders live there | Fulfillment state and tracking are Shopify's records. A copy of them here would be a second source of truth that can go stale. |
+| Shopify owns the sign-in | It is **passwordless** — a six-digit code by e-mail. There is no password for this site to store, leak or reset. |
+| Self-serve returns and reorder come free | Both are in the hosted account already. |
+
+So the whole feature is **one link, rendered only when a URL is configured**.
+
+> **Legacy password-based customer accounts were deprecated on 19 February
+> 2026.** Anything written against the old password endpoints is already dead.
+> The current system is passwordless, and for a headless storefront the heavy
+> alternative is the **Customer Account API** (OAuth 2.0 + PKCE on
+> `shopify.com/authentication`).
+
+### Why not the Customer Account API
+
+It would put the account area inside this site, in our own type and palette.
+Rejected for now, and the reason is the one §37 already gives for checkout: it
+is days of OAuth work, it adds a credential-handling surface this site does not
+currently have, and **Shopify remains the source of truth either way**. The
+honest trade is that the hosted pages are Shopify-templated and will not look
+exactly like the rest of the site — the same trade the checkout already makes,
+which the client has accepted.
+
+Worth revisiting only if the client dislikes the handoff. `ACCOUNT_URL` is the
+single call site, so swapping it for a real route later touches one file.
+
+### What was built
+
+`NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL` → `ACCOUNT_URL` in lib/shopify.ts → a
+*"Mes commandes" / "My orders"* link in the header, and on the phone in the menu
+panel's floor beside the cart, because four controls in a 390px bar is a toolbar
+(§24).
+
+**Unset, nothing renders.** Until the store exists there are no orders, and a
+link to an empty account is worse than no link — the same rule as WhatsApp (§49)
+and the social channels (§26).
+
+> Prefer the branded subdomain — `account.therootscorner.com`, set in Shopify
+> under Settings → Domains — over Shopify's own `shopify.com/<shop_id>/account`.
+> It keeps the house's name in front of someone checking on a parcel, which is
+> exactly the moment a shop feels either real or borrowed.
+
+> **Anything added to the header bar has to re-tone with it.** The header
+> repaints itself over the hero and on dark ground; `.site-account` is declared
+> beside `.site-lang` and inherits the same `is-dark` / `is-on-hero` rules,
+> because a control that misses them is invisible on one page in three.
+
+### Verified in both states
+
+Dormant, on the running site: **no `<a class="site-account">` in the rendered
+HTML** at all. (The string is present once in the RSC payload — `labels` is
+passed whole as a prop — which renders nothing and exposes nothing.)
+
+Armed with a test URL and rebuilt, `NEXT_PUBLIC_*` being inlined at build time:
+the link renders in **both locales** with `target="_blank"` and
+`rel="noreferrer noopener"`, appears as a real tab stop with a focus ring, and
+`audit` stays clean — 0 unrevealed, 0px overflow at 390px. The tree was then
+rebuilt dormant.

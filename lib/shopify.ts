@@ -27,6 +27,26 @@ export const SHOPIFY_TOKEN =
   process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN || null;
 
 /**
+ * Where a buyer goes to see their own orders.
+ *
+ * Shopify HOSTS customer accounts, the same way it hosts checkout — and for the
+ * same reason we do not rebuild it (§37): the orders live there, Shopify owns
+ * the authentication, and this site never touches a credential. Sign-in is
+ * passwordless (a six-digit code by e-mail), so there is no password for us to
+ * store, leak, or reset.
+ *
+ * The value is either Shopify's own `https://shopify.com/<shop_id>/account` or
+ * a branded subdomain — `https://account.therootscorner.com` — which is the
+ * better one to set, because it keeps the house's name in front of someone
+ * checking on a parcel.
+ *
+ * Unset, no account link renders anywhere. An account link that leads nowhere
+ * is worse than none, and until the store exists there are no orders to show.
+ */
+export const ACCOUNT_URL =
+  process.env.NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL?.trim() || null;
+
+/**
  * slug → Shopify variant ID, from docs/shopify.json.
  *
  * A SEPARATE manifest, not a field added to docs/catalog.json: that file is the
