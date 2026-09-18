@@ -159,7 +159,14 @@ Custom front-end; **Shopify** runs cart, checkout, payments, orders, stock.
 - Cart · automatic order confirmation email · stock management · **unavailable pieces clearly marked**
 - Since every piece is one-of-a-kind, **stock is effectively quantity 1** — sold-out state
   is a normal, frequent, and design-relevant state, not an edge case.
-- Costs (per proposal, indicative): Shopify ~9 EUR/month; transaction ~2.9% + 0.30 EUR
+- **Costs — the proposal's figure was wrong and is corrected here (§57).** It said
+  "Shopify ~9 EUR/month", which was the **Lite** plan, discontinued June 2022.
+  Its replacement (Starter, $5/mo) has **no online store and no Storefront API**,
+  so it cannot run this build at all. The real entry price is **Basic at €36/mo**
+  (~€27/mo billed annually). Transaction ~**2.9% + €0.30** — that half of the
+  proposal was right, and it holds because the store is registered in **France**,
+  where Shopify Payments is available. A Morocco-registered store could not use
+  it and would pay a third-party gateway **plus** Shopify's own 2% fee on Basic.
 
 **Mrirt rugs are different.** Handwoven to order by a women's weaving cooperative in Mrirt
 (Middle Atlas), fully customisable in size, colour, design and texture. This is a
@@ -4374,3 +4381,84 @@ no store configured.
 > `cartCreate`, the checkout URL and the handover have never run against a real
 > Shopify. That is a genuine gap, not a formality: the first order placed
 > through this should be a test order somebody watches.
+## 57. The Shopify plan — and a figure in the proposal that was four years stale
+
+The store exists (`cru1uj-cf`) and the client is registered in **France**. Two
+questions were asked at the plan-selection screen, and both have researched
+answers rather than remembered ones.
+
+### Which plan: Basic
+
+**The Storefront API is available on every plan, including Basic.** Headless is
+not a Plus feature. This site talks to Shopify only through that API, so Grow
+(~$105/mo) and Advanced (~$399/mo) buy nothing this build uses — they buy a
+lower card rate and a lower third-party-gateway fee, which only pay for
+themselves at volume.
+
+| | monthly | annual |
+|---|---|---|
+| **Basic** | **€36/mo** (~$39) | ~€27/mo (~$29) |
+| Grow | ~$105 | ~$79 |
+| Advanced | ~$399 | ~$299 |
+
+Annual saves ~25% (~€108/year) and was **not** taken: it locks a year before the
+shop has sold anything.
+
+### ⚠️ The proposal's "~9 EUR/month" was a plan that no longer exists
+
+§6 carried *"Costs (per proposal, indicative): Shopify ~9 EUR/month"* straight
+from `proposition_site_web_professionnelle.pdf`, and I repeated it to the client
+before checking. It is the old **Shopify Lite** plan at $9/month, **discontinued
+in June 2022**.
+
+Its replacement — **Starter, $5/mo** — has **no online store and no Storefront
+API**. It is a Buy Button for embedding in someone else's page. It could not run
+this build at any price.
+
+So the real floor is **€36/mo**, about four times what was quoted. §6 is
+corrected in place, because a stale cost in the project's own context file is
+how the same wrong number reaches the client twice.
+
+> **A figure inherited from a client document is still a claim.** This one had
+> the shape of a fact — specific, sourced, in the brief — and had been wrong for
+> four years.
+
+### France is the cheaper route, and it was worth checking
+
+**Shopify Payments is not available in Morocco.** It is available in France,
+Belgium and Switzerland. The imprint registers the business in Marrakech (§24)
+while the WhatsApp number is Belgian and prices are in EUR, so which entity
+invoices was a real question — and the answer decides the cost of every order:
+
+| store registered in | how cards are taken | per order |
+|---|---|---|
+| **France** (actual) | Shopify Payments | **2.9% + €0.30** |
+| Morocco | CMI gateway (1.5–2.5%) **+ Shopify's 2% third-party fee on Basic** | ~3.5–4.5% |
+
+On a €150 piece that is about **€4.65 against €7–9**, and the Morocco route also
+needs a CMI contract with a Moroccan bank — weeks of paperwork rather than
+minutes. France also avoids it entirely.
+
+The transaction half of the proposal's figure was right: **2.9% + €0.30** is
+exactly Basic with Shopify Payments.
+
+> The store's country can be changed later, but payment eligibility is tied to
+> the legal location and Shopify locks the field once Shopify Payments is
+> active. It is much cheaper to set it correctly before activating payments than
+> after.
+
+### Running cost, for the client
+
+**€432/year** on monthly billing (~€324 if she later moves to annual), plus
+2.9% + €0.30 per sale. Not the ~€108/year the proposal implied.
+
+### Next, in order
+
+1. Basic, with the €1×3 months promo. ✅
+2. Store details — country **France**, currency **EUR**.
+3. Payments — Shopify Payments.
+4. **The 38 pieces have to exist in Shopify.** The blocker (§56).
+5. Storefront API token: Settings → Apps and sales channels → Develop apps.
+6. `node scripts/shopify-link.mjs --write`.
+7. Rewrite `cookies` in lib/legal.ts and arm the consent banner (§44) — not
+   optional, and not separable from step 3.
