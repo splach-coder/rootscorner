@@ -1,4 +1,5 @@
 import type { Locale } from "./dictionaries";
+import { paymentReady } from "./checkout";
 
 /**
  * The house's legal and information pages.
@@ -761,75 +762,59 @@ const fr: Record<string, LegalDoc> = {
   cookies: {
     slug: "cookies",
     title: "Politique relative aux cookies",
-    source: en.cookies.source,
+    /*
+      Ours, not theirs — and a translation of the English above, which was
+      verified against the code.
+
+      §46 rewrote the English document because the client's transcribed one
+      described Jimdo, Stripe, PayPal, Cloudflare and Google Analytics, none of
+      which this build loads. IT MISSED THIS ONE. Until now /fr/legal/cookies
+      still opened "Ce site utilise des cookies" and listed a "Marketing /
+      tiers" category — false about this build, wrong in the permissive
+      direction, and in the locale a French-market regulator actually reads.
+
+      The two locales said opposite things about cookies, live.
+    */
+    source: null,
     blocks: [
       {
         kind: "p",
-        text: "Ce site utilise des cookies. Vous trouverez ci-dessous des informations sur les types de cookies utilisés et vous pouvez les activer individuellement dans leurs catégories respectives. Vous pouvez ajuster vos préférences à tout moment en cliquant sur le lien en bas de ce site.",
+        text: "Ce site n’utilise pas de cookies, ni aucune forme de mesure d’audience, de publicité ou de traçage par des tiers. Aucune bannière de consentement n’est affichée, parce qu’il n’y a rien à consentir.",
       },
 
-      { kind: "h", text: "Strictement nécessaires" },
+      { kind: "h", text: "Ce qui est enregistré sur votre appareil" },
       {
         kind: "p",
-        text: "Les cookies strictement nécessaires assurent le bon fonctionnement des éléments de ce site. Ils ne peuvent donc pas être désactivés. Ils sont utilisés exclusivement par ce site et sont donc des cookies internes, ce qui signifie que toute information enregistrée par ces cookies est renvoyée à ce site.",
+        text: "Deux informations sont conservées par votre propre navigateur pour que le site se comporte comme vous l’attendez. Elles restent sur votre appareil, ne nous sont jamais transmises — ni à personne d’autre — et ne contiennent rien qui vous identifie.",
       },
       {
         kind: "dl",
         items: [
           [
-            "Stripe",
-            "Indispensable pour permettre les paiements assurés par Stripe sur cette boutique. Fournisseur : Stripe Inc., 185 Berry Street, Suite 550, San Francisco, CA 94107, États-Unis.",
+            "Votre panier",
+            "Les pièces que vous avez ajoutées, pour que votre panier soit toujours là si vous fermez l’onglet et revenez. Conservé jusqu’à ce que vous le vidiez ou que votre navigateur efface les données du site.",
           ],
           [
-            "PayPal",
-            "Indispensable pour permettre les paiements assurés par PayPal sur cette boutique. Fournisseur : PayPal (Europe) S.à r.l. et Cie S.C.A., 22-24 Boulevard Royal, 2449 Luxembourg.",
-          ],
-          [
-            "Cloudflare",
-            "Cloudflare est un service qui renforce la sécurité et les performances des sites web. Cloudflare fournit un réseau de diffusion de contenu (« CDN ») afin d’améliorer les temps de chargement. Fournisseur : Cloudflare Inc., 101 Townsend St, San Francisco, CA 94107, États-Unis. Noms et durées de vie : __cfruid (session), __cf_bm (30 minutes), __cf_clearance (30 minutes).",
-          ],
-          [
-            "Web Store State",
-            "Stockage local indispensable au bon fonctionnement de la boutique et à la conservation de l’état de la visite en cours. Fournisseur : Jimdo GmbH, Stresemannstrasse 375, 22761 Hambourg, Allemagne.",
+            "L’animation d’ouverture",
+            "Une note indiquant que vous l’avez déjà vue, pour qu’elle se joue une fois par visite et non à chaque page. Effacée à la fermeture du navigateur.",
           ],
         ],
       },
-
-      { kind: "h", text: "Fonctionnels" },
       {
         kind: "p",
-        text: "Les cookies fonctionnels permettent à ce site de vous proposer certaines fonctions et de mémoriser des informations déjà fournies (comme un nom ou un choix de langue) afin de vous offrir des fonctionnalités améliorées et personnalisées.",
-      },
-      {
-        kind: "dl",
-        items: [
-          [
-            "Google Maps",
-            "Ces cookies sont déposés par Google dans le cadre de l’utilisation de Google Maps. Fournisseur : Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, États-Unis ou, si vous résidez dans l’UE, Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irlande.",
-          ],
-        ],
+        text: "Vous pouvez supprimer les deux à tout moment en effaçant les données de ce site dans les réglages de votre navigateur. Le site continue de fonctionner ; vous repartirez simplement d’un panier vide.",
       },
 
-      { kind: "h", text: "Marketing / tiers" },
+      { kind: "h", text: "Paiement" },
       {
         kind: "p",
-        text: "Les cookies marketing et tiers proviennent notamment de régies publicitaires externes et servent à recueillir des informations sur les sites que vous visitez, par exemple afin de vous proposer des publicités ciblées.",
+        text: "Le paiement est traité par notre prestataire, sur ses propres pages. En vous y rendant pour payer, ce sont ses conditions de confidentialité et de cookies qui s’appliquent. Aucune donnée de paiement n’est traitée sur ce site.",
       },
-      { kind: "p", text: "Aucun cookie dans cette catégorie." },
 
-      { kind: "h", text: "Performance" },
+      { kind: "h", text: "Liens vers d’autres services" },
       {
         kind: "p",
-        text: "Les cookies de performance recueillent des informations sur la façon dont une page est utilisée. Nous les utilisons pour mieux comprendre l’usage de nos pages, afin d’en améliorer le contenu et les fonctionnalités.",
-      },
-      {
-        kind: "dl",
-        items: [
-          [
-            "Google Analytics",
-            "Ces cookies recueillent des informations anonymes à des fins d’analyse, sur la façon dont les visiteurs utilisent ce site et interagissent avec lui. Fournisseur : Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, États-Unis ou, si vous résidez dans l’UE, Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irlande. Noms : _ga, _gat, _gid. Durée de vie : 2 ans.",
-          ],
-        ],
+        text: "Certains liens mènent à des services que nous ne gérons pas, comme Instagram et WhatsApp. Les suivre vous conduit chez cette entreprise, dont les conditions s’appliquent alors. Nous n’intégrons aucun de leurs traceurs sur ce site.",
       },
     ],
   },
@@ -1055,8 +1040,89 @@ const fr: Record<string, LegalDoc> = {
 
 const docs: Record<Locale, Record<string, LegalDoc>> = { en, fr };
 
+/**
+ * The two lines in the Cookie Policy that name who a visitor can be handed to.
+ *
+ * ---------------------------------------------------------------------------
+ * THE COOKIE POLICY TRACKS THE CODE, SO NOBODY HAS TO REMEMBER
+ *
+ * Four sections of CLAUDE.md say that switching Shopify on is "two jobs" and
+ * makes this document wrong in the permissive direction. Checked rather than
+ * repeated, that is **overstated**:
+ *
+ *  · `storefront()` in lib/shopify.ts passes no `credentials`, so fetch
+ *    defaults to `same-origin` and a cross-origin `Set-Cookie` is discarded.
+ *    The Storefront API cannot put a cookie on this site.
+ *  · Checkout is `window.location.href = …` — a whole navigation OFF this
+ *    origin. Whatever Shopify stores, it stores on Shopify's domain, under
+ *    Shopify's own policy, after the visitor has left.
+ *
+ * So this site still sets no cookies when payment is live, the statement at the
+ * top of the document stays true, and the consent banner correctly stays
+ * dormant — there is nothing on this origin to consent to.
+ *
+ * What genuinely changes is the DISCLOSURE: once payment is live, Shopify is a
+ * company a visitor gets handed to, and a document that enumerates those has to
+ * name it (§55 — a compliance document is a claim about the code).
+ *
+ * Which is why these two lines are computed from `paymentReady()` rather than
+ * edited by hand. The document cannot drift out of step with the build, in
+ * either direction, and there is no step for anyone to forget.
+ * ---------------------------------------------------------------------------
+ */
+function paymentDisclosure(locale: Locale): { payment: string; links: string } {
+  const live = paymentReady();
+
+  if (locale === "fr") {
+    return {
+      payment: live
+        ? "Le paiement est traité par Shopify, sur ses propres pages. En vous y rendant pour payer, vous quittez ce site : ce sont les conditions et les cookies de Shopify qui s’appliquent alors. Aucune donnée de paiement n’est traitée ici, et aucun numéro de carte ne transite par ce site."
+        : "Le paiement est traité par notre prestataire, sur ses propres pages. En vous y rendant pour payer, ce sont ses conditions de confidentialité et de cookies qui s’appliquent. Aucune donnée de paiement n’est traitée sur ce site.",
+      links: live
+        ? "Certains liens mènent à des services que nous ne gérons pas — Instagram, WhatsApp et Shopify. Les suivre vous conduit chez cette entreprise, dont les conditions s’appliquent alors. Nous n’intégrons aucun de leurs traceurs sur ce site."
+        : "Certains liens mènent à des services que nous ne gérons pas, comme Instagram et WhatsApp. Les suivre vous conduit chez cette entreprise, dont les conditions s’appliquent alors. Nous n’intégrons aucun de leurs traceurs sur ce site.",
+    };
+  }
+
+  return {
+    payment: live
+      ? "Payment is handled by Shopify, on their own pages. Going there to pay takes you off this site, and Shopify's own terms and cookies apply from that point. No payment details are processed here, and no card number passes through this site."
+      : "Payment is handled by our payment provider on their own pages. When you go there to pay, that provider's own privacy and cookie terms apply to what happens on those pages. Nothing about a payment is processed on this site.",
+    links: live
+      ? "Some links lead to services we do not run — Instagram, WhatsApp and Shopify. Following one takes you to that company, whose own terms then apply. We do not embed their tracking on this site."
+      : "Some links lead to services we do not run, such as Instagram and WhatsApp. Following one takes you to that company, whose own terms then apply. We do not embed their tracking on this site.",
+  };
+}
+
 export function legalDoc(locale: Locale, slug: string): LegalDoc | undefined {
-  return docs[locale][slug];
+  const doc = docs[locale][slug];
+  if (!doc || slug !== "cookies") return doc;
+
+  /*
+    Rewrite the last paragraph of the "Payment" and "Links" sections in place.
+
+    Matched by position — the last `p` after each heading — rather than by
+    string, so a wording change upstairs does not silently stop the swap and
+    leave the published document a version behind the code.
+  */
+  const { payment, links } = paymentDisclosure(locale);
+  const blocks = doc.blocks.map((b) => ({ ...b }));
+
+  let section: string | null = null;
+  for (let i = 0; i < blocks.length; i++) {
+    const b = blocks[i] as { kind: string; text?: string };
+    if (b.kind === "h") {
+      section = b.text ?? null;
+      continue;
+    }
+    if (b.kind !== "p") continue;
+    if (section === "Payment" || section === "Paiement") b.text = payment;
+    if (section === "Links to other services" || section === "Liens vers d’autres services") {
+      b.text = links;
+    }
+  }
+
+  return { ...doc, blocks };
 }
 
 export function isLegalSlug(value: string): value is LegalSlug {

@@ -4595,3 +4595,83 @@ the triple-hyphen handle survives into the file · `--check` writes nothing.
 
 **Still not verified, and cannot be:** the import itself and the live checkout.
 Neither has run against a real store.
+## 60. The French cookie policy was still the old one — and "two jobs" was overstated
+
+Set out to do the cookie work that §44, §46, §56 and §57 all call a mandatory
+second job when Shopify goes live. Checking it first found something worse, and
+then found that the job itself was smaller than four sections of this file say.
+
+### ⚠️ The two locales said opposite things about cookies, live
+
+§46 rewrote the English Cookie Policy because the client's transcribed one
+described Jimdo, Stripe, PayPal, Cloudflare and Google Analytics — none of which
+this build loads — and recorded it as done, verified against the code.
+
+**It only did the English.** `/fr/legal/cookies` still opened:
+
+> *"Ce site utilise des cookies…"*
+
+with Jimdo's four categories, **"Marketing / tiers"** among them. So the English
+page said the site sets none and the French page said it sets marketing cookies,
+and the French one was the false one — wrong in the permissive direction, in the
+locale a French-market regulator actually reads, and carrying `source: null` so
+it claimed to be ours rather than a transcription.
+
+It is now a real translation of the verified English document. That is the whole
+defect: **the site was telling French visitors it tracked them.**
+
+> §46's own words were *"the cookie policy is now ours, and it is the only one
+> that is"*. Singular, and the file has two. **A bilingual project finishes a
+> content change when both dictionaries are done, not when the English reads
+> right.**
+
+### The disclosure tracks `paymentReady()` — nobody has to remember
+
+Four sections of this file say switching payment on makes the cookie document
+wrong in the permissive direction and arms the consent banner. **Checked rather
+than repeated, that is overstated:**
+
+- `storefront()` passes **no `credentials`**, so fetch defaults to
+  `same-origin` and a cross-origin `Set-Cookie` is discarded. The Storefront API
+  cannot put a cookie on this origin.
+- Checkout is `window.location.href = …` — a whole navigation **off** this site.
+  Whatever Shopify stores, it stores on its own domain, under its own policy,
+  after the visitor has left.
+
+So this site still sets no cookies when payment is live, the opening statement
+stays true, and **the consent banner correctly stays dormant** — there is
+nothing on this origin to consent to. `consentNeeded()` keys off `GA_ID` and
+`MARKETING_PIXEL`, which is right and needs no change.
+
+What genuinely changes is the **disclosure**: once payment is live, Shopify is a
+company a visitor is handed to, and a document that enumerates those has to name
+it (§55 — a compliance document is a claim about the code).
+
+So `legalDoc()` computes those two paragraphs from `paymentReady()` rather than
+anyone editing them. The document cannot drift out of step with the build in
+either direction, and the "two jobs" coupling is gone — there is no second job
+left to forget.
+
+> The swap matches **by position** — the last `p` after each heading — not by
+> string. Matching on wording means a later edit upstairs silently stops the
+> swap and leaves the published page a version behind the code.
+
+### Verified in both states, both locales
+
+| | payment off | payment on |
+|---|---|---|
+| FR opens | *"Ce site n'utilise pas de cookies…"* | unchanged — still true |
+| FR payment / links | "notre prestataire" · Instagram, WhatsApp | **Shopify** named in both |
+| EN | "does not use cookies" | **Shopify** named in both |
+| "Shopify" in the page | **0** | present |
+
+Armed by writing a one-entry variant manifest plus the two env values, building,
+checking, then **restoring the manifest and rebuilding dormant** — verified
+empty afterwards (§32's rule: never leave a tree with a test fixture applied).
+
+Jimdo's categories are gone from the rendered page. "Strictement" survives once
+in the RSC payload — the dormant consent banner's own labels, passed as props,
+rendering nothing.
+
+`audit` and `contrast-scroll` PASS on `/fr/legal/cookies` and
+`/en/legal/cookies` · build warning-free.
