@@ -252,10 +252,65 @@ lives in `lib/catalog.ts`.
 
 ## 7. What it costs the client
 
-**€36/month** (Basic, monthly) — about **€432/year**, or ~€324 on annual
-billing — plus **2.9% + €0.30** per sale.
+Every figure below is checked against the provider's own pricing page, not
+remembered. Dates: the Shopify promo runs to **17 Dec 2026**.
 
-> The commercial proposal said "~9 EUR/month". That was the **Lite** plan,
-> discontinued in June 2022. Its replacement (Starter, $5) has no online store
-> and no Storefront API and cannot run this build at any price. The real floor
-> is €36/mo. See `CLAUDE.md` §57.
+### Fixed — what is paid whether or not anything sells
+
+| | now | from 17 Dec 2026 | per year |
+|---|---|---|---|
+| **Shopify Basic** | €1/mo (promo) | **€36/mo** | **€432** |
+| **Vercel Pro** | $20/mo | $20/mo | **$240** (~€220) |
+| **Resend** (the contact form) | €0 | €0 | **€0** |
+| **Domain** | already owned | renewal only | ~€15 |
+
+**First 12 months ≈ €550.** (3 months of Shopify at €1 = €3, then 9 × €36 =
+€324, plus a year of Vercel.)
+**Steady state ≈ €670/year.**
+
+> ### ⚠️ Vercel Pro is not optional, and it was not in anyone's budget
+> Vercel's **Hobby plan forbids commercial use** — their terms define it as any
+> deployment used for financial gain by anyone involved in producing it, which
+> a shop plainly is. A revenue-taking site on Hobby is a terms breach, and the
+> account can be suspended. Pro is **$20/mo**.
+>
+> If that $240/year matters, the site can be hosted elsewhere: **Cloudflare
+> Workers** (via OpenNext) permits commercial use on its free tier. It is a real
+> migration, not a setting, so it is a decision to take deliberately — but it is
+> the one line here that can go to zero.
+
+> **Resend stays free.** Its free tier is 3,000 e-mails/month capped at 100/day,
+> with one verified domain. A contact form on a shop this size will not come
+> near that. It needs DNS access to verify the sending domain — nothing more.
+
+> **And one line disappears:** whatever the client pays Jimdo for the old site
+> stops the day the domain points here. That is a saving against all of the
+> above, and only she knows the figure.
+
+### Per sale — the only cost that scales
+
+**Shopify Payments, France: 2.9% + €0.30.** No third-party gateway fee, because
+Shopify Payments is available in France (§2.2).
+
+Measured against the real catalogue — 38 pieces, €9,020 of stock, €35–€480,
+average €237, median €180:
+
+| order | fee | effective |
+|---|---|---|
+| €35 (cheapest piece) | **€1.32** | 3.8% |
+| €180 (median) | **€5.52** | 3.1% |
+| €237 (average) | **€7.18** | 3.0% |
+| €480 (dearest piece) | **€14.22** | 3.0% |
+
+**If the entire catalogue sold once, one piece per order: €272.99 on €9,020 —
+3.03%.**
+
+The €0.30 is what makes cheap pieces cost proportionally more. It is only
+material below about €50, where it doubles the effective rate.
+
+### The number that matters
+
+Fixed cost ≈ **€670/year**. At the average order of €237, that is **three pieces
+a year** to cover the entire platform. Everything after that is margin against
+a 3% card fee.
+
