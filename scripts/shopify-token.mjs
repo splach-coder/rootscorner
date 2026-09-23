@@ -83,13 +83,44 @@ const res = await fetch(`https://${SHOP}/admin/oauth/access_token`, {
 
 if (!res.ok) {
   const body = await res.text();
+
+  /*
+    Shopify answers this endpoint with an HTML error page, and the only useful
+    thing in it is the <title>: "400 - Oauth error app_not_installed". Dumping
+    400 characters of markup buries the one word that says what to do, so pull
+    the code out and say it plainly.
+  */
+  let code = body.match(/Oauth error (\w+)/)?.[1] ?? null;
+  if (!code) {
+    try {
+      code = JSON.parse(body).error ?? null;
+    } catch {
+      code = null;
+    }
+  }
+
+  const KNOWN = {
+    app_not_installed:
+      "The app exists and the credentials are right — it is simply not installed\n" +
+      "  on this store yet.\n\n" +
+      "  Dev Dashboard -> your app -> Installs -> Install app -> pick the store.\n" +
+      "  If Install is greyed out the app has no RELEASED version: configure it,\n" +
+      "  press Release, then install.",
+    invalid_client:
+      "The client id or secret is wrong, or the secret has been rotated since it\n" +
+      "  was copied. Dev Dashboard -> your app -> Overview -> API credentials.",
+    invalid_request:
+      "The store domain is probably wrong. It must be the myshopify.com one —\n" +
+      "  cru1uj-cf.myshopify.com — not a custom domain.",
+    unauthorized_client:
+      "The app and the store are in different Shopify organizations. The client\n" +
+      "  credentials grant cannot cross organizations.",
+  };
+
+  console.error(`Token exchange failed — HTTP ${res.status}${code ? ` (${code})` : ""}\n`);
   console.error(
-    `Token exchange failed — HTTP ${res.status}\n${body.slice(0, 400)}\n\n` +
-      "The usual causes, in order of likelihood:\n" +
-      "  · the app has no RELEASED version (configure it, then Release)\n" +
-      "  · the app is not INSTALLED on this store\n" +
-      "  · the app and the store are in different Shopify organizations\n" +
-      "  · the client secret was rotated",
+    KNOWN[code] ??
+      "Unrecognised error. The raw response starts:\n\n  " + body.slice(0, 300),
   );
   process.exit(1);
 }
