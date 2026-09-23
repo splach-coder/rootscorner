@@ -20,21 +20,53 @@ The background reasoning lives in `CLAUDE.md` §37 (the seam), §56 (the wiring)
 | **The 38 products in Shopify** | ❌ **The blocker.** Store reports 0 products. |
 | **Payment live** | ❌ `/checkout` says so, before the button. |
 
-### Scopes actually granted (checked, not assumed)
+### The scope list — decided once, so there is one release cycle and not five
 
-`write_products` · `unauthenticated_write_checkouts` ·
-`unauthenticated_read_product_listings`
+Every name below is from Shopify's own access-scopes reference, not written from
+memory: a wrong scope string is worse than a missing one, because the release
+accepts it and the grant silently lacks it.
 
-Enough to create products and to run the cart. **Not** enough to set stock
-quantities: that needs `read_locations`, `read_inventory` and `write_inventory`,
-without which `productSet` creates a tracked variant at quantity 0 which — with
-the `DENY` policy a one-of-a-kind requires — cannot be bought.
+**Put this in Portées, as one comma-separated line:**
 
-Proven on the live store: one product created with `inventoryPolicy: DENY` and
-`inventoryItem.tracked: true`, read back, then deleted.
+```
+read_products,write_products,read_locations,read_inventory,write_inventory,read_publications,write_publications,read_customers,write_customers,read_files,write_files,read_shipping,write_shipping,unauthenticated_read_product_listings,unauthenticated_read_checkouts,unauthenticated_write_checkouts
+```
 
-Nothing is broken while this is unfinished. Every buy action falls back to an
-enquiry, and the checkout page states plainly that payment is not active yet.
+| scope | what needs it |
+|---|---|
+| `read_products` `write_products` | Creating the 38 pieces. **Proven live.** Also covers collections. |
+| `read_locations` | Finding where stock lives. `productSet` cannot set a quantity without a location id. |
+| `read_inventory` `write_inventory` | Stock of 1, tracked, `DENY`. |
+| `read_publications` `write_publications` | **The blocker.** A product can be ACTIVE and still invisible to the Storefront API until it is published to a sales channel. |
+| `read_customers` `write_customers` | `app/api/subscribe/route.ts` already creates a marketing-consented customer from the newsletter (§26). Written, waiting on this. |
+| `read_files` `write_files` | The product images point at the **dying Jimdo CDN** (§59) and the client's Drive holds the originals (§51). Moving them onto Shopify needs file staging. |
+| `read_shipping` `write_shipping` | Shipping zones — still an open decision, and doing it by API rather than by hand is the difference between a repeatable setup and a clicked one. |
+| `unauthenticated_*` | The site itself: read published products, create a cart. |
+
+> **`write_` implies `read_`.** Measured: the first install granted
+> `write_products` and `write_inventory` without their read counterparts, and
+> both reads worked. The reads are listed anyway so the intent is legible on the
+> app's own page.
+
+### Deliberately NOT requested
+
+This matters more than the list above. The client secret has already travelled
+through a chat, and every scope widens what a leak would reach.
+
+| not asked for | why |
+|---|---|
+| **`read_orders` `write_orders`** | The single most sensitive category — names, addresses, what people bought. The site never displays an order: Shopify hosts customer accounts (§58). The client can read orders in the admin. Add it the day something actually needs it, not before. |
+| `read_discounts` `write_discounts` | Speculative. No discount exists or is planned. |
+| `read_translations` `write_translations` | Product names are deliberately untranslated (§46), and Shopify localises its own checkout. |
+| `read_markets` `write_markets` | Nothing configures markets by API. |
+| `read_content` `write_content` | The site owns every word. Shopify holds no page here. |
+| `write_locations` | We only ever read where stock is. |
+| `unauthenticated_read_product_inventory` | `availableForSale` comes with `unauthenticated_read_product_listings`, and "sold" is all the site shows — it never prints a quantity. |
+
+> The rule, and it is the same one the two-token warning states: **ask for what a
+> job needs, when it needs it.** A scope list that covers every future idea is a
+> blast radius, and this one is attached to a secret that has been pasted into a
+> conversation.
 
 ---
 
