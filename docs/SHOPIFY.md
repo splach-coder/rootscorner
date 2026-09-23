@@ -425,12 +425,57 @@ A transfer also **adds a year**, so it would run to 2028-02-07.
 > e-mail must be reachable** — the approval goes there, and a transfer stalls
 > silently if nobody clicks it.
 
-### Where to move it
+### The chosen shape
 
-**Cloudflare Registrar** — at-cost renewal (no markup), free DNS, and if the
-site ends up on Cloudflare Workers to avoid Vercel's $20/month (§7), the domain,
-the DNS and the hosting sit in one place.
+| | |
+|---|---|
+| **Registrar** | **Namecheap** — the client already has an account |
+| **DNS** | **Cloudflare** — nameservers pointed there *from* Namecheap |
+| **Hosting** | **Cloudflare Workers** |
 
-Shopify can hold it too, and the Basic plan came with a domain offer — but this
-storefront is **headless**, so the domain points at our host, not at Shopify.
-Keeping it there adds a dependency without buying anything.
+Shopify could hold the domain, and the Basic plan came with a domain offer — but
+this storefront is **headless**, so the domain points at our host, not at
+Shopify. Parking it there adds a dependency without buying anything.
+
+> **Cloudflare Workers needs the domain on Cloudflare DNS.** A custom domain on
+> Workers requires the zone to live in the Cloudflare account. Registrar and DNS
+> are separate things: Namecheap keeps the registration and takes the renewal,
+> Cloudflare answers the queries.
+
+### The order, and why it is this order
+
+The blocking step is **getting the auth code out of Jimdo**. Everything else
+waits on it.
+
+1. **Jimdo → domain → unlock**, and request the **auth / EPP code**.
+2. **Namecheap → Transfer** → enter the domain → paste the code → pay. The fee
+   is about one year of a .com and **adds a year** to the expiry.
+3. **Approve the confirmation e-mail.** It goes to the domain's admin contact.
+   Nothing errors if nobody clicks — the transfer simply stalls.
+4. Wait. **Roughly 5 days.**
+5. **Namecheap → Nameservers → Custom** → Cloudflare's two.
+6. **Only now cancel Jimdo.**
+
+> **Nothing goes dark during any of this.** DNS keeps answering from Jimdo's
+> nameservers for the whole transfer, so the old site stays up until step 5. The
+> switch happens exactly once, when we choose it.
+
+> **A transferred domain is locked for 60 days** by ICANN rule. If the plan were
+> ever to end up at Cloudflare Registrar for at-cost renewal, going via Namecheap
+> costs a two-month wait. Namecheap is a perfectly good registrar; this is only
+> worth knowing before, not after.
+
+### The DNS records that will be needed
+
+Once the zone is on Cloudflare:
+
+| record | for |
+|---|---|
+| The Workers custom-domain records | Cloudflare writes these itself when the Worker is bound to `therootscorner.com` |
+| `www` → apex | so both spellings reach the site |
+| **SPF / DKIM / DMARC** | Resend, to send the contact form from this domain. It refuses to send until the domain is verified. |
+| `account` CNAME | only if Shopify customer accounts get the branded subdomain (§2.7) |
+
+**There are no records to preserve.** Verified at the time of the move: no MX,
+no TXT, no CNAME on the apex. The zone starts empty, which is the easiest
+possible migration.
