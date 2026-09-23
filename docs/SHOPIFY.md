@@ -90,7 +90,29 @@ node scripts/shopify-csv.mjs --check   # report only
 node scripts/shopify-csv.mjs           # writes docs/shopify-import.csv
 ```
 
-**Shopify admin → Products → Import → upload the file.**
+**Before you import, get the header row your store actually expects.** It takes
+thirty seconds and needs no products:
+
+> Shopify admin → **Products → Export → export all products, as CSV**
+
+An empty store still exports its **header row**. Open it, read the first line:
+
+| the first column reads | run |
+|---|---|
+| `Handle` | `node scripts/shopify-csv.mjs` (default) |
+| `URL handle` | `node scripts/shopify-csv.mjs --modern` |
+
+Shopify's current help pages document the friendly names (`URL handle`,
+`Description`, `Price`); its own exporter has emitted the classic ones for years
+and the importer accepts them. Matching the export removes the guess.
+
+> ⚠️ One column does not merely rename, it **inverts**. Classic
+> `Variant Inventory Policy` is `deny` / `continue`; modern
+> `Continue selling when out of stock` is a boolean, where the same intent is
+> **FALSE**. The script handles it; a hand-edit would not, and would turn "never
+> oversell a one-of-a-kind" into "always oversell it".
+
+**Then: Shopify admin → Products → Import → upload the file.**
 
 38 products, 212 image rows, 36 in stock, 2 at qty 0.
 

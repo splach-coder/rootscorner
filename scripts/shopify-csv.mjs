@@ -58,9 +58,57 @@ const titleCase = (input) =>
     .join(" ");
 
 /** RFC 4180: quote everything, double any internal quote. */
+const CRLF = String.fromCharCode(13, 10);
+
 const cell = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
 
-const COLUMNS = [
+/*
+  TWO HEADER DIALECTS, AND THE STORE DECIDES WHICH.
+
+  Shopify's current help pages document friendly column names ("URL handle",
+  "Description", "Price"). Its own exporter has for years produced the classic
+  ones ("Handle", "Body (HTML)", "Variant Price"), and the importer has accepted
+  those throughout — every migration tool emits them.
+
+  Rather than bet on which this store wants, both are here. The authoritative
+  answer takes thirty seconds and needs no products at all:
+
+      Shopify admin -> Products -> Export -> export all, as CSV
+
+  An empty store still exports its HEADER ROW. Match that row and the import
+  cannot fail on a column name.
+
+      node scripts/shopify-csv.mjs            # classic (Shopify's own export)
+      node scripts/shopify-csv.mjs --modern   # the names in the current docs
+
+  One column does not merely rename — it INVERTS. Classic
+  `Variant Inventory Policy` takes `deny` / `continue`; the modern
+  `Continue selling when out of stock` is a boolean, where that same intent is
+  FALSE. Carrying the value across unchanged would turn "never oversell a
+  one-of-a-kind" into "always oversell it".
+*/
+const MODERN = process.argv.includes("--modern");
+
+/** classic -> modern. Anything absent keeps its classic name. */
+const RENAME = {
+  "Handle": "URL handle",
+  "Body (HTML)": "Description",
+  "Published": "Published on online store",
+  "Option1 Name": "Option1 name",
+  "Option1 Value": "Option1 value",
+  "Variant SKU": "SKU",
+  "Variant Inventory Tracker": "Inventory tracker",
+  "Variant Inventory Qty": "Inventory quantity",
+  "Variant Inventory Policy": "Continue selling when out of stock",
+  "Variant Fulfillment Service": "Fulfillment service",
+  "Variant Price": "Price",
+  "Variant Requires Shipping": "Requires shipping",
+  "Variant Taxable": "Charge tax",
+  "Image Src": "Product image URL",
+  "Image Position": "Image position",
+};
+
+const CLASSIC = [
   "Handle",
   "Title",
   "Body (HTML)",
@@ -138,18 +186,35 @@ for (const entry of items) {
 
   // Shopify takes extra images as further rows carrying only the handle.
   for (let i = 1; i < srcs.length; i++) {
-    const extra = new Array(COLUMNS.length).fill("");
+    const extra = new Array(CLASSIC.length).fill("");
     extra[0] = handle;
-    extra[COLUMNS.indexOf("Image Src")] = srcs[i];
-    extra[COLUMNS.indexOf("Image Position")] = i + 1;
+    extra[CLASSIC.indexOf("Image Src")] = srcs[i];
+    extra[CLASSIC.indexOf("Image Position")] = i + 1;
     rows.push(extra);
   }
 
   report.push({ handle, images: srcs.length, price: entry.price, inStock });
 }
 
-const csv = [COLUMNS, ...rows].map((r) => r.map(cell).join(",")).join("\r\n") + "\r\n";
+/*
+  The inventory policy is the one value that changes MEANING, not just name.
+  Classic `deny` means "stop selling at zero"; the modern column is a boolean
+  where that same intent is FALSE.
+*/
+const policyAt = CLASSIC.indexOf("Variant Inventory Policy");
+const body = MODERN
+  ? rows.map((r) =>
+      r.map((v, i) =>
+        i === policyAt && v !== "" ? (v === "continue" ? "TRUE" : "FALSE") : v,
+      ),
+    )
+  : rows;
 
+const header = MODERN ? CLASSIC.map((c) => RENAME[c] ?? c) : CLASSIC;
+const csv =
+  [header, ...body].map((r) => r.map(cell).join(",")).join(CRLF) + CRLF;
+
+console.log(`header:        ${MODERN ? "modern (current docs)" : "classic (Shopify export)"}`);
 console.log(`pieces:        ${items.length}`);
 console.log(`CSV rows:      ${rows.length}  (one per piece + one per extra image)`);
 console.log(`in stock:      ${report.filter((r) => r.inStock).length}`);
