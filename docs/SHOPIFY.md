@@ -479,3 +479,83 @@ Once the zone is on Cloudflare:
 **There are no records to preserve.** Verified at the time of the move: no MX,
 no TXT, no CNAME on the apex. The zone starts empty, which is the easiest
 possible migration.
+
+## 9. Hosting — deployed on Cloudflare Workers (2026-09-23)
+
+| | |
+|---|---|
+| Registrar | **Namecheap** — transfer paid 2026-09-23, adds a year: expiry **7 Feb 2028** |
+| DNS | Cloudflare zone `therootscorner.com`, **pending** until the nameservers change |
+| Nameservers to set at Namecheap | **`alfred.ns.cloudflare.com`** · **`sneh.ns.cloudflare.com`** |
+| Worker | `therootscorner` — live now at `https://therootscorner.wereact.workers.dev` |
+| Custom domains | `therootscorner.com` and `www.therootscorner.com`, bound to the Worker |
+| www | 301 → apex (zone Redirect Rule), so there is one canonical address |
+| TLS | Full (strict), Always HTTPS, min TLS 1.2 |
+
+### Deploy
+
+```
+npm run cf:deploy        # opennextjs-cloudflare build && deploy
+```
+
+Wrangler needs Cloudflare credentials in the shell (`CLOUDFLARE_API_TOKEN`, or
+`CLOUDFLARE_EMAIL` + `CLOUDFLARE_API_KEY`) plus `CLOUDFLARE_ACCOUNT_ID`
+`c46e92eba2f987d52c1975c4d92e30c2`. **Never commit them.**
+
+`NEXT_PUBLIC_*` values are read from `.env.local` **at build time** and inlined,
+so a machine without that file builds a site with payment switched off. Copy
+`.env.local` across before deploying from a new PC.
+
+Server-only secrets live on the Worker, not in the build:
+
+```
+npx wrangler secret put SHOPIFY_CLIENT_ID      # set
+npx wrangler secret put SHOPIFY_CLIENT_SECRET  # set — re-put after rotating it
+npx wrangler secret put RESEND_API_KEY         # not yet — contact form fails honestly to WhatsApp until then
+```
+
+### Why these choices
+
+- **`@opennextjs/cloudflare`** is the adapter; `open-next.config.ts` uses the
+  **static-assets incremental cache**. Every page is prerendered and nothing
+  revalidates, so the R2 cache the template reaches for would be a bucket (and a
+  billing profile) holding copies of files the assets directory already has.
+- **next/image** resizes through the Cloudflare **Images** binding. Verified: a
+  1080w request returns AVIF.
+- **The newsletter no longer writes a local file in production.** On Workers
+  the filesystem is an in-memory stub: the append "succeeds", the visitor is
+  thanked, and the address is gone. It now creates a Shopify customer with
+  marketing consent, using the client-credentials grant and the two secrets
+  above, and fails loudly without them.
+- `proxy.ts` runs as Node middleware, which OpenNext marks experimental.
+  Verified working: `/` redirects by `Accept-Language`.
+- OpenNext warns that Windows builds are "not fully compatible". The build and
+  every route passed on Windows; if a runtime oddity ever appears, rebuild under
+  WSL before debugging the code.
+
+### Verified on the live Worker
+
+Every route shape 200 · no console or page errors in a real browser · 0 broken
+images · `/fr/contact?piece=…` renders the piece · the Cookie Policy names
+Shopify · `robots.txt` and a 118-URL `sitemap.xml` with hreflang pairs ·
+canonical `https://therootscorner.com/fr` · **checkout creates a Shopify cart
+and hands the buyer over** — where Shopify currently stops them at its
+**password page** (below).
+
+### Still to do in the Shopify admin (not code)
+
+1. **Online Store → Preferences → Password protection → off.** Until then
+   every buyer who presses "Passer au paiement" lands on a password page.
+2. **Settings → General → Store name**: it is still "Ma boutique", which is the
+   title a buyer sees on checkout and in the confirmation email.
+3. **Shipping rates** per zone (§6 of this file's parent brief) — without them
+   checkout offers no delivery option.
+4. **Rotate the client secret** (Dev Dashboard → Renouveler), then
+   `wrangler secret put SHOPIFY_CLIENT_SECRET` and update `.env.local`.
+
+### After the transfer completes (~5 days)
+
+Namecheap → Domain List → Manage → Nameservers → **Custom DNS** → the two
+nameservers above. Within minutes to hours the zone goes **active**, the
+custom domains get certificates, and `therootscorner.com` serves this build.
+Only then cancel Jimdo.

@@ -4754,3 +4754,23 @@ walked through Shopify's hosted checkout and paid. The first order must be a
 real test order somebody watches, then refunds.
 
 Shipping rates are unset, so that checkout will currently offer none.
+
+## 62. Deployed on Cloudflare Workers
+
+`docs/SHOPIFY.md` §9 is the operational record. What matters for anyone
+changing code:
+
+- **Hosting is Cloudflare Workers via `@opennextjs/cloudflare`, not Vercel**
+  (§11 said Vercel; Vercel Hobby forbids commercial use and Pro is $20/mo).
+  `npm run cf:deploy` builds and deploys.
+- **The canonical host is the bare domain.** `SITE_URL` in lib/site.ts; www
+  301s to it at the zone. The layout used to hard-code `https://www.…`, which
+  would have put a redirect behind every canonical URL.
+- **Nothing may write to the filesystem at runtime.** On Workers `fs` is an
+  in-memory stub that reports success and keeps nothing. `/api/subscribe` was
+  the one place that did, and now goes to Shopify or fails loudly.
+- **Server secrets are read at call time, not module scope.** They arrive as
+  Worker bindings; `NEXT_PUBLIC_*` values are inlined at build instead, which is
+  why a build on a machine without `.env.local` ships with payment off.
+- `app/sitemap.ts` and `app/robots.ts` are new; checkout is excluded from the
+  sitemap because it is noindex.

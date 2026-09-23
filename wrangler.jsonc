@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "therootscorner",
+  "main": ".open-next/worker.js",
+  // Kept on so the site stays reachable while the domain is still at Jimdo.
+  "workers_dev": true,
+  "account_id": "c46e92eba2f987d52c1975c4d92e30c2",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    { "binding": "WORKER_SELF_REFERENCE", "service": "therootscorner" }
+  ],
+  // next/image resizing, done by Cloudflare Images rather than by the Worker.
+  "images": { "binding": "IMAGES" },
+  // The domain and www both land on this Worker; www is redirected to the
+  // apex by a zone Redirect Rule so there is one canonical address for SEO.
+  "routes": [
+    { "pattern": "therootscorner.com", "custom_domain": true },
+    { "pattern": "www.therootscorner.com", "custom_domain": true }
+  ],
+  "observability": { "enabled": true }
+}

@@ -136,3 +136,10 @@ export const SOCIAL: { key: string; label: string; href: string }[] = [
   { key: "pinterest", label: "Pinterest", href: process.env.NEXT_PUBLIC_PINTEREST || "" },
   { key: "tiktok", label: "TikTok", href: process.env.NEXT_PUBLIC_TIKTOK || "" },
 ].filter((s) => s.href.length > 0);
+
+/**
+ * The one canonical address. The bare domain, not www: the Cloudflare zone
+ * 301s www to it, so a canonical or sitemap URL on www would point search
+ * engines at a redirect on every page.
+ */
+export const SITE_URL = "https://therootscorner.com";

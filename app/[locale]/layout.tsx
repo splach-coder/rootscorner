@@ -39,7 +39,7 @@ const body = Jost({
   variable: "--font-body",
 });
 
-const SITE = "https://www.therootscorner.com";
+import { SITE_URL as SITE } from "@/lib/site";
 
 /**
  * The intro gate. Runs before first paint.

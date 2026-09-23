@@ -17,3 +17,8 @@ shots/
 # Throwaway measuring scripts. The keepers have real names.
 scripts/_*.mjs
 scripts/.*.mjs
+
+# Cloudflare build output + local secrets
+.open-next/
+.wrangler/
+.dev.vars
