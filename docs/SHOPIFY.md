@@ -619,3 +619,23 @@ rates.
 
 `docs/GUIDE-BOUTIQUE.md` — in French: add a piece, change a price, mark sold,
 fulfil with tracking, shipping rates.
+
+## 14. Morocco — what was done, what is left in the admin
+
+**Done:** `shopify-setup.mjs` applied and read back — 38 products typed, 8
+collections (stools 12, african-decoration 8, pots 5, ceramics-tamegroute 3,
+vases 2, decoration 7, lamp 1, rugs 0), shipping Maroc 25 € · International
+50 € (≤199.99) / 80 € (≥200). Checkout note: ships from Marrakech, customs may
+apply outside Morocco. Deployed.
+
+**Left, in the admin (the app has no scope for these, on purpose):**
+
+1. **Settings → General → Store details**: country **Morocco**, the business
+   address, store name **The Roots Corner**. Keep currency **EUR**.
+2. **Settings → Locations → "Emplacement de la boutique"**: rename to
+   *Marrakech*, address *Résidence Al Hadika Lahna, Avenue Mohamed VI, Route
+   d'Ourika, 40000 Marrakech, Maroc*. This is the ship-from address.
+3. **Settings → Payments → PayPal → Activate** with her PayPal business account.
+   Until a provider is active, Shopify's checkout cannot take money.
+4. **Online Store → Preferences → Password protection → off.**
+5. Later: CMI app (or a direct integration) once the bank contract exists.

@@ -863,7 +863,12 @@ const en: Dictionary = {
     lede: "Address and payment are taken on the next step, on a secure page.",
     order: "The pieces",
     subtotal: "Subtotal",
-    shippingNote: "Shipping is calculated at payment, once we know where it is going.",
+    // Shipped from Marrakech: outside Morocco the parcel crosses a customs
+    // border, and a buyer must know before paying that the carrier may ask for
+    // duties and import VAT on arrival. "May" and "depending on the country" —
+    // the amounts are the destination's, not ours to state.
+    shippingNote:
+      "Every piece leaves from Marrakech. Shipping is calculated at payment, once we know where it is going. Outside Morocco, customs duties and import VAT may be charged on delivery, depending on the country.",
     pay: "Continue to payment",
     back: "Keep looking",
     empty: "There is nothing to pay for yet.",
@@ -1339,7 +1344,7 @@ const fr: Dictionary = {
     order: "Les pièces",
     subtotal: "Sous-total",
     shippingNote:
-      "La livraison est calculée au paiement, une fois la destination connue.",
+      "Chaque pièce part de Marrakech. La livraison est calculée au paiement, une fois la destination connue. Hors du Maroc, des droits de douane et la TVA à l’importation peuvent être demandés à la livraison, selon le pays.",
     pay: "Continuer vers le paiement",
     back: "Continuer à regarder",
     empty: "Il n’y a rien à régler pour l’instant.",

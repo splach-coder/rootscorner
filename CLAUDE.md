@@ -165,9 +165,10 @@ Custom front-end; **Shopify** runs cart, checkout, payments, orders, stock.
   Its replacement (Starter, $5/mo) has **no online store and no Storefront API**,
   so it cannot run this build at all. The real entry price is **Basic at €36/mo**
   (~€27/mo billed annually). Transaction ~**2.9% + €0.30** — that half of the
-  proposal was right, and it holds because the store is registered in **France**,
-  where Shopify Payments is available. A Morocco-registered store could not use
-  it and would pay a third-party gateway **plus** Shopify's own 2% fee on Basic.
+  proposal was right **only for a French business**. Decided 2026-09-23: the
+  store is registered in **Morocco**, where the company is (ICE/RC), so there is
+  no Shopify Payments: **PayPal** first, **CMI** via her bank once contracted,
+  each plus Shopify's 2% third-party fee on Basic (§64).
 
 **Mrirt rugs are different.** Handwoven to order by a women's weaving cooperative in Mrirt
 (Middle Atlas), fully customisable in size, colour, design and texture. This is a
@@ -4788,3 +4789,20 @@ is appended whole from what the house wrote there — nothing inferred (§5).
 one a build-hours-old "available" is routinely wrong. Details and what is still
 pending (the admin setup script, the Cloudflare token for scheduled deploys):
 `docs/SHOPIFY.md` §11–13.
+
+## 64. The store is Moroccan — decided 2026-09-23
+
+Shopify Payments France needs a French business (SIRET, an address in mainland
+France, a French bank account). The house's company is Moroccan, so the store
+is registered in **Morocco** and Shopify Payments is not available.
+
+| | |
+|---|---|
+| Payments | **PayPal** now (also takes cards); **CMI** once her bank grants an e-commerce contract. Both via Shopify's checkout, each plus Shopify's 2% third-party fee on Basic. A direct CMI integration from this site (hosted payment page → order created in Shopify) is possible and may avoid that 2% — not built. |
+| Ships from | Résidence Al Hadika Lahna, Avenue Mohamed VI, Route d'Ourika, Marrakech 40000. **Shopify location only — not published on the site.** It is a residence; the legal address on the imprint stays `ADDRESS` in lib/site.ts. |
+| Customs | Checkout says every piece leaves from Marrakech and that duties and import VAT may be charged on delivery outside Morocco. "May", "depending on the country" — the amounts are the destination's. |
+| Tax | For her accountant: VAT on export, import VAT for EU buyers, export authorisation for antique pieces. Nothing on the site states a tax position until they answer. |
+
+`scripts/shopify-setup.mjs` has been applied: French product types, eight
+automatic collections, and the house's own shipping table replacing Shopify's
+example rates. Verified by reading back.
