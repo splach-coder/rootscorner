@@ -89,7 +89,27 @@ if (!location) {
   console.error("No location on this store — inventory cannot be set.");
   process.exit(1);
 }
-console.log(`location: ${location.name}\n`);
+console.log(`location: ${location.name}`);
+
+/* ---- which sales channel the site reads ---------------------------------
+
+   A product can be ACTIVE and still invisible to the Storefront API. Shopify
+   only exposes what is PUBLISHED to a channel, and for a headless storefront
+   that channel is "Online Store" — the one the Storefront API reads from, even
+   though no Shopify theme is ever rendered.
+
+   "Shop" is Shopify's own consumer marketplace and "Point of Sale" is the till.
+   Publishing to either is a business decision rather than a technical one, so
+   this touches neither.                                                      */
+
+const pubs = await gql(`{ publications(first: 20) { nodes { id name } } }`);
+const online = pubs.publications.nodes.find((p) => p.name === "Online Store");
+if (!online) {
+  console.error("No 'Online Store' channel — an unpublished product is invisible to the site.");
+  process.exit(1);
+}
+console.log(`channel:  ${online.name}`);
+
 
 /* ---- the catalogue ------------------------------------------------------ */
 
@@ -126,13 +146,14 @@ for (const entry of items) {
 
   try {
     const data = await gql(
-      `mutation($input: ProductSetInput!) {
-        productSet(synchronous: true, input: $input) {
+      `mutation($id: ProductSetIdentifiers, $input: ProductSetInput!) {
+        productSet(synchronous: true, identifier: $id, input: $input) {
           product { id handle variants(first: 1) { nodes { id } } }
           userErrors { field message code }
         }
       }`,
       {
+        id: { handle },
         input: {
           handle,
           title,
@@ -164,10 +185,32 @@ for (const entry of items) {
       continue;
     }
 
+    const productId = data.productSet.product.id;
     const variantId = data.productSet.product.variants.nodes[0]?.id;
+
+    /*
+      Publish, every time. `publishablePublish` is idempotent — re-publishing
+      something already published is not an error — so this stays safe to
+      re-run, and a product created before publishing existed gets fixed on the
+      next pass rather than staying quietly invisible.
+    */
+    const pub = await gql(
+      `mutation($id: ID!, $input: [PublicationInput!]!) {
+        publishablePublish(id: $id, input: $input) { userErrors { field message } }
+      }`,
+      { id: productId, input: [{ publicationId: online.id }] },
+    );
+    const pubErrs = pub.publishablePublish.userErrors;
+    if (pubErrs?.length) {
+      const why = "created but NOT published: " + pubErrs.map((e) => e.message).join("; ");
+      failed.push({ handle, why });
+      console.log(`✗ ${handle} — ${why}`);
+      continue;
+    }
+
     map[handle] = variantId;
     done++;
-    console.log(`✓ ${handle}  ${srcs.length} img  qty ${qty}  ${variantId}`);
+    console.log(`✓ ${handle}  ${srcs.length} img  qty ${qty}  published  ${variantId}`);
   } catch (e) {
     failed.push({ handle, why: e.message });
     console.log(`✗ ${handle} — ${e.message}`);

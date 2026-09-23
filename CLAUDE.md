@@ -4675,3 +4675,82 @@ rendering nothing.
 
 `audit` and `contrast-scroll` PASS on `/fr/legal/cookies` and
 `/en/legal/cookies` · build warning-free.
+## 61. The shop is live — 38 pieces in Shopify, and a cart that reaches checkout
+
+The blocker is gone. All 38 pieces exist in the store, published, priced, with
+212 photographs and stock of one, and the Storefront API builds a real cart.
+
+`scripts/shopify-push.mjs` did it — the Admin API rather than the CSV, which
+became the better route the moment the app had `write_products`: idempotent,
+and it reads the variant IDs **straight back** into `docs/shopify.json`, which
+is the only thing the site actually needs.
+
+### ⚠️ Shopify NORMALISES handles, and that would have broken the CSV path
+
+The handle sent and the handle stored are not the same string:
+
+```
+ours     handcrafted-wood-stool---cote-d-ivoire     (three hyphens)
+Shopify  handcrafted-wood-stool-cote-d-ivoire       (collapsed to one)
+```
+
+§59 built the whole CSV around the handle being the shared key, and it is not:
+Shopify collapses repeated hyphens silently. Had the products been imported by
+CSV, `shopify-link.mjs` — which matches on handle — would have found **0 of 38**
+for the second time, from a completely different cause than the first.
+
+**`shopify-push.mjs` is immune** because it never matches on anything. It
+captures the variant ID from the mutation's own response, so the map is keyed by
+our slug and valued by Shopify's id, and the two systems never have to agree on
+a string. That is the more robust design and it was luck rather than foresight
+that chose it.
+
+> `scripts/shopify-link.mjs` is therefore **obsolete for this route** and would
+> now mis-report. It survives for the CSV path only.
+
+### Three things that had to be true, and only one was obvious
+
+| | |
+|---|---|
+| `productSet` is **not** an upsert by default | Without `identifier: { handle }` it attempts a create and fails with *"Handle already in use"*. The docblock claimed idempotency before the code had it. |
+| ACTIVE ≠ visible | A product can be ACTIVE and return **nothing** from the Storefront API until it is published to a channel. `publishablePublish` to **Online Store** — the channel a headless storefront reads, though no theme is ever rendered. |
+| `write_inventory` implies read | `read_inventory` was requested and never granted, and everything worked. The missing-scope alarm was false. |
+
+`Shop` (Shopify's consumer marketplace) and `Point of Sale` are deliberately not
+published to: that is a business decision, not a technical one.
+
+### The scope list, settled in one cycle
+
+Granted: `write_products` · `read_locations` · `write_inventory` ·
+`write_publications` · `write_customers` · `write_files` · `write_shipping` ·
+`unauthenticated_read_product_listings` · `unauthenticated_write_checkouts`.
+
+**Orders were deliberately not requested** — the most sensitive category Shopify
+has, and the site never displays one (§58). The secret has been through a chat;
+every scope widens what a leak reaches.
+
+### Verified end to end, against the real store
+
+```
+storefront sees 38 product(s)
+cartCreate: OK   total 480.0 EUR   qty 1
+https://cru1uj-cf.myshopify.com/cart/c/hWNH9o…
+```
+
+· Store confirmed **EUR / Europe/Paris / billing country FR**, so Shopify
+Payments is available as §57 planned
+· variant map: **38 entries, every one a `gid://shopify/ProductVariant/`**
+· `/fr/checkout` with a two-piece cart renders both lines and **no longer shows
+"le paiement n'est pas encore activé"** — `paymentReady()` has flipped
+· the Cookie Policy followed on its own, in both locales, with no edit:
+*"Le paiement est traité par **Shopify**"* / *"Payment is handled by
+**Shopify**"* — §60's `paymentReady()` coupling doing exactly its job
+· build warning-free
+
+### What is still NOT proven
+
+**No money has moved.** `cartCreate` returns a valid checkout URL; nobody has
+walked through Shopify's hosted checkout and paid. The first order must be a
+real test order somebody watches, then refunds.
+
+Shipping rates are unset, so that checkout will currently offer none.
