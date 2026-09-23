@@ -268,7 +268,7 @@ export default function PieceGallery({
         {images.map((image, i) => (
           <Image
             key={image.file}
-            src={`/pieces/${image.file}`}
+            src={image.src ?? `/pieces/${image.file}`}
             /* Only the lead names the piece. Repeating the name on every view
                of the same object is noise in a screen reader. */
             alt={i === 0 ? name : ""}
@@ -308,7 +308,7 @@ export default function PieceGallery({
                 onClick={() => setActive(i)}
               >
                 <Image
-                  src={`/pieces/${image.file}`}
+                  src={image.src ?? `/pieces/${image.file}`}
                   alt=""
                   width={image.w}
                   height={image.h}

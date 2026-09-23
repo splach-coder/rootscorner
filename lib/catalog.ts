@@ -13,6 +13,7 @@
 
 import rawCatalog from "@/docs/catalog.json";
 import rawImages from "@/docs/images.json";
+import live from "@/docs/shopify-live.json";
 
 /**
  * Lines the scraper swept up that are not product copy.
@@ -98,7 +99,18 @@ const reflow = (lines: string[]): string[] => {
  * proportion rather than cropped to a house ratio — ratios in this set run
  * 0.56 to 1.50, so any single ratio would cut most of them.
  */
-export type PieceImage = { file: string; original: string; w: number; h: number };
+export type PieceImage = {
+  file: string;
+  original: string;
+  w: number;
+  h: number;
+  /**
+   * Set only for a piece added in Shopify after launch: its photograph lives on
+   * Shopify's CDN, not in public/pieces. `imagePath()` is the one place that
+   * decides which, so components never build an image URL themselves.
+   */
+  src?: string;
+};
 
 export type Piece = {
   slug: string;
@@ -233,6 +245,69 @@ const pieces: Piece[] = (rawCatalog as RawCatalogEntry[]).map((entry, i) => {
 });
 
 /**
+ * Shopify decides price and availability — docs/shopify-live.json, pulled
+ * before every build by scripts/shopify-pull.mjs.
+ *
+ * The client changes a price or sells a piece in the admin, and the next build
+ * shows it. The copy, photography and translations of the original 38 stay the
+ * site's own (§46). A piece that exists ONLY in Shopify — added by the house
+ * after launch — is appended whole, from what she wrote there and nothing else
+ * (§5): no dimensions, no origin, unless she typed them into the description.
+ */
+type LiveSnapshot = {
+  pulledAt: string | null;
+  pieces: Record<string, { price: number | null; available: boolean }>;
+  extra: {
+    slug: string;
+    variantId: string;
+    name: string;
+    price: number;
+    currency: string;
+    available: boolean;
+    category: string;
+    description: string[];
+    images: { src: string; w: number; h: number; alt: string | null }[];
+  }[];
+};
+const snapshot = live as LiveSnapshot;
+
+for (const piece of pieces) {
+  const state = snapshot.pieces[piece.slug];
+  if (!state) continue;
+  if (state.price !== null) piece.price = state.price;
+  piece.available = state.available;
+}
+
+const known = new Set(pieces.map((p) => p.slug));
+for (const entry of snapshot.extra) {
+  if (known.has(entry.slug)) continue;
+  const images: PieceImage[] = entry.images.map((i) => ({
+    file: i.src,
+    original: i.src,
+    src: i.src,
+    w: i.w,
+    h: i.h,
+  }));
+  pieces.push({
+    slug: entry.slug,
+    index: pieces.length + 1,
+    name: entry.name.trim(),
+    price: entry.price,
+    currency: entry.currency,
+    category: entry.category,
+    images,
+    swapImage: images[1] ?? null,
+    dimensions: null,
+    available: entry.available,
+    delivery: null,
+    description: entry.description,
+    details: [],
+    care: [],
+  });
+}
+
+
+/**
  * Pieces photographed as more than one object.
  *
  * §5 of the client's report: where several are shown together, the price shown
@@ -339,7 +414,8 @@ export function categories(): { slug: string; count: number; cover: Piece | unde
 }
 
 export function imagePath(image: PieceImage | undefined): string | null {
-  return image ? `/pieces/${image.file}` : null;
+  if (!image) return null;
+  return image.src ?? `/pieces/${image.file}`;
 }
 
 export function formatPrice(piece: Piece, locale: string): string | null {

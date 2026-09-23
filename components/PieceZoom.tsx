@@ -463,7 +463,7 @@ export default function PieceZoom({
           }}
         >
           <Image
-            src={`/pieces/${image.file}`}
+            src={image.src ?? `/pieces/${image.file}`}
             alt={name}
             width={image.w}
             height={image.h}
@@ -488,7 +488,7 @@ export default function PieceZoom({
               onClick={() => onIndex(i)}
             >
               <Image
-                src={`/pieces/${shot.file}`}
+                src={shot.src ?? `/pieces/${shot.file}`}
                 alt=""
                 width={shot.w}
                 height={shot.h}

@@ -4774,3 +4774,17 @@ changing code:
   why a build on a machine without `.env.local` ships with payment off.
 - `app/sitemap.ts` and `app/robots.ts` are new; checkout is excluded from the
   sitemap because it is noindex.
+
+## 63. Shopify drives price, stock and new pieces
+
+`docs/shopify-live.json` is pulled from the Storefront API before every build
+and merged in `lib/catalog.ts`: Shopify overrides price and availability of the
+original 38 (matched by variant ID), and a product that exists only in Shopify
+is appended whole from what the house wrote there — nothing inferred (§5).
+`PieceImage.src` carries a CDN URL for those; **build image URLs only through
+`imagePath()` or `image.src ?? /pieces/…`**, never from `file` alone.
+
+`AddToCart` re-checks availability live in the browser, because with stock of
+one a build-hours-old "available" is routinely wrong. Details and what is still
+pending (the admin setup script, the Cloudflare token for scheduled deploys):
+`docs/SHOPIFY.md` §11–13.

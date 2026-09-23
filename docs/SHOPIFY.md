@@ -582,3 +582,40 @@ Nothing on this site can do that for her.
 
 To brand it later: Settings → Domains → connect `account.therootscorner.com`
 (a CNAME on the Cloudflare zone), then change the variable and redeploy.
+
+## 11. Shopify is now the source of truth for price, stock and new pieces
+
+| | |
+|---|---|
+| `scripts/shopify-pull.mjs` | Runs before every build (`npm run cf:build`). Storefront API only — public token, nothing secret. Writes `docs/shopify-live.json`. |
+| Price + availability | For the 38 original pieces, Shopify's values override the scrape. Matched by **variant ID**, never handle (§61 of CLAUDE.md). |
+| Unpublished / deleted in Shopify | Becomes unavailable on the site. |
+| New piece added in Shopify | Appears on the site whole — title, description, photos (from `cdn.shopify.com`), room from its **Type**. No Type that matches a room → skipped, with a warning in the build log. Verified with a fake entry: page generated, image from the CDN, listed in its room. |
+| Live stock | `AddToCart` asks Shopify in the browser before offering the button. Sold since the build → "Vendue", and the piece is taken out of the cart. Verified by simulating a sale. |
+| Store unreachable at build | Previous snapshot kept, build continues, loud warning. |
+| Scheduled rebuild | `.github/workflows/deploy.yml`: every push, every 3 h, and on demand. Build secrets set on GitHub; **`CLOUDFLARE_API_TOKEN` still to add** — until then it builds and skips the deploy with a warning. |
+
+The site's own copy (names, French translations, photography, dimensions) of
+the original 38 stays in this repo. Shopify holds none of it.
+
+## 12. `scripts/shopify-setup.mjs` — written, dry-run verified, NOT yet applied
+
+Makes the admin readable for the house: every product's **Type** becomes its
+French room, one automatic collection per room (rule: Type equals the room,
+plus an empty **Tapis**), and the example shipping rates Shopify ships with
+(France 7.99 €, EU 22 €, …) are replaced by the house's own published table —
+Maroc 25 €, International 50 € under 200 € / 80 € from 200 €.
+
+```
+node scripts/shopify-setup.mjs --dry   # verified
+node scripts/shopify-setup.mjs         # apply — needs a yes, it changes the live store
+```
+
+Until it runs, a NEW piece is only picked up if its Type is typed exactly as a
+room name (see `docs/GUIDE-BOUTIQUE.md`), and checkout charges Shopify's example
+rates.
+
+## 13. Guide for the house
+
+`docs/GUIDE-BOUTIQUE.md` — in French: add a piece, change a price, mark sold,
+fulfil with tracking, shipping rates.

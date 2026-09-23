@@ -1,4 +1,5 @@
 import variants from "@/docs/shopify.json";
+import live from "@/docs/shopify-live.json";
 
 /**
  * The Shopify Storefront API — the only Shopify this site talks to.
@@ -60,7 +61,14 @@ export const ACCOUNT_URL =
  * `scripts/shopify-link.mjs` writes it: it reads the store's own products and
  * matches them to the catalogue, so nobody types a `gid://` by hand.
  */
-const VARIANTS: Record<string, string> = variants as Record<string, string>;
+const VARIANTS: Record<string, string> = {
+  ...(variants as Record<string, string>),
+  // Pieces the house added in Shopify after launch, from the build snapshot
+  // (scripts/shopify-pull.mjs). They were never in docs/shopify.json.
+  ...Object.fromEntries(
+    (live as { extra: { slug: string; variantId: string }[] }).extra.map((e) => [e.slug, e.variantId]),
+  ),
+};
 
 /** The variant ID for a piece, or null if the store does not carry it. */
 export function variantFor(slug: string): string | null {
@@ -111,4 +119,29 @@ export async function storefront<T>(
 
   if (!res.ok) return { errors: [{ message: `HTTP ${res.status}` }] };
   return (await res.json()) as StorefrontResult<T>;
+}
+
+/**
+ * Is this piece still for sale, right now?
+ *
+ * The build snapshot (docs/shopify-live.json) can be hours old, and with stock
+ * of one "sold an hour ago" is a normal state. The piece page asks Shopify
+ * directly from the browser before offering the button. Resolves to null when
+ * the answer is unknown (no store, network error) — the caller keeps what the
+ * build said rather than guessing either way.
+ */
+export async function liveAvailability(slug: string): Promise<boolean | null> {
+  const id = variantFor(slug);
+  if (!id) return null;
+  try {
+    const r = await storefront<{ node: { availableForSale: boolean } | null }>(
+      `query($id: ID!) { node(id: $id) { ... on ProductVariant { availableForSale } } }`,
+      { id },
+    );
+    if (r.errors?.length || !r.data) return null;
+    // A variant the storefront no longer returns has been unpublished.
+    return r.data.node ? r.data.node.availableForSale : false;
+  } catch {
+    return null;
+  }
 }

@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
     // default; 90 is for the two Instagram interiors, which are only 512x640 —
     // the smallest files on the site, so they can least afford re-compression.
     qualities: [75, 90],
+    // Photographs of pieces the house adds in Shopify after launch are served
+    // from Shopify's CDN (lib/catalog.ts, scripts/shopify-pull.mjs).
+    remotePatterns: [{ protocol: "https", hostname: "cdn.shopify.com" }],
   },
 };
 

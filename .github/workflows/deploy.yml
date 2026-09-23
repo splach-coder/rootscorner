@@ -1,0 +1,66 @@
+# Build and deploy the site to Cloudflare Workers.
+#
+# Runs on every push to master, every three hours, and on demand. The schedule
+# is what makes the Shopify admin the place the house works: a price changed,
+# a piece sold or a new piece added there reaches the site on the next run
+# without anybody touching code (scripts/shopify-pull.mjs). The piece page also
+# re-checks stock live in the browser, so "sold" never waits for this.
+#
+# Repository secrets needed (Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_API_TOKEN                  scoped token: Workers Scripts Edit,
+#                                         Workers Routes Edit, Account Settings Read
+#   NEXT_PUBLIC_SHOPIFY_DOMAIN            cru1uj-cf.myshopify.com
+#   NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN  public by design (lib/shopify.ts)
+#   NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL       https://shopify.com/105437954396/account
+#
+# Server-only secrets (SHOPIFY_CLIENT_SECRET, RESEND_API_KEY) are NOT here:
+# they live on the Worker (`wrangler secret put`) and never enter a build.
+
+name: deploy
+
+on:
+  push:
+    branches: [master]
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Write the build-time environment
+        run: |
+          {
+            echo "NEXT_PUBLIC_SHOPIFY_DOMAIN=${{ secrets.NEXT_PUBLIC_SHOPIFY_DOMAIN }}"
+            echo "NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN=${{ secrets.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN }}"
+            echo "NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL=${{ secrets.NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL }}"
+          } > .env.local
+      - name: Refuse to ship a shop with payment switched off
+        run: |
+          grep -q "NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN=." .env.local || {
+            echo "::error::NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN is not set — the build would ship with checkout disabled."
+            exit 1
+          }
+      - run: npm run cf:build
+      - name: Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: c46e92eba2f987d52c1975c4d92e30c2
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN is not set yet — built, not deployed."
+            exit 0
+          fi
+          npx opennextjs-cloudflare deploy

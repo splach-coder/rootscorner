@@ -77,7 +77,7 @@ export async function generateMetadata({
       type: "article",
       title: name,
       description,
-      images: image ? [{ url: `/pieces/${image.file}`, width: image.w, height: image.h }] : [],
+      images: image ? [{ url: image.src ?? `/pieces/${image.file}`, width: image.w, height: image.h }] : [],
     },
   };
 }
@@ -213,6 +213,8 @@ export default async function PiecePage({
                             add: t.cart.add,
                             added: t.cart.added,
                             view: t.cart.view,
+                            sold: t.common.sold,
+                            soldNote: t.piece.soldNote,
                           }}
                         />
                         <Link href={enquiry} className="link label piece-ask">
