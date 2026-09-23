@@ -559,3 +559,26 @@ Namecheap → Domain List → Manage → Nameservers → **Custom DNS** → the 
 nameservers above. Within minutes to hours the zone goes **active**, the
 custom domains get certificates, and `therootscorner.com` serves this build.
 Only then cancel Jimdo.
+
+## 10. Customer accounts — live (2026-09-23)
+
+`NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL=https://shopify.com/105437954396/account`
+(shop id from the Storefront API `shop { id }`). The header shows **Mes
+commandes / My orders**; on a phone it sits in the menu panel beside the cart.
+The link carries `?locale=fr|en` so the sign-in opens in the visitor's language.
+
+Verified: it lands on Shopify's passwordless sign-in ("Se connecter ou créer un
+compte") — an email, then a six-digit code. No password exists anywhere.
+
+**How a customer gets an account:** there is no separate sign-up. Anyone who
+orders, or who enters their email on that page, has one; the code proves they
+own the address. Inside: every order, its status (unfulfilled → shipped →
+delivered), the tracking link once the house marks it shipped, addresses.
+
+**What makes the tracking real is the fulfilment step in the admin:** Orders →
+the order → **Fulfil item** → paste the carrier's tracking number. That sends
+the "your order has shipped" email and fills in the status in the account.
+Nothing on this site can do that for her.
+
+To brand it later: Settings → Domains → connect `account.therootscorner.com`
+(a CNAME on the Cloudflare zone), then change the variable and redeploy.

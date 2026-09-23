@@ -406,7 +406,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
               is passwordless. Nothing here handles a credential. */}
           {ACCOUNT_URL && (
             <a
-              href={ACCOUNT_URL}
+              href={`${ACCOUNT_URL}?locale=${locale}`}
               className="label site-account"
               target="_blank"
               rel="noreferrer noopener"
@@ -475,7 +475,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
               <CartButton label={cart} withLabel />
               {ACCOUNT_URL && (
                 <a
-                  href={ACCOUNT_URL}
+                  href={`${ACCOUNT_URL}?locale=${locale}`}
                   className="label site-panel-account"
                   target="_blank"
                   rel="noreferrer noopener"
