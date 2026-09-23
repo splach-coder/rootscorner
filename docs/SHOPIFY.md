@@ -382,3 +382,55 @@ Fixed cost ≈ **€670/year**. At the average order of €237, that is **three 
 a year** to cover the entire platform. Everything after that is margin against
 a 3% card fee.
 
+---
+
+## 8. The domain — where it actually lives
+
+Checked at the registry (RDAP) and in DNS, not assumed:
+
+| | |
+|---|---|
+| Registrar | **InterNetX GmbH** (IANA 151) — Jimdo's domain partner, so it was registered *through* Jimdo |
+| Nameservers | `ns13.jimdo.com` · `ns14.jimdo.com` — **Jimdo controls DNS** |
+| A record | `162.159.128.70` / `.129.70` — Cloudflare IPs, Jimdo's own front |
+| Status | **`clientTransferProhibited`** — locked, as registrars lock by default |
+| Registered | 2025-02-07 · **expires 2027-02-07** |
+| **MX** | **none** |
+| TXT / CNAME | none |
+
+> **No MX means no e-mail runs on this domain**, so moving it breaks no
+> mailbox. The house uses `therootscornerm@gmail.com`, which is Gmail and
+> entirely independent. That is what makes this safe — the usual disaster in a
+> domain move is silently killing the client's e-mail.
+
+### Transfer, don't just repoint
+
+Repointing DNS would be quicker, but the domain is registered **through Jimdo**.
+Cancelling Jimdo — which is the plan, since that subscription is the saving that
+offsets Shopify (§7) — could take the domain with it.
+
+**So the registration has to move first, and Jimdo must not be cancelled until
+it has.**
+
+1. **Jimdo → domain settings → unlock** (clears `clientTransferProhibited`)
+2. Request the **auth / EPP code**. Jimdo usually e-mails it.
+3. At the new registrar, start the transfer and paste that code.
+4. Approve the confirmation e-mail. It takes about **5 days**.
+5. Only then cancel Jimdo.
+
+A transfer also **adds a year**, so it would run to 2028-02-07.
+
+> Two traps: a domain cannot be transferred within **60 days** of registration or
+> of a previous transfer (this one is long past both), and the **admin contact
+> e-mail must be reachable** — the approval goes there, and a transfer stalls
+> silently if nobody clicks it.
+
+### Where to move it
+
+**Cloudflare Registrar** — at-cost renewal (no markup), free DNS, and if the
+site ends up on Cloudflare Workers to avoid Vercel's $20/month (§7), the domain,
+the DNS and the hosting sit in one place.
+
+Shopify can hold it too, and the Basic plan came with a domain offer — but this
+storefront is **headless**, so the domain points at our host, not at Shopify.
+Keeping it there adds a dependency without buying anything.
