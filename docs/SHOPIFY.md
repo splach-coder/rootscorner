@@ -13,11 +13,25 @@ The background reasoning lives in `CLAUDE.md` §37 (the seam), §56 (the wiring)
 | | |
 |---|---|
 | **Code** | ✅ Done. Cart, checkout review, `cartCreate`, the account link — all written. |
-| **Store** | ✅ Exists — `cru1uj-cf`, client registered in **France**. |
-| **Plan** | Basic (€1/mo promo, then €36/mo). |
-| **The 38 products in Shopify** | ❌ **The blocker.** Everything else waits on this. |
-| **Storefront token** | ❌ Not created yet. |
+| **Store** | ✅ `cru1uj-cf` — verified live: **EUR, Europe/Paris, billing country FR**, so Shopify Payments is available. |
+| **Plan** | ✅ Basic (€1/mo promo, then €36/mo). |
+| **Custom app** | ✅ Created in the Dev Dashboard, released, installed. |
+| **Storefront token** | ✅ Minted by `scripts/shopify-token.mjs`, in `.env.local`. Verified against the live Storefront API. |
+| **The 38 products in Shopify** | ❌ **The blocker.** Store reports 0 products. |
 | **Payment live** | ❌ `/checkout` says so, before the button. |
+
+### Scopes actually granted (checked, not assumed)
+
+`write_products` · `unauthenticated_write_checkouts` ·
+`unauthenticated_read_product_listings`
+
+Enough to create products and to run the cart. **Not** enough to set stock
+quantities: that needs `read_locations`, `read_inventory` and `write_inventory`,
+without which `productSet` creates a tracked variant at quantity 0 which — with
+the `DENY` policy a one-of-a-kind requires — cannot be bought.
+
+Proven on the live store: one product created with `inventoryPolicy: DENY` and
+`inventoryItem.tracked: true`, read back, then deleted.
 
 Nothing is broken while this is unfinished. Every buy action falls back to an
 enquiry, and the checkout page states plainly that payment is not active yet.
