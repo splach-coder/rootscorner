@@ -540,30 +540,60 @@ const en: Record<string, LegalDoc> = {
   faq: {
     slug: "faq",
     title: "FAQ",
-    source: "https://www.therootscorner.com/faq/",
+    /*
+     * OURS, not transcribed (source: null) — the second document after the
+     * cookie policy to be rewritten, for the same reason: the client's FAQ had
+     * become wrong about this shop. It listed PayPal, Visa, MasterCard and
+     * Apple Pay (the store takes bank transfer only, §64), answered "What are
+     * the shipping costs?" with delivery times that contradict the product
+     * pages (§9.3), and said "all sales are final", which the EU's 14-day
+     * withdrawal right overrides (§9.2). The original is kept in
+     * docs/reference/legal/faq.txt.
+     *
+     * Every answer below is a fact the site already holds: the published
+     * shipping table, the payment method actually switched on, how accounts
+     * and Mrirt orders work. DELIBERATELY ABSENT until the house decides them:
+     * delivery times and returns. This text is also the FAQPage markup
+     * Google and AI answer engines read, so a wrong answer here is repeated
+     * everywhere — update it the day CMI, a returns policy or delivery times
+     * are settled.
+     */
+    source: null,
     blocks: [
       {
         kind: "dl",
         items: [
           [
-            "Is delivery available in my city?",
-            "Worldwide shipping available. Orders are processed and dispatched as quickly as possible.",
+            "Where do you deliver?",
+            "Every piece ships from Marrakech — within Morocco and worldwide, including France, Belgium and Switzerland.",
           ],
           [
-            "What are the shipping costs?",
-            "Delivery within Europe typically takes between 3 and 8 weeks. For destinations in Asia, the Americas, and Australia, delivery times may exceed one month. Should any delays occur, you will be notified by email and kept informed about the status of your order.",
+            "How much is delivery?",
+            "Morocco: €25. International: €50, or €80 for orders of €200 and more. The exact amount is shown at checkout, before you pay.",
           ],
           [
-            "Returns & Refunds",
-            "As our products are often fragile and require special packaging, we do not accept returns once an order has been shipped. This allows us to maintain the quality and condition of every piece we offer. All sales are therefore considered final, and refunds cannot be issued for shipped orders.",
+            "Will I pay customs duties?",
+            "Outside Morocco, customs duties and import VAT may be charged by the carrier on delivery, depending on your country. They are not included in the price or the delivery cost.",
           ],
           [
-            "What payment methods are available?",
-            "Paypal, Visa, MasterCard, Apple pay, Transfert…",
+            "How can I pay?",
+            "By bank transfer (SEPA). Your bank details arrive with the order confirmation. The piece is reserved for you for 3 days and ships as soon as the transfer arrives.",
           ],
           [
-            "How can you contact us?",
-            "If you have any questions, please contact us through our contact page. We will get back to you as soon as possible.",
+            "Is each piece really unique?",
+            "Yes. There is one of each piece, and once it is sold it is not replaced. A sold piece stays on the site, marked as sold.",
+          ],
+          [
+            "How do I follow my order?",
+            "Open “My orders” on the site and sign in with your email address — you receive a one-time code, there is no password. You will see your order, its status and, once it has shipped, the tracking link. You are also emailed when it ships.",
+          ],
+          [
+            "Can I order a made-to-measure Mrirt rug?",
+            "Yes. Mrirt rugs are handwoven to order by a women’s weaving cooperative in Mrirt, in the Middle Atlas. You choose the size, colour, design and texture: describe the rug you have in mind on the Mrirt rugs page and we contact you personally.",
+          ],
+          [
+            "Can I ask about a piece before buying?",
+            "Of course — by WhatsApp, email or the contact form. Every piece page has a link that opens the message already naming the piece.",
           ],
         ],
       },
@@ -1007,30 +1037,43 @@ const fr: Record<string, LegalDoc> = {
   faq: {
     slug: "faq",
     title: "FAQ",
-    source: en.faq.source,
+    // Ours — see the English docblock. A translation of it, nothing added.
+    source: null,
     blocks: [
       {
         kind: "dl",
         items: [
           [
-            "La livraison est-elle possible dans ma ville ?",
-            "Livraison dans le monde entier. Les commandes sont traitées et expédiées dans les meilleurs délais.",
+            "Où livrez-vous ?",
+            "Chaque pièce part de Marrakech — au Maroc et dans le monde entier, y compris en France, en Belgique et en Suisse.",
           ],
           [
-            "Quels sont les frais de livraison ?",
-            "La livraison en Europe prend généralement entre 3 et 8 semaines. Pour l’Asie, les Amériques et l’Australie, les délais peuvent dépasser un mois. En cas de retard, vous serez informé par e-mail et tenu au courant de l’état de votre commande.",
+            "Combien coûte la livraison ?",
+            "Maroc : 25 €. International : 50 €, ou 80 € pour les commandes à partir de 200 €. Le montant exact s’affiche au paiement, avant de régler.",
           ],
           [
-            "Retours et remboursements",
-            "Nos produits étant souvent fragiles et nécessitant un emballage particulier, nous n’acceptons pas les retours une fois la commande expédiée. Cela nous permet de préserver la qualité et l’état de chaque pièce que nous proposons. Toute vente est donc considérée comme définitive, et aucun remboursement ne peut être effectué pour les commandes expédiées.",
+            "Vais-je payer des frais de douane ?",
+            "Hors du Maroc, des droits de douane et la TVA à l’importation peuvent être demandés par le transporteur à la livraison, selon votre pays. Ils ne sont compris ni dans le prix ni dans les frais de livraison.",
           ],
           [
-            "Quels moyens de paiement sont acceptés ?",
-            "PayPal, Visa, MasterCard, Apple Pay, virement…",
+            "Comment payer ?",
+            "Par virement bancaire (SEPA). Nos coordonnées bancaires arrivent avec la confirmation de commande. La pièce vous est réservée 3 jours et part dès réception du virement.",
           ],
           [
-            "Comment nous contacter ?",
-            "Pour toute question, contactez-nous via notre page contact. Nous vous répondrons dès que possible.",
+            "Chaque pièce est-elle vraiment unique ?",
+            "Oui. Il n’existe qu’un exemplaire de chaque pièce, et une pièce vendue n’est pas remplacée. Elle reste visible sur le site, indiquée comme vendue.",
+          ],
+          [
+            "Comment suivre ma commande ?",
+            "Ouvrez « Mes commandes » sur le site et connectez-vous avec votre adresse e-mail — vous recevez un code à usage unique, sans mot de passe. Vous y voyez votre commande, son statut et, une fois expédiée, le lien de suivi. Un e-mail vous est aussi envoyé à l’expédition.",
+          ],
+          [
+            "Puis-je commander un tapis Mrirt sur mesure ?",
+            "Oui. Les tapis Mrirt sont tissés main sur commande par une coopérative de femmes à Mrirt, dans le Moyen Atlas. Vous choisissez la taille, la couleur, le motif et la texture : décrivez le tapis que vous imaginez sur la page Tapis Mrirt et nous vous contactons personnellement.",
+          ],
+          [
+            "Puis-je poser une question sur une pièce avant d’acheter ?",
+            "Bien sûr — par WhatsApp, e-mail ou le formulaire de contact. Chaque page de pièce propose un lien qui ouvre le message en nommant déjà la pièce.",
           ],
         ],
       },

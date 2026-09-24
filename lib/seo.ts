@@ -225,3 +225,23 @@ export function itemListLd(locale: Locale, pieces: Piece[], name: (p: Piece) => 
     })),
   };
 }
+
+/**
+ * FAQPage — built from the FAQ exactly as the page renders it, so the markup
+ * can never say something the visible page does not (Google's own rule, and
+ * §5's). Its answers are the ones in lib/legal.ts `faq`, which only states
+ * facts the site holds.
+ */
+export function faqLd(locale: Locale, items: [string, string][]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${SITE_URL}/${locale}/faq#faq`,
+    inLanguage: locale,
+    mainEntity: items.map(([question, answer]) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  };
+}

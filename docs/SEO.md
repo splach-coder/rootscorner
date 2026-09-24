@@ -32,10 +32,14 @@ Verified on https://therootscorner.com, 2026-09-24.
 5. **Analytics** — none runs. Cloudflare Web Analytics is cookieless (no
    consent banner needed) but the Cookie Policy would have to name it first.
    Google Analytics needs the consent banner (built, dormant — §44).
-6. **FAQPage markup** — deliberately NOT added: the FAQ says "all sales are
-   final", which contradicts the 14-day withdrawal right. Marking it up would
-   push the wrong answer into Google and AI answers. Add it once the returns
-   policy is decided.
+6. ~~FAQPage markup~~ — **done 2026-09-24.** The FAQ was rewritten as ours
+   (`source: null`, like the cookie policy): the client's version listed
+   payment methods the store does not take and "all sales are final". Eight
+   Q&As, all from facts the site holds; `FAQPage` JSON-LD is built from the
+   rendered items, verified identical to the visible text in both locales.
+   **Delivery times and returns are left out until decided** — add them to
+   `faq` in lib/legal.ts the day they are, and update "How can I pay?" when CMI
+   goes live.
 7. **Content** — the richest SEO lever left: descriptions for the 20 pieces
    that have none (from Dahab, not written by us), and alt text / captions
    from her for the Drive photography.

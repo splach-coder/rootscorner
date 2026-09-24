@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { pageMeta } from "@/lib/seo";
+import { faqLd, pageMeta } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
 import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
@@ -38,14 +39,19 @@ export default async function FaqPage({
   if (!doc) notFound();
   const t = getDictionary(locale as Locale);
 
+  const items = doc.blocks.flatMap((b) => (b.kind === "dl" ? b.items : [])) as [string, string][];
+
   return (
-    <LegalPage
+    <>
+      <JsonLd data={faqLd(locale as Locale, items)} />
+      <LegalPage
       doc={doc}
       locale={locale as Locale}
       eyebrow={t.legal.eyebrow}
       index={t.legal.items}
       indexLabel={t.legal.alsoHere}
       faqLabel={t.legal.faq}
-    />
+      />
+    </>
   );
 }

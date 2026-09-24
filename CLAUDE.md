@@ -4820,4 +4820,6 @@ example rates. Verified by reading back.
 - JSON-LD carries only sourced facts. `countryOfOrigin` is deliberately not
   used: the client's names carry attributions ("Dogon"), which §14 forbids
   resolving into a country.
-- FAQPage markup waits on the returns decision (§9.2).
+- The FAQ is ours now and carries FAQPage markup. Its payment answer says
+  bank transfer: **change it when CMI goes live**, or Google and AI answers
+  keep telling buyers cards are not taken.
