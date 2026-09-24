@@ -1,4 +1,5 @@
 import "server-only";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 /**
  * Delivering an enquiry.
@@ -30,9 +31,14 @@ import "server-only";
  */
 const RESEND_ENDPOINT = process.env.RESEND_ENDPOINT || "https://api.resend.com/emails";
 
-/** Where enquiries are delivered. Falls back to the address shown on the page. */
+/**
+ * Where enquiries are delivered. Falls back to the address shown on the page —
+ * CONTACT_EMAIL, the house's own published address — not only to the
+ * environment variable: that is unset in production, and reading only it
+ * left the form with nowhere to deliver once Resend was switched on.
+ */
 export function enquiryTo(): string | null {
-  return process.env.ENQUIRY_TO || process.env.NEXT_PUBLIC_CONTACT_EMAIL || null;
+  return process.env.ENQUIRY_TO || CONTACT_EMAIL || null;
 }
 
 /**
