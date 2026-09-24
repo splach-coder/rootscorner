@@ -639,3 +639,28 @@ apply outside Morocco. Deployed.
    Until a provider is active, Shopify's checkout cannot take money.
 4. **Online Store → Preferences → Password protection → off.**
 5. Later: CMI app (or a direct integration) once the bank contract exists.
+
+## 15. Live checkout verified (2026-09-24)
+
+Store: **Morocco**, EUR, prices tax-inclusive at an assumed 0 % (no tax
+registration yet — accountant's call). Ships from the residence, Route
+d'Ourika. Password off.
+
+Walked from the site to Shopify's payment step, without placing an order —
+Dogon Tribal Staff, 180 €:
+
+| address | shipping | total | payment offered |
+|---|---|---|---|
+| Marrakech | 25 € | **205 €** | Virement bancaire (SEPA) |
+| Paris | 50 € ("Livraison internationale") | **230 €** | Virement bancaire (SEPA) |
+
+The displayed price is the price paid — nothing is added or deducted for an
+export buyer.
+
+**The Horizon theme redirects.** `layout/theme.liquid` carries a
+`noindex, nofollow` and a redirect to therootscorner.com, so Shopify's own
+storefront at cru1uj-cf.myshopify.com is neither browsable nor indexed as a
+duplicate of the shop. Checkout and customer accounts do not use the theme and
+are unaffected. **Do not delete the Online Store channel** — checkout needs it.
+
+Next payment method: CMI through her bank (message sent to the house).
