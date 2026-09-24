@@ -4806,3 +4806,18 @@ is registered in **Morocco** and Shopify Payments is not available.
 `scripts/shopify-setup.mjs` has been applied: French product types, eight
 automatic collections, and the house's own shipping table replacing Shopify's
 example rates. Verified by reading back.
+
+## 65. SEO, link previews, structured data, llms.txt
+
+`docs/SEO.md` is the checklist. For anyone changing a page:
+
+- **Every `generateMetadata` returns `pageMeta()` from lib/seo.ts.** Next
+  replaces, not merges, a parent's `openGraph` — pages that set only a title
+  inherited the homepage's `og:url`, so every shared link claimed to be the
+  homepage. A new page that builds its own metadata object reintroduces that.
+- Preview images are 1200×630 JPEG in `public/og/` (`scripts/og-images.mjs`).
+  Not AVIF/WebP: WhatsApp drops previews it cannot decode.
+- JSON-LD carries only sourced facts. `countryOfOrigin` is deliberately not
+  used: the client's names carry attributions ("Dogon"), which §14 forbids
+  resolving into a country.
+- FAQPage markup waits on the returns decision (§9.2).

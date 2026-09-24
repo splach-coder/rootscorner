@@ -1,4 +1,8 @@
 import Link from "next/link";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbLd, itemListLd } from "@/lib/seo";
+import { displayName } from "@/lib/specs";
+import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import PageHead from "@/components/PageHead";
@@ -29,22 +33,17 @@ export async function generateMetadata({
   const name = roomName(locale, category);
   const count = piecesByCategory(category).length;
 
-  return {
+  return pageMeta({
+    locale,
+    path: `/collection/${category}`,
     title: `${name} — The Roots Corner`,
     // Built from counts and the room's own name: it states what is on the page
     // and claims nothing about any object.
     description: `${name} — ${fill(count === 1 ? t.category.countOne : t.category.count, {
       n: count,
     })}. ${t.selection.unique}`,
-    alternates: {
-      canonical: `/${locale}/collection/${category}`,
-      languages: {
-        fr: `/fr/collection/${category}`,
-        en: `/en/collection/${category}`,
-        "x-default": `/fr/collection/${category}`,
-      },
-    },
-  };
+    image: og(`rooms/${category}.jpg`),
+  });
 }
 
 /**
@@ -72,6 +71,14 @@ export default async function CategoryPage({
 
   return (
     <>
+      <JsonLd data={itemListLd(locale as Locale, pieces, displayName)} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "The Roots Corner", path: `/${locale}` },
+          { name: t.nav.collection, path: `/${locale}/collection` },
+          { name: roomName(locale as Locale, category), path: `/${locale}/collection/${category}` },
+        ])}
+      />
       <PageHead
         eyebrow={t.category.eyebrow}
         heading={roomName(locale as Locale, category)}

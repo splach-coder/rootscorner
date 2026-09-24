@@ -17,7 +17,9 @@ import {
   relatedPieces,
   isMultiple,
 } from "@/lib/catalog";
-import { displayName } from "@/lib/specs";
+import { displayName, materialOf, originOf } from "@/lib/specs";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbLd, pageMeta, pieceOg, productLd } from "@/lib/seo";
 import { frLine, frLines } from "@/lib/product-fr";
 
 /**
@@ -48,38 +50,31 @@ export async function generateMetadata({
   const t = getDictionary(locale);
   const name = displayName(piece);
 
-  // The client's own first sentence where there is one; otherwise the site's
-  // uniqueness line. Never a generated description of an object nobody
-  // described — that is exactly the invented copy CLAUDE.md §5 forbids.
-  // Translated too: this is the sentence Google prints under the French page,
-  // and an English meta description on a /fr URL is the one place a
-  // half-translated site is most visible.
+  // The client's own first sentence where there is one. Where there is none,
+  // the facts the label already shows — room, material, origin as the client
+  // named it, price — and the uniqueness line. Never a generated description
+  // of an object nobody described (CLAUDE.md §5). Translated too: this is the
+  // sentence Google and WhatsApp print under the French page.
   const first = piece.description[0];
+  const facts = [
+    t.categories.items[piece.category],
+    materialOf(piece, locale),
+    originOf(piece, locale),
+    formatPrice(piece, locale),
+  ].filter(Boolean);
   const description = first
     ? locale === "fr"
       ? frLine(first)
       : first
-    : t.selection.unique;
-  const image = piece.images[0];
+    : `${name}. ${facts.join(" · ")}. ${t.selection.unique}`;
 
-  return {
+  return pageMeta({
+    locale,
+    path: `/piece/${slug}`,
     title: `${name} — The Roots Corner`,
     description,
-    alternates: {
-      canonical: `/${locale}/piece/${slug}`,
-      languages: {
-        fr: `/fr/piece/${slug}`,
-        en: `/en/piece/${slug}`,
-        "x-default": `/fr/piece/${slug}`,
-      },
-    },
-    openGraph: {
-      type: "article",
-      title: name,
-      description,
-      images: image ? [{ url: image.src ?? `/pieces/${image.file}`, width: image.w, height: image.h }] : [],
-    },
-  };
+    image: pieceOg(piece, name),
+  });
 }
 
 /**
@@ -134,6 +129,29 @@ export default async function PiecePage({
 
   return (
     <>
+      <JsonLd
+        data={productLd({
+          piece,
+          locale: locale as Locale,
+          name,
+          description: piece.description[0]
+            ? locale === "fr"
+              ? frLine(piece.description[0])
+              : piece.description[0]
+            : undefined,
+          category: room,
+          material: materialOf(piece, locale as Locale),
+          origin: originOf(piece, locale as Locale),
+        })}
+      />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "The Roots Corner", path: `/${locale}` },
+          { name: t.nav.collection, path: `/${locale}/collection` },
+          { name: room, path: `/${locale}/collection/${piece.category}` },
+          { name, path: `/${locale}/piece/${piece.slug}` },
+        ])}
+      />
       <article className="piece">
         <div className="shell piece-inner">
           {/* --- The photographs, as a gallery.

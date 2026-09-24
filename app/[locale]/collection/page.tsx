@@ -1,4 +1,8 @@
 import Link from "next/link";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbLd, itemListLd } from "@/lib/seo";
+import { displayName } from "@/lib/specs";
+import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import PageHead from "@/components/PageHead";
@@ -18,18 +22,13 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const t = getDictionary(locale);
 
-  return {
+  return pageMeta({
+    locale,
+    path: "/collection",
     title: `${t.collection.heading} — The Roots Corner`,
     description: t.collection.lede,
-    alternates: {
-      canonical: `/${locale}/collection`,
-      languages: {
-        fr: "/fr/collection",
-        en: "/en/collection",
-        "x-default": "/fr/collection",
-      },
-    },
-  };
+    image: og("collection.jpg"),
+  });
 }
 
 /**
@@ -68,6 +67,13 @@ export default async function CollectionPage({
 
   return (
     <>
+      <JsonLd data={itemListLd(locale as Locale, pieces, displayName)} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "The Roots Corner", path: `/${locale}` },
+          { name: t.nav.collection, path: `/${locale}/collection` },
+        ])}
+      />
       <PageHead
         eyebrow={t.collection.eyebrow}
         heading={t.collection.heading}

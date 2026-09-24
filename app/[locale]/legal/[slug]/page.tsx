@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { pageMeta } from "@/lib/seo";
 import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
 import { getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
@@ -18,22 +19,14 @@ export async function generateMetadata({
   const doc = legalDoc(locale, slug);
   if (!doc) return {};
 
-  return {
+  return pageMeta({
+    locale,
+    path: `/legal/${slug}`,
     title: `${doc.title} — The Roots Corner`,
     // The document's own opening line. Never a written summary: a description
     // of a legal text that paraphrases it is a second, unreviewed version of it.
     description: doc.blocks.find((b) => b.kind === "p")?.text.slice(0, 155),
-    alternates: {
-      canonical: `/${locale}/legal/${slug}`,
-      languages: {
-        fr: `/fr/legal/${slug}`,
-        en: `/en/legal/${slug}`,
-        "x-default": `/fr/legal/${slug}`,
-      },
-    },
-    // These pages exist to be found by someone looking for them, not by search.
-    robots: { index: true, follow: true },
-  };
+  });
 }
 
 /**

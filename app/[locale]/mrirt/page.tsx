@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import PageHead from "@/components/PageHead";
@@ -19,14 +20,13 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const t = getDictionary(locale);
 
-  return {
+  return pageMeta({
+    locale,
+    path: "/mrirt",
     title: `${t.nav.rugs} — The Roots Corner`,
     description: t.rugs.body[0],
-    alternates: {
-      canonical: `/${locale}/mrirt`,
-      languages: { fr: "/fr/mrirt", en: "/en/mrirt", "x-default": "/fr/mrirt" },
-    },
-  };
+    image: og("mrirt.jpg"),
+  });
 }
 
 /**

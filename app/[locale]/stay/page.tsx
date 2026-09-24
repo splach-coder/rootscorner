@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import PageHead from "@/components/PageHead";
@@ -16,14 +17,13 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const t = getDictionary(locale);
 
-  return {
+  return pageMeta({
+    locale,
+    path: "/stay",
     title: `${t.stay.heading} — The Roots Corner`,
     description: t.stay.body[0],
-    alternates: {
-      canonical: `/${locale}/stay`,
-      languages: { fr: "/fr/stay", en: "/en/stay", "x-default": "/fr/stay" },
-    },
-  };
+    image: og("stay.jpg"),
+  });
 }
 
 /**

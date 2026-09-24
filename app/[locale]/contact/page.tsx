@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -39,14 +40,12 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const t = getDictionary(locale);
 
-  return {
+  return pageMeta({
+    locale,
+    path: "/contact",
     title: `${t.contactPage.heading} — The Roots Corner`,
     description: t.contactPage.lede,
-    alternates: {
-      canonical: `/${locale}/contact`,
-      languages: { fr: "/fr/contact", en: "/en/contact", "x-default": "/fr/contact" },
-    },
-  };
+  });
 }
 
 /**

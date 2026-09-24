@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import JsonLd from "@/components/JsonLd";
+import { organizationLd, pageMeta } from "@/lib/seo";
 import { Marcellus, Jost } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
@@ -74,21 +76,21 @@ export async function generateMetadata({
 
   return {
     metadataBase: new URL(SITE),
-    title: t.meta.title,
-    description: t.meta.description,
-    alternates: {
-      canonical: `/${locale}`,
-      languages: { fr: "/fr", en: "/en", "x-default": "/fr" },
+    ...pageMeta({ locale, path: "", title: t.meta.title, description: t.meta.description }),
+    icons: {
+      icon: [{ url: "/brand/picto.svg", type: "image/svg+xml" }, { url: "/brand/icon-192.png", sizes: "192x192" }],
+      apple: "/apple-touch-icon.png",
     },
-    openGraph: {
-      type: "website",
-      siteName: "The Roots Corner",
-      title: t.meta.title,
-      description: t.meta.description,
-      locale: locale === "fr" ? "fr_FR" : "en_GB",
-      url: `/${locale}`,
+    // Paste a Search Console / Bing verification code into the environment
+    // and it appears here; nothing renders while unset.
+    verification: {
+      ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+        ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+        : {}),
+      ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+        ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } }
+        : {}),
     },
-    icons: { icon: "/brand/picto.svg" },
   };
 }
 
@@ -126,6 +128,7 @@ export default async function LocaleLayout({
         // data-intro on it before first paint.
         suppressHydrationWarning
       >
+        <JsonLd data={organizationLd(locale as Locale, t.meta.description)} />
         {/* Decides before first paint whether the intro runs, so the veil is
             never painted on a visit that should not have it. Inline and
             synchronous on purpose: doing this in an effect would show one frame

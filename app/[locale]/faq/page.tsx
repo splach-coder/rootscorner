@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { pageMeta } from "@/lib/seo";
 import type { Metadata } from "next";
 import LegalPage from "@/components/LegalPage";
 import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
@@ -13,17 +14,15 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const doc = legalDoc(locale, "faq");
 
-  return {
+  return pageMeta({
+    locale,
+    path: "/faq",
     title: `${doc?.title ?? "FAQ"} — The Roots Corner`,
     description: doc?.blocks
       .flatMap((b) => (b.kind === "dl" ? b.items.map(([q]) => q) : []))
       .join(" · ")
       .slice(0, 155),
-    alternates: {
-      canonical: `/${locale}/faq`,
-      languages: { fr: "/fr/faq", en: "/en/faq", "x-default": "/fr/faq" },
-    },
-  };
+  });
 }
 
 /** The client's own FAQ, transcribed. Its own route: it is not a legal page. */

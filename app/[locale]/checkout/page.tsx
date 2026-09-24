@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { pageMeta } from "@/lib/seo";
 import type { Metadata } from "next";
 import PageHead from "@/components/PageHead";
 import CheckoutOrder from "@/components/CheckoutOrder";
@@ -18,14 +19,15 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const t = getDictionary(locale);
 
-  return {
+  // A cart is personal and its contents are in the visitor's browser; there
+  // is nothing here for an index to hold.
+  return pageMeta({
+    locale,
+    path: "/checkout",
     title: `${t.checkout.heading} — The Roots Corner`,
     description: t.checkout.lede,
-    // A cart is personal and its contents are in the visitor's browser; there
-    // is nothing here for an index to hold.
-    robots: { index: false, follow: true },
-    alternates: { canonical: `/${locale}/checkout` },
-  };
+    index: false,
+  });
 }
 
 /**
