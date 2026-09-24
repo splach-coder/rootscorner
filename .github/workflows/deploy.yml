@@ -1,17 +1,23 @@
 # Build and deploy the site to Cloudflare Workers.
 #
-# Runs on every push to master, every three hours, and on demand. The schedule
-# is what makes the Shopify admin the place the house works: a price changed,
-# a piece sold or a new piece added there reaches the site on the next run
-# without anybody touching code (scripts/shopify-pull.mjs). The piece page also
-# re-checks stock live in the browser, so "sold" never waits for this.
+# WHEN IT RUNS
+#   push to master     → always builds and deploys (code changed)
+#   every 10 minutes   → asks Shopify what the site would show now, compares
+#                        it with the fingerprint the live site was built from
+#                        (/api/catalog-version), and rebuilds ONLY if they
+#                        differ. A price, stock, photo or new piece changed in
+#                        the admin reaches the site in ~5–15 minutes; a quiet
+#                        run costs ~20 seconds and deploys nothing.
+#   on demand          → Actions → deploy → Run workflow (forces a rebuild)
 #
-# Repository secrets needed (Settings → Secrets and variables → Actions):
-#   CLOUDFLARE_API_TOKEN                  scoped token: Workers Scripts Edit,
-#                                         Workers Routes Edit, Account Settings Read
-#   NEXT_PUBLIC_SHOPIFY_DOMAIN            cru1uj-cf.myshopify.com
+# "Sold" never waits for this: the piece page re-checks stock live in the
+# browser (components/AddToCart.tsx).
+#
+# Repository secrets (Settings → Secrets and variables → Actions) — all set:
+#   CLOUDFLARE_API_TOKEN                  scoped: this Worker + this zone only
+#   NEXT_PUBLIC_SHOPIFY_DOMAIN
 #   NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN  public by design (lib/shopify.ts)
-#   NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL       https://shopify.com/105437954396/account
+#   NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL
 #
 # Server-only secrets (SHOPIFY_CLIENT_SECRET, RESEND_API_KEY) are NOT here:
 # they live on the Worker (`wrangler secret put`) and never enter a build.
@@ -22,12 +28,15 @@ on:
   push:
     branches: [master]
   schedule:
-    - cron: "17 */3 * * *"
+    - cron: "*/10 * * * *"
   workflow_dispatch:
 
 concurrency:
   group: deploy
   cancel-in-progress: false
+
+permissions:
+  contents: write
 
 jobs:
   deploy:
@@ -35,11 +44,11 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
+
       - name: Write the build-time environment
         run: |
           {
@@ -47,20 +56,79 @@ jobs:
             echo "NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN=${{ secrets.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN }}"
             echo "NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL=${{ secrets.NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL }}"
           } > .env.local
-      - name: Refuse to ship a shop with payment switched off
-        run: |
           grep -q "NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN=." .env.local || {
             echo "::error::NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN is not set — the build would ship with checkout disabled."
             exit 1
           }
-      - run: npm run cf:build
-      - name: Deploy
+
+      # The pull needs no dependencies, so a quiet scheduled run stops here
+      # before `npm ci`.
+      - name: Has anything changed in Shopify?
+        id: check
+        run: |
+          NEW=$(node scripts/shopify-pull.mjs --hash | sed -n 's/^HASH=//p')
+          LIVE=$(curl -fsS https://therootscorner.com/api/catalog-version | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{process.stdout.write(JSON.parse(s).hash||"")}catch{}})' || true)
+          echo "shopify now: ${NEW:-?}   live site: ${LIVE:-?}"
+          if [ "${{ github.event_name }}" = "schedule" ] && [ -n "$NEW" ] && [ "$NEW" = "$LIVE" ]; then
+            echo "Nothing changed in Shopify — nothing to deploy."
+            echo "build=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.check.outputs.build == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - if: steps.check.outputs.build == 'true'
+        run: npm ci
+
+      - if: steps.check.outputs.build == 'true'
+        name: Build
+        run: npx opennextjs-cloudflare build
+
+      - if: steps.check.outputs.build == 'true'
+        name: Deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: c46e92eba2f987d52c1975c4d92e30c2
+        run: npx opennextjs-cloudflare deploy
+
+      # GitHub switches off scheduled workflows in a public repository after
+      # 60 days without a commit. The house can go longer than that without
+      # touching code, so a Shopify-driven deploy commits its snapshot — which
+      # both keeps the schedule alive and records what went live, and when.
+      # A push made with GITHUB_TOKEN does not trigger another workflow run.
+      - if: steps.check.outputs.build == 'true' && github.event_name != 'push'
+        name: Record the snapshot that went live
         run: |
-          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
-            echo "::warning::CLOUDFLARE_API_TOKEN is not set yet — built, not deployed."
-            exit 0
+          git config user.name "shopify-sync"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/shopify-live.json
+          if git diff --cached --quiet; then
+            echo "snapshot unchanged"
+          else
+            git commit -m "Shopify changes live on the site"
+            git push
           fi
-          npx opennextjs-cloudflare deploy
+
+  # Belt and braces for the 60-day rule: if a whole month passes with no
+  # Shopify change and no code change, leave an empty commit so the schedule
+  # is never switched off.
+  keepalive:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - run: |
+          LAST=$(git log -1 --format=%ct)
+          if [ $(( $(date +%s) - LAST )) -gt $(( 40 * 86400 )) ]; then
+            git config user.name "shopify-sync"
+            git config user.email "actions@users.noreply.github.com"
+            git commit --allow-empty -m "Keep the Shopify sync schedule active"
+            git push
+          fi

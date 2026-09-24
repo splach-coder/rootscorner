@@ -29,6 +29,7 @@
  * ---------------------------------------------------------------------------
  */
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -138,10 +139,16 @@ for (const p of products) {
 // recorded as unavailable rather than left to the scrape's old state.
 const missing = Object.keys(variants).filter((s) => !(s in pieces));
 for (const s of missing) pieces[s] = { price: null, available: false };
+// A fingerprint of what the site would show. The deployed site serves it at
+// /api/catalog-version, and the scheduled workflow compares the two: equal
+// means nothing changed in Shopify, so there is nothing to rebuild.
+// `pulledAt` is left out on purpose — it changes every run.
+const hash = createHash("sha256").update(JSON.stringify({ pieces, extra })).digest("hex").slice(0, 16);
 writeFileSync(
   OUT,
-  JSON.stringify({ pulledAt: new Date().toISOString(), pieces, extra }, null, 1) + "\n",
+  JSON.stringify({ pulledAt: new Date().toISOString(), hash, pieces, extra }, null, 1) + "\n",
 );
+if (process.argv.includes("--hash")) console.log(`HASH=${hash}`);
 console.log(
   `shopify-pull: ${Object.keys(pieces).length} linked piece(s), ${extra.length} added in Shopify` +
     (missing.length ? `, ${missing.length} no longer published (${missing.join(", ")})` : ""),
