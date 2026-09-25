@@ -1,4 +1,5 @@
 import { formatPrice, pieceBySlug, type Piece } from "./catalog";
+import { rugAsPiece } from "./rugs";
 
 /**
  * The cart.
@@ -61,7 +62,8 @@ export function writeCart(slugs: string[]): void {
  */
 export function cartLines(slugs: string[], locale: string): CartLine[] {
   return slugs.flatMap((slug) => {
-    const piece = pieceBySlug(slug);
+    // A Mrirt rug variant (lib/rugs.ts) rides in the same cart as the pieces.
+    const piece = rugAsPiece(slug, locale) ?? pieceBySlug(slug);
     if (!piece || !piece.available) return [];
     return [{ piece, price: formatPrice(piece, locale) }];
   });

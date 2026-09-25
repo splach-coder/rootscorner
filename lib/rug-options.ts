@@ -44,8 +44,8 @@ const WORDS: [RegExp, string][] = [
   [/noir|black/i, "#2a2623"],
 ];
 
-function swatchFor(colourway: string, image: string | null): string[] | undefined {
-  if (image) return [`url("${image}&width=120") center / cover`];
+export function swatchFor(colourway: string, image: string | null): string[] | undefined {
+  if (image) return [`url("${image}${image.includes("?") ? "&" : "?"}width=120") center / cover`];
   const parts = colourway.split(/\s*\+\s*/);
   const colours = parts.map((p) => WORDS.find(([re]) => re.test(p))?.[1]);
   return colours.every(Boolean) ? (colours as string[]) : undefined;

@@ -136,7 +136,7 @@ export default function CartPanel({
                 return (
                   <li key={piece.slug} className="cart-line">
                     <Link
-                      href={`/${locale}/piece/${piece.slug}`}
+                      href={piece.href ?? `/${locale}/piece/${piece.slug}`}
                       className="cart-line-frame frame"
                       onClick={() => setOpen(false)}
                     >
@@ -153,7 +153,7 @@ export default function CartPanel({
 
                     <div className="cart-line-said">
                       <Link
-                        href={`/${locale}/piece/${piece.slug}`}
+                        href={piece.href ?? `/${locale}/piece/${piece.slug}`}
                         className="cart-line-name display d-3"
                         onClick={() => setOpen(false)}
                       >

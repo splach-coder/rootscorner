@@ -125,6 +125,18 @@ for (const p of products) {
         image: p.variants.nodes.find((v) => v.image && v.selectedOptions.some((o) => o.value === name))?.image?.url ?? null,
       })),
       sizes: opt("taille"),
+      images: p.images.nodes
+        .filter((i) => i.url && i.width && i.height)
+        .map((i) => ({ src: i.url, w: i.width, h: i.height, alt: i.altText || null })),
+      // Every colour × size, with its own price: that is what goes in the cart.
+      variants: p.variants.nodes.map((v) => ({
+        id: v.id,
+        colour: v.selectedOptions.find((o) => o.name.toLowerCase() === "couleur")?.value ?? null,
+        size: v.selectedOptions.find((o) => o.name.toLowerCase() === "taille")?.value ?? null,
+        price: Number(v.price.amount),
+        currency: v.price.currencyCode,
+        available: v.availableForSale,
+      })),
     });
     continue;
   }

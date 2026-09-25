@@ -79,9 +79,14 @@ Chaque **série** est un produit dans la collection **Tapis Mrirt**
 | Mettre une photo de la couleur | Variante → image. Sinon la pastille est dessinée d'après les mots de la couleur. |
 | Nouvelle série | **Dupliquer** une série existante, puis la renommer. Le **Type de produit** doit rester « Tapis Mrirt ». |
 
-Le formulaire de la page Tapis Mrirt se met à jour tout seul (en quelques minutes).
-Ces tapis restent **sur demande** : ils ne peuvent pas être achetés directement
-tant que le prix est à 0 et le stock à 0.
+Chaque série a sa page sur le site (couleur, taille, prix, « Ajouter au
+panier »), comme sur benirugs.com. Le site se met à jour tout seul en quelques
+minutes.
+
+**Les prix :** ouvrez la série → dans la liste des variantes, mettez le prix de
+chaque couleur × taille. Une variante à **0 €** s'affiche « Prix sur demande »
+et ne peut pas être achetée ; dès que vous mettez un prix, elle se vend. Le
+stock n'est pas suivi : ce sont des tapis tissés sur commande.
 
 ⚠️ Les 4 séries actuelles (Uni, Lignes, Losanges, Graphique) sont des
 **exemples** : remplacez-les par vos vraies séries.

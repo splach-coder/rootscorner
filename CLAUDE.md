@@ -4858,3 +4858,20 @@ size grid. Verified: a rename in Shopify reached the form after one sync.
 
 Variants are qty 0 / DENY / price 0 — not purchasable; the form stays an
 enquiry (§6). The four series are placeholders until the house names theirs.
+
+### Update — the series are SOLD, like benirugs.com (same day)
+
+Client: "we need to sell that too". `/mrirt` now opens with the series
+collection (`RugCard`, same grid as the shop) and each series has a page,
+`/[locale]/tapis/[handle]` — photographs (Shopify product images; until there
+are some, the colourways as a woven plate), Couleur rows with swatches, Taille
+grid, the pair's price, Add to cart, then weaving / delivery / made-to-measure.
+
+- Variants are **untracked** (made to order). **Price 0 = "prix sur demande"**:
+  no Add to cart, the enquiry instead. The house sets prices in the admin.
+- In the cart a rug is `rug:<variant gid>` beside the piece slugs;
+  `lib/rugs.ts rugAsPiece()` renders it as a cart line, `variantFor()` returns
+  the gid, and it links back to its series page (`Piece.href`).
+- Verified with prices set in a LOCAL snapshot only: card "À partir de 890 €",
+  1 250 € for the chosen pair, cart line named series — colour — size, Shopify
+  checkout created. The live store still has every rug at 0.

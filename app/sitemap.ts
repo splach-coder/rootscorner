@@ -3,6 +3,7 @@ import { allPieces, categorySlugs } from "@/lib/catalog";
 import { locales } from "@/lib/dictionaries";
 import { LEGAL_SLUGS } from "@/lib/legal";
 import { SITE_URL } from "@/lib/site";
+import { allRugSeries } from "@/lib/rugs";
 
 /**
  * Every indexable page, in both locales, each carrying its hreflang pair.
@@ -23,6 +24,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       images: p.images.slice(0, 6).map((i) => i.src ?? `${SITE_URL}/pieces/${i.file}`),
     })),
     { path: "/mrirt", priority: 0.8 },
+    ...allRugSeries().map((r) => ({
+      path: `/tapis/${r.handle}`,
+      priority: 0.7,
+      images: r.images.map((i) => i.src),
+    })),
     { path: "/story", priority: 0.6 },
     { path: "/artisans", priority: 0.5 },
     { path: "/stay", priority: 0.5 },

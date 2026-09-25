@@ -1,5 +1,6 @@
 import variants from "@/docs/shopify.json";
 import live from "@/docs/shopify-live.json";
+import { RUG_PREFIX, rugVariantId } from "@/lib/rugs";
 
 /**
  * The Shopify Storefront API — the only Shopify this site talks to.
@@ -72,6 +73,8 @@ const VARIANTS: Record<string, string> = {
 
 /** The variant ID for a piece, or null if the store does not carry it. */
 export function variantFor(slug: string): string | null {
+  // A Mrirt rug in the cart carries its own Shopify variant (lib/rugs.ts).
+  if (slug.startsWith(RUG_PREFIX)) return rugVariantId(slug);
   const id = VARIANTS[slug];
   return typeof id === "string" && id.length > 0 ? id : null;
 }

@@ -1,6 +1,6 @@
 {
- "pulledAt": "2026-09-25T15:05:32.026Z",
- "hash": "72d3c441901c9768",
+ "pulledAt": "2026-09-25T16:11:08.441Z",
+ "hash": "fa9196158fd9303c",
  "pieces": {
   "handcrafted-wood-stool---cote-d-ivoire": {
    "price": 480,
@@ -183,6 +183,153 @@
     "160 × 230 cm",
     "200 × 300 cm",
     "250 × 350 cm"
+   ],
+   "images": [],
+   "variants": [
+    {
+     "id": "gid://shopify/ProductVariant/59278005698908",
+     "colour": "Laine naturelle",
+     "size": "60 × 90 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278005731676",
+     "colour": "Laine naturelle",
+     "size": "80 × 150 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278005764444",
+     "colour": "Laine naturelle",
+     "size": "120 × 180 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278005797212",
+     "colour": "Laine naturelle",
+     "size": "160 × 230 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278005829980",
+     "colour": "Laine naturelle",
+     "size": "200 × 300 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278005862748",
+     "colour": "Laine naturelle",
+     "size": "250 × 350 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278005895516",
+     "colour": "Caramel",
+     "size": "60 × 90 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278005928284",
+     "colour": "Caramel",
+     "size": "80 × 150 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278005961052",
+     "colour": "Caramel",
+     "size": "120 × 180 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278005993820",
+     "colour": "Caramel",
+     "size": "160 × 230 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006026588",
+     "colour": "Caramel",
+     "size": "200 × 300 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006059356",
+     "colour": "Caramel",
+     "size": "250 × 350 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006092124",
+     "colour": "Taupe",
+     "size": "60 × 90 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006124892",
+     "colour": "Taupe",
+     "size": "80 × 150 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006157660",
+     "colour": "Taupe",
+     "size": "120 × 180 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006190428",
+     "colour": "Taupe",
+     "size": "160 × 230 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006223196",
+     "colour": "Taupe",
+     "size": "200 × 300 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006255964",
+     "colour": "Taupe",
+     "size": "250 × 350 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    }
    ]
   },
   {
@@ -207,6 +354,105 @@
     "160 × 230 cm",
     "200 × 300 cm",
     "250 × 350 cm"
+   ],
+   "images": [],
+   "variants": [
+    {
+     "id": "gid://shopify/ProductVariant/59278006387036",
+     "colour": "Laine naturelle + Taupe",
+     "size": "60 × 90 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006419804",
+     "colour": "Laine naturelle + Taupe",
+     "size": "80 × 150 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006452572",
+     "colour": "Laine naturelle + Taupe",
+     "size": "120 × 180 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006485340",
+     "colour": "Laine naturelle + Taupe",
+     "size": "160 × 230 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006518108",
+     "colour": "Laine naturelle + Taupe",
+     "size": "200 × 300 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006550876",
+     "colour": "Laine naturelle + Taupe",
+     "size": "250 × 350 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006583644",
+     "colour": "Laine naturelle + Noir",
+     "size": "60 × 90 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006616412",
+     "colour": "Laine naturelle + Noir",
+     "size": "80 × 150 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006649180",
+     "colour": "Laine naturelle + Noir",
+     "size": "120 × 180 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006681948",
+     "colour": "Laine naturelle + Noir",
+     "size": "160 × 230 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006714716",
+     "colour": "Laine naturelle + Noir",
+     "size": "200 × 300 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006747484",
+     "colour": "Laine naturelle + Noir",
+     "size": "250 × 350 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    }
    ]
   },
   {
@@ -231,6 +477,105 @@
     "160 × 230 cm",
     "200 × 300 cm",
     "250 × 350 cm"
+   ],
+   "images": [],
+   "variants": [
+    {
+     "id": "gid://shopify/ProductVariant/59278006845788",
+     "colour": "Laine naturelle + Brun chocolat",
+     "size": "60 × 90 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006878556",
+     "colour": "Laine naturelle + Brun chocolat",
+     "size": "80 × 150 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006911324",
+     "colour": "Laine naturelle + Brun chocolat",
+     "size": "120 × 180 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006944092",
+     "colour": "Laine naturelle + Brun chocolat",
+     "size": "160 × 230 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278006976860",
+     "colour": "Laine naturelle + Brun chocolat",
+     "size": "200 × 300 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007009628",
+     "colour": "Laine naturelle + Brun chocolat",
+     "size": "250 × 350 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007042396",
+     "colour": "Terracotta + Brun chocolat + Taupe",
+     "size": "60 × 90 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007075164",
+     "colour": "Terracotta + Brun chocolat + Taupe",
+     "size": "80 × 150 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007107932",
+     "colour": "Terracotta + Brun chocolat + Taupe",
+     "size": "120 × 180 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007140700",
+     "colour": "Terracotta + Brun chocolat + Taupe",
+     "size": "160 × 230 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007173468",
+     "colour": "Terracotta + Brun chocolat + Taupe",
+     "size": "200 × 300 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007206236",
+     "colour": "Terracotta + Brun chocolat + Taupe",
+     "size": "250 × 350 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    }
    ]
   },
   {
@@ -255,6 +600,105 @@
     "160 × 230 cm",
     "200 × 300 cm",
     "250 × 350 cm"
+   ],
+   "images": [],
+   "variants": [
+    {
+     "id": "gid://shopify/ProductVariant/59278007239004",
+     "colour": "Sable + Taupe",
+     "size": "60 × 90 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007271772",
+     "colour": "Sable + Taupe",
+     "size": "80 × 150 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007304540",
+     "colour": "Sable + Taupe",
+     "size": "120 × 180 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007337308",
+     "colour": "Sable + Taupe",
+     "size": "160 × 230 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007370076",
+     "colour": "Sable + Taupe",
+     "size": "200 × 300 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007402844",
+     "colour": "Sable + Taupe",
+     "size": "250 × 350 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007435612",
+     "colour": "Terracotta + Brun chocolat",
+     "size": "60 × 90 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007468380",
+     "colour": "Terracotta + Brun chocolat",
+     "size": "80 × 150 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007501148",
+     "colour": "Terracotta + Brun chocolat",
+     "size": "120 × 180 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007533916",
+     "colour": "Terracotta + Brun chocolat",
+     "size": "160 × 230 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007566684",
+     "colour": "Terracotta + Brun chocolat",
+     "size": "200 × 300 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59278007599452",
+     "colour": "Terracotta + Brun chocolat",
+     "size": "250 × 350 cm",
+     "price": 0,
+     "currency": "EUR",
+     "available": true
+    }
    ]
   }
  ]

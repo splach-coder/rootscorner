@@ -1,4 +1,7 @@
 import Image from "next/image";
+import RugCard from "@/components/RugCard";
+import { allRugSeries } from "@/lib/rugs";
+import { rugLabels } from "@/lib/rug-labels";
 import { rugChoices } from "@/lib/rug-options";
 import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
@@ -97,6 +100,8 @@ export default async function MrirtPage({
     them in the admin. Texture stays a free answer.
   */
   const choices = rugChoices(locale as Locale);
+  const series = allRugSeries();
+  const rl = rugLabels(locale as Locale);
   const fr = locale === "fr";
 
   const fields: InquiryField[] = [
@@ -156,6 +161,34 @@ export default async function MrirtPage({
           </Reveal>
         </div>
       </section>
+
+      {/* --- The series — the rug collection, sold like benirugs.com.
+
+           Every series is a Shopify product (type "Tapis Mrirt"); the house
+           adds and edits them in the admin and this grid follows. Same card as
+           the rest of the shop, so a rug is met the way every piece is. A
+           series opens its own page with colour, size, price and the cart. --- */}
+      {series.length > 0 && (
+        <section id="series" className="section mrirt-series">
+          <div className="shell">
+            <Reveal className="mrirt-series-head">
+              <p className="label mrirt-eyebrow">{rl.collectionEyebrow}</p>
+              <h2 className="display d-1">{rl.collectionHeading}</h2>
+              <p className="prose mrirt-series-note">{rl.collectionNote}</p>
+            </Reveal>
+            <ul className="cards mrirt-series-cards">
+              {series.map((s) => (
+                <RugCard
+                  key={s.handle}
+                  series={s}
+                  locale={locale}
+                  labels={{ from: rl.from, onRequest: rl.onRequest, colourways: rl.colourways, colourwaysOne: rl.colourwaysOne }}
+                />
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* --- §10 — three entries, named and separated.
 

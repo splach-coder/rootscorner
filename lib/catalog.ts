@@ -145,6 +145,11 @@ export type Piece = {
    * product record's own words and never restated as a site-wide promise.
    */
   delivery: string | null;
+  /**
+   * Where this line links to, when it is not a piece page — a Mrirt rug in
+   * the cart (lib/rugs.ts) links to its series page instead.
+   */
+  href?: string;
   description: string[];
   details: string[];
   care: string[];

@@ -14,10 +14,10 @@
  * colourway gets its swatch from the variant's own image if she adds one,
  * otherwise from the colour words in its name (lib/rug-options.ts).
  *
- * NOT FOR SALE AS CREATED. A Mrirt rug is woven to order (brief §6): the form
- * is an enquiry. Variants are created tracked at quantity 0 with DENY, so
- * nothing here can reach a checkout by accident, and no price is shown on the
- * site while it is 0. To sell a series directly she sets a price and stock.
+ * SOLD LIKE BENI. A rug is woven to order, so stock is NOT tracked: every
+ * colour × size can be ordered as soon as it has a price. Price is created at
+ * 0, and the site treats 0 as "prix sur demande" — no Add to cart until the
+ * house sets the real price in the admin (§5: no invented prices).
  *
  * ⚠️ The four series and their colourways are PLACEHOLDERS for the house to
  * rename — the client has not yet named the cooperative's series. Created only
@@ -86,9 +86,7 @@ for (const s of SERIES) {
           SIZES.map((z) => ({
             optionValues: [{ optionName: "Couleur", name: c }, { optionName: "Taille", name: z }],
             price: "0.00",
-            inventoryPolicy: "DENY",
-            inventoryItem: { tracked: true },
-            inventoryQuantities: [{ locationId: loc.id, name: "available", quantity: 0 }],
+            inventoryItem: { tracked: false },
           })),
         ),
       },

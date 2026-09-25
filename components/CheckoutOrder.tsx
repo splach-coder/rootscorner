@@ -100,7 +100,7 @@ export default function CheckoutOrder({
             const src = imagePath(piece.images[0]);
             return (
               <li key={piece.slug} className="checkout-line">
-                <Link href={`/${locale}/piece/${piece.slug}`} className="frame checkout-frame">
+                <Link href={piece.href ?? `/${locale}/piece/${piece.slug}`} className="frame checkout-frame">
                   {src && (
                     <Image
                       src={src}
@@ -114,7 +114,7 @@ export default function CheckoutOrder({
 
                 <div className="checkout-said">
                   <Link
-                    href={`/${locale}/piece/${piece.slug}`}
+                    href={piece.href ?? `/${locale}/piece/${piece.slug}`}
                     className="checkout-name display d-3"
                   >
                     {displayName(piece)}
