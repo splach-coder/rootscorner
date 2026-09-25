@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { rugSeries } from "@/lib/rug-options";
+import { rugChoices } from "@/lib/rug-options";
 import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -91,21 +91,25 @@ export default async function MrirtPage({
     commercial action read as tentative.
   */
   /*
-    The terms, numbered as the client asked (§11). Feedback 25 Sept: colour and
-    pattern are now one choice — the SERIES, Beni-style ("design — colours",
-    with a swatch), picked from lib/rug-options.ts. Size and texture stay the
-    free answers they were.
+    The terms, numbered as the client asked (§11). The series and the sizes
+    come from Shopify (lib/rug-options.ts) — Beni's structure: a series is a
+    product, its colourways and sizes are its options, and the house edits
+    them in the admin. Texture stays a free answer.
   */
-  const series = rugSeries(locale as Locale);
-  const seriesLabel = locale === "fr" ? "La série" : "The series";
-  const seriesHint =
-    locale === "fr"
-      ? "Choisissez une série : un motif et ses couleurs."
-      : "Choose a series: a pattern and its colours.";
+  const choices = rugChoices(locale as Locale);
+  const fr = locale === "fr";
 
   const fields: InquiryField[] = [
-    { name: "series", label: seriesLabel, hint: seriesHint, no: "01", kind: "choice", layout: "list", ...series },
-    { name: "size", label: t.rugs.axes.size, hint: t.rugs.axisNotes.size, no: "02" },
+    {
+      name: "series",
+      label: fr ? "La série" : "The series",
+      hint: fr ? "Choisissez une série et ses couleurs." : "Choose a series and its colours.",
+      no: "01",
+      kind: "choice",
+      layout: "list",
+      ...choices.series,
+    },
+    { name: "size", label: t.rugs.axes.size, hint: t.rugs.axisNotes.size, no: "02", kind: "choice", layout: "grid", ...choices.size },
     { name: "texture", label: t.rugs.axes.texture, hint: t.rugs.axisNotes.texture, no: "03" },
     { name: "name", label: t.form.name, required: true },
     { name: "email", label: t.form.email, kind: "email" as const, required: true },

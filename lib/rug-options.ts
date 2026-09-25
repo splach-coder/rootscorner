@@ -1,71 +1,78 @@
 import type { Locale } from "@/lib/dictionaries";
+import live from "@/docs/shopify-live.json";
 
 /**
- * The series offered on the made-to-measure Mrirt form.
+ * The Mrirt series on the made-to-order form — FROM SHOPIFY.
  *
- * Feedback, 25 Sept, verbatim: "For the rugs, include all the different series
- * in the available options. Examples: Formation - Terracotta + Chocolate
- * Brown + Taupe" — the format of benirugs.com: a SERIES (a design) followed by
- * its colourway, each shown with a swatch.
+ * Feedback, 25 Sept: "include all the different series in the available
+ * options. Examples: Formation - Terracotta + Chocolate Brown + Taupe", and
+ * "link them to Shopify, she will update from there, same as collections".
  *
- * "Formation" is Beni's own series name and is not used here. The names below
- * are plain descriptions of the design, in the house's own palette family.
+ * So each series is a Shopify product of type "Tapis Mrirt" (collection
+ * "Tapis Mrirt"), with a Couleur option and a Taille option — benirugs.com's
+ * own structure. scripts/shopify-pull.mjs snapshots them before every build;
+ * the scheduled sync redeploys when she edits one. Nothing about a series is
+ * written here: rename it, add a colourway or a size in the admin, and the
+ * form follows.
  *
- * ⚠️ A PROPOSAL FOR THE HOUSE TO CONFIRM. The client has not yet named the
- * cooperative's series; replace this list with theirs when they do. Every
- * series is something a visitor may ASK for — the form is an enquiry, answered
- * personally — not a claim about a rug already woven (§5).
+ * Options read "Series — Colourway", the format of her example. A swatch is
+ * her own variant photo when she has attached one, otherwise drawn from the
+ * colour words in the name. An unknown word gets no swatch rather than a
+ * guessed colour.
  */
 
-export type Series = { value: string; swatch: string[] };
-
-const W = {
-  natural: "#ece4d6",
-  sand: "#beab93",
-  taupe: "#8e857b",
-  caramel: "#b98a5a",
-  terracotta: "#b0634a",
-  chocolate: "#4b3123",
-  black: "#2a2623",
+type Snapshot = {
+  rugSeries?: {
+    title: string;
+    colours: { name: string; image: string | null }[];
+    sizes: string[];
+  }[];
 };
+const SERIES = (live as Snapshot).rugSeries ?? [];
 
-type Row = { design: { fr: string; en: string }; colours: { fr: string; en: string; c: string }[] };
+export type ChoiceOption = { value: string; swatch?: string[] };
 
-const C = {
-  natural: { fr: "Laine naturelle", en: "Natural wool", c: W.natural },
-  sand: { fr: "Sable", en: "Sand", c: W.sand },
-  taupe: { fr: "Taupe", en: "Taupe", c: W.taupe },
-  caramel: { fr: "Caramel", en: "Caramel", c: W.caramel },
-  terracotta: { fr: "Terracotta", en: "Terracotta", c: W.terracotta },
-  chocolate: { fr: "Brun chocolat", en: "Chocolate brown", c: W.chocolate },
-  black: { fr: "Noir", en: "Black", c: W.black },
-};
-
-const SERIES: Row[] = [
-  { design: { fr: "Uni", en: "Plain" }, colours: [C.natural] },
-  { design: { fr: "Uni", en: "Plain" }, colours: [C.caramel] },
-  { design: { fr: "Lignes", en: "Lines" }, colours: [C.natural, C.taupe] },
-  { design: { fr: "Lignes", en: "Lines" }, colours: [C.natural, C.black] },
-  { design: { fr: "Losanges", en: "Diamonds" }, colours: [C.natural, C.chocolate] },
-  { design: { fr: "Losanges", en: "Diamonds" }, colours: [C.terracotta, C.chocolate, C.taupe] },
-  { design: { fr: "Graphique", en: "Graphic" }, colours: [C.sand, C.taupe] },
-  { design: { fr: "Graphique", en: "Graphic" }, colours: [C.terracotta, C.chocolate] },
+/* Wool colour words → swatch. Warm and earth only (§2). */
+const WORDS: [RegExp, string][] = [
+  [/laine naturelle|natural wool|naturel|ivoire|ivory|cr[èe]me|cream|[ée]cru/i, "#ece4d6"],
+  [/sable|sand|beige/i, "#beab93"],
+  [/taupe|gris|grey|gray/i, "#8e857b"],
+  [/caramel|miel|honey|ocre|ochre/i, "#b98a5a"],
+  [/terracotta|terre cuite/i, "#b0634a"],
+  [/rouille|rust|rouge|red|brique|brick/i, "#94472d"],
+  [/brun|brown|chocolat|chocolate|marron/i, "#4b3123"],
+  [/noir|black/i, "#2a2623"],
 ];
 
-export function rugSeries(locale: Locale): {
-  options: Series[];
-  other: { label: string; hint: string };
-  placeholder: string;
-} {
+function swatchFor(colourway: string, image: string | null): string[] | undefined {
+  if (image) return [`url("${image}&width=120") center / cover`];
+  const parts = colourway.split(/\s*\+\s*/);
+  const colours = parts.map((p) => WORDS.find(([re]) => re.test(p))?.[1]);
+  return colours.every(Boolean) ? (colours as string[]) : undefined;
+}
+
+export function rugChoices(locale: Locale) {
   const fr = locale === "fr";
+  const series: ChoiceOption[] = SERIES.flatMap((s) =>
+    s.colours.map((c) => ({ value: `${s.title} — ${c.name}`, swatch: swatchFor(c.name, c.image) })),
+  );
+  // Every size any series offers, in the order she lists them.
+  const sizes = [...new Set(SERIES.flatMap((s) => s.sizes))].map((value) => ({ value }));
+
   return {
-    options: SERIES.map((s) => ({
-      value: `${fr ? s.design.fr : s.design.en} — ${s.colours.map((c) => (fr ? c.fr : c.en)).join(" + ")}`,
-      swatch: s.colours.map((c) => c.c),
-    })),
-    other: fr
-      ? { label: "Autre série", hint: "Décrivez le motif et les couleurs que vous imaginez." }
-      : { label: "Another series", hint: "Describe the pattern and colours you have in mind." },
-    placeholder: fr ? "Choisir une série" : "Choose a series",
+    series: {
+      options: series,
+      other: fr
+        ? { label: "Autre série", hint: "Décrivez le motif et les couleurs que vous imaginez." }
+        : { label: "Another series", hint: "Describe the pattern and colours you have in mind." },
+      placeholder: fr ? "Choisir une série" : "Choose a series",
+    },
+    size: {
+      options: sizes,
+      other: fr
+        ? { label: "Sur mesure", hint: "Longueur × largeur, en centimètres." }
+        : { label: "Made to measure", hint: "Length × width, in centimetres." },
+      placeholder: fr ? "Choisir une taille" : "Choose a size",
+    },
   };
 }

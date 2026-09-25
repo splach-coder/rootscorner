@@ -65,3 +65,23 @@ Vous pouvez les modifier ici à tout moment.
 
 Les textes (histoire, tapis Mrirt, mentions légales…) ne se modifient pas dans
 Shopify. Envoyez-nous le changement et nous le faisons.
+
+## Les séries de tapis Mrirt
+
+Chaque **série** est un produit dans la collection **Tapis Mrirt**
+(Produits → filtrer par type « Tapis Mrirt »), comme sur benirugs.com.
+
+| Pour… | Dans Shopify |
+|---|---|
+| Renommer une série | Ouvrir le produit → **Titre** |
+| Ajouter une couleur | Options → **Couleur** → ajouter une valeur, ex. « Terracotta + Brun chocolat + Taupe » |
+| Ajouter une taille | Options → **Taille** → ajouter une valeur, ex. « 200 × 300 cm » |
+| Mettre une photo de la couleur | Variante → image. Sinon la pastille est dessinée d'après les mots de la couleur. |
+| Nouvelle série | **Dupliquer** une série existante, puis la renommer. Le **Type de produit** doit rester « Tapis Mrirt ». |
+
+Le formulaire de la page Tapis Mrirt se met à jour tout seul (en quelques minutes).
+Ces tapis restent **sur demande** : ils ne peuvent pas être achetés directement
+tant que le prix est à 0 et le stock à 0.
+
+⚠️ Les 4 séries actuelles (Uni, Lignes, Losanges, Graphique) sont des
+**exemples** : remplacez-les par vos vraies séries.

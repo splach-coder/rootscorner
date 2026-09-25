@@ -4845,3 +4845,16 @@ to benirugs.com's Formation rug). Every point, and where it landed:
 Structural rule this adds: `PageHead hideHeading` keeps a real h1 in the
 document when the client asks for a title off the screen. Never delete a
 page's only h1 to satisfy a visual request.
+
+## 67. Mrirt series live in Shopify
+
+Beni's structure: each series is a Shopify product of type **"Tapis Mrirt"**
+(automatic collection `tapis-mrirt`), with options **Couleur** and **Taille**.
+Created by `scripts/shopify-rugs.mjs` (create-if-missing, never overwrites).
+`shopify-pull.mjs` snapshots them as `rugSeries` and they are **kept out of the
+catalogue** — they are form choices, not pieces. `lib/rug-options.ts` builds
+"Série — Couleur" options (swatch = variant image, else colour words) and the
+size grid. Verified: a rename in Shopify reached the form after one sync.
+
+Variants are qty 0 / DENY / price 0 — not purchasable; the form stays an
+enquiry (§6). The four series are placeholders until the house names theirs.

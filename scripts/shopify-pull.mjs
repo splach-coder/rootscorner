@@ -74,7 +74,9 @@ const QUERY = `query($after: String) {
     nodes {
       handle title productType description
       images(first: 12) { nodes { url width height altText } }
-      variants(first: 1) { nodes { id availableForSale price { amount currencyCode } } }
+      options { name optionValues { name } }
+      variants(first: 100) { nodes { id availableForSale price { amount currencyCode }
+        image { url } selectedOptions { name value } } }
     }
   }
 }`;
@@ -103,7 +105,29 @@ const slugByVariant = Object.fromEntries(Object.entries(variants).map(([s, v]) =
 
 const pieces = {};
 const extra = [];
+/*
+  Mrirt rug SERIES (scripts/shopify-rugs.mjs): one product per series, options
+  Couleur and Taille. Kept apart from the catalogue — they are the choices on
+  the made-to-order form, not pieces. The house edits them in the admin.
+*/
+const rugSeries = [];
 for (const p of products) {
+  if (p.productType?.trim() === "Tapis Mrirt") {
+    const opt = (n) => p.options.find((o) => o.name.toLowerCase() === n)?.optionValues.map((v) => v.name) ?? [];
+    rugSeries.push({
+      handle: p.handle,
+      title: p.title.trim(),
+      description: (p.description || "").trim(),
+      image: p.images.nodes[0] ? { src: p.images.nodes[0].url, w: p.images.nodes[0].width, h: p.images.nodes[0].height } : null,
+      colours: opt("couleur").map((name) => ({
+        name,
+        // Her own photo of the colourway, if she has attached one to a variant.
+        image: p.variants.nodes.find((v) => v.image && v.selectedOptions.some((o) => o.value === name))?.image?.url ?? null,
+      })),
+      sizes: opt("taille"),
+    });
+    continue;
+  }
   const v = p.variants.nodes[0];
   if (!v) continue;
   const price = Number(v.price.amount);
@@ -143,13 +167,13 @@ for (const s of missing) pieces[s] = { price: null, available: false };
 // /api/catalog-version, and the scheduled workflow compares the two: equal
 // means nothing changed in Shopify, so there is nothing to rebuild.
 // `pulledAt` is left out on purpose — it changes every run.
-const hash = createHash("sha256").update(JSON.stringify({ pieces, extra })).digest("hex").slice(0, 16);
+const hash = createHash("sha256").update(JSON.stringify({ pieces, extra, rugSeries })).digest("hex").slice(0, 16);
 writeFileSync(
   OUT,
-  JSON.stringify({ pulledAt: new Date().toISOString(), hash, pieces, extra }, null, 1) + "\n",
+  JSON.stringify({ pulledAt: new Date().toISOString(), hash, pieces, extra, rugSeries }, null, 1) + "\n",
 );
 if (process.argv.includes("--hash")) console.log(`HASH=${hash}`);
 console.log(
-  `shopify-pull: ${Object.keys(pieces).length} linked piece(s), ${extra.length} added in Shopify` +
+  `shopify-pull: ${Object.keys(pieces).length} linked piece(s), ${extra.length} added in Shopify, ${rugSeries.length} rug series` +
     (missing.length ? `, ${missing.length} no longer published (${missing.join(", ")})` : ""),
 );

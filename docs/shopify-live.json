@@ -1,6 +1,6 @@
 {
- "pulledAt": "2026-09-24T09:03:31.456Z",
- "hash": "4b51516b1cf1830b",
+ "pulledAt": "2026-09-25T15:05:32.026Z",
+ "hash": "72d3c441901c9768",
  "pieces": {
   "handcrafted-wood-stool---cote-d-ivoire": {
    "price": 480,
@@ -155,5 +155,107 @@
    "available": false
   }
  },
- "extra": []
+ "extra": [],
+ "rugSeries": [
+  {
+   "handle": "mrirt-uni",
+   "title": "Uni",
+   "description": "",
+   "image": null,
+   "colours": [
+    {
+     "name": "Laine naturelle",
+     "image": null
+    },
+    {
+     "name": "Caramel",
+     "image": null
+    },
+    {
+     "name": "Taupe",
+     "image": null
+    }
+   ],
+   "sizes": [
+    "60 × 90 cm",
+    "80 × 150 cm",
+    "120 × 180 cm",
+    "160 × 230 cm",
+    "200 × 300 cm",
+    "250 × 350 cm"
+   ]
+  },
+  {
+   "handle": "mrirt-lignes",
+   "title": "Lignes",
+   "description": "",
+   "image": null,
+   "colours": [
+    {
+     "name": "Laine naturelle + Taupe",
+     "image": null
+    },
+    {
+     "name": "Laine naturelle + Noir",
+     "image": null
+    }
+   ],
+   "sizes": [
+    "60 × 90 cm",
+    "80 × 150 cm",
+    "120 × 180 cm",
+    "160 × 230 cm",
+    "200 × 300 cm",
+    "250 × 350 cm"
+   ]
+  },
+  {
+   "handle": "mrirt-losanges",
+   "title": "Losanges",
+   "description": "",
+   "image": null,
+   "colours": [
+    {
+     "name": "Laine naturelle + Brun chocolat",
+     "image": null
+    },
+    {
+     "name": "Terracotta + Brun chocolat + Taupe",
+     "image": null
+    }
+   ],
+   "sizes": [
+    "60 × 90 cm",
+    "80 × 150 cm",
+    "120 × 180 cm",
+    "160 × 230 cm",
+    "200 × 300 cm",
+    "250 × 350 cm"
+   ]
+  },
+  {
+   "handle": "mrirt-graphique",
+   "title": "Graphique",
+   "description": "",
+   "image": null,
+   "colours": [
+    {
+     "name": "Sable + Taupe",
+     "image": null
+    },
+    {
+     "name": "Terracotta + Brun chocolat",
+     "image": null
+    }
+   ],
+   "sizes": [
+    "60 × 90 cm",
+    "80 × 150 cm",
+    "120 × 180 cm",
+    "160 × 230 cm",
+    "200 × 300 cm",
+    "250 × 350 cm"
+   ]
+  }
+ ]
 }
