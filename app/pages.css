@@ -2316,10 +2316,12 @@ textarea.inquiry-input {
   padding-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
+/* Only the link is left in the head (the heading is screen-reader only, §66),
+   so it sits at the right, answering the hang below rather than opening it. */
 .closing-head {
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: clamp(1.5rem, 4vw, 3rem);
   flex-wrap: wrap;
 }
@@ -3055,4 +3057,155 @@ textarea.inquiry-input {
    scroll-margin so the heading it jumps to is not hidden under the bar. */
 .mrirt-steps-anchor {
   scroll-margin-top: calc(var(--header-h) + 2rem);
+}
+
+/* --------------------------------------------------------------------------
+   The rug pickers (feedback, 25 Sept — after benirugs.com's order panel)
+
+   A closed row stating the current choice, opening onto the options: colour
+   series as rows with a paired swatch, sizes two across. Drawn in the site's
+   own language — hairlines, no radius, no shadow — and the one fill is the
+   chosen cell, in the umber the site's one filled button already uses (§37).
+   -------------------------------------------------------------------------- */
+
+.inquiry-field-no > .choice-current,
+.inquiry-field-no > .choice-options,
+.inquiry-field-no > .choice-other {
+  grid-column: 2;
+}
+
+.choice-current {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.7rem 0.85rem;
+  min-height: 44px;
+  text-align: left;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  cursor: pointer;
+  transition: border-color var(--dur-hover) var(--ease-material);
+}
+
+.choice-current:hover {
+  border-color: rgba(107, 92, 74, 0.45);
+}
+
+.choice-current:focus-visible {
+  outline: 1.5px solid var(--clay);
+  outline-offset: 3px;
+}
+
+.choice-current-text {
+  flex: 1;
+  color: var(--ink);
+}
+
+.choice-caret {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform var(--dur-hover) var(--ease-material);
+}
+
+.choice-current[aria-expanded="true"] .choice-caret {
+  transform: translateY(2px) rotate(225deg);
+}
+
+/* `[hidden]` loses to any author display (§35) — say it outright. */
+.choice-options[hidden],
+.choice-other[hidden] {
+  display: none;
+}
+
+.choice-options {
+  display: grid;
+  border: 1px solid var(--rule);
+  border-top: 0;
+}
+
+.choice-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.choice-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  padding: 0.6rem 0.85rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  transition: background-color var(--dur-hover) var(--ease-material);
+}
+
+.choice-grid .choice-option:nth-child(odd) {
+  border-right: 1px solid var(--rule);
+}
+
+.choice-option:last-child,
+.choice-grid .choice-option:nth-last-child(2):nth-child(odd) {
+  border-bottom: 0;
+}
+
+.choice-option:hover {
+  background: rgba(190, 171, 147, 0.18);
+}
+
+/* The radio itself is drawn by the cell; the input stays real and focusable. */
+.choice-option input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.choice-option:has(input:focus-visible) {
+  outline: 1.5px solid var(--clay);
+  outline-offset: -3px;
+}
+
+.choice-option:has(input:checked) {
+  color: var(--ink-inverse);
+  background: var(--umber, #4b3123);
+}
+
+.choice-option-other .label {
+  font-style: italic;
+  letter-spacing: 0.12em;
+}
+
+.choice-swatch {
+  display: inline-flex;
+  flex: none;
+  width: 2.1rem;
+  height: 1.3rem;
+  border: 1px solid rgba(75, 49, 35, 0.18);
+}
+
+.choice-swatch > span {
+  flex: 1;
+}
+
+.choice-other {
+  margin-top: 0.6rem;
+}
+
+/* With the collection's title, count and lede gone (feedback, 25 Sept) the
+   head is an eyebrow alone, and a full section's top padding under it opened a
+   gap bigger than the one it used to sit in. The rooms follow the eyebrow at
+   the distance a title would have. */
+.page-head:has(h1.sr-only) {
+  padding-bottom: 0;
+}
+.page-head:has(h1.sr-only) + .rooms-rail-section {
+  padding-top: clamp(1.2rem, 2.6vw, 1.8rem);
 }

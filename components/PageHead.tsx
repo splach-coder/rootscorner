@@ -6,6 +6,14 @@ type PageHeadProps = {
   /** One factual line under the title — a count, a coordinate, a room name. */
   meta?: string;
   lede?: string;
+  /**
+   * Keep the title for search engines and screen readers but not on screen.
+   * The client asked for the visible titles off /collection and /contact
+   * (feedback, 25 Sept). A page still needs one real h1: it is what Google
+   * reads as the page's subject and what a screen reader announces first, so
+   * the heading is hidden visually rather than deleted.
+   */
+  hideHeading?: boolean;
   children?: React.ReactNode;
 };
 
@@ -22,13 +30,13 @@ type PageHeadProps = {
  * no full-screen height: the visitor has already been sold the atmosphere on
  * the homepage, and what they want here is to know where they are.
  */
-export default function PageHead({ eyebrow, heading, meta, lede, children }: PageHeadProps) {
+export default function PageHead({ eyebrow, heading, meta, lede, hideHeading, children }: PageHeadProps) {
   return (
     <section className="page-head">
       <div className="shell">
         <Reveal className="page-head-inner">
           <p className="label page-head-eyebrow">{eyebrow}</p>
-          <h1 className="display d-1 page-head-title">{heading}</h1>
+          <h1 className={hideHeading ? "sr-only" : "display d-1 page-head-title"}>{heading}</h1>
           {meta && <p className="label page-head-meta">{meta}</p>}
           {lede && <p className="lede page-head-lede">{lede}</p>}
           {children}

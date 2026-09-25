@@ -366,10 +366,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               ))}
             </dl>
 
+            {/* "Commencer un tapis" removed at the client's request (feedback,
+                25 Sept). The nav's "Tapis Mrirt" is the way in. */}
             <p className="prose rugs-axes-note">{t.rugs.axesNote}</p>
-            <Link href={`/${locale}/mrirt`} className="link label rugs-cta">
-              {t.rugs.cta}
-            </Link>
           </Reveal>
         </div>
 

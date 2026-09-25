@@ -43,7 +43,7 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: "/contact",
-    title: `${t.contactPage.heading} — The Roots Corner`,
+    title: `${t.nav.contact} — The Roots Corner`,
     description: t.contactPage.lede,
   });
 }
@@ -164,11 +164,13 @@ export default async function ContactPage({
         <div className="shell desk-inner">
           <Reveal className="desk-text">
             <p className="label">{t.nav.contact}</p>
-            <h1 className="display desk-title">{t.contactPage.heading}</h1>
+            {/* Feedback, 25 Sept: "Écrivez-nous" and the paragraph about
+                finding a piece seen on Instagram are off the page. The title
+                stays for search engines and screen readers only — a page
+                needs one real h1. The photo field on the form still does the
+                job that paragraph described. */}
+            <h1 className="sr-only">{t.contactPage.heading}</h1>
             <p className="lede desk-lede">{t.contactPage.lede}</p>
-            {/* §2 and §3: the page's real invitation — send a photograph of a
-                piece you saw and we will try to find it. Their words. */}
-            <p className="prose desk-find">{t.contactPage.findLede}</p>
 
             {/* The channels, on the first screen and at full size. These are
                 the things a visitor can act on immediately, so they sit above

@@ -154,8 +154,6 @@ type Dictionary = {
     heritage: { eyebrow: string; body: string[] }[];
     heritageClose: string;
     /** §8, verbatim. */
-    founder: string[];
-    founderEyebrow: string;
     /**
      * Alt text for the photographs beside each movement — the client's own
      * Marrakech frames (§51).
@@ -171,7 +169,6 @@ type Dictionary = {
       heritage: string;
       hands: string;
       time: string;
-      founder: string;
     };
   };
   mrirtPage: {
@@ -376,7 +373,7 @@ const en: Dictionary = {
     // Brief §4: the homepage must immediately convey the name and the tagline.
     title: "The Roots Corner — Rare pieces. Stories. Materials.",
     description:
-      "A selection of rare African and Moroccan pieces, sourced in Morocco by Dahab. Antique objects, wood, ceramics and handwoven Mrirt rugs. Each piece is unique.",
+      "A selection of rare African and Moroccan pieces, sourced in Morocco. Antique objects, wood, ceramics and handwoven Mrirt rugs. Each piece is unique.",
   },
   nav: {
     collection: "Collection",
@@ -404,9 +401,12 @@ const en: Dictionary = {
   presentation: {
     eyebrow: "The Roots Corner",
     body: [
-      // Live site, About us — verbatim.
-      "Founded by Dahab, The Roots Corner reflects a world she grew up with and continues to draw inspiration from today.",
-      "Through a carefully curated collection, she shares objects that have a natural place in the home and a story that extends beyond decoration. Each piece is selected with intention and valued for its lasting presence.",
+      // Feedback, 25 Sept: this section is about The Roots Corner only, and
+      // Dahab is not named on the site for now. What is left is the last
+      // sentence of their own About text, verbatim — the rest named her, and
+      // "Through a carefully curated collection…" is already said by the
+      // story section just below.
+      "Each piece is selected with intention and valued for its lasting presence.",
     ],
   },
   categories: {
@@ -462,7 +462,7 @@ const en: Dictionary = {
       design: "Choose the style or the pattern you want.",
       texture: "Choose the texture and the finish you want.",
     },
-    axesNote: "Woven to your measurements. Tell us your four choices and we will come back to you.",
+    axesNote: "Woven to your measurements. Tell us your choices and we will come back to you.",
     startCta: "Start a rug",
     figure: {
       // The client's own product name, verbatim. The object in these frames is
@@ -616,21 +616,15 @@ const en: Dictionary = {
       },
     ],
     heritageClose: "Every piece has a history. The next one could be yours.",
-    founder: [
-      "Dahab is drawn to travel, to materials and to craft. Always looking for singular pieces, she likes to meet the people who shape them, to understand their history, and to give them a place in interiors where they can go on living.",
-      "A passion for objects that outlast their time and have something to say.",
-    ],
-    founderEyebrow: "The founder",
     frames: {
       soul: "Weavings hung at the entrance of a shop",
       heritage: "The shadow of a wrought-iron railing across a plaster wall",
       hands: "A figure walking up an alley in late afternoon sun",
       time: "A dining room: pieces set on plaster shelves",
-      founder: "A minaret against the evening sky",
     },
   },
   mrirtPage: {
-    lede: "Nothing here is in stock. A Mrirt rug begins as four decisions.",
+    lede: "Nothing here is in stock. A Mrirt rug begins as five decisions.",
     // The client's own sentence places Mrirt "in Morocco's Middle Atlas".
     place: "Middle Atlas, Morocco",
     // §13: "LES MAINS — Une coopérative du Moyen Atlas". Their words, and the
@@ -699,7 +693,7 @@ const en: Dictionary = {
         pile: "Close view of caramel wool, ruled by darker woven lines",
       },
     },
-    ledeStocked: "A few are already woven. The rest begin as four decisions.",
+    ledeStocked: "A few are already woven. The rest begin as five decisions.",
   },
   contactPage: {
     heading: "Write to us",
@@ -724,7 +718,7 @@ const en: Dictionary = {
     },
     wayNotes: {
       piece: "Anything in the collection, sold or not. Its number is enough.",
-      rug: "Woven to order, in four decisions.",
+      rug: "Woven to order, to your measurements.",
       // Brief §6, the client's own shipping zones — no times, because their
       // product pages and their FAQ give different ones (CLAUDE.md §9.3).
       delivery: "France, Belgium, Switzerland, Europe, worldwide.",
@@ -886,7 +880,7 @@ const fr: Dictionary = {
   meta: {
     title: "The Roots Corner — Pièces rares. Histoires. Matières.",
     description:
-      "Une sélection de pièces rares africaines et marocaines, chinées au Maroc par Dahab. Objets anciens, bois, céramiques et tapis Mrirt tissés main. Chaque pièce est unique.",
+      "Une sélection de pièces rares africaines et marocaines, chinées au Maroc. Objets anciens, bois, céramiques et tapis Mrirt tissés main. Chaque pièce est unique.",
   },
   nav: {
     collection: "Collection",
@@ -914,13 +908,8 @@ const fr: Dictionary = {
   presentation: {
     eyebrow: "The Roots Corner",
     body: [
-      // THE CLIENT'S OWN FRENCH, from their /accueil/ page — not a translation
-      // of the English About text that sits here in the other locale. Where
-      // they have written a sentence in a language themselves, their wording
-      // beats ours (CLAUDE.md §11). The two locales therefore say slightly
-      // different things about the founder, and both are hers.
-      "The Roots Corner est né de la vision de Dahab, animée par une profonde passion pour l’artisanat et le design intemporel. À travers ce projet, elle souhaite partager son amour pour les objets anciens riches en histoire et en authenticité, en particulier ceux issus des cultures marocaine et africaine.",
-      "À travers une collection soigneusement choisie, elle partage des objets qui trouvent naturellement leur place dans la maison et dont l’histoire dépasse la décoration. Chaque pièce est sélectionnée avec intention, pour ce qu’elle gardera de présence.",
+      // Feedback, 25 Sept — see the English. Their own French, verbatim.
+      "Chaque pièce est sélectionnée avec intention, pour ce qu’elle gardera de présence.",
     ],
   },
   categories: {
@@ -969,7 +958,7 @@ const fr: Dictionary = {
     },
     startCta: "Commencer un tapis",
     // §11 of the report, verbatim.
-    axesNote: "Tissé à vos mesures. Dites-nous vos quatre choix et nous revenons vers vous.",
+    axesNote: "Tissé à vos mesures. Dites-nous vos choix et nous revenons vers vous.",
     figure: {
       caption: "Peigne ancien utilisé pour le tissage des tapis marocains",
       plateAlt: "Peigne à tisser ancien vu de dessus, sur un mur de plâtre",
@@ -1114,24 +1103,18 @@ const fr: Dictionary = {
       },
     ],
     heritageClose: "Chaque pièce a une histoire. La prochaine pourrait être la vôtre.",
-    founder: [
-      "Dahab est passionnée par les voyages, les matières et les savoir-faire. Toujours à la recherche de pièces singulières, elle aime découvrir celles et ceux qui les façonnent, comprendre leur histoire et leur donner une place dans des intérieurs où elles pourront continuer à vivre.",
-      "Une passion pour les objets qui traversent le temps et racontent quelque chose.",
-    ],
-    founderEyebrow: "La fondatrice",
     frames: {
       soul: "Des tissages suspendus à l’entrée d’une boutique",
       heritage: "L’ombre d’une grille en fer forgé sur un mur de plâtre",
       hands: "Une silhouette remonte une ruelle au soleil de fin de journée",
       time: "Une salle à manger : pièces posées sur des étagères de plâtre",
-      founder: "Un minaret se détache sur le ciel du soir",
     },
     // Translation of the client's own About sentence, not authorship (§11).
     // "purpose" is rendered "utilité" — these are objects that were made to be
     // used, which is what the English means here.
   },
   mrirtPage: {
-    lede: "Rien ici n’est en stock. Un tapis Mrirt commence par quatre décisions.",
+    lede: "Rien ici n’est en stock. Un tapis Mrirt commence par cinq décisions.",
     place: "Moyen Atlas, Maroc",
     // §13 of the report: "LES MAINS — Une coopérative du Moyen Atlas".
     // §10 of the report, verbatim.
@@ -1193,7 +1176,7 @@ const fr: Dictionary = {
         pile: "Gros plan d’une laine caramel, réglée de lignes tissées plus sombres",
       },
     },
-    ledeStocked: "Quelques-uns sont déjà tissés. Les autres commencent par quatre décisions.",
+    ledeStocked: "Quelques-uns sont déjà tissés. Les autres commencent par cinq décisions.",
   },
   contactPage: {
     heading: "Écrivez-nous",
@@ -1208,7 +1191,7 @@ const fr: Dictionary = {
     pieceRef: "S’il s’agit d’une pièce, son numéro nous aide.",
     subjectEyebrow: "Vous nous écrivez au sujet de",
     waysEyebrow: "Ce qu’on peut demander",
-    whatsappNote: "Écrivez-nous directement.",
+    whatsappNote: "Par message, directement.",
     emailKey: "E-mail",
     ways: {
       piece: "Une pièce",
@@ -1218,7 +1201,7 @@ const fr: Dictionary = {
     },
     wayNotes: {
       piece: "N’importe quelle pièce, vendue ou non. Son numéro suffit.",
-      rug: "Tissé sur commande, en quatre décisions.",
+      rug: "Tissé sur commande, à vos mesures.",
       delivery: "France, Belgique, Suisse, Europe, international.",
       seen: "Les pièces paraissent sur Instagram avant d’être mises en ligne.",
     },

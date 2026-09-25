@@ -40,11 +40,13 @@ export default function ClosingBand({
   return (
     <section className="section closing">
       <div className="shell">
+        {/* Feedback, 25 Sept: the "Collection" eyebrow and the heading
+            ("D'autres pièces, encore là") are off every page. The pieces and
+            the link say it. The heading stays for screen readers, so the
+            section is still announced as something rather than as a list of
+            photographs from nowhere. */}
+        <h2 className="sr-only">{t.heading}</h2>
         <Reveal className="closing-head">
-          <div>
-            <p className="label">{t.eyebrow}</p>
-            <h2 className="display d-1 closing-heading">{t.heading}</h2>
-          </div>
           <Link href={`/${locale}/collection`} className="link label closing-cta">
             {t.cta}
           </Link>

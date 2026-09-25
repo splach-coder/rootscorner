@@ -113,7 +113,6 @@ export function organizationLd(locale: Locale, description: string) {
           addressLocality: "Marrakech",
           addressCountry: "MA",
         },
-        founder: { "@type": "Person", name: "Dahab" },
         sameAs: [INSTAGRAM],
         identifier: [
           { "@type": "PropertyValue", propertyID: "ICE", value: ADDRESS.ice },

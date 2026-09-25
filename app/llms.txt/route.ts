@@ -26,7 +26,7 @@ export function GET() {
     "",
     `> ${en.meta.description}`,
     "",
-    `The Roots Corner is a curator of rare African and Moroccan artisanal pieces, based in Marrakech, Morocco, founded by Dahab. Tagline: "Rare pieces. Stories. Materials." / « ${fr.meta.title.split("— ")[1] ?? ""} »`,
+    `The Roots Corner is a curator of rare African and Moroccan artisanal pieces, based in Marrakech, Morocco. Tagline: "Rare pieces. Stories. Materials." / « ${fr.meta.title.split("— ")[1] ?? ""} »`,
     "",
     "- Every piece is one of a kind: there is one of each, and a sold piece is not restocked.",
     "- Prices are in euros (EUR), tax included. Pieces ship from Marrakech; outside Morocco, customs duties and import VAT may be charged on delivery.",

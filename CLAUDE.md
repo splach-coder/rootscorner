@@ -4823,3 +4823,24 @@ example rates. Verified by reading back.
 - The FAQ is ours now and carries FAQPage markup. Its payment answer says
   bank transfer: **change it when CMI goes live**, or Google and AI answers
   keep telling buyers cards are not taken.
+
+## 66. Client feedback, 25 Sept — removals, no founder name, rug pickers
+
+From `Feedback - The Roots Corner website` (8 highlighted screenshots + a link
+to benirugs.com's Formation rug). Every point, and where it landed:
+
+| Highlighted | Done |
+|---|---|
+| Contact — "Écrivez-nous" | Title visually removed (kept as sr-only h1). The WhatsApp note "Écrivez-nous directement." reworded too. |
+| Contact — "Vous avez aperçu une pièce sur Instagram…" | Removed. The photo field on the form still does that job. |
+| Collection — "Ce qui est ici en ce moment", "38 pièces · 7 salles", the lede | Removed (sr-only h1 "Collection"). |
+| Collection — "Par où commencer" | Removed. |
+| Every page — "Collection / D'autres pièces, encore là" (ClosingBand) | Eyebrow + heading removed; "Tout voir" moved right. |
+| Homepage — "The Roots Corner est né de la vision de Dahab…" | Removed; the section keeps its own last sentence only. |
+| "It's about The Roots Corner only, no need to mention Dahab" | Her name is gone from every rendered page, meta descriptions, JSON-LD and llms.txt; the story's founder chapter is removed. Verified: 0 occurrences in the HTML of 8 pages. |
+| Homepage — "COMMENCER UN TAPIS" | Removed, and the same button on /mrirt. |
+| Rugs — "include all the different series" (Beni Formation) | The five terms are now pickers (`kind: "choice"` in InquiryForm): colour SERIES with swatches, a size grid, pattern, pile, fringes — each ending in a free-text "other". Lists in **lib/rug-options.ts — a proposal for the house to confirm**, not a record of what has been woven. |
+
+Structural rule this adds: `PageHead hideHeading` keeps a real h1 in the
+document when the client asks for a title off the screen. Never delete a
+page's only h1 to satisfy a visual request.

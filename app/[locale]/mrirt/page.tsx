@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { rugChoices } from "@/lib/rug-options";
 import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -89,12 +90,20 @@ export default async function MrirtPage({
     under a heading that invites someone to describe a rug makes the page's one
     commercial action read as tentative.
   */
+  // The four terms, plus the fringes Beni's panel also asks about (feedback,
+  // 25 Sept). Each is now a picker of named options — colour series with
+  // swatches, a size grid — with a free-text "other" at the end of every list.
+  // The lists live in lib/rug-options.ts and are a proposal for the house to
+  // confirm; the form stays an enquiry, answered personally.
+  const choices = rugChoices(locale as Locale);
+  const fringeLabel = locale === "fr" ? "Les franges" : "The fringes";
   const axes = [
-    { key: "size", label: t.rugs.axes.size, hint: t.rugs.axisNotes.size },
-    { key: "colour", label: t.rugs.axes.colour, hint: t.rugs.axisNotes.colour },
-    { key: "design", label: t.rugs.axes.design, hint: t.rugs.axisNotes.design },
-    { key: "texture", label: t.rugs.axes.texture, hint: t.rugs.axisNotes.texture },
-  ];
+    { key: "size", label: t.rugs.axes.size, hint: t.rugs.axisNotes.size, layout: "grid" as const },
+    { key: "colour", label: t.rugs.axes.colour, hint: t.rugs.axisNotes.colour, layout: "list" as const },
+    { key: "design", label: t.rugs.axes.design, hint: t.rugs.axisNotes.design, layout: "list" as const },
+    { key: "texture", label: t.rugs.axes.texture, hint: t.rugs.axisNotes.texture, layout: "list" as const },
+    { key: "fringe", label: fringeLabel, hint: undefined, layout: "grid" as const },
+  ] as const;
 
   const fields: InquiryField[] = [
     ...axes.map((axis, i) => ({
@@ -102,6 +111,9 @@ export default async function MrirtPage({
       label: axis.label,
       hint: axis.hint,
       no: String(i + 1).padStart(2, "0"),
+      kind: "choice" as const,
+      layout: axis.layout,
+      ...choices[axis.key],
     })),
     { name: "name", label: t.form.name, required: true },
     { name: "email", label: t.form.email, kind: "email" as const, required: true },
@@ -234,11 +246,6 @@ export default async function MrirtPage({
               <p className="prose">{t.rugs.body[1]}</p>
             </Reveal>
 
-            <Reveal delay={200}>
-              <a href="#comment" className="label rugs-start">
-                {t.rugs.startCta}
-              </a>
-            </Reveal>
           </div>
 
           <figure className="mrirt-yarn">

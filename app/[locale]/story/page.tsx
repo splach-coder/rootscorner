@@ -6,7 +6,6 @@ import PageHead from "@/components/PageHead";
 import Reveal from "@/components/Reveal";
 import ClosingBand from "@/components/ClosingBand";
 import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
-import { INSTAGRAM, INSTAGRAM_HANDLE } from "@/lib/site";
 
 export async function generateMetadata({
   params,
@@ -61,8 +60,8 @@ export async function generateMetadata({
  * sentence borrows that sentence's provenance unless it is described plainly,
  * which is the same reasoning §24 records for the artisans page.
  *
- * There is still no portrait of Dahab (§13). The founder's movement is her
- * paragraph and the city she works in, not a stand-in for her face.
+ * No founder chapter and no name, for now (feedback, 25 Sept): the page is
+ * the house's story, told in its four movements.
  */
 
 /** One photograph per movement, in the order the movements are written. */
@@ -144,48 +143,10 @@ export default async function StoryPage({
         </div>
       </section>
 
-      {/* ---- The founder. §8, verbatim, and where she posts.
-
-           No portrait: there is still none in the files the client has sent
-           (§13), and a still life standing in silently for a person is a small
-           lie the page would tell every visitor. The photograph beside her
-           paragraph is the city she works in, described as exactly that. */}
-      <section className="section chapter chapter-founder">
-        <div className="shell chapter-inner">
-          <div className="chapter-said">
-            <Reveal as="p" className="label chapter-eyebrow">
-              {t.storyPage.founderEyebrow}
-            </Reveal>
-            <Reveal delay={90} className="founder-prose">
-              {t.storyPage.founder.map((line, i) => (
-                <p key={i} className={i === 0 ? "founder-lead" : "prose"}>
-                  {line}
-                </p>
-              ))}
-            </Reveal>
-            <Reveal delay={180}>
-              <a
-                href={INSTAGRAM}
-                className="link label founder-instagram"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                {INSTAGRAM_HANDLE}
-              </a>
-            </Reveal>
-          </div>
-
-          <Reveal variant="frame" delay={140} className="frame chapter-plate">
-            <Image
-              src="/place/city-dusk.jpg"
-              alt={t.storyPage.frames.founder}
-              width={1333}
-              height={2000}
-              sizes="(max-width: 939px) 100vw, 30rem"
-            />
-          </Reveal>
-        </div>
-      </section>
+      {/* The founder's chapter is off the page: feedback, 25 Sept — the
+          story is The Roots Corner's, and Dahab is not named on the site
+          until the house decides otherwise. Restoring it is this block and
+          two dictionary keys; see git history. */}
 
       <ClosingBand locale={locale as Locale} t={t.closing} labels={t.pieceLabel} />
     </>

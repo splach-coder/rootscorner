@@ -6,7 +6,7 @@ export type InquiryField = {
   name: string;
   label: string;
   hint?: string;
-  kind?: "text" | "email" | "textarea" | "file";
+  kind?: "text" | "email" | "textarea" | "file" | "choice";
   required?: boolean;
   defaultValue?: string;
   /**
@@ -20,7 +20,23 @@ export type InquiryField = {
    * as tentative.
    */
   no?: string;
+  /**
+   * `kind: "choice"` — the order panel's pickers (feedback, 25 Sept, after
+   * benirugs.com): a closed row showing the current choice, opening onto the
+   * options. `list` is one option per row with an optional colour swatch;
+   * `grid` is two across, for sizes. `other` adds a last option that opens a
+   * text box, because a made-to-measure rug can always be something the list
+   * does not name.
+   */
+  options?: { value: string; swatch?: string[] }[];
+  layout?: "list" | "grid";
+  other?: { label: string; hint: string };
+  /** Shown in the closed row before anything is chosen. */
+  placeholder?: string;
 };
+
+/** Radio value that means "use the text box instead". */
+const OTHER = "__other";
 
 type InquiryFormProps = {
   fields: InquiryField[];
@@ -99,10 +115,14 @@ export default function InquiryForm({
     // Answered fields only, in the order they were asked. An empty field is
     // left out rather than sent as a blank line.
     const answered = fields
-      .map((field) => ({
-        label: field.label,
-        value: String(data.get(field.name) ?? "").trim(),
-      }))
+      .map((field) => {
+        let value = String(data.get(field.name) ?? "").trim();
+        // A choice answered with "other" sends what was typed in its box.
+        if (field.kind === "choice" && value === OTHER) {
+          value = String(data.get(`${field.name}${OTHER}`) ?? "").trim();
+        }
+        return { label: field.label, value };
+      })
       .filter((field) => field.value.length > 0);
 
     setWritten(answered.map((f) => `${f.label}: ${f.value}`).join("\n"));
@@ -177,6 +197,9 @@ export default function InquiryForm({
         const hintId = field.hint ? `${id}-hint` : undefined;
 
         return (
+          field.kind === "choice" ? (
+            <ChoiceField key={field.name} field={field} />
+          ) : (
           <div
             key={field.name}
             className={`inquiry-field${field.no ? " inquiry-field-no" : ""}`}
@@ -248,6 +271,7 @@ export default function InquiryForm({
             )}
 
           </div>
+          )
         );
       })}
 
@@ -319,5 +343,121 @@ export default function InquiryForm({
         </div>
       )}
     </form>
+  );
+}
+
+/**
+ * One picker of the order panel. A closed row states the current choice (a
+ * swatch and a name, or the placeholder); opening it shows every option.
+ *
+ * Real radio inputs, so it is a radio group to a keyboard and a screen reader
+ * and only its drawing is ours. A labelled `role="radiogroup"` rather than
+ * `<fieldset>`/`<legend>`: a legend will not sit in the numbered field's grid
+ * column, and the numerals would stop lining up with the other terms. Choosing
+ * closes the row, as Beni's does. Inputs inside a closed row stay in the DOM,
+ * so the form still submits the choice.
+ */
+function ChoiceField({ field }: { field: InquiryField }) {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const id = `inquiry-${field.name}`;
+  const options = field.options ?? [];
+  const chosen = options.find((o) => o.value === value);
+  const isOther = value === OTHER;
+
+  return (
+    <div
+      role="radiogroup"
+      aria-labelledby={`${id}-label`}
+      className={`inquiry-field inquiry-choice${field.no ? " inquiry-field-no" : ""}`}
+    >
+      {field.no && (
+        <span className="label inquiry-no" aria-hidden="true">
+          {field.no}
+        </span>
+      )}
+      <p id={`${id}-label`} className="label inquiry-label">
+        {field.label}
+      </p>
+      {field.hint && <p className="inquiry-hint">{field.hint}</p>}
+
+      <button
+        type="button"
+        className="choice-current"
+        aria-expanded={open}
+        aria-controls={`${id}-options`}
+        onClick={() => setOpen((o) => !o)}
+      >
+        {chosen?.swatch && <Swatch colours={chosen.swatch} />}
+        <span className="label choice-current-text">
+          {chosen ? chosen.value : isOther ? field.other?.label : field.placeholder}
+        </span>
+        <span className="choice-caret" aria-hidden="true" />
+      </button>
+
+      <div
+        id={`${id}-options`}
+        className={`choice-options choice-${field.layout ?? "list"}`}
+        hidden={!open}
+      >
+        {options.map((option) => (
+          <label key={option.value} className="choice-option">
+            <input
+              type="radio"
+              name={field.name}
+              value={option.value}
+              checked={value === option.value}
+              onChange={() => {
+                setValue(option.value);
+                setOpen(false);
+              }}
+            />
+            {option.swatch && <Swatch colours={option.swatch} />}
+            <span className="label">{option.value}</span>
+          </label>
+        ))}
+        {field.other && (
+          <label className="choice-option choice-option-other">
+            <input
+              type="radio"
+              name={field.name}
+              value={OTHER}
+              checked={isOther}
+              onChange={() => {
+                setValue(OTHER);
+                setOpen(false);
+              }}
+            />
+            <span className="label">{field.other.label}</span>
+          </label>
+        )}
+      </div>
+
+      {field.other && (
+        <div className="choice-other" hidden={!isOther}>
+          <label className="inquiry-hint" htmlFor={`${id}-other`}>
+            {field.other.hint}
+          </label>
+          <input
+            id={`${id}-other`}
+            name={`${field.name}${OTHER}`}
+            type="text"
+            autoComplete="off"
+            className="inquiry-input"
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** The wool colours of a series, side by side — Beni's paired swatch. */
+function Swatch({ colours }: { colours: string[] }) {
+  return (
+    <span className="choice-swatch" aria-hidden="true">
+      {colours.map((c, i) => (
+        <span key={i} style={{ background: c }} />
+      ))}
+    </span>
   );
 }

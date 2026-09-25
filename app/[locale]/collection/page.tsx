@@ -25,8 +25,8 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: "/collection",
-    title: `${t.collection.heading} — The Roots Corner`,
-    description: t.collection.lede,
+    title: `${t.nav.collection} — The Roots Corner`,
+    description: `${t.nav.collection} — ${t.selection.unique}`,
     image: og("collection.jpg"),
   });
 }
@@ -74,12 +74,10 @@ export default async function CollectionPage({
           { name: t.nav.collection, path: `/${locale}/collection` },
         ])}
       />
-      <PageHead
-        eyebrow={t.collection.eyebrow}
-        heading={t.collection.heading}
-        meta={fill(t.collection.count, { pieces: pieces.length, rooms: rooms.length })}
-        lede={t.collection.lede}
-      />
+      {/* Feedback, 25 Sept: the title, the count line, the lede and "Par où
+          commencer" are off this page. It opens on its eyebrow and goes
+          straight to the rooms and the pieces. */}
+      <PageHead eyebrow={t.collection.eyebrow} heading={t.nav.collection} hideHeading />
 
       {/* --- The rooms, as a rail.
 
@@ -91,9 +89,6 @@ export default async function CollectionPage({
            of you, so they are set as what they are: names and counts. --- */}
       <section className="section rooms-rail-section">
         <div className="shell">
-          <Reveal as="p" className="label rooms-rail-key">
-            {t.collection.roomsEyebrow}
-          </Reveal>
 
           {/* One nav, two forms.
 
