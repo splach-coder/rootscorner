@@ -3225,27 +3225,6 @@ textarea.inquiry-input {
   color: var(--ink-soft);
 }
 
-/* A series with no photograph yet: its colourways as woven bands — what the
-   series actually offers, never another rug's photograph (§5). */
-.rug-plate {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 12%;
-  gap: 4%;
-  background: rgba(190, 171, 147, 0.16);
-}
-
-.rug-plate > span {
-  flex: 1;
-  border: 1px solid rgba(75, 49, 35, 0.12);
-}
-
-.rug-plate-large {
-  aspect-ratio: 4 / 5;
-  padding: 14% 18%;
-}
-
 .rug-page {
   padding-top: calc(var(--header-h) + clamp(1.4rem, 4vw, 2.8rem));
   padding-bottom: var(--section-y);

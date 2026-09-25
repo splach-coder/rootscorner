@@ -38,9 +38,7 @@ export async function generateMetadata({
 /**
  * A Mrirt series — benirugs.com's product page, in this site's language.
  *
- * The photographs on the left (the house's photos of the series, from Shopify;
- * until there is one, the colourways as a woven plate — a photograph of
- * another rug would show a rug this series is not, §5), the order panel on the
+ * The photographs on the left (the series' images in Shopify), the order panel on the
  * right — colour, size, the price of that pair, one bar to add it — then the
  * weaving, the delivery, and the way to ask for anything the list lacks.
  */
@@ -55,7 +53,6 @@ export default async function RugSeriesPage({
   const t = getDictionary(locale as Locale);
   const l = rugLabels(locale as Locale);
   const swatches = Object.fromEntries(series.colours.map((c) => [c.name, swatchFor(c.name, c.image)]));
-  const bands = series.colours.flatMap((c) => swatchFor(c.name, null) ?? []);
   const from = fromPrice(series);
 
   return (
@@ -89,28 +86,18 @@ export default async function RugSeriesPage({
       <article className="rug-page">
         <div className="shell rug-page-inner">
           <div className="rug-page-media">
-            {series.images.length > 0 ? (
-              series.images.map((img, i) => (
-                <Reveal key={img.src} variant="frame" delay={i * 60} className="frame rug-page-frame">
-                  <Image
-                    src={img.src}
-                    alt={img.alt ?? `${l.collectionEyebrow} ${series.title}`}
-                    width={img.w}
-                    height={img.h}
-                    priority={i === 0}
-                    sizes="(max-width: 939px) 100vw, 55vw"
-                  />
-                </Reveal>
-              ))
-            ) : (
-              <Reveal variant="frame" className="frame rug-page-frame">
-                <div className="rug-plate rug-plate-large" aria-hidden="true">
-                  {bands.map((bg, i) => (
-                    <span key={i} style={{ background: bg }} />
-                  ))}
-                </div>
+            {series.images.map((img, i) => (
+              <Reveal key={img.src} variant="frame" delay={i * 60} className="frame rug-page-frame">
+                <Image
+                  src={img.src}
+                  alt={img.alt ?? `${l.collectionEyebrow} ${series.title}`}
+                  width={img.w}
+                  height={img.h}
+                  priority={i === 0}
+                  sizes="(max-width: 939px) 100vw, 55vw"
+                />
               </Reveal>
-            )}
+            ))}
           </div>
 
           <div className="rug-page-panel">

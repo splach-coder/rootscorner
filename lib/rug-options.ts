@@ -16,9 +16,7 @@ import live from "@/docs/shopify-live.json";
  * form follows.
  *
  * Options read "Series — Colourway", the format of her example. A swatch is
- * her own variant photo when she has attached one, otherwise drawn from the
- * colour words in the name. An unknown word gets no swatch rather than a
- * guessed colour.
+ * her own variant photo when she has attached one; otherwise there is none.
  */
 
 type Snapshot = {
@@ -32,23 +30,15 @@ const SERIES = (live as Snapshot).rugSeries ?? [];
 
 export type ChoiceOption = { value: string; swatch?: string[] };
 
-/* Wool colour words → swatch. Warm and earth only (§2). */
-const WORDS: [RegExp, string][] = [
-  [/laine naturelle|natural wool|naturel|ivoire|ivory|cr[èe]me|cream|[ée]cru/i, "#ece4d6"],
-  [/sable|sand|beige/i, "#beab93"],
-  [/taupe|gris|grey|gray/i, "#8e857b"],
-  [/caramel|miel|honey|ocre|ochre/i, "#b98a5a"],
-  [/terracotta|terre cuite/i, "#b0634a"],
-  [/rouille|rust|rouge|red|brique|brick/i, "#94472d"],
-  [/brun|brown|chocolat|chocolate|marron/i, "#4b3123"],
-  [/noir|black/i, "#2a2623"],
-];
 
-export function swatchFor(colourway: string, image: string | null): string[] | undefined {
-  if (image) return [`url("${image}${image.includes("?") ? "&" : "?"}width=120") center / cover`];
-  const parts = colourway.split(/\s*\+\s*/);
-  const colours = parts.map((p) => WORDS.find(([re]) => re.test(p))?.[1]);
-  return colours.every(Boolean) ? (colours as string[]) : undefined;
+/**
+ * A colourway's swatch is her own photograph of it — the image she attaches to
+ * that variant in Shopify — and nothing else. No drawn colour chips: the
+ * client's rule is that this site does not invent shapes (feedback, 25 Sept).
+ */
+export function swatchFor(_colourway: string, image: string | null): string[] | undefined {
+  if (!image) return undefined;
+  return [`url("${image}${image.includes("?") ? "&" : "?"}width=120") center / cover`];
 }
 
 export function rugChoices(locale: Locale) {

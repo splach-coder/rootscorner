@@ -88,5 +88,8 @@ chaque couleur × taille. Une variante à **0 €** s'affiche « Prix sur demand
 et ne peut pas être achetée ; dès que vous mettez un prix, elle se vend. Le
 stock n'est pas suivi : ce sont des tapis tissés sur commande.
 
-⚠️ Les 4 séries actuelles (Uni, Lignes, Losanges, Graphique) sont des
-**exemples** : remplacez-les par vos vraies séries.
+⚠️ **À remplacer par vos vraies informations :** les 4 séries (Uni, Lignes,
+Losanges, Graphique), leurs couleurs, et surtout **les prix, qui sont des prix
+d'exemple** (290 € à 2 390 € selon la taille). Tant qu'ils sont en ligne, un
+client peut commander à ces prix. Les photos viennent de vos propres photos de
+tapis ; remplacez-les par celles de chaque série.

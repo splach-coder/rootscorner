@@ -111,10 +111,20 @@ const extra = [];
   the made-to-order form, not pieces. The house edits them in the admin.
 */
 const rugSeries = [];
+/*
+  Shopify attaches the product's photo to every variant, so a colourway image
+  that is the same for all colourways says nothing about the colour. A swatch
+  is kept only where she has given colours photographs of their own.
+*/
+const distinctSwatches = (series) => {
+  const imgs = series.colours.map((c) => c.image);
+  if (new Set(imgs).size < 2) series.colours = series.colours.map((c) => ({ ...c, image: null }));
+  return series;
+};
 for (const p of products) {
   if (p.productType?.trim() === "Tapis Mrirt") {
     const opt = (n) => p.options.find((o) => o.name.toLowerCase() === n)?.optionValues.map((v) => v.name) ?? [];
-    rugSeries.push({
+    rugSeries.push(distinctSwatches({
       handle: p.handle,
       title: p.title.trim(),
       description: (p.description || "").trim(),
@@ -137,7 +147,7 @@ for (const p of products) {
         currency: v.price.currencyCode,
         available: v.availableForSale,
       })),
-    });
+    }));
     continue;
   }
   const v = p.variants.nodes[0];

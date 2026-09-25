@@ -4875,3 +4875,18 @@ grid, the pair's price, Add to cart, then weaving / delivery / made-to-measure.
 - Verified with prices set in a LOCAL snapshot only: card "À partir de 890 €",
   1 250 € for the chosen pair, cart line named series — colour — size, Shopify
   checkout created. The live store still has every rug at 0.
+
+### Update — real photographs, mock prices, no drawn shapes
+
+The client rejected the colour-band plates: **this site never draws shapes to
+stand in for a photograph.** Removed everywhere (cards, series page, swatch
+chips). Each series carries two of the house's own rug photographs (her site,
+and Drive `maison/shoot 1` → `public/rugs/series/`), attached in Shopify as
+product media. A colourway swatch is only her own per-colour photo; if every
+colour carries the same image it is dropped (it would say nothing).
+
+**Prices are MOCK, at benirugs.com's level, by size (290–2 390 €), on the
+live store at the client's instruction** — orders can be placed at them until
+Dahab sets real ones. Beni's product names and photos were deliberately not
+copied: their images are copyrighted and their names on a live shop would
+misrepresent what is sold.
