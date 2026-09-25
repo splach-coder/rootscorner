@@ -21,8 +21,7 @@
   "w": 2000,
   "h": 3000,
   "source": "client Google Drive — TRC content-4/jamaa fna/feed",
-  "original": "DSC01198.jpg",
-  "note": "The homepage hero. A studded wooden door with the shadow of leaves across it, low golden light."
+  "original": "DSC01198.jpg"
  },
  "shadow-rail.jpg": {
   "w": 1333,
@@ -71,5 +70,12 @@
   "h": 2400,
   "source": "client Google Drive — TRC content-4/maison/shoot 1",
   "original": "DSC02581.jpg"
+ },
+ "hanging-cloth.jpg": {
+  "w": 2000,
+  "h": 3000,
+  "source": "client Google Drive — TRC content-4/jamaa fna/stories",
+  "original": "DSC01019.jpg",
+  "note": "The homepage hero since 25 Sept, at Dahab's request. A hand-woven cloth with a red band, hanging against the dark."
  }
 }

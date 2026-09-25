@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { rugChoices } from "@/lib/rug-options";
+import { rugSeries } from "@/lib/rug-options";
 import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -90,31 +90,23 @@ export default async function MrirtPage({
     under a heading that invites someone to describe a rug makes the page's one
     commercial action read as tentative.
   */
-  // The four terms, plus the fringes Beni's panel also asks about (feedback,
-  // 25 Sept). Each is now a picker of named options — colour series with
-  // swatches, a size grid — with a free-text "other" at the end of every list.
-  // The lists live in lib/rug-options.ts and are a proposal for the house to
-  // confirm; the form stays an enquiry, answered personally.
-  const choices = rugChoices(locale as Locale);
-  const fringeLabel = locale === "fr" ? "Les franges" : "The fringes";
-  const axes = [
-    { key: "size", label: t.rugs.axes.size, hint: t.rugs.axisNotes.size, layout: "grid" as const },
-    { key: "colour", label: t.rugs.axes.colour, hint: t.rugs.axisNotes.colour, layout: "list" as const },
-    { key: "design", label: t.rugs.axes.design, hint: t.rugs.axisNotes.design, layout: "list" as const },
-    { key: "texture", label: t.rugs.axes.texture, hint: t.rugs.axisNotes.texture, layout: "list" as const },
-    { key: "fringe", label: fringeLabel, hint: undefined, layout: "grid" as const },
-  ] as const;
+  /*
+    The terms, numbered as the client asked (§11). Feedback 25 Sept: colour and
+    pattern are now one choice — the SERIES, Beni-style ("design — colours",
+    with a swatch), picked from lib/rug-options.ts. Size and texture stay the
+    free answers they were.
+  */
+  const series = rugSeries(locale as Locale);
+  const seriesLabel = locale === "fr" ? "La série" : "The series";
+  const seriesHint =
+    locale === "fr"
+      ? "Choisissez une série : un motif et ses couleurs."
+      : "Choose a series: a pattern and its colours.";
 
   const fields: InquiryField[] = [
-    ...axes.map((axis, i) => ({
-      name: axis.key,
-      label: axis.label,
-      hint: axis.hint,
-      no: String(i + 1).padStart(2, "0"),
-      kind: "choice" as const,
-      layout: axis.layout,
-      ...choices[axis.key],
-    })),
+    { name: "series", label: seriesLabel, hint: seriesHint, no: "01", kind: "choice", layout: "list", ...series },
+    { name: "size", label: t.rugs.axes.size, hint: t.rugs.axisNotes.size, no: "02" },
+    { name: "texture", label: t.rugs.axes.texture, hint: t.rugs.axisNotes.texture, no: "03" },
     { name: "name", label: t.form.name, required: true },
     { name: "email", label: t.form.email, kind: "email" as const, required: true },
     { name: "message", label: t.form.message, kind: "textarea" as const },

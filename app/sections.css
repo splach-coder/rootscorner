@@ -2909,3 +2909,20 @@ html[data-intro="run"] .site-header-lockup {
     text-align: center;
   }
 }
+
+/* "Mes commandes" (§58) had no rule of its own, so it inherited a colour and
+   stayed dark over the hero photograph — 2:1 where every other header control
+   clears 6:1. It re-tones exactly as the language switch beside it does. */
+.site-account {
+  color: var(--ink);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  transition: color var(--dur-hover) var(--ease-material);
+}
+.site-header.is-dark .site-account {
+  color: var(--ink-inverse-soft);
+}
+.site-header.is-on-hero .site-account {
+  color: var(--ink-inverse);
+}

@@ -4839,7 +4839,8 @@ to benirugs.com's Formation rug). Every point, and where it landed:
 | Homepage — "The Roots Corner est né de la vision de Dahab…" | Removed; the section keeps its own last sentence only. |
 | "It's about The Roots Corner only, no need to mention Dahab" | Her name is gone from every rendered page, meta descriptions, JSON-LD and llms.txt; the story's founder chapter is removed. Verified: 0 occurrences in the HTML of 8 pages. |
 | Homepage — "COMMENCER UN TAPIS" | Removed, and the same button on /mrirt. |
-| Rugs — "include all the different series" (Beni Formation) | The five terms are now pickers (`kind: "choice"` in InquiryForm): colour SERIES with swatches, a size grid, pattern, pile, fringes — each ending in a free-text "other". Lists in **lib/rug-options.ts — a proposal for the house to confirm**, not a record of what has been woven. |
+| Rugs — "include all the different series in the available options. Examples: Formation - Terracotta + Chocolate Brown + Taupe" | One picker, **La série**: series as "design — colours" with a swatch, Beni's format, ending in "Autre série". Size and texture stay free text. "Formation" is Beni's own name and is not used. List in **lib/rug-options.ts — a proposal until the house names the cooperative's series**. (A first pass also added size/pile/fringe pickers; removed as not asked for.) |
+| Homepage photo Dahab wants (sent with the feedback) | Hero is now `place/hanging-cloth.jpg` — Drive `jamaa fna/stories/DSC01019`. Hero + header contrast re-measured: all pass (10.6–12.6:1). "Mes commandes" had no CSS and failed at 2:1 over any photo; now re-tones with the header. |
 
 Structural rule this adds: `PageHead hideHeading` keeps a real h1 in the
 document when the client asks for a title off the screen. Never delete a

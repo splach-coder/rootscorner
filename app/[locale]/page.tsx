@@ -62,7 +62,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
    * That also retires /instagram/07.jpg from this slot, which was 512×640 and
    * the weakest asset on the page (§29).
    */
-  const heroSrc = "/place/shadow-tree.jpg";
+  // Feedback 25 Sept: the photograph Dahab asked for — a hand-woven cloth
+  // hanging against the dark, from the client's Drive (jamaa fna/stories,
+  // DSC01019). See docs/place-images.json.
+  const heroSrc = "/place/hanging-cloth.jpg";
 
   /**
    * Empty alt, deliberately. <picture> carries one alt across both sources, and

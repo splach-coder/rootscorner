@@ -624,7 +624,7 @@ const en: Dictionary = {
     },
   },
   mrirtPage: {
-    lede: "Nothing here is in stock. A Mrirt rug begins as five decisions.",
+    lede: "Nothing here is in stock. A Mrirt rug begins with a series, a size and a texture.",
     // The client's own sentence places Mrirt "in Morocco's Middle Atlas".
     place: "Middle Atlas, Morocco",
     // §13: "LES MAINS — Une coopérative du Moyen Atlas". Their words, and the
@@ -693,7 +693,7 @@ const en: Dictionary = {
         pile: "Close view of caramel wool, ruled by darker woven lines",
       },
     },
-    ledeStocked: "A few are already woven. The rest begin as five decisions.",
+    ledeStocked: "A few are already woven. The rest begin with a series, a size and a texture.",
   },
   contactPage: {
     heading: "Write to us",
@@ -1114,7 +1114,7 @@ const fr: Dictionary = {
     // used, which is what the English means here.
   },
   mrirtPage: {
-    lede: "Rien ici n’est en stock. Un tapis Mrirt commence par cinq décisions.",
+    lede: "Rien ici n’est en stock. Un tapis Mrirt commence par une série, une taille et une texture.",
     place: "Moyen Atlas, Maroc",
     // §13 of the report: "LES MAINS — Une coopérative du Moyen Atlas".
     // §10 of the report, verbatim.
@@ -1176,7 +1176,7 @@ const fr: Dictionary = {
         pile: "Gros plan d’une laine caramel, réglée de lignes tissées plus sombres",
       },
     },
-    ledeStocked: "Quelques-uns sont déjà tissés. Les autres commencent par cinq décisions.",
+    ledeStocked: "Quelques-uns sont déjà tissés. Les autres commencent par une série, une taille et une texture.",
   },
   contactPage: {
     heading: "Écrivez-nous",
