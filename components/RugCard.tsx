@@ -27,10 +27,12 @@ export default function RugCard({
       <Link href={`/${locale}/tapis/${series.handle}`} className="card-link">
         <div className="frame card-frame">
           {image && (
-            <Image src={image.src} alt={`${locale === "fr" ? "Tapis Mrirt" : "Mrirt rug"} ${title}`} width={image.w} height={image.h} sizes="(max-width: 640px) 50vw, 25vw" />
+            <Image src={image.src} alt={`${locale === "fr" ? "Tapis Mrirt" : "Mrirt rug"} ${title}`} width={image.w} height={image.h} sizes="(max-width: 640px) 46vw, (max-width: 1100px) 31vw, 23vw" />
           )}
         </div>
         <div className="card-said">
+          {/* The room overline every piece card carries. */}
+          <p className="label card-room">{locale === "fr" ? "Tapis sur commande" : "Rugs to order"}</p>
           {/* V1 §8: the collection's own line, not "3 colours". */}
           <div className="wall-label wall-label-sell">
             <h3 className="display d-3 wall-label-name">{title}</h3>

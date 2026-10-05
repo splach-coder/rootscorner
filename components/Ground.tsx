@@ -47,11 +47,17 @@ type RGB = [number, number, number];
    --hour-golden is deliberately left alone: it is still the token other
    things paint with, and it is no longer where the ground finishes.
 */
+/*
+   Client, 5 Oct: "getting darker — less intensity to beige." Halved again:
+   the run now ends on #f1ebe1, 6 units of red from the ecru it starts on
+   instead of 14, and the blue — the channel that made it read as yellowing —
+   drops by 17 rather than 40. The page warms, it no longer darkens.
+*/
 const LIGHT: [number, RGB][] = [
   [0.0, [247, 245, 242]], // ecru — morning
-  [0.4, [245, 241, 235]],
-  [0.72, [240, 233, 222]],
-  [1.0, [233, 221, 202]], // warm golden beige, mid-toned
+  [0.4, [246, 243, 238]],
+  [0.72, [244, 239, 231]],
+  [1.0, [241, 235, 225]], // a warm, light beige — the end of the day
 ];
 
 /**

@@ -1,11 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
+import PieceGallery from "@/components/PieceGallery";
+import ClosingBand from "@/components/ClosingBand";
+import type { PieceImage } from "@/lib/catalog";
 import RugBuy from "@/components/RugBuy";
 import JsonLd from "@/components/JsonLd";
-import { getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
+import { fill, getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
 import { allRugSeries, colourName, fromPrice, rugSeriesByHandle, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { swatchFor } from "@/lib/rug-options";
@@ -37,11 +39,11 @@ export async function generateMetadata({
 }
 
 /**
- * A Mrirt series — benirugs.com's product page, in this site's language.
+ * A Mrirt collection — built on the piece page itself.
  *
- * The photographs on the left (the series' images in Shopify), the order panel on the
- * right — colour, size, the price of that pair, one bar to add it — then the
- * weaving, the delivery, and the way to ask for anything the list lacks.
+ * Client, 5 Oct: the rugs "looked like a different site". So this is the piece
+ * page's gallery, label column and words, with benirugs.com's two closed
+ * pickers (colour, size) where a piece has none — the house's own reference.
  */
 export default async function RugSeriesPage({
   params,
@@ -58,6 +60,8 @@ export default async function RugSeriesPage({
   const title = seriesTitle(series, locale);
   const line = seriesLine(series, locale);
   const colourLabels = Object.fromEntries(series.colours.map((c) => [c.name, colourName(c.name, locale)]));
+  // The gallery takes the piece shape; a series' photographs live on Shopify.
+  const images: PieceImage[] = series.images.map((i) => ({ file: i.src, original: i.src, src: i.src, w: i.w, h: i.h }));
 
   return (
     <>
@@ -87,35 +91,57 @@ export default async function RugSeriesPage({
         />
       )}
 
-      <article className="rug-page">
-        <div className="shell rug-page-inner">
-          <div className="rug-page-media">
-            {series.images.map((img, i) => (
-              <Reveal key={img.src} variant="frame" delay={i * 60} className="frame rug-page-frame">
-                <Image
-                  src={img.src}
-                  alt={`${l.rugName} ${title}`}
-                  width={img.w}
-                  height={img.h}
-                  priority={i === 0}
-                  sizes="(max-width: 939px) 100vw, 55vw"
-                />
-              </Reveal>
-            ))}
+      {/* The piece page's own structure — gallery, label column, the words
+          below — so a rug is met exactly the way every piece is (client,
+          5 Oct: the rugs looked like a different site). */}
+      <article className="piece rug-piece">
+        <div className="shell piece-inner">
+          <div className="piece-gallery-column">
+            <PieceGallery
+              images={images}
+              name={`${l.rugName} ${title}`}
+              countLabel={fill(images.length === 1 ? t.piece.photographsOne : t.piece.photographs, {
+                n: images.length,
+              })}
+              railLabel={t.piece.photographsRail}
+              zoomLabels={t.piece.zoom}
+            />
           </div>
 
-          <div className="rug-page-panel">
-            <Reveal>
-              <p className="label">
+          <div className="piece-label-column">
+            <Reveal className="piece-label-sticky">
+              <p className="label piece-accession">
                 <Link href={`/${locale}/mrirt`} className="link">
+                  {t.nav.rugs}
+                </Link>
+                <span aria-hidden="true"> · </span>
+                <Link href={`/${locale}/mrirt#sur-commande`} className="link">
                   {l.collectionEyebrow}
                 </Link>
               </p>
-              <h1 className="display d-1 rug-page-title">{title}</h1>
-              {line && <p className="prose rug-page-lede">{line}</p>}
-            </Reveal>
 
-            <Reveal delay={90}>
+              <h1 className="display d-2 piece-name">{title}</h1>
+              {line && <p className="prose rug-piece-line">{line}</p>}
+
+              {/* The same label schema as a piece: what it is made of, where,
+                  and how — all from the house's own Mrirt copy. */}
+              <div className="wall-label wall-label-schema">
+                <dl className="wall-label-specs">
+                  <div className="wall-label-row">
+                    <dt className="label wall-label-key">{t.pieceLabel.material}</dt>
+                    <dd className="wall-label-value">{t.mrirtPage.rug.material}</dd>
+                  </div>
+                  <div className="wall-label-row">
+                    <dt className="label wall-label-key">{t.pieceLabel.origin}</dt>
+                    <dd className="wall-label-value">{t.mrirtPage.rug.origin}</dd>
+                  </div>
+                  <div className="wall-label-row">
+                    <dt className="label wall-label-key">{t.mrirtPage.rug.madeKey}</dt>
+                    <dd className="wall-label-value">{t.mrirtPage.rug.made}</dd>
+                  </div>
+                </dl>
+              </div>
+
               <RugBuy
                 series={series}
                 swatches={swatches}
@@ -138,35 +164,48 @@ export default async function RugSeriesPage({
                   },
                 }}
               />
-            </Reveal>
 
-            <Reveal delay={150} className="rug-page-details">
-              <details>
-                <summary className="label">{l.craft}</summary>
-                <p className="prose">{t.rugs.body[0]}</p>
-                <p className="prose">{t.rugs.body[1]}</p>
-              </details>
-              {/* V1 §7, after Beni: the material, stated with the product. */}
-              <details>
-                <summary className="label">{l.material}</summary>
-                <p className="prose">{l.materialBody}</p>
-                <p className="prose">{t.rugs.wool}</p>
-              </details>
-              <details>
-                <summary className="label">{l.shipping}</summary>
-                <p className="prose">{l.shippingBody}</p>
-              </details>
-              <details>
-                <summary className="label">{l.custom}</summary>
-                <p className="prose">{l.customBody}</p>
-                <Link href={`/${locale}/mrirt#sur-mesure`} className="link label">
-                  {l.customCta}
-                </Link>
-              </details>
+              <dl className="piece-delivery">
+                <dt className="label">{l.shipping}</dt>
+                <dd>{l.shippingBody}</dd>
+                <dd className="label piece-delivery-note">
+                  <Link href={`/${locale}/mrirt#sur-mesure`} className="link">
+                    {l.custom}
+                  </Link>
+                </dd>
+              </dl>
             </Reveal>
           </div>
         </div>
+
+        {/* The words, under a hairline — as on a piece page. */}
+        <div className="shell piece-words">
+          <Reveal className="piece-story">
+            <p className="label">{l.craft}</p>
+            <div className="prose piece-prose">
+              <p className="lede">{t.rugs.body[0]}</p>
+              <p>{t.rugs.body[1]}</p>
+            </div>
+          </Reveal>
+          <Reveal delay={80} className="piece-specs">
+            <div className="piece-spec-block">
+              <p className="label">{l.material}</p>
+              <ul className="piece-spec-list">
+                <li>{l.materialBody}</li>
+                <li>{t.rugs.wool}</li>
+              </ul>
+            </div>
+            <div className="piece-spec-block">
+              <p className="label">{l.custom}</p>
+              <ul className="piece-spec-list">
+                <li>{l.customBody}</li>
+              </ul>
+            </div>
+          </Reveal>
+        </div>
       </article>
+
+      <ClosingBand locale={locale as Locale} t={t.closing} labels={t.pieceLabel} />
     </>
   );
 }

@@ -144,71 +144,33 @@ export default async function MrirtPage({
           is, that is false — so it follows the shelf rather than being a fixed
           claim about a page that now sells two different things. */}
       <PageHead
-        eyebrow={t.rugs.eyebrow}
+        eyebrow={fr ? "Tapis" : "Rugs"}
         heading={t.rugs.heading}
         meta={t.mrirtPage.place}
         lede={ready.length > 0 ? t.mrirtPage.ledeStocked : t.mrirtPage.lede}
       />
 
-      {/* --- The rug, the full width of the page.
+      {/* --- The three kinds of rug, as the collection page's rail.
 
-           One photograph, edge to edge. The subject is WOOL — depth, density,
-           the shadow between the tufts — and that is a thing you can either see
-           at size or not show at all. It is the client's own photograph from
-           their Mrirt page, the weaving comb resting on the pile where they
-           laid it.
-
-           `cover`, and that is not the cropping §24 forbids: there is no object
-           in this frame to cut into. It is a surface, and a surface is the one
-           subject that loses nothing to a crop. --- */}
-      <section className="mrirt-opening">
-        <Reveal variant="frame" className="frame mrirt-opening-frame">
-          <Image
-            src={RUG_SHOTS.rug}
-            alt={rug.alt}
-            width={1800}
-            height={3200}
-            priority
-            sizes="100vw"
-          />
-        </Reveal>
+           Client, 5 Oct: the rugs looked like a different site. So the page
+           opens the way the collection does — its plate, then the ways in as
+           one quiet line of links — and the rugs come as the same cards in the
+           same grid. The three stay separate (V1 §7): each link lands on its
+           own section. --- */}
+      <section className="section rooms-rail-section">
         <div className="shell">
-          <Reveal as="p" delay={80} className="label mrirt-opening-caption">
-            {rug.name}
-          </Reveal>
-        </div>
-      </section>
-
-      {/* --- §10 — three entries, named and separated.
-
-           The report is explicit that rugs already woven must not be mixed with
-           rugs made to order, and that the structure has to be easy to extend.
-           Naming the three at the top is what makes the separation legible
-           before a visitor has scrolled past any of it.
-
-           All three land somewhere different now: what a made-to-order rug is,
-           the form that starts one, and the shelf of finished ones. Two of them
-           used to arrive at the same place (§48). --- */}
-      <section className="section mrirt-entries">
-        <div className="shell">
-          <Reveal as="p" className="label mrirt-eyebrow">
-            {t.mrirtPage.entriesEyebrow}
-          </Reveal>
-          <ol className="mrirt-entry-list">
+          <Reveal as="nav" className="rooms-rail mrirt-rail" aria-label={t.mrirtPage.entriesEyebrow}>
             {t.mrirtPage.entries.map((entry, i) => (
-              <li key={entry.key} className="mrirt-entry">
-                <a href={ENTRY_ANCHORS[entry.key]} className="mrirt-entry-link">
-                  <span className="label mrirt-entry-no">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="mrirt-entry-said">
-                    <span className="display d-3 mrirt-entry-name">{entry.name}</span>
-                    <span className="mrirt-entry-note">{entry.note}</span>
-                  </span>
-                </a>
-              </li>
+              <a
+                key={entry.key}
+                href={ENTRY_ANCHORS[entry.key]}
+                className="rooms-rail-link"
+                data-no={String(i + 1).padStart(2, "0")}
+              >
+                {entry.name}
+              </a>
             ))}
-          </ol>
+          </Reveal>
         </div>
       </section>
 
@@ -229,7 +191,7 @@ export default async function MrirtPage({
         <div className="shell">
           <Reveal className="mrirt-ready-head">
             <p className="label mrirt-eyebrow">{t.mrirtPage.readyEyebrow}</p>
-            <h2 className="display d-1 mrirt-ready-heading">{t.mrirtPage.readyHeading}</h2>
+            <h2 className="display d-2 mrirt-ready-heading">{t.mrirtPage.readyHeading}</h2>
             <p className="prose mrirt-ready-note">
               {ready.length > 0 ? t.mrirtPage.readyNote : t.mrirtPage.woven.note}
             </p>
@@ -238,7 +200,7 @@ export default async function MrirtPage({
           {ready.length > 0 ? (
             /* Real stock, when there is any: the collection's own card, so a
                rug meets a visitor exactly as every other object does. */
-            <ul className="cards mrirt-ready-cards">
+            <ul className="cards">
               {ready.map((piece, i) => (
                 <PieceCard
                   key={piece.slug}
@@ -255,26 +217,29 @@ export default async function MrirtPage({
                as woven work rather than as priced stock. Same card shape, but
                no price and no piece page — neither exists — so each one leads
                to the enquiry instead. */
-            <ul className="cards mrirt-ready-cards">
+            <ul className="cards">
               {WOVEN_RUGS.map((woven, i) => {
                 const key = woven.id as keyof typeof t.mrirtPage.woven.items;
                 return (
                   <li key={woven.id} className="card">
                     <a href="#demander" className="card-link">
-                      <Reveal variant="frame" delay={(i % 3) * 70} className="frame card-frame">
+                      <Reveal variant="frame" delay={(i % 4) * 70} className="frame card-frame">
                         <Image
                           src={woven.src}
                           alt={t.mrirtPage.woven.alts[key]}
                           width={woven.width}
                           height={woven.height}
-                          sizes="(max-width: 640px) 46vw, 49vw"
+                          sizes="(max-width: 640px) 46vw, (max-width: 1100px) 31vw, 23vw"
                         />
                       </Reveal>
-                      <Reveal delay={(i % 3) * 70 + 60} className="card-said">
-                        <p className="display d-3 wall-label-name">
-                          {t.mrirtPage.woven.items[key]}
-                        </p>
-                        <p className="label card-state">{t.mrirtPage.woven.ask}</p>
+                      <Reveal delay={(i % 4) * 70 + 60} className="card-said">
+                        <p className="label card-room">{t.mrirtPage.readyEyebrow}</p>
+                        <div className="wall-label wall-label-sell">
+                          <h3 className="display d-3 wall-label-name">
+                            {t.mrirtPage.woven.items[key]}
+                          </h3>
+                          <p className="wall-label-price">{rl.onRequest}</p>
+                        </div>
                       </Reveal>
                     </a>
                   </li>
@@ -300,7 +265,7 @@ export default async function MrirtPage({
           <div className="shell">
             <Reveal className="mrirt-series-head">
               <p className="label mrirt-eyebrow">{rl.collectionEyebrow}</p>
-              <h2 className="display d-1">{rl.collectionHeading}</h2>
+              <h2 className="display d-2">{rl.collectionHeading}</h2>
               <p className="prose mrirt-series-note">{rl.collectionNote}</p>
             </Reveal>
             <ul className="cards mrirt-series-cards">

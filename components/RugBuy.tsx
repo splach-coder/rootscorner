@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import AddToCart from "./AddToCart";
 import type { RugSeries } from "@/lib/rugs";
@@ -17,13 +17,17 @@ type Labels = {
 };
 
 /**
- * The order panel of a Mrirt series — benirugs.com's shape: the colourways as
- * rows with a swatch, the sizes as a grid, the price of the chosen pair, one
- * filled bar to add it.
+ * The buy panel of a Mrirt collection.
  *
- * The price shown is exactly the variant's Shopify price. A pair the house has
- * not priced yet (0) shows "prix sur demande" and the enquiry instead of a
- * button: nothing is sold at a price nobody set (§5).
+ * It sits in the piece page's own label column, so it speaks the piece page's
+ * language: a price in the same type, the same filled "Ajouter au panier", the
+ * same quiet rules. The colour and the size are two CLOSED rows — the shape of
+ * benirugs.com's panel that the house sent as reference — each opening onto
+ * its options and closing again on a choice. Open, every option was a filled
+ * block on the page and the panel read as a different site (client, 5 Oct).
+ *
+ * Real radio inputs throughout, so it is a radio group to a keyboard and a
+ * screen reader; only the drawing is ours. Escape and an outside click close.
  */
 export default function RugBuy({
   series,
@@ -58,64 +62,141 @@ export default function RugBuy({
 
   return (
     <div className="rug-buy">
-      <div className="rug-buy-group" role="radiogroup" aria-labelledby="rug-colour">
-        <p id="rug-colour" className="label rug-buy-key">
-          {labels.colour} <span className="rug-buy-chosen">{colourLabels[colour] ?? colour}</span>
-        </p>
-        <div className="choice-options choice-list rug-buy-options">
-          {series.colours.map((c) => (
-            <label key={c.name} className="choice-option">
-              <input
-                type="radio"
-                name="rug-colour"
-                value={c.name}
-                checked={colour === c.name}
-                onChange={() => setColour(c.name)}
-              />
-              {swatches[c.name] && (
-                <span className="choice-swatch" aria-hidden="true">
-                  {swatches[c.name]!.map((bg, i) => (
-                    <span key={i} style={{ background: bg }} />
-                  ))}
-                </span>
-              )}
-              <span className="label">{colourLabels[c.name] ?? c.name}</span>
-            </label>
-          ))}
-        </div>
-      </div>
+      {series.colours.length > 0 && (
+        <Picker
+          id="rug-colour"
+          label={labels.colour}
+          value={colour}
+          display={colourLabels[colour] ?? colour}
+          swatch={swatches[colour]}
+          layout="list"
+          options={series.colours.map((c) => ({
+            value: c.name,
+            label: colourLabels[c.name] ?? c.name,
+            swatch: swatches[c.name],
+          }))}
+          onChange={setColour}
+        />
+      )}
 
-      <div className="rug-buy-group" role="radiogroup" aria-labelledby="rug-size">
-        <p id="rug-size" className="label rug-buy-key">
-          {labels.size} <span className="rug-buy-chosen">{size}</span>
-        </p>
-        <div className="choice-options choice-grid rug-buy-options">
-          {series.sizes.map((z) => (
-            <label key={z} className="choice-option">
-              <input type="radio" name="rug-size" value={z} checked={size === z} onChange={() => setSize(z)} />
-              <span className="label">{z}</span>
-            </label>
-          ))}
-        </div>
-        <p className="label rug-buy-note">{labels.madeToOrder}</p>
-      </div>
+      {series.sizes.length > 0 && (
+        <Picker
+          id="rug-size"
+          label={labels.size}
+          value={size}
+          display={size}
+          layout="grid"
+          options={series.sizes.map((z) => ({ value: z, label: z }))}
+          onChange={setSize}
+        />
+      )}
 
-      <div className="rug-buy-bar">
+      <p className="label rug-buy-note">{labels.madeToOrder}</p>
+
+      <div className="piece-action rug-buy-bar">
         {price !== null && variant ? (
           <>
-            <p className="display d-3 rug-buy-price">{fmt(price)}</p>
+            <p className="piece-price display d-3">{fmt(price)}</p>
             <AddToCart key={variant.id} slug={`rug:${variant.id}`} labels={labels.cart} />
           </>
         ) : (
           <>
-            <p className="display d-3 rug-buy-price">{labels.onRequest}</p>
-            <p className="prose rug-buy-onrequest">{labels.onRequestNote}</p>
-            <Link href={ask} className="piece-buy-add label">
+            <p className="piece-price display d-3">{labels.onRequest}</p>
+            <p className="label piece-cta-note">{labels.onRequestNote}</p>
+            <Link href={ask} className="link label piece-cta">
               {labels.ask}
             </Link>
           </>
         )}
       </div>
     </div>
+  );
+}
+
+type Option = { value: string; label: string; swatch?: string[] };
+
+function Picker({
+  id,
+  label,
+  value,
+  display,
+  swatch,
+  layout,
+  options,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  display: string;
+  swatch?: string[];
+  layout: "list" | "grid";
+  options: Option[];
+  onChange: (value: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => {
+      if (!root.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={root} className="rug-buy-group" role="radiogroup" aria-labelledby={`${id}-label`}>
+      <p id={`${id}-label`} className="label rug-buy-key">
+        {label}
+      </p>
+      <button
+        type="button"
+        className="choice-current"
+        aria-expanded={open}
+        aria-controls={`${id}-options`}
+        onClick={() => setOpen((o) => !o)}
+      >
+        {swatch && <Swatch colours={swatch} />}
+        <span className="label choice-current-text">{display}</span>
+        <span className="choice-caret" aria-hidden="true" />
+      </button>
+      <div id={`${id}-options`} className={`choice-options choice-${layout}`} hidden={!open}>
+        {options.map((o) => (
+          <label key={o.value} className="choice-option">
+            <input
+              type="radio"
+              name={id}
+              value={o.value}
+              checked={value === o.value}
+              onChange={() => {
+                onChange(o.value);
+                setOpen(false);
+              }}
+            />
+            {o.swatch && <Swatch colours={o.swatch} />}
+            <span className="label">{o.label}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Swatch({ colours }: { colours: string[] }) {
+  return (
+    <span className="choice-swatch" aria-hidden="true">
+      {colours.map((c, i) => (
+        <span key={i} style={{ background: c }} />
+      ))}
+    </span>
   );
 }

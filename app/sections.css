@@ -2940,3 +2940,58 @@ html[data-intro="run"] .site-header-lockup {
 .site-header.is-on-hero .site-account {
   color: var(--ink-inverse);
 }
+
+/* --------------------------------------------------------------------------
+   Client, 5 Oct: "the hero without the colours that cover it."
+
+   Both gradients come off — the plate's ramp at the foot and the fade at the
+   top — at every width, and the photograph is shown in its own light. That is
+   also §18's rule for every other piece photograph on the site.
+
+   What keeps the type legible is the photograph itself: the hero frame
+   (place/hanging-cloth.jpg) is a dark, warm weaving against black, which is
+   why it can carry cream type at all. A soft shadow AROUND the letters lifts
+   them off the weave without tinting a single pixel of the frame. Re-measure
+   with scripts/contrast-photo.mjs if the hero photograph changes — a pale
+   frame here would need a different answer, not the old scrim back.
+   -------------------------------------------------------------------------- */
+
+.hero::before,
+.hero-plate {
+  background: none;
+}
+
+@media (max-width: 767px) {
+  .hero::before,
+  .hero-plate {
+    background: none;
+  }
+}
+
+.hero-title,
+.hero-tagline,
+.hero-lead {
+  text-shadow:
+    0 1px 2px rgba(31, 20, 13, 0.55),
+    0 0 22px rgba(31, 20, 13, 0.45);
+}
+
+.hero-title-mark {
+  filter: drop-shadow(0 1px 2px rgba(31, 20, 13, 0.55)) drop-shadow(0 0 18px rgba(31, 20, 13, 0.4));
+}
+
+/* The nav over the bare photograph gets the hero type's own shadow — around
+   the letters, never over the frame. */
+.site-header.is-on-hero .site-nav-link,
+.site-header.is-on-hero .site-lang-toggle,
+.site-header.is-on-hero .site-account,
+.site-header.is-on-hero .site-menu-toggle {
+  text-shadow:
+    0 1px 2px rgba(31, 20, 13, 0.6),
+    0 0 14px rgba(31, 20, 13, 0.5);
+}
+
+.site-header.is-on-hero .site-header-lockup,
+.site-header.is-on-hero .site-cart svg {
+  filter: drop-shadow(0 1px 2px rgba(31, 20, 13, 0.55));
+}
