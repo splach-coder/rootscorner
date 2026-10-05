@@ -4,6 +4,10 @@ import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
 import { Wordmark } from "@/components/BrandMarks";
 import Newsletter from "@/components/Newsletter";
+import HeroMedia from "@/components/HeroMedia";
+import RugSlider, { type RugSlide } from "@/components/RugSlider";
+import { allRugSeries, formatEuro, fromPrice, seriesLine, seriesTitle } from "@/lib/rugs";
+import { rugLabels } from "@/lib/rug-labels";
 import PieceLabel from "@/components/PieceLabel";
 import PieceFrame from "@/components/PieceFrame";
 import { fill, getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
@@ -11,8 +15,8 @@ import {
   categories,
   featuredPieces,
   imagePath,
-  loomShots,
   shopSelection,
+  WOVEN_RUGS,
 } from "@/lib/catalog";
 import { INSTAGRAM } from "@/lib/site";
 import { instagramFrames, scene } from "@/lib/instagram";
@@ -75,10 +79,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
    * so nothing is lost by marking it decorative, whereas a mismatched
    * description would actively mislead.
    */
-  const heroCommon = { alt: "", sizes: "100vw" as const, priority: true };
   const featured = featuredPieces();
   const cats = categories();
-  const loom = loomShots();
   /*
     Four, not eight.
 
@@ -91,12 +93,44 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const shop = shopSelection(4, cats.map((c) => c.cover?.slug ?? ""));
   const feed = instagramFrames();
 
-  const axes = [
-    ["size", t.rugs.axes.size],
-    ["colour", t.rugs.axes.colour],
-    ["design", t.rugs.axes.design],
-    ["texture", t.rugs.axes.texture],
-  ] as const;
+  // The slider: every collection, then the rugs already woven.
+  const rl = rugLabels(locale as Locale);
+  const rugSlides: RugSlide[] = [
+    ...allRugSeries().flatMap((series) => {
+      const img = series.images[0];
+      if (!img) return [];
+      const from = fromPrice(series);
+      const title = seriesTitle(series, locale);
+      return [
+        {
+          key: series.handle,
+          href: `/${locale}/tapis/${series.handle}`,
+          src: img.src,
+          w: img.w,
+          h: img.h,
+          alt: `${rl.rugName} ${title}`,
+          name: title,
+          line: seriesLine(series, locale),
+          price: from !== null ? `${rl.from} ${formatEuro(from, locale)}` : rl.onRequest,
+        },
+      ];
+    }),
+    ...WOVEN_RUGS.map((woven) => {
+      const key = woven.id as keyof typeof t.mrirtPage.woven.items;
+      return {
+        key: `woven-${woven.id}`,
+        href: `/${locale}/mrirt#disponibles`,
+        src: woven.src,
+        w: woven.width,
+        h: woven.height,
+        alt: t.mrirtPage.woven.alts[key],
+        name: t.mrirtPage.woven.items[key],
+        line: t.mrirtPage.readyEyebrow,
+        price: rl.onRequest,
+      };
+    }),
+  ];
+
 
   return (
     <>
@@ -110,7 +144,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
            it, so the hero photograph can be swapped freely. */}
       <section className="hero">
         <div className="hero-media">
-          <Image {...heroCommon} src={heroSrc} width={2000} height={3000} />
+          <HeroMedia src={heroSrc} width={2000} height={3000} />
         </div>
 
         <div className="hero-plate">
@@ -165,6 +199,34 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <p className="hero-note">{t.hero.intro}</p>
           </Reveal>
         </div>
+      </section>
+
+      {/* ---- 2. The rugs, first (client, 5 Oct: rugs before the pieces).
+
+           A slider after benirugs.com's: the collections and the rugs already
+           woven, one card at a time, with the way into the whole page beside
+           the heading. Replaces the folded-rug photograph and its four "au
+           choix" rows, which described a rug instead of showing them. */}
+      <section className="section rugs-home" aria-labelledby="rugs-home-title">
+        <div className="shell rugs-home-head">
+          <Reveal>
+            <h2 id="rugs-home-title" className="display d-1 rugs-home-title">
+              {t.nav.rugs}
+            </h2>
+            <p className="rugs-home-line">{rl.homeLine}</p>
+          </Reveal>
+          <Reveal delay={80}>
+            <Link href={`/${locale}/mrirt`} className="label rugs-home-cta">
+              {rl.homeCta}
+            </Link>
+          </Reveal>
+        </div>
+        <Reveal delay={120}>
+          <RugSlider
+            slides={rugSlides}
+            labels={{ prev: rl.prev, next: rl.next, region: t.nav.rugs }}
+          />
+        </Reveal>
       </section>
 
       {/* ---- 2. A few pieces, hung at different heights. */}
@@ -332,56 +394,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             })}
           </ul>
         </div>
-      </section>
-
-      {/* ---- 4b. Mrirt — the rug, its specification, and its pile.
-
-           Real photography at last, found on the client's own Mrirt page rather
-           than in the product scrape: the woven piece with a weaving comb laid
-           on it, and a macro of the pile.
-
-           The pile macro is deliberately NOT used as a full-bleed band beneath
-           this: at that width it read as carpet swatch, not as a piece. */}
-      <section className="section rugs">
-        <div className="shell rugs-inner">
-          <Reveal className="rugs-head">
-            <p className="label">{t.rugs.eyebrow}</p>
-            <h2 className="display d-1 section-heading">{t.rugs.heading}</h2>
-            <p className="lede rugs-lede">{t.rugs.body[0]}</p>
-          </Reveal>
-
-          <Reveal variant="frame" delay={80} className="frame rugs-frame">
-            <Image
-              src="/rugs/mrirt-rug.jpg"
-              alt={
-                locale === "fr"
-                  ? "Tapis Mrirt en laine, plié, avec un peigne de tisserand posé dessus"
-                  : "A folded Mrirt wool rug with a weaver’s comb laid on it"
-              }
-              width={1800}
-              height={3200}
-              sizes="(max-width: 940px) 100vw, 40vw"
-            />
-          </Reveal>
-
-          <Reveal delay={140} className="rugs-plate">
-            <dl className="rugs-axes">
-              {axes.map(([key, name]) => (
-                <div key={key} className="rugs-axis">
-                  <dt className="label rugs-axis-key">{name}</dt>
-                  <dd className="rugs-axis-value">
-                    {locale === "fr" ? "Au choix" : "Yours to set"}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
-            {/* "Commencer un tapis" removed at the client's request (feedback,
-                25 Sept). The nav's "Tapis Mrirt" is the way in. */}
-            <p className="prose rugs-axes-note">{t.rugs.axesNote}</p>
-          </Reveal>
-        </div>
-
       </section>
 
       {/* ---- 4c. The shop.

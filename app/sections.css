@@ -2995,3 +2995,320 @@ html[data-intro="run"] .site-header-lockup {
 .site-header.is-on-hero .site-cart svg {
   filter: drop-shadow(0 1px 2px rgba(31, 20, 13, 0.55));
 }
+
+/* --------------------------------------------------------------------------
+   The header, reorganised (client, 5 Oct)
+
+   Logo · nav · tools. The four links share ONE gap, so the row reads evenly;
+   the tools (language, orders, cart) sit after a hairline, closer together,
+   because they are a different kind of thing from the pages.
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 940px) {
+  .site-header-bar {
+    grid-template-columns: auto 1fr auto;
+    column-gap: clamp(1.5rem, 3vw, 3rem);
+  }
+
+  .site-header-bar > .site-nav {
+    justify-self: end;
+  }
+
+  .site-nav-list {
+    gap: clamp(1.6rem, 2.4vw, 2.6rem);
+  }
+
+  .site-header-end {
+    gap: 0.4rem;
+    padding-left: clamp(1.2rem, 2vw, 1.8rem);
+    border-left: 1px solid var(--rule);
+  }
+
+  .site-header.is-on-hero .site-header-end {
+    border-left-color: rgba(240, 233, 223, 0.35);
+  }
+
+  .site-header-end > .site-lang {
+    margin-right: 0.5rem;
+  }
+}
+
+.site-account {
+  justify-content: center;
+  min-width: 44px;
+}
+
+.site-account svg {
+  display: block;
+}
+
+/* Phone bar: the mark, the cart, Menu. Orders and languages live in the
+   panel, once each. */
+@media (max-width: 939px) {
+  .site-header-end > .site-cart {
+    display: inline-flex;
+  }
+
+  .site-header-end > .site-account {
+    display: none;
+  }
+
+  .site-header-end {
+    gap: 0.6rem;
+  }
+}
+
+.site-panel-account {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   The opening sequence (client, 5 Oct: the title showed on a white page
+   before the photograph). Ground, photograph, words — in that order.
+
+   Only with scripting: without it nothing would ever set data-ready, so the
+   photograph and type stay plainly visible, as before.
+   -------------------------------------------------------------------------- */
+
+.hero {
+  /* The frame's own darkest tone, so the type is never on ecru. */
+  background: #1d140e;
+}
+
+@media (scripting: enabled) {
+  .hero-media img {
+    opacity: 0;
+    transition: opacity 1100ms var(--ease-dissolve, ease);
+  }
+
+  .hero-plate {
+    opacity: 0;
+    transition: opacity 900ms var(--ease-dissolve, ease) 250ms;
+  }
+
+  .hero[data-ready] .hero-media img,
+  .hero[data-ready] .hero-plate {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-media img,
+  .hero-plate {
+    transition: none;
+  }
+}
+
+/* Phone: the introduction sentence is supporting text, not a second title.
+   Smaller and narrower, so the name of the house keeps the screen. */
+@media (max-width: 767px) {
+  .hero-lead {
+    font-size: 0.84rem;
+    line-height: 1.55;
+    max-width: 19rem;
+    margin-top: 0.75rem;
+  }
+
+  .hero-line {
+    margin-top: 0.7rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The rugs slider — first on the homepage (client, 5 Oct, after Beni)
+
+   The heading and the way in share a line; the track runs from the shell's
+   left edge off the right side of the screen, so a cut card says there is
+   more. Cards are portrait frames at one height, the label beneath on a
+   plate of the page's own lighter tone. Arrows and a count below.
+   -------------------------------------------------------------------------- */
+
+.rugs-home-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: clamp(1.6rem, 3.5vw, 2.6rem);
+}
+
+.rugs-home-title {
+  line-height: 1;
+}
+
+.rugs-home-line {
+  margin-top: 0.7rem;
+  max-width: 34rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.rugs-home-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1.3rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  white-space: nowrap;
+  transition: background-color var(--dur-hover) var(--ease-material), color var(--dur-hover) var(--ease-material);
+}
+
+.rugs-home-cta:hover,
+.rugs-home-cta:focus-visible {
+  background: var(--ink);
+  color: var(--hour-morning);
+}
+
+.rug-slider-track {
+  display: flex;
+  gap: clamp(0.9rem, 2.4vw, 2.2rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  /* Aligned to the shell on the left, open to the screen edge on the right. */
+  padding-inline: var(--gutter, clamp(1rem, 5vw, 4.5rem)) 0;
+  scroll-padding-inline: var(--gutter, clamp(1rem, 5vw, 4.5rem));
+  margin: 0;
+  list-style: none;
+}
+
+.rug-slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+.rug-slide {
+  flex: 0 0 clamp(15.5rem, 30vw, 26rem);
+  scroll-snap-align: start;
+}
+
+.rug-slide:last-child {
+  margin-right: var(--gutter, clamp(1rem, 5vw, 4.5rem));
+}
+
+.rug-slide-link {
+  display: block;
+  color: var(--ink);
+}
+
+.rug-slide-frame {
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: rgba(190, 171, 147, 0.18);
+}
+
+.rug-slide-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1400ms var(--ease-material);
+}
+
+.rug-slide-link:hover .rug-slide-frame img {
+  transform: scale(1.03);
+}
+
+.rug-slide-said {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.95rem 1.05rem 1.1rem;
+  background: rgba(255, 253, 249, 0.55);
+  transition: opacity 600ms var(--ease-dissolve), background-color 600ms var(--ease-dissolve);
+  opacity: 0.62;
+}
+
+.rug-slide.is-current .rug-slide-said,
+.rug-slide-link:hover .rug-slide-said,
+.rug-slide-link:focus-visible .rug-slide-said {
+  opacity: 1;
+  background: rgba(255, 253, 249, 0.92);
+}
+
+.rug-slide-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.rug-slide-name {
+  font-size: 1.15rem;
+  line-height: 1.2;
+}
+
+.rug-slide-price {
+  flex: none;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.rug-slide-line {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.rug-slider-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: clamp(1rem, 2.4vw, 1.6rem);
+  padding-inline: var(--gutter, clamp(1rem, 5vw, 4.5rem));
+}
+
+.rug-slider-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color var(--dur-hover) var(--ease-material), opacity var(--dur-hover) var(--ease-material);
+}
+
+.rug-slider-arrow:hover:not(:disabled) {
+  border-color: var(--ink);
+}
+
+.rug-slider-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.rug-slider-count {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 699px) {
+  .rugs-home-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rug-slide {
+    flex-basis: 78vw;
+  }
+
+  .rug-slide-said {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rug-slide-frame img,
+  .rug-slide-said {
+    transition: none;
+  }
+}

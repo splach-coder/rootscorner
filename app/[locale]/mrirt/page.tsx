@@ -190,11 +190,8 @@ export default async function MrirtPage({
       <section id="disponibles" className="section mrirt-ready">
         <div className="shell">
           <Reveal className="mrirt-ready-head">
-            <p className="label mrirt-eyebrow">{t.mrirtPage.readyEyebrow}</p>
-            <h2 className="display d-2 mrirt-ready-heading">{t.mrirtPage.readyHeading}</h2>
-            <p className="prose mrirt-ready-note">
-              {ready.length > 0 ? t.mrirtPage.readyNote : t.mrirtPage.woven.note}
-            </p>
+            <h2 className="display d-2 mrirt-ready-heading">{m.entries[0].name}</h2>
+            <p className="prose mrirt-ready-note">{m.entries[0].note}</p>
           </Reveal>
 
           {ready.length > 0 ? (
@@ -264,9 +261,8 @@ export default async function MrirtPage({
         <section id="sur-commande" className="section mrirt-series">
           <div className="shell">
             <Reveal className="mrirt-series-head">
-              <p className="label mrirt-eyebrow">{rl.collectionEyebrow}</p>
-              <h2 className="display d-2">{rl.collectionHeading}</h2>
-              <p className="prose mrirt-series-note">{rl.collectionNote}</p>
+              <h2 className="display d-2">{m.entries[1].name}</h2>
+              <p className="prose mrirt-series-note">{m.entries[1].note}</p>
             </Reveal>
             <ul className="cards mrirt-series-cards">
               {series.map((s) => (
@@ -317,21 +313,17 @@ export default async function MrirtPage({
               <p className="label mrirt-label-order">{t.rugs.order}</p>
             </Reveal>
 
+            {/* One heading and one sentence; the rest of the house's copy is
+                folded, not cut (client, 5 Oct: the page read like a book). */}
             <Reveal delay={90} className="mrirt-said">
-              <p className="label mrirt-eyebrow">{t.mrirtPage.matterEyebrow}</p>
-              <h2 className="display d-2 mrirt-heading">{t.mrirtPage.matterHeading}</h2>
-              <p className="prose">{t.rugs.body[0]}</p>
-              {/* Two more sentences from their own /mrirt-rugs/ page, which
-                  this copy did not have: what the making amounts to, and what
-                  the wool feels like. */}
-              <p className="prose">{t.rugs.craft}</p>
-              <p className="prose mrirt-wool">{t.rugs.wool}</p>
-            </Reveal>
-
-            <Reveal delay={150} className="mrirt-said">
-              <p className="label mrirt-eyebrow">{t.mrirtPage.coopEyebrow}</p>
-              <h2 className="display d-2 mrirt-heading">{t.mrirtPage.coopHeading}</h2>
+              <h2 className="display d-2 mrirt-heading">{m.coopHeading}</h2>
               <p className="prose">{t.rugs.body[1]}</p>
+              <details className="mrirt-more">
+                <summary className="label">{fr ? "En savoir plus" : "Read more"}</summary>
+                <p className="prose">{t.rugs.body[0]}</p>
+                <p className="prose">{t.rugs.craft}</p>
+                <p className="prose">{t.rugs.wool}</p>
+              </details>
             </Reveal>
 
           </div>
@@ -368,9 +360,8 @@ export default async function MrirtPage({
         <div className="shell mrirt-order-inner">
           <div className="mrirt-ask">
             <Reveal>
-              <p className="label mrirt-eyebrow">{m.customEyebrow}</p>
-              <h2 className="display d-1 mrirt-ask-heading">{m.customHeading}</h2>
-              <p className="prose mrirt-ask-note">{m.entries[2].note}</p>
+              <h2 className="display d-2 mrirt-ask-heading">{m.entries[2].name}</h2>
+              <p className="prose mrirt-ask-note">{m.customTerms}</p>
             </Reveal>
 
             {/* The shelf's cards jump here, so the anchor sits on a plain
@@ -380,8 +371,6 @@ export default async function MrirtPage({
               {/* Their own invitation, verbatim, and then the line that says
                   none of the four below is required. Both sit ABOVE the fields,
                   which is the only place an instruction for a form belongs. */}
-              <p className="prose mrirt-form-note">{t.rugs.invite}</p>
-              <p className="prose mrirt-form-note">{m.customTerms}</p>
               <InquiryForm
                 fields={fields}
                 topic="rug"

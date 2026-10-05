@@ -6,6 +6,12 @@ export function rugLabels(locale: Locale) {
   return {
     collectionEyebrow: fr ? "Tapis sur commande" : "Rugs to order",
     rugName: fr ? "Tapis Mrirt" : "Mrirt rug",
+    homeLine: fr
+      ? "Tissés main à Mrirt, dans le Moyen Atlas. Déjà tissés ou à votre mesure."
+      : "Handwoven in Mrirt, in the Middle Atlas. Already woven, or made to your measure.",
+    homeCta: fr ? "Voir les tapis" : "See the rugs",
+    prev: fr ? "Tapis précédent" : "Previous rug",
+    next: fr ? "Tapis suivant" : "Next rug",
     // V1 §7–8: the rugs woven to order, as named collections.
     collectionHeading: fr ? "Nos collections" : "Our collections",
     collectionNote: fr

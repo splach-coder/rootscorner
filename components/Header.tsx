@@ -243,18 +243,12 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
    * against a lone language switch on the other read as lopsided rather than
    * composed.
    */
-  const shopLinks = [
-    { href: `/${locale}/collection`, label: labels.collection },
+  const links = [
     { href: `/${locale}/mrirt`, label: labels.rugs },
-  ];
-
-  const houseLinks = [
+    { href: `/${locale}/collection`, label: labels.collection },
     { href: `/${locale}/story`, label: labels.story },
     { href: `/${locale}/contact`, label: labels.contact },
   ];
-
-  // The panel still offers everything, in reading order.
-  const links = [...shopLinks, ...houseLinks];
 
   /* A menu that stays open after you have looked away is a stuck menu. */
   useEffect(() => {
@@ -294,9 +288,17 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
       }${repainting ? " is-repainting" : ""}`}
     >
       <div className="site-header-bar shell">
-        <nav className="site-nav" aria-label={labels.collection}>
+        <Link href={`/${locale}`} className="site-header-mark" aria-label="The Roots Corner">
+          {/* The client's own artwork, viewBox trimmed to the lettering (§39). */}
+          <Wordmark className="site-header-lockup" crescent={false} />
+        </Link>
+
+        {/* One nav, evenly spaced, in the order a visitor shops: the rugs
+            first (client, 5 Oct), the pieces, the house, and how to reach it (client, 5 Oct). It used
+            to be two lists with two different gaps, which read as uneven. */}
+        <nav className="site-nav" aria-label={labels.menu}>
           <ul className="site-nav-list">
-            {shopLinks.map((link) => (
+            {links.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="link site-nav-link label">
                   {link.label}
@@ -306,48 +308,10 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
           </ul>
         </nav>
 
-        <Link href={`/${locale}`} className="site-header-mark" aria-label="The Roots Corner">
-          {/* The client's own artwork, not the name typeset.
-
-              It was a <span> set in Jost — close to the logo's letterforms but
-              not them, and a logo reassembled out of a typeface every time it
-              is drawn is not a logo. This is the Illustrator export itself
-              (§2), with its viewBox trimmed to the lettering's own bounds.
-              Nothing is redrawn, only placed and scaled.
-
-              The crescent is not here at ANY width, at the client's
-              instruction — it briefly returned to the desktop bar and they
-              asked for it out again. It remains the favicon, the mark the intro
-              writes, and part of the footer lockup; it simply is not in the bar.
-
-              Dropping it also removes the intro's FLIP target, which is
-              deliberate and handled: `morph()` finds no `[data-mark-target]`
-              and the written crescent settles and fades as the veil lifts,
-              exactly as §38 describes. Give a header mark `data-mark-target`
-              and the FLIP branch picks it up again with no other change. */}
-          <Wordmark className="site-header-lockup" crescent={false} />
-        </Link>
-
+        {/* The tools, set apart from the nav: language, orders, cart. "Mes
+            commandes" is an icon here — as a fifth word in the row it read as
+            a page of the site, and on a phone it appeared twice. */}
         <div className="site-header-end">
-          <nav className="site-nav" aria-label={labels.story}>
-            <ul className="site-nav-list">
-              {houseLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="link site-nav-link label">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          {/* A menu, not a toggle.
-
-              A single "EN" link is only legible if you already know it swaps
-              the language — it states the destination and not the control. A
-              named list says what the choice is, and the current language is
-              shown rather than hidden. Two items today; it costs nothing when a
-              third arrives. */}
           <div className="site-lang" ref={langRef}>
             <button
               type="button"
@@ -395,23 +359,31 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
               ))}
             </ul>
           </div>
-          {/* Where a buyer checks on an order.
 
-              Rendered only when a customer-account URL is configured, because
-              until the store exists there are no orders to show and a link to
-              an empty account is worse than no link. Same rule as every other
-              channel on this site (§49).
-
-              External on purpose: Shopify hosts it and owns the sign-in, which
-              is passwordless. Nothing here handles a credential. */}
+          {/* Shopify hosts the account and owns the sign-in (§58). Rendered
+              only when its URL is configured. */}
           {ACCOUNT_URL && (
             <a
               href={`${ACCOUNT_URL}?locale=${locale}`}
-              className="label site-account"
+              className="site-account"
               target="_blank"
               rel="noreferrer noopener"
+              aria-label={labels.account}
+              title={labels.account}
             >
-              {labels.account}
+              <svg
+                viewBox="0 0 20 20"
+                width="19"
+                height="19"
+                aria-hidden="true"
+                focusable="false"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.2"
+              >
+                <circle cx="10" cy="6.6" r="3.4" />
+                <path d="M3.4 17.6c.9-3.3 3.5-5.2 6.6-5.2s5.7 1.9 6.6 5.2" strokeLinecap="round" />
+              </svg>
             </a>
           )}
 
@@ -471,20 +443,17 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
             className="site-panel-foot site-panel-item"
             style={{ "--i": links.length } as React.CSSProperties}
           >
-            <div className="site-panel-cart">
-              <CartButton label={cart} withLabel />
-              {ACCOUNT_URL && (
-                <a
-                  href={`${ACCOUNT_URL}?locale=${locale}`}
-                  className="label site-panel-account"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  onClick={() => setOpen(false)}
-                >
-                  {labels.account}
-                </a>
-              )}
-            </div>
+            {ACCOUNT_URL && (
+              <a
+                href={`${ACCOUNT_URL}?locale=${locale}`}
+                className="label site-panel-account"
+                target="_blank"
+                rel="noreferrer noopener"
+                onClick={() => setOpen(false)}
+              >
+                {labels.account}
+              </a>
+            )}
 
             <ul className="site-panel-langs" aria-label={labels.switchLabel}>
               {(Object.keys(LANGS) as Locale[]).map((code) => (
