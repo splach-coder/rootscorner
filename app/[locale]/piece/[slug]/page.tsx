@@ -20,7 +20,7 @@ import {
 import { displayName, materialOf, originOf } from "@/lib/specs";
 import JsonLd from "@/components/JsonLd";
 import { breadcrumbLd, pageMeta, pieceOg, productLd } from "@/lib/seo";
-import { frLine, frLines } from "@/lib/product-fr";
+import { enLine, enLines, frLine, frLines } from "@/lib/product-fr";
 
 /**
  * The client's product copy, in the reading language.
@@ -31,7 +31,7 @@ import { frLine, frLines } from "@/lib/product-fr";
  * deliberately not translated — see the docblock in lib/product-fr.ts.
  */
 const say = (locale: Locale, lines: string[]) =>
-  locale === "fr" ? frLines(lines) : lines;
+  locale === "fr" ? frLines(lines) : enLines(lines);
 
 export function generateStaticParams() {
   return locales.flatMap((locale) =>
@@ -48,7 +48,7 @@ export async function generateMetadata({
   const piece = pieceBySlug(slug);
   if (!isLocale(locale) || !piece) return {};
   const t = getDictionary(locale);
-  const name = displayName(piece);
+  const name = displayName(piece, locale as Locale);
 
   // The client's own first sentence where there is one. Where there is none,
   // the facts the label already shows — room, material, origin as the client
@@ -65,7 +65,7 @@ export async function generateMetadata({
   const description = first
     ? locale === "fr"
       ? frLine(first)
-      : first
+      : enLine(first)
     : `${name}. ${facts.join(" · ")}. ${t.selection.unique}`;
 
   return pageMeta({
@@ -116,7 +116,7 @@ export default async function PiecePage({
   if (!isLocale(locale) || !piece) notFound();
 
   const t = getDictionary(locale as Locale);
-  const name = displayName(piece);
+  const name = displayName(piece, locale as Locale);
   const no = accession(piece);
   const price = formatPrice(piece, locale);
   const room = t.categories.items[piece.category] ?? piece.category;
@@ -137,7 +137,7 @@ export default async function PiecePage({
           description: piece.description[0]
             ? locale === "fr"
               ? frLine(piece.description[0])
-              : piece.description[0]
+              : enLine(piece.description[0])
             : undefined,
           category: room,
           material: materialOf(piece, locale as Locale),
@@ -196,7 +196,16 @@ export default async function PiecePage({
                 variant="specs"
               />
 
-              <p className="piece-unique label">{t.selection.unique}</p>
+              {/* V1 §19 — unique, and whether it is available, said plainly. */}
+              <p className="piece-unique label">
+                {t.selection.unique}
+                {piece.available && (
+                  <>
+                    <span aria-hidden="true"> · </span>
+                    {t.common.available}
+                  </>
+                )}
+              </p>
 
               <div className="piece-action">
                 {piece.available ? (
@@ -256,13 +265,20 @@ export default async function PiecePage({
                 )}
               </div>
 
-              {piece.delivery && (
-                <dl className="piece-delivery">
-                  <dt className="label">{t.piece.delivery}</dt>
-                  <dd>{locale === "fr" ? frLine(piece.delivery) : piece.delivery}</dd>
-                  <dd className="label piece-delivery-note">{t.piece.deliveryNote}</dd>
-                </dl>
-              )}
+              {/* V1 §19 — a buyer must know how long delivery takes. The
+                  product records all said "1 - 2 Weeks", which is the MOROCCO
+                  line of the house's own delivery table; shown to a buyer in
+                  Paris it was wrong. Both lines of the table now, with the
+                  table itself one click away. */}
+              <dl className="piece-delivery">
+                <dt className="label">{t.piece.delivery}</dt>
+                <dd>{t.piece.deliveryTimes}</dd>
+                <dd className="label piece-delivery-note">
+                  <Link href={`/${locale}/legal/delivery`} className="link">
+                    {t.piece.deliveryNote}
+                  </Link>
+                </dd>
+              </dl>
             </Reveal>
           </div>
 
@@ -328,6 +344,7 @@ export default async function PiecePage({
                     className="hang-link swap-host"
                   >
                     <PieceFrame
+                      locale={locale as Locale}
                       piece={other}
                       delay={i * 100}
                       width={other.images[0]?.w ?? 1400}

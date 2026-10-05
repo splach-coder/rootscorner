@@ -9,6 +9,8 @@ type PieceLabelProps = {
     material: string;
     origin: string;
     dimensions: string;
+    period?: string;
+    nature?: string;
     /** §5 — the per-unit suffix, where several pieces are shown together. */
     perPiece: string;
   };
@@ -50,7 +52,7 @@ export default function PieceLabel({
 }: PieceLabelProps) {
   const fields = variant === "sell" ? [] : labelFor(piece, locale);
   const price = variant === "specs" ? null : formatPrice(piece, locale);
-  const names: Record<string, string> = labels;
+  const names: Record<string, string | undefined> = labels;
 
   const cls =
     variant === "plate"
@@ -64,7 +66,7 @@ export default function PieceLabel({
   return (
     <div className={cls}>
       {variant !== "specs" && (
-        <h3 className="display d-3 wall-label-name">{displayName(piece)}</h3>
+        <h3 className="display d-3 wall-label-name">{displayName(piece, locale)}</h3>
       )}
 
       {fields.length > 0 && (

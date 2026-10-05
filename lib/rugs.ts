@@ -45,6 +45,75 @@ const SERIES: RugSeries[] = ((live as { rugSeries?: RugSeries[] }).rugSeries ?? 
 
 export const RUG_PREFIX = "rug:";
 
+/**
+ * V1 feedback §8 — "instead of technical wording such as '3 colours Uni', make
+ * every collection feel like its own universe." The four lines are the
+ * house's own, verbatim in French. A description typed in the Shopify admin
+ * takes over the French line, so the house can rewrite it without a deploy.
+ *
+ * The collection and colour NAMES are Shopify's (French) and stay the values
+ * the cart and checkout match on; on /en they are DISPLAYED in English, so the
+ * English site never mixes the two languages (V1 §3).
+ */
+const SERIES_TEXT: Record<string, { fr: string; en: string; titleEn: string }> = {
+  "mrirt-uni": {
+    fr: "Laine naturelle, caramel ou taupe.",
+    en: "Natural wool, caramel or taupe.",
+    titleEn: "Plain",
+  },
+  "mrirt-lignes": {
+    fr: "Des lignes graphiques dans des tons naturels.",
+    en: "Graphic lines in natural tones.",
+    titleEn: "Lines",
+  },
+  "mrirt-losanges": {
+    fr: "Un motif traditionnel revisité dans des teintes contemporaines.",
+    en: "A traditional motif, revisited in contemporary shades.",
+    titleEn: "Diamonds",
+  },
+  "mrirt-graphique": {
+    fr: "Des compositions plus affirmées, pensées pour des intérieurs contemporains.",
+    en: "Bolder compositions, conceived for contemporary interiors.",
+    titleEn: "Graphic",
+  },
+};
+
+const COLOUR_EN: Record<string, string> = {
+  "laine naturelle": "Natural wool",
+  caramel: "Caramel",
+  taupe: "Taupe",
+  noir: "Black",
+  "brun chocolat": "Chocolate brown",
+  terracotta: "Terracotta",
+  sable: "Sand",
+  crème: "Cream",
+  creme: "Cream",
+  blanc: "White",
+  gris: "Grey",
+  rouge: "Red",
+  ocre: "Ochre",
+};
+
+export function seriesTitle(series: RugSeries, locale: string): string {
+  if (locale === "fr") return series.title;
+  return SERIES_TEXT[series.handle]?.titleEn ?? series.title;
+}
+
+export function seriesLine(series: RugSeries, locale: string): string | null {
+  const text = SERIES_TEXT[series.handle];
+  if (locale === "fr") return series.description || text?.fr || null;
+  return text?.en ?? null;
+}
+
+/** "Terracotta + Brun chocolat" → "Terracotta + Chocolate brown" on /en. */
+export function colourName(name: string, locale: string): string {
+  if (locale === "fr") return name;
+  return name
+    .split("+")
+    .map((part) => COLOUR_EN[part.trim().toLowerCase()] ?? part.trim())
+    .join(" + ");
+}
+
 export function allRugSeries(): RugSeries[] {
   return SERIES;
 }
@@ -100,7 +169,12 @@ export function rugAsPiece(entry: string, locale: string): Piece | null {
   return {
     slug: entry,
     index: 0,
-    name: [locale === "fr" ? "Tapis Mrirt" : "Mrirt rug", series.title, variant.colour, variant.size]
+    name: [
+      locale === "fr" ? "Tapis Mrirt" : "Mrirt rug",
+      seriesTitle(series, locale),
+      variant.colour ? colourName(variant.colour, locale) : null,
+      variant.size,
+    ]
       .filter(Boolean)
       .join(" — "),
     price: variant.price,

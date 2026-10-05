@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/dictionaries";
 import live from "@/docs/shopify-live.json";
+import { allRugSeries, colourName, seriesTitle } from "@/lib/rugs";
 
 /**
  * The Mrirt series on the made-to-order form — FROM SHOPIFY.
@@ -43,8 +44,13 @@ export function swatchFor(_colourway: string, image: string | null): string[] | 
 
 export function rugChoices(locale: Locale) {
   const fr = locale === "fr";
-  const series: ChoiceOption[] = SERIES.flatMap((s) =>
-    s.colours.map((c) => ({ value: `${s.title} — ${c.name}`, swatch: swatchFor(c.name, c.image) })),
+  // "Collection — Colourway", in the page's language (V1 §3 and §8: every
+  // existing collection and colour is an option).
+  const series: ChoiceOption[] = allRugSeries().flatMap((s) =>
+    s.colours.map((c) => ({
+      value: `${seriesTitle(s, locale)} — ${colourName(c.name, locale)}`,
+      swatch: swatchFor(c.name, c.image),
+    })),
   );
   // Every size any series offers, in the order she lists them.
   const sizes = [...new Set(SERIES.flatMap((s) => s.sizes))].map((value) => ({ value }));
@@ -53,15 +59,15 @@ export function rugChoices(locale: Locale) {
     series: {
       options: series,
       other: fr
-        ? { label: "Autre série", hint: "Décrivez le motif et les couleurs que vous imaginez." }
-        : { label: "Another series", hint: "Describe the pattern and colours you have in mind." },
-      placeholder: fr ? "Choisir une série" : "Choose a series",
+        ? { label: "Un autre motif, d’autres couleurs", hint: "Décrivez le motif et les couleurs que vous imaginez." }
+        : { label: "Another design, other colours", hint: "Describe the design and colours you have in mind." },
+      placeholder: fr ? "Choisir une collection" : "Choose a collection",
     },
     size: {
       options: sizes,
       other: fr
-        ? { label: "Sur mesure", hint: "Longueur × largeur, en centimètres." }
-        : { label: "Made to measure", hint: "Length × width, in centimetres." },
+        ? { label: "Autres dimensions", hint: "Longueur × largeur, en centimètres." }
+        : { label: "Other dimensions", hint: "Length × width, in centimetres." },
       placeholder: fr ? "Choisir une taille" : "Choose a size",
     },
   };

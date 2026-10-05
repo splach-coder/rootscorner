@@ -94,7 +94,7 @@ export default async function ContactPage({
   // in the form, and in the WhatsApp chat, so the visitor never has to describe
   // an object they were just looking at.
   const opener = asked
-    ? `${t.piece.accession} ${accession(asked)} · ${displayName(asked)}`
+    ? `${t.piece.accession} ${accession(asked)} · ${displayName(asked, locale as Locale)}`
     : undefined;
 
   const whatsapp = whatsappHref(opener);
@@ -242,7 +242,7 @@ export default async function ContactPage({
                   // Named only when it is genuinely the subject of the enquiry.
                   // Otherwise it is the room, and naming it would put a piece
                   // in the reading that the visitor never asked about.
-                  alt={asked ? displayName(asked) : ""}
+                  alt={asked ? displayName(asked, locale as Locale) : ""}
                   width={shot.w}
                   height={shot.h}
                   priority

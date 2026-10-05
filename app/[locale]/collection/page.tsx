@@ -67,7 +67,7 @@ export default async function CollectionPage({
 
   return (
     <>
-      <JsonLd data={itemListLd(locale as Locale, pieces, displayName)} />
+      <JsonLd data={itemListLd(locale as Locale, pieces, (p) => displayName(p, locale as Locale))} />
       <JsonLd
         data={breadcrumbLd([
           { name: "The Roots Corner", path: `/${locale}` },
@@ -106,10 +106,6 @@ export default async function CollectionPage({
               `(min-width: 700px) 0px`, so a desktop visitor downloads none of
               them. */}
           <Reveal delay={60} as="nav" className="rooms-rail" aria-label={t.collection.roomsHeading}>
-            <span className="rooms-rail-link is-here" aria-current="page">
-              {t.category.all}
-              <span className="rooms-rail-count">{pieces.length}</span>
-            </span>
 
             {/* §9 — the categories are numbered and grouped in one place, so
                 the collection has a structure a visitor can hold in their head
@@ -126,6 +122,13 @@ export default async function CollectionPage({
                 <span className="rooms-rail-count">{room.count}</span>
               </Link>
             ))}
+
+            {/* V1 feedback §2: "Tout voir" closes the list, as in their
+                structure. Here it is where you already are. */}
+            <span className="rooms-rail-link is-here" aria-current="page">
+              {t.category.all}
+              <span className="rooms-rail-count">{pieces.length}</span>
+            </span>
           </Reveal>
 
           {/* aria-hidden, and every card here duplicates a link in the rail
@@ -154,10 +157,6 @@ export default async function CollectionPage({
                 they are already in. Stated, not a card — it has no cover of its
                 own, and borrowing a piece's photograph to stand for "all of it"
                 would make one object speak for thirty-eight. */}
-            <span className="rooms-strip-cell rooms-strip-all" aria-current="page">
-              <span className="rooms-strip-all-said">{t.category.all}</span>
-              <span className="rooms-strip-count label">{pieces.length}</span>
-            </span>
 
             {rooms.map((room) => {
               const src = imagePath(room.cover?.images[0]);
@@ -186,6 +185,10 @@ export default async function CollectionPage({
                 </Link>
               );
             })}
+            <span className="rooms-strip-cell rooms-strip-all" aria-current="page">
+              <span className="rooms-strip-all-said">{t.category.all}</span>
+              <span className="rooms-strip-count label">{pieces.length}</span>
+            </span>
           </RoomsStrip>
         </div>
       </section>

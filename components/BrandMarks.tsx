@@ -61,8 +61,8 @@ export function Picto({ className, title, ...rest }: MarkProps) {
 }
 
 /**
- * Full wordmark: crescent above "The ROOTS Corner" — the client's Illustrator
- * export, whole.
+ * Full wordmark: crescent above "The ROOTS Corner" and the line beneath it —
+ * the client's Illustrator export, whole, plus the line from their lockup.
  *
  * `data-mark-target` lands on a <g> around the CRESCENT rather than on the
  * <svg>, because the intro morphs a crescent and would otherwise be asked to
@@ -84,7 +84,7 @@ export function Wordmark({ className, title, crescent = true, ...rest }: MarkPro
         The trimmed box is the lettering's own bounds, measured with getBBox on
         the rendered paths rather than guessed. It comes out almost exactly 2:1.
       */
-      viewBox={crescent ? "0 0 96.57 132.1" : "0 84.03 96.58 48.08"}
+      viewBox={crescent ? "0 0 96.57 142.1" : "0 84.03 96.58 58.07"}
       fill="currentColor"
       role={title ? "img" : "presentation"}
       aria-hidden={title ? undefined : true}
@@ -109,6 +109,15 @@ export function Wordmark({ className, title, crescent = true, ...rest }: MarkPro
       <path d="M79.07,124.88c.59.58.88,1.42.88,2.53v4.6h-1.07v-4.5c0-.83-.21-1.45-.62-1.89-.41-.43-1-.65-1.77-.65-.86,0-1.53.25-2.03.76s-.75,1.21-.75,2.11v4.17h-1.07v-7.94h1.03v1.46c.29-.48.7-.86,1.21-1.12.52-.27,1.12-.4,1.8-.4,1,0,1.79.29,2.38.87Z" />
       <path d="M89.81,128.38h-6.64c.06.82.38,1.49.95,2,.57.51,1.3.76,2.17.76.49,0,.95-.09,1.36-.26.41-.18.77-.43,1.07-.78l.6.69c-.35.42-.79.75-1.32.97-.53.22-1.11.33-1.74.33-.81,0-1.54-.17-2.17-.52-.63-.35-1.12-.83-1.47-1.44-.35-.61-.53-1.31-.53-2.08s.17-1.47.51-2.08c.34-.61.8-1.09,1.39-1.43.59-.34,1.25-.51,1.99-.51s1.39.17,1.98.51c.58.34,1.04.82,1.37,1.43.33.61.5,1.31.5,2.09v.33ZM84.05,125.67c-.52.49-.81,1.12-.88,1.91h5.63c-.07-.78-.37-1.42-.88-1.91-.52-.49-1.16-.73-1.94-.73s-1.41.24-1.92.73Z" />
       <path d="M94.16,124.42c.5-.27,1.11-.41,1.85-.41v1.04l-.26-.02c-.84,0-1.49.26-1.96.77-.47.51-.71,1.23-.71,2.16v4.04h-1.07v-7.94h1.03v1.55c.25-.53.63-.94,1.12-1.21Z" />
+      {/*
+        The line under the name — part of the official lockup (client feedback
+        V1, §0: "should always be included when the full logo is displayed").
+        The Illustrator export in brand/ does not carry it, so it is measured
+        off the reference the house sent: it starts inside the R, ends flush
+        with the S, and tapers to a point at both ends. Same fill as the
+        lettering, so it recolours with it.
+      */}
+      <path d="M11.5,141.5Q53.95,140.7 96.4,141.5Q53.95,142.3 11.5,141.5Z" />
     </svg>
   );
 }

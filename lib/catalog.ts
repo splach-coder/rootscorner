@@ -52,6 +52,11 @@ const NOT_PRODUCT_COPY: RegExp[] = [
      printed its own "Entretien" heading and then the word "Care" as the
      first line under it. */
   /^(care|details|description)$/i,
+  /* V1 feedback §17: returns are now stated once, in the harmonised
+     withdrawal policy (lib/legal.ts). These product-page lines said "all
+     sales are final", which contradicted it. */
+  /^return & refun/i,
+  /^due to the fragile nature of our products, returns and refunds are not accepted/i,
 ];
 
 const isProductCopy = (line: string): boolean => {
@@ -415,8 +420,28 @@ export function categories(): { slug: string; count: number; cover: Piece | unde
         cover: withPhoto.find((p) => !spokenFor.has(p.slug)) ?? withPhoto[0],
       };
     })
-    .sort((a, b) => b.count - a.count);
+    .sort((a, b) => {
+      const ra = CATEGORY_ORDER.indexOf(a.slug);
+      const rb = CATEGORY_ORDER.indexOf(b.slug);
+      // A category added in Shopify that is not in the list goes last.
+      return (ra < 0 ? 99 : ra) - (rb < 0 ? 99 : rb) || b.count - a.count;
+    });
 }
+
+/**
+ * V1 feedback §2 — the house's own order: Sièges & tabourets, Objets &
+ * sculptures, Pots & contenants, Vases, Céramiques de Tamegroute, Luminaires,
+ * Pièces anciennes & tribales. Product-led; origins live on each piece.
+ */
+const CATEGORY_ORDER = [
+  "stools",
+  "decoration",
+  "pots",
+  "vases",
+  "ceramics-tamegroute",
+  "lamp",
+  "african-decoration",
+];
 
 export function imagePath(image: PieceImage | undefined): string | null {
   if (!image) return null;

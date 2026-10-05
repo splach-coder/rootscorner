@@ -154,6 +154,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <div className="hero-line">
                 <p className="hero-tagline label">{t.hero.tagline}</p>
               </div>
+
+              {/* V1 feedback: "a new visitor should understand within a few
+                  seconds what The Roots Corner actually offers." Their
+                  sentence, under the tagline, on every screen — it sits at the
+                  foot of the plate, where the scrim is deepest. */}
+              <p className="hero-lead">{t.hero.lead}</p>
             </div>
 
             <p className="hero-note">{t.hero.intro}</p>
@@ -177,6 +183,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   className="hang-link swap-host"
                 >
                   <PieceFrame
+                    locale={locale as Locale}
                     piece={piece}
                     delay={i * 100}
                     width={1400}
@@ -408,6 +415,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   className="shop-link swap-host"
                 >
                   <PieceFrame
+                    locale={locale as Locale}
                     piece={piece}
                     delay={(i % 4) * 70}
                     width={1200}

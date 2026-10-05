@@ -157,7 +157,7 @@ export default function CartPanel({
                         className="cart-line-name display d-3"
                         onClick={() => setOpen(false)}
                       >
-                        {displayName(piece)}
+                        {displayName(piece, locale)}
                       </Link>
                       {price && <p className="cart-line-price">{price}</p>}
                       <button

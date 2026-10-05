@@ -32,7 +32,8 @@ type Dictionary = {
     /** Shown only when a Shopify customer-account URL is configured. */
     account: string;
   };
-  hero: { tagline: string; intro: string; scrollCue: string };
+  /** `lead` — V1 feedback: say what the house offers within seconds. */
+  hero: { tagline: string; lead: string; intro: string; scrollCue: string };
   selection: { eyebrow: string; heading: string; unique: string; viewAll: string };
   presentation: { eyebrow: string; body: string[] };
   categories: { eyebrow: string; heading: string; items: Record<string, string> };
@@ -61,6 +62,9 @@ type Dictionary = {
     material: string;
     origin: string;
     dimensions: string;
+    period: string;
+    /** V1 §6 — antique, vintage or artisanal. */
+    nature: string;
     /** §5 — appended to the price where several pieces are shown together. */
     perPiece: string;
     perPieceNote: string;
@@ -126,6 +130,7 @@ type Dictionary = {
     care: string;
     delivery: string;
     deliveryNote: string;
+    deliveryTimes: string;
     enquire: string;
     enquireNote: string;
     soldNote: string;
@@ -165,6 +170,7 @@ type Dictionary = {
      * reasoning §24 records for the artisans page.
      */
     frames: {
+      born: string;
       soul: string;
       heritage: string;
       hands: string;
@@ -183,6 +189,15 @@ type Dictionary = {
      */
     entriesEyebrow: string;
     entries: { key: string; name: string; note: string }[];
+    /** V1 feedback §7–9 — the made-to-measure block and its choices. */
+    customEyebrow: string;
+    customHeading: string;
+    customTerms: string;
+    textureOptions: string[];
+    guidance: string;
+    guidanceYes: string;
+    seriesLabel: string;
+    seriesHint: string;
     formEyebrow: string;
     formHeading: string;
     hint: string;
@@ -281,6 +296,10 @@ type Dictionary = {
     nav: string;
     eyebrow: string;
     heading: string;
+    /** V1 feedback §13 — the line that opens the page. */
+    lede: string;
+    storyEyebrow: string;
+    apartmentsEyebrow: string;
     body: string[];
     book: string;
     note: string;
@@ -373,7 +392,7 @@ const en: Dictionary = {
     // Brief §4: the homepage must immediately convey the name and the tagline.
     title: "The Roots Corner — Rare pieces. Stories. Materials.",
     description:
-      "A selection of rare African and Moroccan pieces, sourced in Morocco. Antique objects, wood, ceramics and handwoven Mrirt rugs. Each piece is unique.",
+      "Antique objects, artisanal pieces and Moroccan rugs, selected for their material, their history and their character — from Morocco, Africa and beyond. Each piece is unique.",
   },
   nav: {
     collection: "Collection",
@@ -388,6 +407,8 @@ const en: Dictionary = {
   },
   hero: {
     tagline: "Rare pieces. Stories. Materials.", // Brief §4, verbatim.
+    // V1 feedback, Homepage — their sentence, translated.
+    lead: "Antique objects, artisanal pieces and Moroccan rugs, selected for their material, their history and their character.",
     intro:
       "Pieces chosen one at a time, in Morocco and beyond, for the material they are made of and the life they have already had.",
     scrollCue: "The collection",
@@ -406,20 +427,24 @@ const en: Dictionary = {
       // sentence of their own About text, verbatim — the rest named her, and
       // "Through a carefully curated collection…" is already said by the
       // story section just below.
+      // V1 feedback, "also keep": it leads this section now that the hero
+      // carries the new introduction.
+      "Pieces chosen one at a time, in Morocco and beyond, for the material they are made of and the life they have already had.",
       "Each piece is selected with intention and valued for its lasting presence.",
     ],
   },
   categories: {
     eyebrow: "Where to begin",
     heading: "By what it is",
+    // V1 feedback §2: product-led names only. Origins live on each piece.
     items: {
-      stools: "Stools & seats",
-      "african-decoration": "African pieces",
+      stools: "Seating & stools",
+      decoration: "Objects & sculptures",
       pots: "Pots & vessels",
-      "ceramics-tamegroute": "Tamegroute ceramics",
       vases: "Vases",
-      decoration: "Objects",
-      lamp: "Light",
+      "ceramics-tamegroute": "Tamegroute ceramics",
+      lamp: "Lighting",
+      "african-decoration": "Antique & tribal pieces",
     },
   },
   story: {
@@ -460,7 +485,7 @@ const en: Dictionary = {
       size: "Tell us the dimensions you want.",
       colour: "Choose the colour, or the world of colours, you have in mind.",
       design: "Choose the style or the pattern you want.",
-      texture: "Choose the texture and the finish you want.",
+      texture: "Choose the texture you would like.",
     },
     axesNote: "Woven to your measurements. Tell us your choices and we will come back to you.",
     startCta: "Start a rug",
@@ -487,6 +512,8 @@ const en: Dictionary = {
     material: "Material",
     origin: "Origin",
     dimensions: "Dimensions",
+    period: "Period",
+    nature: "Piece",
     perPiece: "/ piece",
     perPieceNote: "Price per piece",
   },
@@ -554,7 +581,7 @@ const en: Dictionary = {
   },
   category: {
     eyebrow: "Room",
-    all: "All the collection",
+    all: "View all",
     others: "Other rooms",
     count: "{n} pieces",
     countOne: "{n} piece",
@@ -568,7 +595,9 @@ const en: Dictionary = {
     // The client's product pages and their FAQ give different windows
     // (CLAUDE.md §9.3), so this is shown as the record's own words and never
     // restated as a promise the site makes.
-    deliveryNote: "As stated on this piece’s record.",
+    deliveryNote: "Delivery policy",
+    // The house's own delivery table (lib/legal.ts).
+    deliveryTimes: "Morocco: 1 to 2 weeks · International: 2 to 8 weeks",
     enquire: "Ask about this piece",
     enquireNote: "Tell us which piece and we will come back to you.",
     soldNote: "This one has gone. There is no second.",
@@ -588,35 +617,50 @@ const en: Dictionary = {
     },
   },
   storyPage: {
+    /*
+      V1 feedback — "About The Roots Corner": shorter, about the house only,
+      and no name for now. Five movements in the order they asked for: how it
+      was born, the vision, craft and material, how pieces are chosen, what is
+      different. Every sentence is the house's own copy (their report §7 and
+      their About text), trimmed — the first movement is their About sentence
+      with the founder's name taken out, as they asked.
+    */
     heritage: [
+      {
+        eyebrow: "A house born in Marrakech",
+        body: [
+          "The Roots Corner was born of a deep passion for craftsmanship and timeless design, and of the wish to share a love of antique objects rich in history and authenticity — above all those of Moroccan and African cultures.",
+        ],
+      },
       {
         eyebrow: "Pieces with a soul",
         body: [
-          "At The Roots Corner we believe an interior is not simply made up of objects. It is built around pieces that have a presence, a material, a history.",
-          "We travel through places, markets and workshops in search of singular work: hand-woven rugs, antique objects, carved pieces and materials shaped by time. Each piece is chosen for what it tells as much as for what it brings to a room.",
+          "We believe an interior is not simply made up of objects. It is built around pieces that have a presence, a material, a history.",
         ],
       },
       {
-        eyebrow: "Heritage as material",
+        eyebrow: "Material and hands",
         body: [
-          "Long before they became decoration, these objects were part of daily life. They accompanied families, gestures, encounters, generations. Their beauty lies partly in their imperfections: a patina, an irregularity, a mark left by time. These are not flaws to be erased. They are the marks that make the piece.",
+          "Long before they became decoration, these objects were part of daily life. Their beauty lies partly in their imperfections: a patina, an irregularity, a mark left by time.",
+          "From Morocco to Cameroon, we look for what lies behind each piece — the materials, the gestures, the people who shape them.",
         ],
       },
       {
-        eyebrow: "Meeting the makers",
+        eyebrow: "Chosen one by one",
         body: [
-          "The Roots Corner seeks above all to understand what lies behind each creation: the materials, the gestures, the traditions, the people who shape them. From Morocco to Cameroon, every encounter opens onto a different world and onto knowledge that deserves to be kept.",
+          "We travel through places, markets and workshops in search of singular work. Each piece is chosen for what it tells as much as for what it brings to a room.",
         ],
       },
       {
-        eyebrow: "Pieces that outlast",
+        eyebrow: "What sets us apart",
         body: [
-          "We are not trying to follow trends. We are looking for pieces able to outlive them. Objects that find their place in a room naturally, that change with it, and that go on saying something as the years pass.",
+          "We are not trying to follow trends. We are looking for pieces able to outlive them — and we say of a piece only what we know of it.",
         ],
       },
     ],
     heritageClose: "Every piece has a history. The next one could be yours.",
     frames: {
+      born: "Marrakech at dusk, a minaret against the sky",
       soul: "Weavings hung at the entrance of a shop",
       heritage: "The shadow of a wrought-iron railing across a plaster wall",
       hands: "A figure walking up an alley in late afternoon sun",
@@ -624,29 +668,29 @@ const en: Dictionary = {
     },
   },
   mrirtPage: {
-    lede: "Nothing here is in stock. A Mrirt rug begins with a series, a size and a texture.",
+    lede: "Three ways to a Mrirt rug: already woven, woven to order, or made to measure.",
     // The client's own sentence places Mrirt "in Morocco's Middle Atlas".
     place: "Middle Atlas, Morocco",
     // §13: "LES MAINS — Une coopérative du Moyen Atlas". Their words, and the
     // report is explicit that this part must not be shortened.
     entriesEyebrow: "Three ways in",
     entries: [
+      { key: "ready", name: "Available rugs", note: "Already woven and available immediately." },
+      { key: "order", name: "Rugs to order", note: "Woven to your dimensions and your choices." },
       {
-        key: "ready",
-        name: "Vintage & modern rugs — available",
-        note: "Rugs already woven and for sale, with photographs, dimensions and prices.",
-      },
-      {
-        key: "order",
-        name: "Made to order",
-        note: "Rugs woven for you, to your own wishes and your own dimensions.",
-      },
-      {
-        key: "how",
-        name: "How to order your rug",
-        note: "The steps: dimensions, style, colours, exchanges, and the final go-ahead.",
+        key: "custom",
+        name: "Made-to-measure rugs",
+        note: "The dimensions, the colours, the texture — and the design.",
       },
     ],
+    customEyebrow: "Made-to-measure rugs",
+    customHeading: "A rug of your own",
+    customTerms: "Every term can be chosen and none is required. If you are unsure, say so — we will guide you.",
+    textureOptions: ["Soft and dense", "Very thick", "Looped", "I would like advice"],
+    guidance: "Be guided in my choice",
+    guidanceYes: "Yes",
+    seriesLabel: "The design and its colours",
+    seriesHint: "Start from one of our collections, or describe your own.",
     coopEyebrow: "The hands",
     coopHeading: "A cooperative in the Middle Atlas",
     formEyebrow: "The draft",
@@ -673,14 +717,14 @@ const en: Dictionary = {
     // actually help with.
     roomNote: "Size is the first thing we will ask you.",
     roomAlt: "A Mrirt rug on the floor of a room with plaster walls",
-    readyEyebrow: "Already woven",
-    readyHeading: "Ready to go",
+    readyEyebrow: "Available rugs",
+    readyHeading: "Already woven",
     readyNote: "One of a kind, like everything else here.",
     // Shown while the shelf is empty. It states the fact and hands the reader
     // straight to the thing that is available — the four decisions below.
-    readyEmpty: "No finished rug is here at the moment. Every rug below is woven to order.",
+    readyEmpty: "No finished rug is available at the moment.",
     woven: {
-      note: "Woven already. Sizes and prices on asking — each one is the only one of itself.",
+      note: "Already woven and available immediately. Size and price on request — each one is the only one of its kind.",
       ask: "Ask about this rug",
       // Descriptions of what is visible in the photograph, nothing more. No
       // age, no provenance, no price (§5).
@@ -693,7 +737,7 @@ const en: Dictionary = {
         pile: "Close view of caramel wool, ruled by darker woven lines",
       },
     },
-    ledeStocked: "A few are already woven. The rest begin with a series, a size and a texture.",
+    ledeStocked: "Three ways to a Mrirt rug: already woven, woven to order, or made to measure.",
   },
   contactPage: {
     heading: "Write to us",
@@ -702,7 +746,7 @@ const en: Dictionary = {
     findLede:
       "Seen a piece on Instagram or in an older post and want to find it again? Just send us a photograph, or a few details about it. We will do our best to track it down and tell you about it.",
     channelsEyebrow: "How to reach us",
-    placeNote: "Sourced in Morocco, put together in Marrakech.",
+    placeNote: "Chosen in Morocco, Africa and beyond — gathered in Marrakech.",
     instagramNote: "Pieces are often shown here before they go up on the site.",
     formEyebrow: "A message",
     pieceRef: "If it is about a piece, its number helps.",
@@ -749,12 +793,16 @@ const en: Dictionary = {
     cta: "See everything",
   },
   stay: {
-    nav: "Stay",
-    eyebrow: "Marrakech",
+    nav: "Stay in Marrakech",
+    eyebrow: "The Roots Corner",
     // Was "Our Airbnb" — their own page title. The client asked for the
     // platform off the site, so the heading is their own other word for the
     // same thing: on /accueil/ they write "nos appartements à louer".
-    heading: "Our apartments",
+    // V1 feedback §13: an extension of the house, not one of its pillars.
+    heading: "Stay in Marrakech",
+    lede: "Live Marrakech in an interior conceived like The Roots Corner.",
+    storyEyebrow: "The idea",
+    apartmentsEyebrow: "The apartments",
     body: [
       "More than a place to stay, The Roots Corner offers a unique way to experience Marrakech. Set in a peaceful location near the medina, our apartments bring together Moroccan craftsmanship, natural materials and timeless design.",
       "Each space has been thoughtfully curated to feel warm, welcoming and authentic. Inspired by Moroccan heritage and shaped by contemporary living, every apartment reflects a deep appreciation for craftsmanship, simplicity and detail.",
@@ -813,7 +861,8 @@ const en: Dictionary = {
   },
   footer: {
     // Live site footer — verbatim.
-    tagline: "Authentic craftsmanship & ethnic-inspired decor sourced in Morocco.",
+    // V1 feedback §15 — the old line read as if everything came from Morocco.
+    tagline: "Rare pieces, exceptional craftsmanship and objects chosen across Morocco, Africa and beyond.",
     // The base of the house (CLAUDE.md §1). Deliberately not "sourced in
     // Marrakech" — the client's own copy says pieces are found "in Morocco and
     // beyond", and narrowing that would be an invented provenance (§5).
@@ -830,7 +879,7 @@ const en: Dictionary = {
     rugs: "Mrirt Rugs",
     contact: "Contact",
     artisans: "Artisans",
-    stay: "Stay",
+    stay: "Stay in Marrakech",
     faq: "FAQ",
     terms: "Terms & conditions",
     privacy: "Privacy",
@@ -880,7 +929,7 @@ const fr: Dictionary = {
   meta: {
     title: "The Roots Corner — Pièces rares. Histoires. Matières.",
     description:
-      "Une sélection de pièces rares africaines et marocaines, chinées au Maroc. Objets anciens, bois, céramiques et tapis Mrirt tissés main. Chaque pièce est unique.",
+      "Objets anciens, pièces artisanales et tapis marocains sélectionnés pour leur matière, leur histoire et leur caractère — au Maroc, en Afrique et ailleurs. Chaque pièce est unique.",
   },
   nav: {
     collection: "Collection",
@@ -895,6 +944,8 @@ const fr: Dictionary = {
   },
   hero: {
     tagline: "Pièces rares. Histoires. Matières.",
+    // Retour V1, Accueil — leur phrase, mot pour mot.
+    lead: "Objets anciens, pièces artisanales et tapis marocains sélectionnés pour leur matière, leur histoire et leur caractère.",
     intro:
       "Des pièces choisies une à une, au Maroc et ailleurs, pour la matière dont elles sont faites et la vie qu’elles ont déjà eue.",
     scrollCue: "La collection",
@@ -909,20 +960,22 @@ const fr: Dictionary = {
     eyebrow: "The Roots Corner",
     body: [
       // Feedback, 25 Sept — see the English. Their own French, verbatim.
+      "Des pièces choisies une à une, au Maroc et ailleurs, pour la matière dont elles sont faites et la vie qu’elles ont déjà eue.",
       "Chaque pièce est sélectionnée avec intention, pour ce qu’elle gardera de présence.",
     ],
   },
   categories: {
     eyebrow: "Par où commencer",
     heading: "Par ce que c’est",
+    // Retour V1 §2 — leur structure, mot pour mot.
     items: {
-      stools: "Tabourets & sièges",
-      "african-decoration": "Pièces africaines",
+      stools: "Sièges & tabourets",
+      decoration: "Objets & sculptures",
       pots: "Pots & contenants",
-      "ceramics-tamegroute": "Céramiques de Tamegroute",
       vases: "Vases",
-      decoration: "Objets",
-      lamp: "Lumière",
+      "ceramics-tamegroute": "Céramiques de Tamegroute",
+      lamp: "Luminaires",
+      "african-decoration": "Pièces anciennes & tribales",
     },
   },
   story: {
@@ -954,7 +1007,7 @@ const fr: Dictionary = {
       size: "Indiquez les dimensions souhaitées.",
       colour: "Choisissez la couleur ou l’univers de couleurs souhaité.",
       design: "Choisissez le style ou le motif souhaité.",
-      texture: "Choisissez la texture et le rendu souhaités.",
+      texture: "Choisissez la texture souhaitée.",
     },
     startCta: "Commencer un tapis",
     // §11 of the report, verbatim.
@@ -976,6 +1029,8 @@ const fr: Dictionary = {
     material: "Matière",
     origin: "Origine",
     dimensions: "Dimensions",
+    period: "Époque",
+    nature: "Nature",
     // §5 of the report, verbatim.
     perPiece: "/ pièce",
     perPieceNote: "Prix par pièce",
@@ -1043,7 +1098,7 @@ const fr: Dictionary = {
   },
   category: {
     eyebrow: "Salle",
-    all: "Toute la collection",
+    all: "Tout voir",
     others: "Autres salles",
     count: "{n} pièces",
     countOne: "{n} pièce",
@@ -1054,7 +1109,8 @@ const fr: Dictionary = {
     details: "Le détail",
     care: "Entretien",
     delivery: "Livraison",
-    deliveryNote: "Tel qu’indiqué sur la fiche de cette pièce.",
+    deliveryNote: "Politique de livraison",
+    deliveryTimes: "Maroc : 1 à 2 semaines · International : 2 à 8 semaines",
     enquire: "Demander cette pièce",
     enquireNote: "Dites-nous laquelle et nous revenons vers vous.",
     soldNote: "Celle-ci est partie. Il n’y en a pas de seconde.",
@@ -1074,68 +1130,76 @@ const fr: Dictionary = {
     },
   },
   storyPage: {
-    // Everything in this block is §7 and §8 of the client's report, verbatim.
+    // Retour V1 — « À propos de The Roots Corner » : plus court, la maison
+    // seule, sans nom pour l’instant. Leurs phrases (§7 et leur À propos),
+    // resserrées ; la première est leur À propos, sans le prénom.
     heritage: [
+      {
+        eyebrow: "Une maison née à Marrakech",
+        body: [
+          "The Roots Corner est née d’une profonde passion pour l’artisanat et le design intemporel, et du désir de partager l’amour des objets anciens, riches d’histoire et d’authenticité — en particulier ceux issus des cultures marocaine et africaine.",
+        ],
+      },
       {
         eyebrow: "Des pièces qui ont une âme",
         body: [
-          "Chez The Roots Corner, nous croyons qu’un intérieur ne se compose pas simplement d’objets. Il se construit autour de pièces qui ont une présence, une matière, une histoire.",
-          "Nous parcourons les lieux, les marchés et les ateliers à la recherche de créations singulières : tapis tissés à la main, objets anciens, pièces sculptées et matières façonnées par le temps. Chaque pièce est choisie pour ce qu’elle raconte autant que pour ce qu’elle apporte à un intérieur.",
+          "Nous croyons qu’un intérieur ne se compose pas simplement d’objets. Il se construit autour de pièces qui ont une présence, une matière, une histoire.",
         ],
       },
       {
-        eyebrow: "L’héritage comme matière",
+        eyebrow: "La matière et les mains",
         body: [
-          "Longtemps avant de devenir des éléments de décoration, ces objets faisaient partie du quotidien. Ils accompagnaient les familles, les gestes, les rencontres et les générations. Leur beauté réside aussi dans leurs imperfections : une patine, une irrégularité, une trace laissée par le temps. Ce ne sont pas des défauts à effacer. Ce sont les marques qui font la pièce.",
+          "Longtemps avant de devenir des éléments de décoration, ces objets faisaient partie du quotidien. Leur beauté réside aussi dans leurs imperfections : une patine, une irrégularité, une trace laissée par le temps.",
+          "Du Maroc au Cameroun, nous cherchons ce qui se trouve derrière chaque pièce : les matières, les gestes, les personnes qui les façonnent.",
         ],
       },
       {
-        eyebrow: "À la rencontre des savoir-faire",
+        eyebrow: "Choisies une à une",
         body: [
-          "The Roots Corner cherche avant tout à comprendre ce qui se trouve derrière chaque création : les matières, les gestes, les traditions, les personnes qui les façonnent. Du Maroc au Cameroun, chaque rencontre ouvre la porte à un univers différent et à des savoir-faire qui méritent d’être préservés.",
+          "Nous parcourons les lieux, les marchés et les ateliers à la recherche de créations singulières. Chaque pièce est choisie pour ce qu’elle raconte autant que pour ce qu’elle apporte à un intérieur.",
         ],
       },
       {
-        eyebrow: "Des pièces pour traverser le temps",
+        eyebrow: "Ce qui nous distingue",
         body: [
-          "Nous ne cherchons pas à suivre les tendances. Nous cherchons des pièces capables de les traverser. Des objets qui trouvent naturellement leur place dans un intérieur, qui évoluent avec lui et qui, au fil des années, continuent de raconter quelque chose.",
+          "Nous ne cherchons pas à suivre les tendances. Nous cherchons des pièces capables de les traverser — et nous ne disons d’une pièce que ce que nous savons d’elle.",
         ],
       },
     ],
     heritageClose: "Chaque pièce a une histoire. La prochaine pourrait être la vôtre.",
     frames: {
+      born: "Marrakech au crépuscule, un minaret sur le ciel",
       soul: "Des tissages suspendus à l’entrée d’une boutique",
       heritage: "L’ombre d’une grille en fer forgé sur un mur de plâtre",
       hands: "Une silhouette remonte une ruelle au soleil de fin de journée",
       time: "Une salle à manger : pièces posées sur des étagères de plâtre",
     },
-    // Translation of the client's own About sentence, not authorship (§11).
-    // "purpose" is rendered "utilité" — these are objects that were made to be
-    // used, which is what the English means here.
   },
   mrirtPage: {
-    lede: "Rien ici n’est en stock. Un tapis Mrirt commence par une série, une taille et une texture.",
+    lede: "Trois façons d’avoir un tapis Mrirt : déjà tissé, sur commande, ou sur mesure.",
     place: "Moyen Atlas, Maroc",
     // §13 of the report: "LES MAINS — Une coopérative du Moyen Atlas".
     // §10 of the report, verbatim.
     entriesEyebrow: "Trois entrées",
+    // Retour V1 §7 — leurs trois noms et leurs deux phrases, mot pour mot.
     entries: [
+      { key: "ready", name: "Tapis disponibles", note: "Déjà tissés et disponibles immédiatement." },
+      { key: "order", name: "Tapis sur commande", note: "Tissés selon vos dimensions et vos choix." },
       {
-        key: "ready",
-        name: "Tapis vintage & tapis modernes — disponibles",
-        note: "Les tapis déjà réalisés et disponibles à la vente, avec photos, dimensions et prix.",
-      },
-      {
-        key: "order",
-        name: "Tapis sur commande",
-        note: "Les tapis que vous souhaitez faire réaliser selon vos envies et vos dimensions.",
-      },
-      {
-        key: "how",
-        name: "Comment commander votre tapis",
-        note: "Les étapes : dimensions, style, couleurs, échanges, validation.",
+        key: "custom",
+        name: "Tapis sur mesure",
+        note: "Les dimensions, les couleurs, la texture — et le motif.",
       },
     ],
+    customEyebrow: "Tapis sur mesure",
+    customHeading: "Un tapis à vous",
+    customTerms: "Chaque terme se choisit, aucun n’est obligatoire. En cas de doute, dites-le-nous : nous vous accompagnons.",
+    // Retour V1 §9, mot pour mot.
+    textureOptions: ["Douce et dense", "Très épaisse", "Aspect bouclé", "Je souhaite être conseillée"],
+    guidance: "Être accompagnée dans mon choix",
+    guidanceYes: "Oui",
+    seriesLabel: "Le motif et les couleurs",
+    seriesHint: "Partez de l’une de nos collections, ou décrivez la vôtre.",
     coopEyebrow: "Les mains",
     coopHeading: "Une coopérative du Moyen Atlas",
     formEyebrow: "Le patron",
@@ -1160,12 +1224,12 @@ const fr: Dictionary = {
     roomHeading: "Quelle taille pour le vôtre",
     roomNote: "La taille est la première chose que nous vous demanderons.",
     roomAlt: "Un tapis Mrirt au sol dans une pièce aux murs de plâtre",
-    readyEyebrow: "Déjà tissés",
-    readyHeading: "Prêts à partir",
+    readyEyebrow: "Tapis disponibles",
+    readyHeading: "Déjà tissés",
     readyNote: "Uniques, comme tout le reste ici.",
-    readyEmpty: "Aucun tapis fini n’est ici pour le moment. Chaque tapis ci-dessous est tissé sur commande.",
+    readyEmpty: "Aucun tapis fini n’est disponible pour le moment.",
     woven: {
-      note: "Déjà tissés. Tailles et prix sur demande — chacun est le seul de son espèce.",
+      note: "Déjà tissés et disponibles immédiatement. Taille et prix sur demande — chacun est le seul de son espèce.",
       ask: "Demander ce tapis",
       items: {
         fire: "Laine crème, velours profond",
@@ -1176,7 +1240,7 @@ const fr: Dictionary = {
         pile: "Gros plan d’une laine caramel, réglée de lignes tissées plus sombres",
       },
     },
-    ledeStocked: "Quelques-uns sont déjà tissés. Les autres commencent par une série, une taille et une texture.",
+    ledeStocked: "Trois façons d’avoir un tapis Mrirt : déjà tissé, sur commande, ou sur mesure.",
   },
   contactPage: {
     heading: "Écrivez-nous",
@@ -1185,7 +1249,7 @@ const fr: Dictionary = {
     findLede:
       "Vous avez aperçu une pièce sur Instagram ou dans une ancienne publication et souhaitez la retrouver ? Envoyez-nous simplement une photo ou quelques informations sur la pièce. Nous ferons notre possible pour la retrouver et vous renseigner.",
     channelsEyebrow: "Comment nous joindre",
-    placeNote: "Chinée au Maroc, réunie à Marrakech.",
+    placeNote: "Choisies au Maroc, en Afrique et ailleurs — réunies à Marrakech.",
     instagramNote: "Les pièces sont souvent présentées ici avant d’être mises en ligne sur le site.",
     formEyebrow: "Un message",
     pieceRef: "S’il s’agit d’une pièce, son numéro nous aide.",
@@ -1228,9 +1292,13 @@ const fr: Dictionary = {
     cta: "Tout voir",
   },
   stay: {
-    nav: "Séjour",
-    eyebrow: "Marrakech",
-    heading: "Nos appartements",
+    nav: "Séjourner à Marrakech",
+    eyebrow: "The Roots Corner",
+    // Retour V1 §13, mot pour mot.
+    heading: "Séjourner à Marrakech",
+    lede: "Vivez Marrakech dans un intérieur pensé comme The Roots Corner.",
+    storyEyebrow: "L’esprit",
+    apartmentsEyebrow: "Les appartements",
     body: [
       "Plus qu’un lieu où dormir, The Roots Corner propose une façon singulière de vivre Marrakech. Situés dans un endroit paisible près de la médina, nos appartements réunissent artisanat marocain, matières naturelles et design intemporel.",
       // Their own French for the apartments, from /accueil/.
@@ -1285,7 +1353,8 @@ const fr: Dictionary = {
     cta: "Entrer dans la collection",
   },
   footer: {
-    tagline: "Artisanat authentique & décoration d’inspiration ethnique, chinés au Maroc.",
+    // Retour V1 §15 — leur proposition, mot pour mot.
+    tagline: "Pièces rares, artisanat d’exception et objets choisis à travers le Maroc, l’Afrique et ailleurs.",
     place: "Marrakech, Maroc",
     navLabel: "Liens du site",
     shop: "Boutique",
@@ -1299,7 +1368,7 @@ const fr: Dictionary = {
     rugs: "Tapis Mrirt",
     contact: "Contact",
     artisans: "Artisans",
-    stay: "Séjour",
+    stay: "Séjourner à Marrakech",
     faq: "FAQ",
     terms: "Conditions générales",
     privacy: "Confidentialité",
