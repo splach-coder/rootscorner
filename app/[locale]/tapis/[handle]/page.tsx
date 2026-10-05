@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
 import PieceGallery from "@/components/PieceGallery";
-import ClosingBand from "@/components/ClosingBand";
 import type { PieceImage } from "@/lib/catalog";
 import RugBuy from "@/components/RugBuy";
 import JsonLd from "@/components/JsonLd";
@@ -204,8 +203,7 @@ export default async function RugSeriesPage({
           </Reveal>
         </div>
       </article>
-
-      <ClosingBand locale={locale as Locale} t={t.closing} labels={t.pieceLabel} />
+{/* No pieces here: the rug pages show rugs only (client, 5 Oct). */}
     </>
   );
 }

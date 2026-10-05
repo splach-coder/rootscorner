@@ -9,7 +9,6 @@ import type { Metadata } from "next";
 import PageHead from "@/components/PageHead";
 import Reveal from "@/components/Reveal";
 import InquiryForm, { type InquiryField } from "@/components/InquiryForm";
-import ClosingBand from "@/components/ClosingBand";
 import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
 import { RUG_SHOTS, WOVEN_RUGS, readyRugs } from "@/lib/catalog";
 import PieceCard from "@/components/PieceCard";
@@ -408,8 +407,7 @@ export default async function MrirtPage({
           </div>
         </div>
       </section>
-
-      <ClosingBand locale={locale as Locale} t={t.closing} labels={t.pieceLabel} />
+{/* No pieces here: the rug pages show rugs only (client, 5 Oct). */}
     </>
   );
 }

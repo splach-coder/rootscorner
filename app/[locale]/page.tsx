@@ -106,9 +106,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           key: series.handle,
           href: `/${locale}/tapis/${series.handle}`,
           src: img.src,
+          swap: series.images[1]?.src ?? null,
           w: img.w,
           h: img.h,
           alt: `${rl.rugName} ${title}`,
+          kind: rl.collectionWord,
           name: title,
           line: seriesLine(series, locale),
           price: from !== null ? `${rl.from} ${formatEuro(from, locale)}` : rl.onRequest,
@@ -124,8 +126,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         w: woven.width,
         h: woven.height,
         alt: t.mrirtPage.woven.alts[key],
+        kind: rl.availableWord,
         name: t.mrirtPage.woven.items[key],
-        line: t.mrirtPage.readyEyebrow,
+        line: null,
         price: rl.onRequest,
       };
     }),
@@ -216,7 +219,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <p className="rugs-home-line">{rl.homeLine}</p>
           </Reveal>
           <Reveal delay={80}>
-            <Link href={`/${locale}/mrirt`} className="label rugs-home-cta">
+            <Link href={`/${locale}/mrirt`} className="link label rugs-home-cta">
               {rl.homeCta}
             </Link>
           </Reveal>
