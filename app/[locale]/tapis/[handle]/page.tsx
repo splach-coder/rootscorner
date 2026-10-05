@@ -32,7 +32,7 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: `/tapis/${handle}`,
-    title: `${l.rugName} ${title} — The Roots Corner`,
+    title: `${l.rugName} ${title} | The Roots Corner`,
     description: seriesLine(series, locale) ?? `${l.rugName} ${title}. ${l.collectionNote}`,
     ...(image ? { image: { url: image.src, width: image.w, height: image.h } } : {}),
   });

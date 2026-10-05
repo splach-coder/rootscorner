@@ -173,7 +173,7 @@ export function materialOf(piece: Piece, locale: Lang): string | null {
   const blob = [...piece.description, ...piece.details].join(" ");
   if (!blob) return null;
   const hits = MATERIAL_TERMS.filter(([re]) => re.test(blob));
-  if (hits.length !== 1) return null; // ambiguous or absent — say nothing
+  if (hits.length !== 1) return null; // ambiguous or absent: say nothing
   return hits[0][1][locale];
 }
 

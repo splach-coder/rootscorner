@@ -43,7 +43,7 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: "/contact",
-    title: `${t.nav.contact} — The Roots Corner`,
+    title: `${t.nav.contact} | The Roots Corner`,
     description: t.contactPage.lede,
   });
 }

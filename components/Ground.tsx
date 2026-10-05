@@ -54,10 +54,10 @@ type RGB = [number, number, number];
    drops by 17 rather than 40. The page warms, it no longer darkens.
 */
 const LIGHT: [number, RGB][] = [
-  [0.0, [247, 245, 242]], // ecru — morning
+  [0.0, [247, 245, 242]], // ecru: morning
   [0.4, [246, 243, 238]],
   [0.72, [244, 239, 231]],
-  [1.0, [241, 235, 225]], // a warm, light beige — the end of the day
+  [1.0, [241, 235, 225]], // a warm, light beige: the end of the day
 ];
 
 /**

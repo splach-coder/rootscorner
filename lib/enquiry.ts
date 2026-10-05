@@ -104,8 +104,8 @@ export function cleanPhoto(input: unknown): EnquiryPhoto | null {
  * and there is no reason to: the page only ever sends one of two kinds.
  */
 const SUBJECTS = {
-  message: "The Roots Corner — enquiry",
-  rug: "The Roots Corner — Mrirt rug",
+  message: "The Roots Corner | enquiry",
+  rug: "The Roots Corner | Mrirt rug",
 } as const;
 
 export type EnquiryTopic = keyof typeof SUBJECTS;

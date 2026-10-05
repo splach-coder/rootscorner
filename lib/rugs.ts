@@ -176,7 +176,7 @@ export function rugAsPiece(entry: string, locale: string): Piece | null {
       variant.size,
     ]
       .filter(Boolean)
-      .join(" — "),
+      .join(" · "),
     price: variant.price,
     currency: variant.currency || "EUR",
     category: "rugs",

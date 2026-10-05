@@ -25,8 +25,8 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: "/collection",
-    title: `${t.nav.collection} — The Roots Corner`,
-    description: `${t.nav.collection} — ${t.selection.unique}`,
+    title: `${t.nav.collection} | The Roots Corner`,
+    description: `${t.nav.collection}: ${t.selection.unique}`,
     image: og("collection.jpg"),
   });
 }

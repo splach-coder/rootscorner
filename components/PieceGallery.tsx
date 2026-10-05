@@ -263,7 +263,7 @@ export default function PieceGallery({
         onPointerCancel={() => {
           swipe.current = null;
         }}
-        aria-label={`${zoomLabels.open} — ${name}`}
+        aria-label={`${zoomLabels.open}: ${name}`}
       >
         {images.map((image, i) => (
           <Image

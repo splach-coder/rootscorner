@@ -397,12 +397,12 @@ const en: Record<string, LegalDoc> = {
       },
       {
         kind: "p",
-        text: "To do so, tell us clearly within that period — by email at therootscornerm@gmail.com or by WhatsApp — giving your order and the piece concerned.",
+        text: "To do so, tell us clearly within that period, by email at therootscornerm@gmail.com or by WhatsApp, giving your order and the piece concerned.",
       },
       { kind: "h", text: "2. Returning a piece" },
       {
         kind: "p",
-        text: "Send the piece back within 14 days of telling us, carefully packed, in the condition in which you received it. Return shipping is at your expense. Our pieces are fragile and most are one of a kind, so we recommend a tracked and insured shipment — write to us first and we will tell you how to pack it safely.",
+        text: "Send the piece back within 14 days of telling us, carefully packed, in the condition in which you received it. Return shipping is at your expense. Our pieces are fragile and most are one of a kind, so we recommend a tracked and insured shipment: write to us first and we will tell you how to pack it safely.",
       },
       { kind: "h", text: "3. Refund" },
       {
@@ -417,7 +417,7 @@ const en: Record<string, LegalDoc> = {
       { kind: "h", text: "5. Pieces damaged on arrival" },
       {
         kind: "p",
-        text: "If a piece arrives broken or damaged, contact us as soon as possible after delivery — within 7 days if you can — with photographs of the package and of the piece, and keep the packaging.",
+        text: "If a piece arrives broken or damaged, contact us as soon as possible after delivery, within 7 days if you can, with photographs of the package and of the piece, and keep the packaging.",
       },
       {
         kind: "p",
@@ -556,7 +556,7 @@ const en: Record<string, LegalDoc> = {
         items: [
           [
             "Where do you deliver?",
-            "Every piece ships from Marrakech — within Morocco and worldwide, including France, Belgium and Switzerland.",
+            "Every piece ships from Marrakech, within Morocco and worldwide, including France, Belgium and Switzerland.",
           ],
           [
             "How much is delivery?",
@@ -572,7 +572,7 @@ const en: Record<string, LegalDoc> = {
           ],
           [
             "How do I follow my order?",
-            "Open “My orders” on the site and sign in with your email address — you receive a one-time code, there is no password. You will see your order, its status and, once it has shipped, the tracking link. You are also emailed when it ships.",
+            "Open “My orders” on the site and sign in with your email address: you receive a one-time code, there is no password. You will see your order, its status and, once it has shipped, the tracking link. You are also emailed when it ships.",
           ],
           [
             "Can I order a made-to-measure Mrirt rug?",
@@ -584,7 +584,7 @@ const en: Record<string, LegalDoc> = {
           ],
           [
             "Are the dimensions exact?",
-            "They are given as a guide. A handmade object has no perfectly regular measurements, and a few centimetres of difference are possible — a handwoven rug can also vary slightly from its stated size. If a precise measurement matters to you, ask us before buying.",
+            "They are given as a guide. A handmade object has no perfectly regular measurements, and a few centimetres of difference are possible: a handwoven rug can also vary slightly from its stated size. If a precise measurement matters to you, ask us before buying.",
           ],
           [
             "Are imperfections normal?",
@@ -604,7 +604,7 @@ const en: Record<string, LegalDoc> = {
           ],
           [
             "Can I ask about a piece before buying?",
-            "Of course — by WhatsApp, email or the contact form. Every piece page has a link that opens the message already naming the piece.",
+            "Of course: by WhatsApp, email or the contact form. Every piece page has a link that opens the message already naming the piece.",
           ],
         ],
       },
@@ -654,7 +654,7 @@ const fr: Record<string, LegalDoc> = {
       { kind: "h", text: "3. Données personnelles" },
       {
         kind: "p",
-        text: "The Roots Corner respecte la confidentialité de vos données personnelles et s’engage à les protéger conformément à la réglementation applicable (y compris le Règlement général sur la protection des données — RGPD). Les informations recueillies via les formulaires de contact ou lors de l’utilisation du site servent uniquement à traiter vos demandes.",
+        text: "The Roots Corner respecte la confidentialité de vos données personnelles et s’engage à les protéger conformément à la réglementation applicable (y compris le Règlement général sur la protection des données, RGPD). Les informations recueillies via les formulaires de contact ou lors de l’utilisation du site servent uniquement à traiter vos demandes.",
       },
       {
         kind: "p",
@@ -826,7 +826,7 @@ const fr: Record<string, LegalDoc> = {
       { kind: "h", text: "Ce qui est enregistré sur votre appareil" },
       {
         kind: "p",
-        text: "Deux informations sont conservées par votre propre navigateur pour que le site se comporte comme vous l’attendez. Elles restent sur votre appareil, ne nous sont jamais transmises — ni à personne d’autre — et ne contiennent rien qui vous identifie.",
+        text: "Deux informations sont conservées par votre propre navigateur pour que le site se comporte comme vous l’attendez. Elles restent sur votre appareil, ne nous sont jamais transmises, ni à personne d’autre, et ne contiennent rien qui vous identifie.",
       },
       {
         kind: "dl",
@@ -893,12 +893,12 @@ const fr: Record<string, LegalDoc> = {
       },
       {
         kind: "p",
-        text: "Pour cela, informez-nous clairement dans ce délai — par e-mail à therootscornerm@gmail.com ou par WhatsApp — en indiquant votre commande et la pièce concernée.",
+        text: "Pour cela, informez-nous clairement dans ce délai, par e-mail à therootscornerm@gmail.com ou par WhatsApp, en indiquant votre commande et la pièce concernée.",
       },
       { kind: "h", text: "2. Retour de la pièce" },
       {
         kind: "p",
-        text: "Renvoyez la pièce dans les 14 jours qui suivent, soigneusement emballée et dans l’état où vous l’avez reçue. Les frais de retour sont à votre charge. Nos pièces sont fragiles et le plus souvent uniques : nous recommandons un envoi suivi et assuré — écrivez-nous d’abord, nous vous dirons comment l’emballer en toute sécurité.",
+        text: "Renvoyez la pièce dans les 14 jours qui suivent, soigneusement emballée et dans l’état où vous l’avez reçue. Les frais de retour sont à votre charge. Nos pièces sont fragiles et le plus souvent uniques : nous recommandons un envoi suivi et assuré : écrivez-nous d’abord, nous vous dirons comment l’emballer en toute sécurité.",
       },
       { kind: "h", text: "3. Remboursement" },
       {
@@ -913,7 +913,7 @@ const fr: Record<string, LegalDoc> = {
       { kind: "h", text: "5. Pièces endommagées à la réception" },
       {
         kind: "p",
-        text: "Si une pièce arrive cassée ou endommagée, contactez-nous dès que possible après la livraison — si possible sous 7 jours — avec des photos du colis et de la pièce, et conservez l’emballage.",
+        text: "Si une pièce arrive cassée ou endommagée, contactez-nous dès que possible après la livraison, si possible sous 7 jours, avec des photos du colis et de la pièce, et conservez l’emballage.",
       },
       {
         kind: "p",
@@ -1031,7 +1031,7 @@ const fr: Record<string, LegalDoc> = {
         items: [
           [
             "Où livrez-vous ?",
-            "Chaque pièce part de Marrakech — au Maroc et dans le monde entier, y compris en France, en Belgique et en Suisse.",
+            "Chaque pièce part de Marrakech, au Maroc et dans le monde entier, y compris en France, en Belgique et en Suisse.",
           ],
           [
             "Combien coûte la livraison ?",
@@ -1047,7 +1047,7 @@ const fr: Record<string, LegalDoc> = {
           ],
           [
             "Comment suivre ma commande ?",
-            "Ouvrez « Mes commandes » sur le site et connectez-vous avec votre adresse e-mail — vous recevez un code à usage unique, sans mot de passe. Vous y voyez votre commande, son statut et, une fois expédiée, le lien de suivi. Un e-mail vous est aussi envoyé à l’expédition.",
+            "Ouvrez « Mes commandes » sur le site et connectez-vous avec votre adresse e-mail : vous recevez un code à usage unique, sans mot de passe. Vous y voyez votre commande, son statut et, une fois expédiée, le lien de suivi. Un e-mail vous est aussi envoyé à l’expédition.",
           ],
           [
             "Puis-je commander un tapis Mrirt sur mesure ?",
@@ -1059,7 +1059,7 @@ const fr: Record<string, LegalDoc> = {
           ],
           [
             "Les dimensions sont-elles exactes ?",
-            "Elles sont données à titre indicatif. Un objet fait main n’a pas de mesures parfaitement régulières, et quelques centimètres d’écart sont possibles — un tapis tissé main peut aussi varier légèrement de la taille annoncée. Si une mesure précise compte pour vous, demandez-la-nous avant d’acheter.",
+            "Elles sont données à titre indicatif. Un objet fait main n’a pas de mesures parfaitement régulières, et quelques centimètres d’écart sont possibles : un tapis tissé main peut aussi varier légèrement de la taille annoncée. Si une mesure précise compte pour vous, demandez-la-nous avant d’acheter.",
           ],
           [
             "Les imperfections sont-elles normales ?",
@@ -1079,7 +1079,7 @@ const fr: Record<string, LegalDoc> = {
           ],
           [
             "Puis-je poser une question sur une pièce avant d’acheter ?",
-            "Bien sûr — par WhatsApp, e-mail ou le formulaire de contact. Chaque page de pièce propose un lien qui ouvre le message en nommant déjà la pièce.",
+            "Bien sûr : par WhatsApp, e-mail ou le formulaire de contact. Chaque page de pièce propose un lien qui ouvre le message en nommant déjà la pièce.",
           ],
         ],
       },
@@ -1128,7 +1128,7 @@ function paymentDisclosure(locale: Locale): { payment: string; links: string } {
         ? "Le paiement est traité par Shopify, sur ses propres pages. En vous y rendant pour payer, vous quittez ce site : ce sont les conditions et les cookies de Shopify qui s’appliquent alors. Aucune donnée de paiement n’est traitée ici, et aucun numéro de carte ne transite par ce site."
         : "Le paiement est traité par notre prestataire, sur ses propres pages. En vous y rendant pour payer, ce sont ses conditions de confidentialité et de cookies qui s’appliquent. Aucune donnée de paiement n’est traitée sur ce site.",
       links: live
-        ? "Certains liens mènent à des services que nous ne gérons pas — Instagram, WhatsApp et Shopify. Les suivre vous conduit chez cette entreprise, dont les conditions s’appliquent alors. Nous n’intégrons aucun de leurs traceurs sur ce site."
+        ? "Certains liens mènent à des services que nous ne gérons pas : Instagram, WhatsApp et Shopify. Les suivre vous conduit chez cette entreprise, dont les conditions s’appliquent alors. Nous n’intégrons aucun de leurs traceurs sur ce site."
         : "Certains liens mènent à des services que nous ne gérons pas, comme Instagram et WhatsApp. Les suivre vous conduit chez cette entreprise, dont les conditions s’appliquent alors. Nous n’intégrons aucun de leurs traceurs sur ce site.",
     };
   }
@@ -1138,7 +1138,7 @@ function paymentDisclosure(locale: Locale): { payment: string; links: string } {
       ? "Payment is handled by Shopify, on their own pages. Going there to pay takes you off this site, and Shopify's own terms and cookies apply from that point. No payment details are processed here, and no card number passes through this site."
       : "Payment is handled by our payment provider on their own pages. When you go there to pay, that provider's own privacy and cookie terms apply to what happens on those pages. Nothing about a payment is processed on this site.",
     links: live
-      ? "Some links lead to services we do not run — Instagram, WhatsApp and Shopify. Following one takes you to that company, whose own terms then apply. We do not embed their tracking on this site."
+      ? "Some links lead to services we do not run: Instagram, WhatsApp and Shopify. Following one takes you to that company, whose own terms then apply. We do not embed their tracking on this site."
       : "Some links lead to services we do not run, such as Instagram and WhatsApp. Following one takes you to that company, whose own terms then apply. We do not embed their tracking on this site.",
   };
 }

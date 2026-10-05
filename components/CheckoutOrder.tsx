@@ -71,11 +71,11 @@ export default function CheckoutOrder({
    * question about an order they are about to place.
    */
   const summary = lines
-    .map((line) => `· ${displayName(line.piece, locale)} — ${formatPrice(line.piece, locale) ?? "—"}`)
+    .map((line) => `· ${displayName(line.piece, locale)}: ${formatPrice(line.piece, locale) ?? ""}`)
     .join("\n");
   const subject =
-    locale === "fr" ? "Commande — The Roots Corner" : "Order — The Roots Corner";
-  const body = `${summary}\n\n${t.subtotal}: ${total ?? "—"}\n`;
+    locale === "fr" ? "Commande | The Roots Corner" : "Order | The Roots Corner";
+  const body = `${summary}\n\n${t.subtotal}: ${total ?? ""}\n`;
   const enquiryHref = contactEmail
     ? `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     : instagram;

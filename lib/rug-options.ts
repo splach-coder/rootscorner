@@ -48,7 +48,7 @@ export function rugChoices(locale: Locale) {
   // existing collection and colour is an option).
   const series: ChoiceOption[] = allRugSeries().flatMap((s) =>
     s.colours.map((c) => ({
-      value: `${seriesTitle(s, locale)} — ${colourName(c.name, locale)}`,
+      value: `${seriesTitle(s, locale)} · ${colourName(c.name, locale)}`,
       swatch: swatchFor(c.name, c.image),
     })),
   );

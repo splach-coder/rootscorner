@@ -124,7 +124,7 @@ export function artisanPlaces(locale: Locale): ArtisanPlace[] {
   return [
     { key: "senegal", name: fr ? "Sénégal" : "Senegal" },
     { key: "ivory", name: "Côte d’Ivoire" },
-    { key: "morocco", name: fr ? "Maroc — Marrakech" : "Morocco — Marrakech" },
+    { key: "morocco", name: fr ? "Maroc, Marrakech" : "Morocco, Marrakech" },
   ];
 }
 

@@ -390,9 +390,9 @@ type Dictionary = {
 const en: Dictionary = {
   meta: {
     // Brief §4: the homepage must immediately convey the name and the tagline.
-    title: "The Roots Corner — Rare pieces. Stories. Materials.",
+    title: "The Roots Corner | Rare pieces. Stories. Materials.",
     description:
-      "Antique objects, artisanal pieces and Moroccan rugs, selected for their material, their history and their character — from Morocco, Africa and beyond. Each piece is unique.",
+      "Antique objects, artisanal pieces and Moroccan rugs, selected for their material, their history and their character, from Morocco, Africa and beyond. Each piece is unique.",
   },
   nav: {
     collection: "Collection",
@@ -504,9 +504,9 @@ const en: Dictionary = {
     craft:
       "Entirely handmade, it reflects a deep-rooted heritage while embracing modern aesthetics, turning each rug into a unique and lasting work of art.",
     wool:
-      "Silky wool, dense weave, and exceptional softness — a true invitation to comfort and timeless beauty.",
+      "Silky wool, dense weave, and exceptional softness: a true invitation to comfort and timeless beauty.",
     invite:
-      "Tell us what you’re dreaming of — size, colors, inspiration — and we’ll be in touch to bring your vision to life with our artisans.",
+      "Tell us what you’re dreaming of (size, colors, inspiration) and we’ll be in touch to bring your vision to life with our artisans.",
   },
   pieceLabel: {
     material: "Material",
@@ -629,7 +629,7 @@ const en: Dictionary = {
       {
         eyebrow: "A house born in Marrakech",
         body: [
-          "The Roots Corner was born of a deep passion for craftsmanship and timeless design, and of the wish to share a love of antique objects rich in history and authenticity — above all those of Moroccan and African cultures.",
+          "The Roots Corner was born of a deep passion for craftsmanship and timeless design, and of the wish to share a love of antique objects rich in history and authenticity, above all those of Moroccan and African cultures.",
         ],
       },
       {
@@ -642,7 +642,7 @@ const en: Dictionary = {
         eyebrow: "Material and hands",
         body: [
           "Long before they became decoration, these objects were part of daily life. Their beauty lies partly in their imperfections: a patina, an irregularity, a mark left by time.",
-          "From Morocco to Cameroon, we look for what lies behind each piece — the materials, the gestures, the people who shape them.",
+          "From Morocco to Cameroon, we look for what lies behind each piece: the materials, the gestures, the people who shape them.",
         ],
       },
       {
@@ -654,7 +654,7 @@ const en: Dictionary = {
       {
         eyebrow: "What sets us apart",
         body: [
-          "We are not trying to follow trends. We are looking for pieces able to outlive them — and we say of a piece only what we know of it.",
+          "We are not trying to follow trends. We are looking for pieces able to outlive them, and we say of a piece only what we know of it.",
         ],
       },
     ],
@@ -680,12 +680,12 @@ const en: Dictionary = {
       {
         key: "custom",
         name: "Made-to-measure rugs",
-        note: "The dimensions, the colours, the texture — and the design.",
+        note: "The dimensions, the colours, the texture and the design.",
       },
     ],
     customEyebrow: "Made-to-measure rugs",
     customHeading: "A rug of your own",
-    customTerms: "Every term can be chosen and none is required. If you are unsure, say so — we will guide you.",
+    customTerms: "Every term can be chosen and none is required. If you are unsure, say so: we will guide you.",
     textureOptions: ["Soft and dense", "Very thick", "Looped", "I would like advice"],
     guidance: "Be guided in my choice",
     guidanceYes: "Yes",
@@ -724,7 +724,7 @@ const en: Dictionary = {
     // straight to the thing that is available — the four decisions below.
     readyEmpty: "No finished rug is available at the moment.",
     woven: {
-      note: "Already woven and available immediately. Size and price on request — each one is the only one of its kind.",
+      note: "Already woven and available immediately. Size and price on request. Each one is the only one of its kind.",
       ask: "Ask about this rug",
       // Descriptions of what is visible in the photograph, nothing more. No
       // age, no provenance, no price (§5).
@@ -746,7 +746,7 @@ const en: Dictionary = {
     findLede:
       "Seen a piece on Instagram or in an older post and want to find it again? Just send us a photograph, or a few details about it. We will do our best to track it down and tell you about it.",
     channelsEyebrow: "How to reach us",
-    placeNote: "Chosen in Morocco, Africa and beyond — gathered in Marrakech.",
+    placeNote: "Chosen in Morocco, Africa and beyond, gathered in Marrakech.",
     instagramNote: "Pieces are often shown here before they go up on the site.",
     formEyebrow: "A message",
     pieceRef: "If it is about a piece, its number helps.",
@@ -778,7 +778,7 @@ const en: Dictionary = {
     sent: "Thank you. We will come back to you.",
     // Says the message is still there, because it is — the fields are untouched
     // and the WhatsApp link beside this carries the whole of it.
-    error: "That did not send. Your message is still here — reach us here instead:",
+    error: "That did not send. Your message is still here. Reach us here instead:",
     optional: "optional",
     viaInstagram: "Write on Instagram",
     viaWhatsapp: "Take it to WhatsApp",
@@ -852,7 +852,7 @@ const en: Dictionary = {
     eyebrow: "Matter",
     // Their §14, translated. The French is the original.
     heading: "Time makes the piece",
-    body: "Wear, patina, an old repair. These are not flaws to erase before the photograph — they are what gives a piece its soul.",
+    body: "Wear, patina, an old repair. These are not flaws to erase before the photograph: they are what gives a piece its soul.",
   },
   invitation: {
     heading: "Come and look properly",
@@ -918,7 +918,7 @@ const en: Dictionary = {
     emptyCta: "See the collection",
     notConnected: "Payment is not switched on yet.",
     notConnectedNote:
-      "The shop is finished and this order is ready to go — the card processor is the last thing to connect. Send it as a message and we will confirm it by hand.",
+      "The shop is finished and this order is ready to go. The card processor is the last thing to connect. Send it as a message and we will confirm it by hand.",
     enquire: "Send this order as a message",
     failed: "That did not go through. Try once more, or send it as a message.",
   },
@@ -927,9 +927,9 @@ const en: Dictionary = {
 
 const fr: Dictionary = {
   meta: {
-    title: "The Roots Corner — Pièces rares. Histoires. Matières.",
+    title: "The Roots Corner | Pièces rares. Histoires. Matières.",
     description:
-      "Objets anciens, pièces artisanales et tapis marocains sélectionnés pour leur matière, leur histoire et leur caractère — au Maroc, en Afrique et ailleurs. Chaque pièce est unique.",
+      "Objets anciens, pièces artisanales et tapis marocains sélectionnés pour leur matière, leur histoire et leur caractère, au Maroc, en Afrique et ailleurs. Chaque pièce est unique.",
   },
   nav: {
     collection: "Collection",
@@ -1021,9 +1021,9 @@ const fr: Dictionary = {
     craft:
       "Entièrement fait main, il porte un héritage profondément enraciné tout en épousant une esthétique contemporaine, faisant de chaque tapis une œuvre unique et durable.",
     wool:
-      "Une laine soyeuse, un tissage dense et une douceur exceptionnelle — une véritable invitation au confort et à la beauté intemporelle.",
+      "Une laine soyeuse, un tissage dense et une douceur exceptionnelle : une véritable invitation au confort et à la beauté intemporelle.",
     invite:
-      "Dites-nous ce dont vous rêvez — taille, couleurs, inspiration — et nous reviendrons vers vous pour donner vie à votre projet avec nos artisans.",
+      "Dites-nous ce dont vous rêvez (taille, couleurs, inspiration) et nous reviendrons vers vous pour donner vie à votre projet avec nos artisans.",
   },
   pieceLabel: {
     material: "Matière",
@@ -1137,7 +1137,7 @@ const fr: Dictionary = {
       {
         eyebrow: "Une maison née à Marrakech",
         body: [
-          "The Roots Corner est née d’une profonde passion pour l’artisanat et le design intemporel, et du désir de partager l’amour des objets anciens, riches d’histoire et d’authenticité — en particulier ceux issus des cultures marocaine et africaine.",
+          "The Roots Corner est née d’une profonde passion pour l’artisanat et le design intemporel, et du désir de partager l’amour des objets anciens, riches d’histoire et d’authenticité, en particulier ceux issus des cultures marocaine et africaine.",
         ],
       },
       {
@@ -1162,7 +1162,7 @@ const fr: Dictionary = {
       {
         eyebrow: "Ce qui nous distingue",
         body: [
-          "Nous ne cherchons pas à suivre les tendances. Nous cherchons des pièces capables de les traverser — et nous ne disons d’une pièce que ce que nous savons d’elle.",
+          "Nous ne cherchons pas à suivre les tendances. Nous cherchons des pièces capables de les traverser, et nous ne disons d’une pièce que ce que nous savons d’elle.",
         ],
       },
     ],
@@ -1188,7 +1188,7 @@ const fr: Dictionary = {
       {
         key: "custom",
         name: "Tapis sur mesure",
-        note: "Les dimensions, les couleurs, la texture — et le motif.",
+        note: "Les dimensions, les couleurs, la texture et le motif.",
       },
     ],
     customEyebrow: "Tapis sur mesure",
@@ -1229,7 +1229,7 @@ const fr: Dictionary = {
     readyNote: "Uniques, comme tout le reste ici.",
     readyEmpty: "Aucun tapis fini n’est disponible pour le moment.",
     woven: {
-      note: "Déjà tissés et disponibles immédiatement. Taille et prix sur demande — chacun est le seul de son espèce.",
+      note: "Déjà tissés et disponibles immédiatement. Taille et prix sur demande. Chacun est le seul de son espèce.",
       ask: "Demander ce tapis",
       items: {
         fire: "Laine crème, velours profond",
@@ -1249,7 +1249,7 @@ const fr: Dictionary = {
     findLede:
       "Vous avez aperçu une pièce sur Instagram ou dans une ancienne publication et souhaitez la retrouver ? Envoyez-nous simplement une photo ou quelques informations sur la pièce. Nous ferons notre possible pour la retrouver et vous renseigner.",
     channelsEyebrow: "Comment nous joindre",
-    placeNote: "Choisies au Maroc, en Afrique et ailleurs — réunies à Marrakech.",
+    placeNote: "Choisies au Maroc, en Afrique et ailleurs, réunies à Marrakech.",
     instagramNote: "Les pièces sont souvent présentées ici avant d’être mises en ligne sur le site.",
     formEyebrow: "Un message",
     pieceRef: "S’il s’agit d’une pièce, son numéro nous aide.",
@@ -1277,7 +1277,7 @@ const fr: Dictionary = {
     send: "Envoyer",
     sending: "Envoi…",
     sent: "Merci. Nous revenons vers vous.",
-    error: "L’envoi a échoué. Votre message est toujours là — joignez-nous ici :",
+    error: "L’envoi a échoué. Votre message est toujours là. Joignez-nous ici :",
     optional: "facultatif",
     viaInstagram: "Écrire sur Instagram",
     viaWhatsapp: "Reprendre sur WhatsApp",
@@ -1345,7 +1345,7 @@ const fr: Dictionary = {
     eyebrow: "Matière",
     // §14 of the client's report, verbatim.
     heading: "Le temps fait la pièce",
-    body: "L’usure, la patine, une réparation ancienne. Ce ne sont pas des défauts à effacer avant la photo — c’est ce qui donne à la pièce son âme.",
+    body: "L’usure, la patine, une réparation ancienne. Ce ne sont pas des défauts à effacer avant la photo : c’est ce qui donne à la pièce son âme.",
   },
   invitation: {
     heading: "Venez regarder vraiment",
@@ -1403,7 +1403,7 @@ const fr: Dictionary = {
     emptyCta: "Voir la collection",
     notConnected: "Le paiement n’est pas encore activé.",
     notConnectedNote:
-      "La boutique est terminée et cette commande est prête — il ne reste qu’à brancher le processeur de paiement. Envoyez-la en message et nous la confirmerons à la main.",
+      "La boutique est terminée et cette commande est prête. Il ne reste qu’à brancher le processeur de paiement. Envoyez-la en message et nous la confirmerons à la main.",
     enquire: "Envoyer cette commande en message",
     failed: "Cela n’a pas abouti. Réessayez, ou envoyez la commande en message.",
   },

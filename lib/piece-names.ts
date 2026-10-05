@@ -55,15 +55,15 @@ export type PieceText = {
 };
 
 const dogon: Both = {
-  fr: "Afrique de l’Ouest — attribué à la tradition Dogon",
-  en: "West Africa — attributed to the Dogon tradition",
+  fr: "Afrique de l’Ouest, attribué à la tradition Dogon",
+  en: "West Africa, attributed to the Dogon tradition",
 };
 
 export const PIECE_TEXT: Record<string, PieceText> = {
   // ---- Sièges & tabourets ------------------------------------------------
   "handcrafted-wood-stool---cote-d-ivoire": {
     // V1 feedback §3, verbatim.
-    name: { fr: "Tabouret sculpté à la main — Côte d’Ivoire", en: "Hand-carved wooden stool — Côte d’Ivoire" },
+    name: { fr: "Tabouret sculpté à la main, Côte d’Ivoire", en: "Hand-carved wooden stool, Côte d’Ivoire" },
     origin: { fr: "Côte d’Ivoire", en: "Côte d’Ivoire" },
     nature: "artisanal",
   },
@@ -74,8 +74,8 @@ export const PIECE_TEXT: Record<string, PieceText> = {
   "handmade-wooden-stool": {
     // The record: "Antique Bamileke royal wooden stool from Cameroon, dating
     // back to the first half of the 20th century."
-    name: { fr: "Tabouret royal Bamileke — Cameroun", en: "Bamileke royal stool — Cameroon" },
-    origin: { fr: "Cameroun — tradition Bamileke", en: "Cameroon — Bamileke tradition" },
+    name: { fr: "Tabouret royal Bamileke, Cameroun", en: "Bamileke royal stool, Cameroon" },
+    origin: { fr: "Cameroun, tradition Bamileke", en: "Cameroon, Bamileke tradition" },
     nature: "antique",
     period: { fr: "Première moitié du XXᵉ siècle", en: "First half of the 20th century" },
   },
@@ -85,7 +85,7 @@ export const PIECE_TEXT: Record<string, PieceText> = {
   "wooden-carved-stool": {
     // The record: "Origin: Bandama Valley (Ivory Coast), 20th century" and
     // "This vintage piece…".
-    name: { fr: "Tabouret en bois noir verni — Côte d’Ivoire", en: "Black varnished wooden stool — Côte d’Ivoire" },
+    name: { fr: "Tabouret en bois noir verni, Côte d’Ivoire", en: "Black varnished wooden stool, Côte d’Ivoire" },
     origin: { fr: "Vallée du Bandama, Côte d’Ivoire", en: "Bandama Valley, Côte d’Ivoire" },
     nature: "vintage",
     period: { fr: "XXᵉ siècle", en: "20th century" },
@@ -103,7 +103,7 @@ export const PIECE_TEXT: Record<string, PieceText> = {
     nature: "artisanal",
   },
   "handcrafted-stool-from-cameroon": {
-    name: { fr: "Tabouret traditionnel — Cameroun", en: "Traditional stool — Cameroon" },
+    name: { fr: "Tabouret traditionnel, Cameroun", en: "Traditional stool, Cameroon" },
     origin: { fr: "Cameroun", en: "Cameroon" },
     nature: "artisanal",
   },
@@ -115,31 +115,31 @@ export const PIECE_TEXT: Record<string, PieceText> = {
     // The record: "a timeless object originating from West Africa".
     name: { fr: "Tabouret Sénoufo", en: "Senufo stool" },
     origin: {
-      fr: "Afrique de l’Ouest — attribué à la tradition sénoufo",
-      en: "West Africa — attributed to the Senufo tradition",
+      fr: "Afrique de l’Ouest, attribué à la tradition sénoufo",
+      en: "West Africa, attributed to the Senufo tradition",
     },
     nature: "artisanal",
   },
   "baule-chair-cote-d-ivoire": {
-    name: { fr: "Chaise Baoulé — Côte d’Ivoire", en: "Baule chair — Côte d’Ivoire" },
+    name: { fr: "Chaise Baoulé, Côte d’Ivoire", en: "Baule chair, Côte d’Ivoire" },
     origin: {
-      fr: "Côte d’Ivoire — attribué à la tradition baoulé",
-      en: "Côte d’Ivoire — attributed to the Baule tradition",
+      fr: "Côte d’Ivoire, attribué à la tradition baoulé",
+      en: "Côte d’Ivoire, attributed to the Baule tradition",
     },
     nature: "artisanal",
   },
 
   // ---- Vases ---------------------------------------------------------------
   "antique-moroccan-vase": {
-    name: { fr: "Vase ancien en terre cuite — Maroc", en: "Antique terracotta vase — Morocco" },
+    name: { fr: "Vase ancien en terre cuite, Maroc", en: "Antique terracotta vase, Morocco" },
     origin: { fr: "Maroc", en: "Morocco" },
     nature: "antique",
   },
   "antique-berber-vase": {
     name: { fr: "Vase berbère ancien émaillé", en: "Antique glazed Berber vase" },
     origin: {
-      fr: "Afrique du Nord — attribué à la tradition berbère",
-      en: "North Africa — attributed to the Berber tradition",
+      fr: "Afrique du Nord, attribué à la tradition berbère",
+      en: "North Africa, attributed to the Berber tradition",
     },
     nature: "antique",
   },
@@ -147,12 +147,12 @@ export const PIECE_TEXT: Record<string, PieceText> = {
   // ---- Pots & contenants --------------------------------------------------
   "handmade-blackened-clay-pot---morocco": {
     // V1 feedback §3, verbatim.
-    name: { fr: "Pot en argile noircie — Maroc", en: "Blackened clay pot — Morocco" },
+    name: { fr: "Pot en argile noircie, Maroc", en: "Blackened clay pot, Morocco" },
     origin: { fr: "Maroc", en: "Morocco" },
     nature: "artisanal",
   },
   "decorative-ceramic-pot": {
-    name: { fr: "Pot traditionnel en céramique — Maroc", en: "Traditional ceramic pot — Morocco" },
+    name: { fr: "Pot traditionnel en céramique, Maroc", en: "Traditional ceramic pot, Morocco" },
     origin: { fr: "Maroc", en: "Morocco" },
     nature: "artisanal",
   },
@@ -161,19 +161,19 @@ export const PIECE_TEXT: Record<string, PieceText> = {
     nature: "artisanal",
   },
   "ancient-african-mortar": {
-    name: { fr: "Mortier ancien en bois — Afrique", en: "Antique wooden mortar — Africa" },
+    name: { fr: "Mortier ancien en bois, Afrique", en: "Antique wooden mortar, Africa" },
     origin: { fr: "Afrique", en: "Africa" },
     nature: "antique",
   },
   "antique-moroccan-pot": {
-    name: { fr: "Pot ancien — Maroc", en: "Antique pot — Morocco" },
+    name: { fr: "Pot ancien, Maroc", en: "Antique pot, Morocco" },
     origin: { fr: "Maroc", en: "Morocco" },
     nature: "antique",
   },
 
   // ---- Céramiques de Tamegroute ------------------------------------------
   "handmade-pottery-vase-made-in-morocco": {
-    name: { fr: "Vase sculptural en céramique — Maroc", en: "Sculptural ceramic vase — Morocco" },
+    name: { fr: "Vase sculptural en céramique, Maroc", en: "Sculptural ceramic vase, Morocco" },
     origin: { fr: "Maroc", en: "Morocco" },
     nature: "artisanal",
   },
@@ -204,8 +204,8 @@ export const PIECE_TEXT: Record<string, PieceText> = {
   "tuareg-tent-stakes": {
     name: { fr: "Piquets de tente touaregs", en: "Tuareg tent stakes" },
     origin: {
-      fr: "Sahara — attribué à la tradition touarègue",
-      en: "Sahara — attributed to the Tuareg tradition",
+      fr: "Sahara, attribué à la tradition touarègue",
+      en: "Sahara, attributed to the Tuareg tradition",
     },
     nature: "antique",
   },
@@ -230,18 +230,18 @@ export const PIECE_TEXT: Record<string, PieceText> = {
     nature: "antique",
   },
   "loom-beater-african-art": {
-    name: { fr: "Battant de métier à tisser — art africain", en: "Loom beater — African art" },
+    name: { fr: "Battant de métier à tisser, art africain", en: "Loom beater, African art" },
     origin: { fr: "Afrique", en: "Africa" },
   },
   "vintage-moroccan-shelf-berbere": {
-    name: { fr: "Étagère berbère vintage — Maroc", en: "Vintage Berber shelf — Morocco" },
-    origin: { fr: "Maroc — tradition berbère", en: "Morocco — Berber tradition" },
+    name: { fr: "Étagère berbère vintage, Maroc", en: "Vintage Berber shelf, Morocco" },
+    origin: { fr: "Maroc, tradition berbère", en: "Morocco, Berber tradition" },
     nature: "vintage",
   },
 
   // ---- Objets & sculptures -------------------------------------------------
   "turtle-shaped-indonesia": {
-    name: { fr: "Objet en forme de tortue — Indonésie", en: "Turtle-shaped object — Indonesia" },
+    name: { fr: "Objet en forme de tortue, Indonésie", en: "Turtle-shaped object, Indonesia" },
     origin: { fr: "Indonésie", en: "Indonesia" },
   },
   "vintage-moroccan-teapot": {
@@ -250,24 +250,24 @@ export const PIECE_TEXT: Record<string, PieceText> = {
     nature: "vintage",
   },
   "antique-lombok-spinning-top": {
-    name: { fr: "Toupie ancienne — Lombok", en: "Antique spinning top — Lombok" },
+    name: { fr: "Toupie ancienne, Lombok", en: "Antique spinning top, Lombok" },
     origin: { fr: "Lombok, Indonésie", en: "Lombok, Indonesia" },
     nature: "antique",
   },
   "spinning-top-gasing-indonesia": {
-    name: { fr: "Toupie gasing — Indonésie", en: "Gasing spinning top — Indonesia" },
+    name: { fr: "Toupie gasing, Indonésie", en: "Gasing spinning top, Indonesia" },
     origin: { fr: "Indonésie", en: "Indonesia" },
   },
   "spice-rack-morocco": {
-    name: { fr: "Étagère à épices — Maroc", en: "Spice rack — Morocco" },
+    name: { fr: "Étagère à épices, Maroc", en: "Spice rack, Morocco" },
     origin: { fr: "Maroc", en: "Morocco" },
   },
   "decorative-iron-disc-indonesian": {
-    name: { fr: "Disque décoratif en fer — Indonésie", en: "Decorative iron disc — Indonesia" },
+    name: { fr: "Disque décoratif en fer, Indonésie", en: "Decorative iron disc, Indonesia" },
     origin: { fr: "Indonésie", en: "Indonesia" },
   },
   "lombok-weel-indonesian": {
-    name: { fr: "Roue de Lombok — Indonésie", en: "Lombok wheel — Indonesia" },
+    name: { fr: "Roue de Lombok, Indonésie", en: "Lombok wheel, Indonesia" },
     origin: { fr: "Lombok, Indonésie", en: "Lombok, Indonesia" },
   },
 };

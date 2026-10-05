@@ -20,7 +20,7 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: "/stay",
-    title: `${t.stay.heading} — The Roots Corner`,
+    title: `${t.stay.heading} | The Roots Corner`,
     description: t.stay.body[0],
     image: og("stay.jpg"),
   });

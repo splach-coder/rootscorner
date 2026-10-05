@@ -4913,3 +4913,11 @@ misrepresent what is sold.
 - **Founder quote** (About page): V1 asks for one *and* says not to name her yet. Needs her words and permission.
 - **Rug lead time** for made-to-measure: the FAQ says it is confirmed with the quote. Give a range and it goes in.
 - **Reviews, artisan section, Instagram "Vu chez vous"**: V1 lists them as future, needing real content.
+
+## 69. No em dashes in visible copy (client, 5 Oct)
+
+Every em dash a visitor could see was removed (118: dictionaries, legal pages,
+piece names, descriptions, rug options, page titles, email subjects). They read
+as AI-written. Page titles are `Page | The Roots Corner`; names and compound
+labels use a comma or ` · `. Write new copy without them; comments don't count.
+Verified by scanning all 126 sitemap pages plus checkout and llms.txt for U+2014.

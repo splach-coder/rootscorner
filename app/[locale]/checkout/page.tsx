@@ -24,7 +24,7 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: "/checkout",
-    title: `${t.checkout.heading} — The Roots Corner`,
+    title: `${t.checkout.heading} | The Roots Corner`,
     description: t.checkout.lede,
     index: false,
   });

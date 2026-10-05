@@ -36,10 +36,10 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: `/collection/${category}`,
-    title: `${name} — The Roots Corner`,
+    title: `${name} | The Roots Corner`,
     // Built from counts and the room's own name: it states what is on the page
     // and claims nothing about any object.
-    description: `${name} — ${fill(count === 1 ? t.category.countOne : t.category.count, {
+    description: `${name}: ${fill(count === 1 ? t.category.countOne : t.category.count, {
       n: count,
     })}. ${t.selection.unique}`,
     image: og(`rooms/${category}.jpg`),

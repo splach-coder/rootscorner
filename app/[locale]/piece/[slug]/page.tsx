@@ -71,7 +71,7 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: `/piece/${slug}`,
-    title: `${name} — The Roots Corner`,
+    title: `${name} | The Roots Corner`,
     description,
     image: pieceOg(piece, name),
   });

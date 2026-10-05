@@ -22,7 +22,7 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: `/legal/${slug}`,
-    title: `${doc.title} — The Roots Corner`,
+    title: `${doc.title} | The Roots Corner`,
     // The document's own opening line. Never a written summary: a description
     // of a legal text that paraphrases it is a second, unreviewed version of it.
     description: doc.blocks.find((b) => b.kind === "p")?.text.slice(0, 155),

@@ -18,7 +18,7 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: "/faq",
-    title: `${doc?.title ?? "FAQ"} — The Roots Corner`,
+    title: `${doc?.title ?? "FAQ"} | The Roots Corner`,
     description: doc?.blocks
       .flatMap((b) => (b.kind === "dl" ? b.items.map(([q]) => q) : []))
       .join(" · ")

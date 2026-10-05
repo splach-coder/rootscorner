@@ -19,7 +19,7 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: "/story",
-    title: `${t.story.eyebrow} — The Roots Corner`,
+    title: `${t.story.eyebrow} | The Roots Corner`,
     description: t.story.body[0],
     image: og("story.jpg"),
   });
