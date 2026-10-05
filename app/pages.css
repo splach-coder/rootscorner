@@ -3267,8 +3267,25 @@ textarea.inquiry-input {
 
 .rug-buy {
   display: grid;
-  gap: 1.6rem;
-  margin-top: 2rem;
+  gap: 1.2rem;
+  margin-top: 1.6rem;
+}
+
+/* The pickers sit in the piece page's label column: closed rows, opening
+   below (client 5 Oct, after Beni). The open list overlays nothing — it pushes
+   the price down, so the panel never covers itself. */
+.rug-buy-group {
+  display: grid;
+}
+
+.rug-piece-line {
+  margin-top: 0.7rem;
+  color: var(--ink-soft);
+}
+
+.rug-piece .piece-delivery dd:first-of-type {
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .rug-buy-key {
@@ -3281,22 +3298,13 @@ textarea.inquiry-input {
   color: var(--ink);
 }
 
-/* On the series page the options are always open — Beni's panel, not a
-   dropdown — so they take the top rule the closed row used to supply. */
-.rug-buy-options {
-  border-top: 1px solid var(--rule);
-}
 
 .rug-buy-note {
-  margin-top: 0.6rem;
   color: var(--ink-soft);
 }
 
 .rug-buy-bar {
-  display: grid;
-  gap: 0.8rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--rule);
+  margin-top: 0.4rem;
 }
 
 .rug-buy-onrequest {
@@ -3418,4 +3426,26 @@ textarea.inquiry-input {
 
 .stay-story .stay-intro p + p {
   margin-top: 1rem;
+}
+
+/* The rugs' rail stays a visible line of links on a phone: the collection
+   page hides its rail there for a strip of covers, and the rugs have none. */
+@media (max-width: 699px) {
+  .rooms-rail.mrirt-rail {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: clamp(1rem, 2.5vw, 1.5rem) 0 0;
+    padding-bottom: 1.4rem;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+    border-bottom: 1px solid var(--rule);
+  }
+}
+
+/* Cards sit under their section head the way they do in a collection room. */
+.mrirt-ready .cards,
+.mrirt-series .cards {
+  margin-top: clamp(1.8rem, 3.5vw, 2.6rem);
 }
