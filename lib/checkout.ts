@@ -56,12 +56,12 @@ export function paymentReady(): boolean {
 }
 
 export type CheckoutResult =
-  | { ok: true; url: string }
+  | { ok: true; url: string; cartId: string }
   | { ok: false; reason: "not-connected" | "failed" };
 
 type CartCreate = {
   cartCreate?: {
-    cart?: { checkoutUrl?: string } | null;
+    cart?: { id?: string; checkoutUrl?: string } | null;
     userErrors?: { message: string }[];
   };
 };
@@ -69,7 +69,7 @@ type CartCreate = {
 const CART_CREATE = `
   mutation trcCartCreate($lines: [CartLineInput!]!) {
     cartCreate(input: { lines: $lines }) {
-      cart { checkoutUrl }
+      cart { id checkoutUrl }
       userErrors { field message }
     }
   }
@@ -113,7 +113,8 @@ export async function startCheckout(slugs: string[]): Promise<CheckoutResult> {
     if (data?.cartCreate?.userErrors?.length) return { ok: false, reason: "failed" };
 
     const url = data?.cartCreate?.cart?.checkoutUrl;
-    return url ? { ok: true, url } : { ok: false, reason: "failed" };
+    const cartId = data?.cartCreate?.cart?.id;
+    return url && cartId ? { ok: true, url, cartId } : { ok: false, reason: "failed" };
   } catch {
     // Offline, DNS, a blocked request — the buyer needs the other route, not a
     // spinner. CheckoutOrder keeps the order on screen and offers the enquiry.

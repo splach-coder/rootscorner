@@ -8,6 +8,7 @@ import { cartLines, cartTotal } from "@/lib/cart";
 import { formatPrice, imagePath } from "@/lib/catalog";
 import { displayName } from "@/lib/specs";
 import { paymentReady, startCheckout } from "@/lib/checkout";
+import { rememberCheckout } from "@/lib/cart-sync";
 import type { Locale } from "@/lib/dictionaries";
 
 type CheckoutLabels = {
@@ -84,6 +85,8 @@ export default function CheckoutOrder({
     setState("sending");
     const result = await startCheckout(slugs);
     if (result.ok) {
+      // So the cart can clear itself once Shopify says this checkout is paid.
+      rememberCheckout(result.cartId, slugs);
       window.location.href = result.url;
       return;
     }

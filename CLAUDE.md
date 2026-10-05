@@ -4921,3 +4921,24 @@ piece names, descriptions, rug options, page titles, email subjects). They read
 as AI-written. Page titles are `Page | The Roots Corner`; names and compound
 labels use a comma or ` · `. Write new copy without them; comments don't count.
 Verified by scanning all 126 sitemap pages plus checkout and llms.txt for U+2014.
+
+## 70. 5 Oct outage, and the cart that clears itself after payment
+
+**Outage.** One real Chrome tab on the live site (the user's own profile,
+opened 19:56 UTC on /en) re-fetched the four header pages ~200 times a second
+until the Workers free plan's 100k/day was spent; the whole site returned 429
+until 00:00 UTC. Not reproducible in a clean browser, with simulated extensions,
+or on the local Cloudflare build. Structural fix: **no prefetch on header or
+footer links** (they are on screen on every page). Nothing on this site may poll
+Shopify or the Worker in a loop. Recommended: Workers Paid + a WAF rate limit.
+
+**Cart sync** (lib/cart-sync.ts). The cart lives in localStorage; payment is on
+Shopify's hosted checkout. On hand-off the Shopify cart id and its slugs are
+remembered; back on the site, one Storefront query asks for that cart and for
+`availableForSale` of every line. `cart: null` means the checkout was completed
+(Shopify stops serving carts that became orders) → those pieces leave the cart.
+A cart that still exists means cancelled/abandoned → nothing changes. Sold or
+unpublished pieces are dropped. Only a clean `null` ever removes anything; one
+request per check, throttled to one per 20 s, on load / tab return / back-button.
+Verified end to end against the live store (cancel keeps the piece; a completed
+cart id removes it). A real paid order has not been run through it yet.

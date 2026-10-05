@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { CART_CHANGED, readCart, writeCart } from "@/lib/cart";
+import { syncCartWithShopify } from "@/lib/cart-sync";
 
 type CartContext = {
   /** Slugs in the cart. Empty until the client has read storage. */
@@ -39,9 +40,22 @@ export default function CartProvider({ children }: { children: React.ReactNode }
     const sync = () => setSlugs(readCart());
     window.addEventListener(CART_CHANGED, sync);
     window.addEventListener("storage", sync);
+
+    /* Ask Shopify whether a checkout was paid, and whether anything in the
+       cart has sold: on arrival, on coming back to the tab, and on returning
+       with the back button from Shopify (pageshow, from the page cache).
+       syncCartWithShopify throttles itself to one request per 20 s. */
+    const check = () => {
+      if (document.visibilityState === "visible") void syncCartWithShopify();
+    };
+    check();
+    document.addEventListener("visibilitychange", check);
+    window.addEventListener("pageshow", check);
     return () => {
       window.removeEventListener(CART_CHANGED, sync);
       window.removeEventListener("storage", sync);
+      document.removeEventListener("visibilitychange", check);
+      window.removeEventListener("pageshow", check);
     };
   }, []);
 
