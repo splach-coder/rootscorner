@@ -1,17 +1,15 @@
 import Image from "next/image";
-import RugCard from "@/components/RugCard";
-import { allRugSeries } from "@/lib/rugs";
+import RugBrowser, { type RugTile } from "@/components/RugBrowser";
+import { allRugSeries, colourName, formatEuro, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { rugChoices } from "@/lib/rug-options";
 import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import PageHead from "@/components/PageHead";
 import Reveal from "@/components/Reveal";
 import InquiryForm, { type InquiryField } from "@/components/InquiryForm";
 import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
 import { RUG_SHOTS, WOVEN_RUGS, readyRugs } from "@/lib/catalog";
-import PieceCard from "@/components/PieceCard";
 import { INSTAGRAM, whatsappDigits } from "@/lib/site";
 
 export async function generateMetadata({
@@ -103,6 +101,53 @@ export default async function MrirtPage({
   const rl = rugLabels(locale as Locale);
   const fr = locale === "fr";
 
+  /* The wall: one tile per colourway of every collection, then the rugs
+     already woven. A colourway without its own photograph takes the
+     collection's photographs in turn, so the wall does not repeat one frame. */
+  const tiles: RugTile[] = [
+    ...WOVEN_RUGS.map((woven) => {
+      const key = woven.id as keyof typeof t.mrirtPage.woven.items;
+      const name = woven.name?.[locale as Locale] ?? t.mrirtPage.woven.items[key];
+      return {
+        key: `woven-${woven.id}`,
+        href: "#sur-mesure",
+        src: woven.src,
+        w: woven.width,
+        h: woven.height,
+        alt: name,
+        kind: "ready" as const,
+        collection: "",
+        name,
+        detail: null,
+        price: rl.onRequest,
+      };
+    }),
+    ...series.flatMap((sr) => {
+      const title = seriesTitle(sr, locale);
+      return sr.colours.map((c, i) => {
+        const img = c.image
+          ? { src: c.image, w: sr.images[0]?.w ?? 1600, h: sr.images[0]?.h ?? 2000 }
+          : sr.images[i % Math.max(1, sr.images.length)];
+        const from = sr.variants.filter((v) => v.colour === c.name && v.price > 0).map((v) => v.price);
+        const colour = colourName(c.name, locale);
+        return {
+          key: `${sr.handle}-${c.name}`,
+          href: `/${locale}/tapis/${sr.handle}?couleur=${encodeURIComponent(c.name)}`,
+          src: img?.src ?? "",
+          w: img?.w ?? 1600,
+          h: img?.h ?? 2000,
+          alt: `${rl.rugName} ${title}, ${colour}`,
+          kind: "order" as const,
+          collection: sr.handle,
+          name: title,
+          detail: colour,
+          price: from.length ? `${rl.from} ${formatEuro(Math.min(...from), locale)}` : rl.onRequest,
+        };
+      });
+    }),
+  ].filter((tile) => tile.src);
+  const collectionsList = series.map((sr) => ({ handle: sr.handle, name: seriesTitle(sr, locale) }));
+
   /*
     V1 feedback §7–9: what can be customised — dimensions, colours, texture
     and design — each a real choice. Texture was an empty box; it is the
@@ -142,140 +187,39 @@ export default async function MrirtPage({
       {/* The lede says "nothing here is in stock". The moment a finished rug
           is, that is false — so it follows the shelf rather than being a fixed
           claim about a page that now sells two different things. */}
-      <PageHead
-        eyebrow={fr ? "Tapis" : "Rugs"}
-        heading={t.rugs.heading}
-        meta={t.mrirtPage.place}
-        lede={ready.length > 0 ? t.mrirtPage.ledeStocked : t.mrirtPage.lede}
-      />
+      {/* --- The opening, after benirugs.com's collection page.
 
-      {/* --- The three kinds of rug, as the collection page's rail.
-
-           Client, 5 Oct: the rugs looked like a different site. So the page
-           opens the way the collection does — its plate, then the ways in as
-           one quiet line of links — and the rugs come as the same cards in the
-           same grid. The three stay separate (V1 §7): each link lands on its
-           own section. --- */}
-      <section className="section rooms-rail-section">
-        <div className="shell">
-          <Reveal as="nav" className="rooms-rail mrirt-rail" aria-label={t.mrirtPage.entriesEyebrow}>
-            {t.mrirtPage.entries.map((entry, i) => (
-              <a
-                key={entry.key}
-                href={ENTRY_ANCHORS[entry.key]}
-                className="rooms-rail-link"
-                data-no={String(i + 1).padStart(2, "0")}
-              >
-                {entry.name}
-              </a>
-            ))}
-          </Reveal>
+           A room with a rug in it, full bleed, the name of the page set over
+           its top edge the way Beni sets theirs — and, as on the homepage, no
+           tint laid over the photograph: the type carries its own soft shadow
+           (client, 5 Oct). The house's own photograph. --- */}
+      <section className="rugs-hero">
+        <Image
+          src="/rugs/series/floor-fire.jpg"
+          alt={fr ? "Un tapis Mrirt au sol, près d’un feu allumé" : "A Mrirt rug on the floor beside a lit fire"}
+          width={1600}
+          height={2400}
+          priority
+          sizes="100vw"
+          className="rugs-hero-img"
+        />
+        <div className="shell rugs-hero-said">
+          <p className="label rugs-hero-crumb">The Roots Corner</p>
+          <h1 className="display rugs-hero-title">{t.nav.rugs}</h1>
         </div>
       </section>
 
-      {/* --- 1. Tapis disponibles — what is already woven.
-
-           V1 §7: "Déjà tissés et disponibles immédiatement." First, because it
-           is the one kind a visitor can have now.
-
-           A second product line, not a change to the first: these are finished
-           rugs, sold like anything else in the collection, and they use the
-           same card so a visitor meets the same object at the same size
-           wherever they find it.
-
-           The shelf is empty today and says so. Inventing two rugs to make the
-           row look full would be inventing stock, which is the one kind of
-           invention a shop actually punishes a visitor for (§5). --- */}
-      <section id="disponibles" className="section mrirt-ready">
+      <section className="section rugs-shop" id="tapis">
+        {/* The three entries still land somewhere: the wall filters itself. */}
+        <span id="disponibles" className="rugs-anchor" />
+        <span id="sur-commande" className="rugs-anchor" />
         <div className="shell">
-          <Reveal className="mrirt-ready-head">
-            <h2 className="display d-2 mrirt-ready-heading">{m.entries[0].name}</h2>
-            <p className="prose mrirt-ready-note">{m.entries[0].note}</p>
+          <Reveal as="p" className="rugs-shop-intro">
+            {rl.shopIntro}
           </Reveal>
-
-          {ready.length > 0 ? (
-            /* Real stock, when there is any: the collection's own card, so a
-               rug meets a visitor exactly as every other object does. */
-            <ul className="cards">
-              {ready.map((piece, i) => (
-                <PieceCard
-                  key={piece.slug}
-                  piece={piece}
-                  locale={locale as Locale}
-                  labels={t.pieceLabel}
-                  sold={t.common.sold}
-                  delay={(i % 4) * 70}
-                />
-              ))}
-            </ul>
-          ) : (
-            /* Until then: the rugs the client has actually photographed, shown
-               as woven work rather than as priced stock. Same card shape, but
-               no price and no piece page — neither exists — so each one leads
-               to the enquiry instead. */
-            <ul className="cards">
-              {WOVEN_RUGS.map((woven, i) => {
-                const key = woven.id as keyof typeof t.mrirtPage.woven.items;
-                return (
-                  <li key={woven.id} className="card">
-                    <a href="#demander" className="card-link">
-                      <Reveal variant="frame" delay={(i % 4) * 70} className="frame card-frame">
-                        <Image
-                          src={woven.src}
-                          alt={woven.name?.[locale as Locale] ?? t.mrirtPage.woven.alts[key]}
-                          width={woven.width}
-                          height={woven.height}
-                          sizes="(max-width: 640px) 46vw, (max-width: 1100px) 31vw, 23vw"
-                        />
-                      </Reveal>
-                      <Reveal delay={(i % 4) * 70 + 60} className="card-said">
-                        <p className="label card-room">{t.mrirtPage.readyEyebrow}</p>
-                        <div className="wall-label wall-label-sell">
-                          <h3 className="display d-3 wall-label-name">
-                            {woven.name?.[locale as Locale] ?? t.mrirtPage.woven.items[key]}
-                          </h3>
-                          <p className="wall-label-price">{rl.onRequest}</p>
-                        </div>
-                      </Reveal>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
+          <RugBrowser tiles={tiles} collections={collectionsList} labels={rl.browser} />
         </div>
       </section>
-
-      {/* --- 2. Tapis sur commande — the collections, sold like benirugs.com.
-
-           V1 §7: "Tissés selon vos dimensions et vos choix." Each collection
-           is its own universe (§8), with its own line rather than a count of
-           colours.
-
-           Every series is a Shopify product (type "Tapis Mrirt"); the house
-           adds and edits them in the admin and this grid follows. Same card as
-           the rest of the shop, so a rug is met the way every piece is. A
-           series opens its own page with colour, size, price and the cart. --- */}
-      {series.length > 0 && (
-        <section id="sur-commande" className="section mrirt-series">
-          <div className="shell">
-            <Reveal className="mrirt-series-head">
-              <h2 className="display d-2">{m.entries[1].name}</h2>
-              <p className="prose mrirt-series-note">{m.entries[1].note}</p>
-            </Reveal>
-            <ul className="cards mrirt-series-cards">
-              {series.map((s) => (
-                <RugCard
-                  key={s.handle}
-                  series={s}
-                  locale={locale}
-                  labels={{ from: rl.from, onRequest: rl.onRequest, colourways: rl.colourways, colourwaysOne: rl.colourwaysOne }}
-                />
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
 
       {/* --- The rug itself — what a Mrirt rug is, before any choice.
 

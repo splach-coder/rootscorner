@@ -46,6 +46,12 @@ export default function RugBuy({
   const [colour, setColour] = useState(series.colours[0]?.name ?? "");
   const [size, setSize] = useState(series.sizes[0] ?? "");
 
+  /* Arriving from a tile on /mrirt, the colourway you chose is already set. */
+  useEffect(() => {
+    const asked = new URLSearchParams(window.location.search).get("couleur");
+    if (asked && series.colours.some((c) => c.name === asked)) setColour(asked);
+  }, [series]);
+
   const variant = useMemo(
     () => series.variants.find((v) => v.colour === colour && v.size === size) ?? null,
     [series, colour, size],

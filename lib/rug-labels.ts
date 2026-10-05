@@ -11,6 +11,24 @@ export function rugLabels(locale: Locale) {
       : "Handwoven in Mrirt, in the Middle Atlas. Already woven, or made to your measure.",
     homeCta: fr ? "Voir les tapis" : "See the rugs",
     collectionWord: fr ? "Collection" : "Collection",
+    // /mrirt, after Beni's collection page (client, 5 Oct).
+    shopIntro: fr
+      ? "Tissés main par une coopérative de femmes à Mrirt, dans le Moyen Atlas. Déjà tissés, ou à votre mesure."
+      : "Handwoven by a women’s cooperative in Mrirt, in the Middle Atlas. Already woven, or made to your measure.",
+    browser: {
+      type: fr ? "Tapis" : "Rugs",
+      all: fr ? "Tous" : "All",
+      ready: fr ? "Disponibles" : "Available",
+      order: fr ? "Sur commande" : "To order",
+      collection: fr ? "Collection" : "Collection",
+      allCollections: fr ? "Toutes" : "All",
+      view: fr ? "Vue" : "View",
+      grid: fr ? "Mur" : "Wall",
+      column: fr ? "Colonne" : "Column",
+      count: fr ? "{n} tapis" : "{n} rugs",
+      countOne: fr ? "{n} tapis" : "{n} rug",
+      empty: fr ? "Aucun tapis ici pour le moment." : "No rug here for now.",
+    },
     availableWord: fr ? "Disponible" : "Available",
     prev: fr ? "Tapis précédent" : "Previous rug",
     next: fr ? "Tapis suivant" : "Next rug",

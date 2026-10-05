@@ -243,6 +243,14 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
    * against a lone language switch on the other read as lopsided rather than
    * composed.
    */
+  /*
+    No prefetch on any header or footer link (5 Oct incident). These links are
+    on screen on every page, all the time, and on 5 Oct one browser re-fetched
+    their four pages ~200 times a second until the Workers daily quota was
+    gone and the whole site returned 429. Not reproducible here, so the fix is
+    structural: chrome that never leaves the screen does not prefetch. A
+    click still navigates; the page is fetched then, from the edge cache.
+  */
   const links = [
     { href: `/${locale}/mrirt`, label: labels.rugs },
     { href: `/${locale}/collection`, label: labels.collection },
@@ -288,7 +296,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
       }${repainting ? " is-repainting" : ""}`}
     >
       <div className="site-header-bar shell">
-        <Link href={`/${locale}`} className="site-header-mark" aria-label="The Roots Corner">
+        <Link prefetch={false} href={`/${locale}`} className="site-header-mark" aria-label="The Roots Corner">
           {/* The client's own artwork, viewBox trimmed to the lettering (§39). */}
           <Wordmark className="site-header-lockup" crescent={false} />
         </Link>
@@ -300,7 +308,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
           <ul className="site-nav-list">
             {links.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="link site-nav-link label">
+                <Link prefetch={false} href={link.href} className="link site-nav-link label">
                   {link.label}
                 </Link>
               </li>
@@ -345,6 +353,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
               {(Object.keys(LANGS) as Locale[]).map((code) => (
                 <li key={code} role="none">
                   <Link
+                    prefetch={false}
                     role="menuitem"
                     href={code === locale ? pathname : swapped}
                     className="site-lang-option"
@@ -427,7 +436,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
                   className="site-panel-item"
                   style={{ "--i": i } as React.CSSProperties}
                 >
-                  <Link href={link.href} className="display d-1 site-panel-link">
+                  <Link prefetch={false} href={link.href} className="display d-1 site-panel-link">
                     {link.label}
                   </Link>
                 </li>
@@ -459,6 +468,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
               {(Object.keys(LANGS) as Locale[]).map((code) => (
                 <li key={code}>
                   <Link
+                    prefetch={false}
                     href={code === locale ? pathname : swapped}
                     className="label site-panel-lang"
                     lang={code}
