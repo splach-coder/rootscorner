@@ -125,9 +125,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         src: woven.src,
         w: woven.width,
         h: woven.height,
-        alt: t.mrirtPage.woven.alts[key],
+        alt: woven.name?.[locale as Locale] ?? t.mrirtPage.woven.alts[key],
         kind: rl.availableWord,
-        name: t.mrirtPage.woven.items[key],
+        name: woven.name?.[locale as Locale] ?? t.mrirtPage.woven.items[key],
         line: null,
         price: rl.onRequest,
       };

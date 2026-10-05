@@ -22,3 +22,8 @@ scripts/.*.mjs
 .open-next/
 .wrangler/
 .dev.vars
+
+# LOCAL DEMO ONLY — another company's rug photographs (scripts/demo-rugs.mjs).
+# Never committed, never deployed: cf:build refuses while they exist.
+public/demo-rugs/
+docs/.shopify-live.demo-backup.json

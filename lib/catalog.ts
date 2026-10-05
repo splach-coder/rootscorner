@@ -589,14 +589,32 @@ export const RUG_SHOTS = {
  * `category: "rugs"` and readyRugs() takes over the shelf automatically —
  * with real cards, real prices and real piece pages.
  */
-export type WovenRug = { id: string; src: string; width: number; height: number };
+export type WovenRug = {
+  id: string;
+  src: string;
+  width: number;
+  height: number;
+  /** Set only by the LOCAL demo (scripts/demo-rugs.mjs), whose photographs
+      need their own description. */
+  name?: { fr: string; en: string };
+};
 
-export const WOVEN_RUGS: WovenRug[] = [
+const HOUSE_WOVEN: WovenRug[] = [
   /* Cropped from interior-fire.jpg to the bottom of the frame: a centred card
      crop lands on the fireplace and turns the rug into a footnote. */
   { id: "fire", src: "/rugs/rug-fire-card.jpg", width: 1800, height: 2250 },
   { id: "pile", src: "/rugs/mrirt-pile-trim.jpg", width: 784, height: 784 },
 ];
+
+/* LOCAL DEMO ONLY. `demoWoven` exists in the snapshot only while
+   scripts/demo-rugs.mjs is applied on this machine; every deploy re-pulls the
+   snapshot from Shopify, which never carries it, and cf:build refuses to run
+   while it is present. */
+const demoWoven = (live as { demoWoven?: { id: string; src: string; w: number; h: number; name: { fr: string; en: string } }[] }).demoWoven;
+
+export const WOVEN_RUGS: WovenRug[] = demoWoven
+  ? demoWoven.map((d) => ({ id: d.id, src: d.src, width: d.w, height: d.h, name: d.name }))
+  : HOUSE_WOVEN;
 
 /* Two, not three. mrirt-room.jpg was the obvious third, but its rug sits in the
    bottom sixth of the frame — every card crop of it is a photograph of a floor.

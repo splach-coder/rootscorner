@@ -3482,3 +3482,15 @@ textarea.inquiry-input {
 .mrirt-more p + p {
   margin-top: 0.9rem;
 }
+
+/* Flat rug photographs shot on white (the local demo set, and the house's own
+   flat shots when they arrive the same way): the white is multiplied into
+   the frame's ground so the rug lies on the page itself, and the whole rug is
+   shown, never cropped. Matches only these files, so no other photograph on
+   the site is touched. */
+.frame img[src*="demo-rugs"],
+.gallery img[src*="demo-rugs"] {
+  mix-blend-mode: multiply;
+  object-fit: contain;
+  padding: 3% 4%;
+}

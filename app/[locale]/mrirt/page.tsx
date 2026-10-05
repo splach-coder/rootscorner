@@ -222,7 +222,7 @@ export default async function MrirtPage({
                       <Reveal variant="frame" delay={(i % 4) * 70} className="frame card-frame">
                         <Image
                           src={woven.src}
-                          alt={t.mrirtPage.woven.alts[key]}
+                          alt={woven.name?.[locale as Locale] ?? t.mrirtPage.woven.alts[key]}
                           width={woven.width}
                           height={woven.height}
                           sizes="(max-width: 640px) 46vw, (max-width: 1100px) 31vw, 23vw"
@@ -232,7 +232,7 @@ export default async function MrirtPage({
                         <p className="label card-room">{t.mrirtPage.readyEyebrow}</p>
                         <div className="wall-label wall-label-sell">
                           <h3 className="display d-3 wall-label-name">
-                            {t.mrirtPage.woven.items[key]}
+                            {woven.name?.[locale as Locale] ?? t.mrirtPage.woven.items[key]}
                           </h3>
                           <p className="wall-label-price">{rl.onRequest}</p>
                         </div>
