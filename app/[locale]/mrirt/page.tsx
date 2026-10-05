@@ -68,7 +68,7 @@ export async function generateMetadata({
 const ENTRY_ANCHORS: Record<string, string> = {
   ready: "#disponibles",
   order: "#sur-commande",
-  how: "#comment",
+  custom: "#sur-mesure",
 };
 
 export default async function MrirtPage({
@@ -104,18 +104,35 @@ export default async function MrirtPage({
   const rl = rugLabels(locale as Locale);
   const fr = locale === "fr";
 
+  /*
+    V1 feedback §7–9: what can be customised — dimensions, colours, texture
+    and design — each a real choice. Texture was an empty box; it is the
+    house's four answers now, the last of which is "advise me". And one
+    yes/no to be guided through the whole choice.
+  */
+  const m = t.mrirtPage;
   const fields: InquiryField[] = [
+    { name: "size", label: t.rugs.axes.size, hint: t.rugs.axisNotes.size, no: "01", kind: "choice", layout: "grid", ...choices.size },
     {
       name: "series",
-      label: fr ? "La série" : "The series",
-      hint: fr ? "Choisissez une série et ses couleurs." : "Choose a series and its colours.",
-      no: "01",
+      label: m.seriesLabel,
+      hint: m.seriesHint,
+      no: "02",
       kind: "choice",
       layout: "list",
       ...choices.series,
     },
-    { name: "size", label: t.rugs.axes.size, hint: t.rugs.axisNotes.size, no: "02", kind: "choice", layout: "grid", ...choices.size },
-    { name: "texture", label: t.rugs.axes.texture, hint: t.rugs.axisNotes.texture, no: "03" },
+    {
+      name: "texture",
+      label: t.rugs.axes.texture,
+      hint: t.rugs.axisNotes.texture,
+      no: "03",
+      kind: "choice",
+      layout: "list",
+      options: m.textureOptions.map((value) => ({ value })),
+      placeholder: fr ? "Choisir une texture" : "Choose a texture",
+    },
+    { name: "guidance", label: m.guidance, no: "04", kind: "check", defaultValue: m.guidanceYes },
     { name: "name", label: t.form.name, required: true },
     { name: "email", label: t.form.email, kind: "email" as const, required: true },
     { name: "message", label: t.form.message, kind: "textarea" as const },
@@ -162,34 +179,6 @@ export default async function MrirtPage({
         </div>
       </section>
 
-      {/* --- The series — the rug collection, sold like benirugs.com.
-
-           Every series is a Shopify product (type "Tapis Mrirt"); the house
-           adds and edits them in the admin and this grid follows. Same card as
-           the rest of the shop, so a rug is met the way every piece is. A
-           series opens its own page with colour, size, price and the cart. --- */}
-      {series.length > 0 && (
-        <section id="series" className="section mrirt-series">
-          <div className="shell">
-            <Reveal className="mrirt-series-head">
-              <p className="label mrirt-eyebrow">{rl.collectionEyebrow}</p>
-              <h2 className="display d-1">{rl.collectionHeading}</h2>
-              <p className="prose mrirt-series-note">{rl.collectionNote}</p>
-            </Reveal>
-            <ul className="cards mrirt-series-cards">
-              {series.map((s) => (
-                <RugCard
-                  key={s.handle}
-                  series={s}
-                  locale={locale}
-                  labels={{ from: rl.from, onRequest: rl.onRequest, colourways: rl.colourways, colourwaysOne: rl.colourwaysOne }}
-                />
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
-
       {/* --- §10 — three entries, named and separated.
 
            The report is explicit that rugs already woven must not be mixed with
@@ -223,142 +212,10 @@ export default async function MrirtPage({
         </div>
       </section>
 
-      {/* --- 1. Tapis sur commande — what one actually is.
+      {/* --- 1. Tapis disponibles — what is already woven.
 
-           The label, the wool, the women who weave it, and the way through to
-           the form: everything the page knows about the object before it asks
-           anyone to describe one.
-
-           The material answers it — skeins of dyed yarn drying in Marrakech,
-           from the client's own Drive (§51). The caption says dyed YARN, not
-           wool: Marrakech dyers hang viscose and sabra as readily as wool, and
-           tying a street photograph to the passage beside it about the wool of
-           a Mrirt rug would be invented provenance with a camera (§5). --- */}
-      <section id="sur-commande" className="section mrirt-pair">
-        <div className="shell mrirt-pair-inner">
-          <div className="mrirt-said-stack">
-            <Reveal className="mrirt-label">
-              <p className="display d-3 wall-label-name mrirt-label-name">{rug.name}</p>
-              <dl className="wall-label-specs">
-                <div className="wall-label-row">
-                  <dt className="label wall-label-key">{t.pieceLabel.origin}</dt>
-                  <dd className="wall-label-value">{rug.origin}</dd>
-                </div>
-                <div className="wall-label-row">
-                  <dt className="label wall-label-key">{t.pieceLabel.material}</dt>
-                  <dd className="wall-label-value">{rug.material}</dd>
-                </div>
-                <div className="wall-label-row">
-                  <dt className="label wall-label-key">{rug.madeKey}</dt>
-                  <dd className="wall-label-value">{rug.made}</dd>
-                </div>
-              </dl>
-              {/* No dimensions row. A rug that does not exist yet has none, and
-                  the schema omits a field rather than inventing one (§5). */}
-              <p className="label mrirt-label-order">{t.rugs.order}</p>
-            </Reveal>
-
-            <Reveal delay={90} className="mrirt-said">
-              <p className="label mrirt-eyebrow">{t.mrirtPage.matterEyebrow}</p>
-              <h2 className="display d-2 mrirt-heading">{t.mrirtPage.matterHeading}</h2>
-              <p className="prose">{t.rugs.body[0]}</p>
-              {/* Two more sentences from their own /mrirt-rugs/ page, which
-                  this copy did not have: what the making amounts to, and what
-                  the wool feels like. */}
-              <p className="prose">{t.rugs.craft}</p>
-              <p className="prose mrirt-wool">{t.rugs.wool}</p>
-            </Reveal>
-
-            <Reveal delay={150} className="mrirt-said">
-              <p className="label mrirt-eyebrow">{t.mrirtPage.coopEyebrow}</p>
-              <h2 className="display d-2 mrirt-heading">{t.mrirtPage.coopHeading}</h2>
-              <p className="prose">{t.rugs.body[1]}</p>
-            </Reveal>
-
-          </div>
-
-          <figure className="mrirt-yarn">
-            <Reveal variant="frame" delay={140} className="frame mrirt-yarn-frame">
-              <Image
-                src="/place/dyed-yarn.jpg"
-                alt={t.mrirtPage.yarnAlt}
-                width={1333}
-                height={2000}
-                sizes="(max-width: 900px) 100vw, 38vw"
-              />
-            </Reveal>
-            <Reveal as="figcaption" delay={200} className="label mrirt-figure-caption">
-              {t.mrirtPage.yarnCaption}
-            </Reveal>
-          </figure>
-        </div>
-      </section>
-
-      {/* --- 2. Comment commander — the four terms, as the form.
-
-           This is the page's whole commercial action, so it takes the
-           composition Beni Rugs gives an order panel: the questions in one
-           column, one filled bar closing them, and beside it the photograph
-           that argues for the first question. The room is the only frame on
-           this page that carries SCALE, and the first thing the form asks is
-           size. --- */}
-      <section id="comment" className="section mrirt-order">
-        <div className="shell mrirt-order-inner">
-          <div className="mrirt-ask">
-            <Reveal>
-              <p className="label mrirt-eyebrow">{t.mrirtPage.roomEyebrow}</p>
-              <h2 className="display d-1 mrirt-ask-heading">{t.mrirtPage.roomHeading}</h2>
-              <p className="prose mrirt-ask-note">{t.mrirtPage.roomNote}</p>
-            </Reveal>
-
-            {/* The shelf's cards jump here, so the anchor sits on a plain
-                element — Reveal takes no id. */}
-            <div id="demander" className="mrirt-form-anchor" />
-            <Reveal delay={120} className="mrirt-form">
-              {/* Their own invitation, verbatim, and then the line that says
-                  none of the four below is required. Both sit ABOVE the fields,
-                  which is the only place an instruction for a form belongs. */}
-              <p className="prose mrirt-form-note">{t.rugs.invite}</p>
-              <p className="prose mrirt-form-note">{t.rugs.axesNote}</p>
-              <InquiryForm
-                fields={fields}
-                topic="rug"
-                instagram={INSTAGRAM}
-                whatsappDigits={whatsappDigits()}
-                labels={{
-                  send: t.form.send,
-                  sending: t.form.sending,
-                  sent: t.form.sent,
-                  error: t.form.error,
-                  optional: t.form.optional,
-                  viaInstagram: t.form.viaInstagram,
-                  viaWhatsapp: t.form.viaWhatsapp,
-                  photoTooBig: t.form.photoTooBig,
-                }}
-              />
-            </Reveal>
-          </div>
-
-          {/* The wrapper is the grid item and it STRETCHES; the frame inside
-              it is what sticks. Making the frame itself both stretch and keep
-              an aspect-ratio is a fight the ratio loses — it would be drawn the
-              full height of the column. Same shape as the sticky wall label on
-              a piece page (§24). */}
-          <div className="mrirt-room-column">
-            <Reveal variant="frame" delay={80} className="frame mrirt-room-frame bleed-right">
-              <Image
-                src={RUG_SHOTS.room}
-                alt={t.mrirtPage.roomAlt}
-                width={1206}
-                height={1889}
-                sizes="(max-width: 900px) 100vw, 44vw"
-              />
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* --- 3. What is already woven.
+           V1 §7: "Déjà tissés et disponibles immédiatement." First, because it
+           is the one kind a visitor can have now.
 
            A second product line, not a change to the first: these are finished
            rugs, sold like anything else in the collection, and they use the
@@ -425,6 +282,176 @@ export default async function MrirtPage({
               })}
             </ul>
           )}
+        </div>
+      </section>
+
+      {/* --- 2. Tapis sur commande — the collections, sold like benirugs.com.
+
+           V1 §7: "Tissés selon vos dimensions et vos choix." Each collection
+           is its own universe (§8), with its own line rather than a count of
+           colours.
+
+           Every series is a Shopify product (type "Tapis Mrirt"); the house
+           adds and edits them in the admin and this grid follows. Same card as
+           the rest of the shop, so a rug is met the way every piece is. A
+           series opens its own page with colour, size, price and the cart. --- */}
+      {series.length > 0 && (
+        <section id="sur-commande" className="section mrirt-series">
+          <div className="shell">
+            <Reveal className="mrirt-series-head">
+              <p className="label mrirt-eyebrow">{rl.collectionEyebrow}</p>
+              <h2 className="display d-1">{rl.collectionHeading}</h2>
+              <p className="prose mrirt-series-note">{rl.collectionNote}</p>
+            </Reveal>
+            <ul className="cards mrirt-series-cards">
+              {series.map((s) => (
+                <RugCard
+                  key={s.handle}
+                  series={s}
+                  locale={locale}
+                  labels={{ from: rl.from, onRequest: rl.onRequest, colourways: rl.colourways, colourwaysOne: rl.colourwaysOne }}
+                />
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/* --- The rug itself — what a Mrirt rug is, before any choice.
+
+           The label, the wool, the women who weave it, and the way through to
+           the form: everything the page knows about the object before it asks
+           anyone to describe one.
+
+           The material answers it — skeins of dyed yarn drying in Marrakech,
+           from the client's own Drive (§51). The caption says dyed YARN, not
+           wool: Marrakech dyers hang viscose and sabra as readily as wool, and
+           tying a street photograph to the passage beside it about the wool of
+           a Mrirt rug would be invented provenance with a camera (§5). --- */}
+      <section id="savoir-faire" className="section mrirt-pair">
+        <div className="shell mrirt-pair-inner">
+          <div className="mrirt-said-stack">
+            <Reveal className="mrirt-label">
+              <p className="display d-3 wall-label-name mrirt-label-name">{rug.name}</p>
+              <dl className="wall-label-specs">
+                <div className="wall-label-row">
+                  <dt className="label wall-label-key">{t.pieceLabel.origin}</dt>
+                  <dd className="wall-label-value">{rug.origin}</dd>
+                </div>
+                <div className="wall-label-row">
+                  <dt className="label wall-label-key">{t.pieceLabel.material}</dt>
+                  <dd className="wall-label-value">{rug.material}</dd>
+                </div>
+                <div className="wall-label-row">
+                  <dt className="label wall-label-key">{rug.madeKey}</dt>
+                  <dd className="wall-label-value">{rug.made}</dd>
+                </div>
+              </dl>
+              {/* No dimensions row. A rug that does not exist yet has none, and
+                  the schema omits a field rather than inventing one (§5). */}
+              <p className="label mrirt-label-order">{t.rugs.order}</p>
+            </Reveal>
+
+            <Reveal delay={90} className="mrirt-said">
+              <p className="label mrirt-eyebrow">{t.mrirtPage.matterEyebrow}</p>
+              <h2 className="display d-2 mrirt-heading">{t.mrirtPage.matterHeading}</h2>
+              <p className="prose">{t.rugs.body[0]}</p>
+              {/* Two more sentences from their own /mrirt-rugs/ page, which
+                  this copy did not have: what the making amounts to, and what
+                  the wool feels like. */}
+              <p className="prose">{t.rugs.craft}</p>
+              <p className="prose mrirt-wool">{t.rugs.wool}</p>
+            </Reveal>
+
+            <Reveal delay={150} className="mrirt-said">
+              <p className="label mrirt-eyebrow">{t.mrirtPage.coopEyebrow}</p>
+              <h2 className="display d-2 mrirt-heading">{t.mrirtPage.coopHeading}</h2>
+              <p className="prose">{t.rugs.body[1]}</p>
+            </Reveal>
+
+          </div>
+
+          <figure className="mrirt-yarn">
+            <Reveal variant="frame" delay={140} className="frame mrirt-yarn-frame">
+              <Image
+                src="/place/dyed-yarn.jpg"
+                alt={t.mrirtPage.yarnAlt}
+                width={1333}
+                height={2000}
+                sizes="(max-width: 900px) 100vw, 38vw"
+              />
+            </Reveal>
+            <Reveal as="figcaption" delay={200} className="label mrirt-figure-caption">
+              {t.mrirtPage.yarnCaption}
+            </Reveal>
+          </figure>
+        </div>
+      </section>
+
+      {/* --- 3. Tapis sur mesure — the terms, as the form.
+
+           V1 §7: the customer must understand exactly what can be set —
+           dimensions, colours, texture, and design.
+
+           This is the page's whole commercial action, so it takes the
+           composition Beni Rugs gives an order panel: the questions in one
+           column, one filled bar closing them, and beside it the photograph
+           that argues for the first question. The room is the only frame on
+           this page that carries SCALE, and the first thing the form asks is
+           size. --- */}
+      <section id="sur-mesure" className="section mrirt-order">
+        <div className="shell mrirt-order-inner">
+          <div className="mrirt-ask">
+            <Reveal>
+              <p className="label mrirt-eyebrow">{m.customEyebrow}</p>
+              <h2 className="display d-1 mrirt-ask-heading">{m.customHeading}</h2>
+              <p className="prose mrirt-ask-note">{m.entries[2].note}</p>
+            </Reveal>
+
+            {/* The shelf's cards jump here, so the anchor sits on a plain
+                element — Reveal takes no id. */}
+            <div id="demander" className="mrirt-form-anchor" />
+            <Reveal delay={120} className="mrirt-form">
+              {/* Their own invitation, verbatim, and then the line that says
+                  none of the four below is required. Both sit ABOVE the fields,
+                  which is the only place an instruction for a form belongs. */}
+              <p className="prose mrirt-form-note">{t.rugs.invite}</p>
+              <p className="prose mrirt-form-note">{m.customTerms}</p>
+              <InquiryForm
+                fields={fields}
+                topic="rug"
+                instagram={INSTAGRAM}
+                whatsappDigits={whatsappDigits()}
+                labels={{
+                  send: t.form.send,
+                  sending: t.form.sending,
+                  sent: t.form.sent,
+                  error: t.form.error,
+                  optional: t.form.optional,
+                  viaInstagram: t.form.viaInstagram,
+                  viaWhatsapp: t.form.viaWhatsapp,
+                  photoTooBig: t.form.photoTooBig,
+                }}
+              />
+            </Reveal>
+          </div>
+
+          {/* The wrapper is the grid item and it STRETCHES; the frame inside
+              it is what sticks. Making the frame itself both stretch and keep
+              an aspect-ratio is a fight the ratio loses — it would be drawn the
+              full height of the column. Same shape as the sticky wall label on
+              a piece page (§24). */}
+          <div className="mrirt-room-column">
+            <Reveal variant="frame" delay={80} className="frame mrirt-room-frame bleed-right">
+              <Image
+                src={RUG_SHOTS.room}
+                alt={t.mrirtPage.roomAlt}
+                width={1206}
+                height={1889}
+                sizes="(max-width: 900px) 100vw, 44vw"
+              />
+            </Reveal>
+          </div>
         </div>
       </section>
 

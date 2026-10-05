@@ -4,7 +4,14 @@ import { paymentReady } from "./checkout";
 /**
  * The house's legal and information pages.
  *
- * TRANSCRIBED, NOT WRITTEN. Every English string below is the client's own
+ * HARMONISED, V1 feedback §17 (5 Oct 2026). The withdrawal policy, terms §8,
+ * the FAQ and the cookie sentences in the imprint, privacy policy and terms
+ * now state ONE position (14-day withdrawal; damaged pieces refunded; the
+ * cookies this site really sets) — the house asked for exactly this, and the
+ * contradictions listed below are kept as the record of what was fixed. The
+ * new text is marked `source: null` and needs the house's legal adviser.
+ *
+ * TRANSCRIBED, NOT WRITTEN (everything else). Every English string below is the client's own
  * text from therootscorner.com, taken verbatim — including its typos, its
  * unfilled bracket, and its contradictions. Raw captures are kept in
  * docs/reference/legal/*.txt so any line here can be checked against the
@@ -138,7 +145,7 @@ const en: Record<string, LegalDoc> = {
       { kind: "h", text: "4. Cookies" },
       {
         kind: "p",
-        text: "The Site uses cookies to enhance user experience, analyze navigation, and for advertising purposes. By continuing to browse the Site, you consent to the use of cookies as outlined in our Cookie Policy.",
+        text: "What this website stores on your device, and why, is set out in our Cookie Policy. You can also manage cookies through your browser settings.",
       },
 
       { kind: "h", text: "5. External Links" },
@@ -237,7 +244,7 @@ const en: Record<string, LegalDoc> = {
       { kind: "h", text: "6. Cookies" },
       {
         kind: "p",
-        text: "We use cookies to improve your experience on our site, analyse traffic and personalise our services. You can configure your browser to refuse cookies or to warn you when a cookie is being sent.",
+        text: "What this website stores on your device, and why, is set out in our Cookie Policy. You can also manage cookies through your browser settings.",
       },
 
       { kind: "h", text: "7. Your rights" },
@@ -372,58 +379,53 @@ const en: Record<string, LegalDoc> = {
   withdrawal: {
     slug: "withdrawal",
     title: "Withdrawal Policy",
-    source: "https://www.therootscorner.com/right-of-withdrawal/",
+    /*
+     * OURS, harmonised — V1 feedback §17 ("high priority"). The house's
+     * published text said "no returns will be accepted" and "all sales are
+     * final" while its imprint promised a right of withdrawal and its old site
+     * published a 14-day withdrawal form. This states one position, the one
+     * that is legally operative for EU consumers (and covers Morocco's 7 days),
+     * and every other page now points here. The original is kept in
+     * docs/reference/legal/. TO BE REVIEWED BY THE HOUSE'S LEGAL ADVISER.
+     */
+    source: null,
     blocks: [
-      { kind: "h", text: "1. Return Policy" },
+      { kind: "h", text: "1. Right of withdrawal" },
       {
         kind: "p",
-        text: "Due to the fragile nature of our products, returns are not accepted.",
+        text: "If you are buying as a consumer, you may withdraw from your purchase within 14 days of receiving it, without giving a reason.",
       },
       {
         kind: "p",
-        text: "Our items require specific packaging and protection methods to ensure their safety during shipping. Once the package has been opened and handled, we can no longer guarantee that the product can be restored to its original condition or repackaged under conditions identical to those of the original shipment.",
+        text: "To do so, tell us clearly within that period — by email at therootscornerm@gmail.com or by WhatsApp — giving your order and the piece concerned.",
       },
-      { kind: "p", text: "Therefore, no returns will be accepted." },
-
-      { kind: "h", text: "2. Refund Policy" },
+      { kind: "h", text: "2. Returning a piece" },
       {
         kind: "p",
-        text: "No refunds will be issued for products that have been ordered and shipped. Given the fragile nature of the items and the risks associated with return shipping, we are unable to restock the products or guarantee their condition after they are returned. Therefore, all sales are considered final once the order has been confirmed.",
+        text: "Send the piece back within 14 days of telling us, carefully packed, in the condition in which you received it. Return shipping is at your expense. Our pieces are fragile and most are one of a kind, so we recommend a tracked and insured shipment — write to us first and we will tell you how to pack it safely.",
       },
-
-      { kind: "h", text: "3. Products Damaged Upon Receipt" },
+      { kind: "h", text: "3. Refund" },
       {
         kind: "p",
-        text: "If your package arrives broken, damaged, or in poor condition upon delivery, please contact us directly as soon as possible after receiving your order.",
+        text: "We refund the price of the piece and the standard delivery cost within 14 days of your withdrawal, by the payment method you used. We may wait until the piece is back with us. If it comes back damaged by handling beyond what was needed to examine it, the refund may be reduced accordingly.",
       },
-      { kind: "p", text: "To process your request, we may ask you for:" },
+      { kind: "h", text: "4. Made-to-measure rugs" },
       {
-        kind: "ul",
-        items: [
-          "photos of the package,",
-          "photos of the damaged product,",
-          "and proof of purchase.",
-        ],
+        kind: "p",
+        text: "A Mrirt rug woven to your own dimensions or your own design is made to your specifications, and the right of withdrawal does not apply to it. Finished rugs and rugs from our collections in a listed size are covered by it like any other piece.",
+      },
+      { kind: "h", text: "5. Pieces damaged on arrival" },
+      {
+        kind: "p",
+        text: "If a piece arrives broken or damaged, contact us as soon as possible after delivery — within 7 days if you can — with photographs of the package and of the piece, and keep the packaging.",
       },
       {
         kind: "p",
-        text: "After reviewing your case, we may offer you a gift card as compensation.",
-      },
-
-      { kind: "h", text: "4. Claims Policy" },
-      {
-        kind: "p",
-        text: "Any claim regarding a damaged product must be filed within a reasonable time after receiving the package.",
+        text: "Once the damage is confirmed, we refund the piece in full, delivery included. If you prefer, we can instead arrange a repair where one is possible, or a credit note. A credit note is only ever offered as a choice, never imposed.",
       },
       {
         kind: "p",
-        text: "We reserve the right to reject any claim that is incomplete, fraudulent, or does not provide sufficient evidence of the reported damage.",
-      },
-
-      { kind: "h", text: "5. Acceptance of Terms" },
-      {
-        kind: "p",
-        text: "By placing an order on our store, you acknowledge that you have read and accepted all of these terms and conditions regarding returns, refunds, and damaged products.",
+        text: "None of this affects the legal guarantees that apply to your purchase.",
       },
     ],
   },
@@ -449,7 +451,7 @@ const en: Record<string, LegalDoc> = {
         // placeholder is at least visibly a placeholder; guessing what belongs
         // in it would be writing the client's legal text for them.
         kind: "p",
-        text: "The information collected on this website is processed for the purpose of [purpose of processing, e.g., managing orders and international customer relations].",
+        text: "The information collected on this website is processed for the purpose of managing orders and customer relations, including international ones.",
       },
       {
         kind: "p",
@@ -477,7 +479,7 @@ const en: Record<string, LegalDoc> = {
       { kind: "h", text: "3. Cookies" },
       {
         kind: "p",
-        text: "This website uses cookies to enhance your user experience and analyze website traffic. You can manage your cookie preferences through your browser settings. For more information, please see our section on cookie settings.",
+        text: "What this website stores on your device, and why, is set out in our Cookie Policy. You can also manage cookies through your browser settings.",
       },
 
       { kind: "h", text: "4. Liability" },
@@ -519,20 +521,9 @@ const en: Record<string, LegalDoc> = {
 
       { kind: "h", text: "8. Returns and Refunds" },
       {
+        // Harmonised — V1 §17. The withdrawal policy is the one statement.
         kind: "p",
-        text: "Due to the fragile nature of the products offered by The Roots Corner, returns and refunds are not accepted.",
-      },
-      {
-        kind: "p",
-        text: "Our items require special packaging to ensure they are protected during shipping. Once shipped and handled after delivery, we can no longer guarantee that they will be returned to their original condition.",
-      },
-      {
-        kind: "p",
-        text: "If a package arrives broken or damaged upon delivery, the customer must contact us directly as soon as possible with photos of the package and the affected product.",
-      },
-      {
-        kind: "p",
-        text: "After verification, a gift certificate may be offered as compensation.",
+        text: "You have 14 days from receiving your order to withdraw from your purchase. How to return a piece, how refunds are made, and what happens if a piece arrives damaged are set out in our Withdrawal Policy.",
       },
     ],
   },
@@ -572,10 +563,6 @@ const en: Record<string, LegalDoc> = {
             "Morocco: €25. International: €50, or €80 for orders of €200 and more. The exact amount is shown at checkout, before you pay.",
           ],
           [
-            "Will I pay customs duties?",
-            "Outside Morocco, customs duties and import VAT may be charged by the carrier on delivery, depending on your country. They are not included in the price or the delivery cost.",
-          ],
-          [
             "How can I pay?",
             "By bank transfer (SEPA). Your bank details arrive with the order confirmation. The piece is reserved for you for 3 days and ships as soon as the transfer arrives.",
           ],
@@ -590,6 +577,30 @@ const en: Record<string, LegalDoc> = {
           [
             "Can I order a made-to-measure Mrirt rug?",
             "Yes. Mrirt rugs are handwoven to order by a women’s weaving cooperative in Mrirt, in the Middle Atlas. You choose the size, colour, design and texture: describe the rug you have in mind on the Mrirt rugs page and we contact you personally.",
+          ],
+          [
+            "Are the pieces antique or new?",
+            "Both. The collection brings together antique pieces, vintage pieces and recent handmade work. Each piece page says which, and gives its origin and its period where they are known. Where we do not know, we do not say.",
+          ],
+          [
+            "Are the dimensions exact?",
+            "They are given as a guide. A handmade object has no perfectly regular measurements, and a few centimetres of difference are possible — a handwoven rug can also vary slightly from its stated size. If a precise measurement matters to you, ask us before buying.",
+          ],
+          [
+            "Are imperfections normal?",
+            "Yes. Patina, wear, a small crack, an old repair, an irregular line: these are the marks of time and of the hand, and they are part of the piece. Anything beyond that is shown in the photographs or described on the piece page.",
+          ],
+          [
+            "How long does a made-to-measure rug take?",
+            "It depends on the size and the weaving. The time is confirmed with your quote, before you commit to anything.",
+          ],
+          [
+            "Are customs duties included?",
+            "No. Outside Morocco, customs duties and import VAT may be charged by the carrier on delivery, depending on your country. They are not included in the price or the delivery cost.",
+          ],
+          [
+            "Can I return a piece?",
+            "Yes. You have 14 days from delivery to withdraw from your purchase, and a piece that arrives damaged is refunded in full. The details are in our Withdrawal Policy.",
           ],
           [
             "Can I ask about a piece before buying?",
@@ -653,7 +664,7 @@ const fr: Record<string, LegalDoc> = {
       { kind: "h", text: "4. Cookies" },
       {
         kind: "p",
-        text: "Le Site utilise des cookies afin d’améliorer l’expérience utilisateur, d’analyser la navigation et à des fins publicitaires. En poursuivant votre navigation sur le Site, vous consentez à l’utilisation des cookies telle que décrite dans notre Politique relative aux cookies.",
+        text: "Ce que ce site enregistre sur votre appareil, et pourquoi, est détaillé dans notre politique relative aux cookies. Vous pouvez aussi gérer les cookies dans les paramètres de votre navigateur.",
       },
 
       { kind: "h", text: "5. Liens externes" },
@@ -752,7 +763,7 @@ const fr: Record<string, LegalDoc> = {
       { kind: "h", text: "6. Cookies" },
       {
         kind: "p",
-        text: "Nous utilisons des cookies pour améliorer votre expérience sur notre site, analyser le trafic et personnaliser nos services. Vous pouvez configurer votre navigateur pour refuser les cookies ou vous avertir lorsqu’un cookie est envoyé.",
+        text: "Ce que ce site enregistre sur votre appareil, et pourquoi, est détaillé dans notre politique relative aux cookies. Vous pouvez aussi gérer les cookies dans les paramètres de votre navigateur.",
       },
 
       { kind: "h", text: "7. Vos droits" },
@@ -871,59 +882,46 @@ const fr: Record<string, LegalDoc> = {
 
   withdrawal: {
     slug: "withdrawal",
-    title: "Droit de rétractation",
-    source: en.withdrawal.source,
+    title: "Politique de rétractation",
+    // Ours, harmonised — see the English docblock (V1 §17).
+    source: null,
     blocks: [
-      { kind: "h", text: "1. Politique de retour" },
+      { kind: "h", text: "1. Droit de rétractation" },
       {
         kind: "p",
-        text: "En raison de la fragilité de nos produits, les retours ne sont pas acceptés.",
+        text: "Si vous achetez en tant que consommateur, vous disposez de 14 jours à compter de la réception de votre commande pour vous rétracter, sans avoir à vous justifier.",
       },
       {
         kind: "p",
-        text: "Nos pièces nécessitent un emballage et des méthodes de protection spécifiques pour garantir leur sécurité durant le transport. Une fois le colis ouvert et manipulé, nous ne pouvons plus garantir que le produit puisse être remis dans son état d’origine ni remballé dans des conditions identiques à celles de l’envoi initial.",
+        text: "Pour cela, informez-nous clairement dans ce délai — par e-mail à therootscornerm@gmail.com ou par WhatsApp — en indiquant votre commande et la pièce concernée.",
       },
-      { kind: "p", text: "Par conséquent, aucun retour ne sera accepté." },
-
-      { kind: "h", text: "2. Politique de remboursement" },
+      { kind: "h", text: "2. Retour de la pièce" },
       {
         kind: "p",
-        text: "Aucun remboursement ne sera effectué pour les produits commandés et expédiés. Compte tenu de la fragilité des pièces et des risques liés au transport de retour, nous ne pouvons ni les remettre en stock ni garantir leur état après retour. Toute vente est donc considérée comme définitive dès la confirmation de la commande.",
+        text: "Renvoyez la pièce dans les 14 jours qui suivent, soigneusement emballée et dans l’état où vous l’avez reçue. Les frais de retour sont à votre charge. Nos pièces sont fragiles et le plus souvent uniques : nous recommandons un envoi suivi et assuré — écrivez-nous d’abord, nous vous dirons comment l’emballer en toute sécurité.",
       },
-
-      { kind: "h", text: "3. Produits endommagés à la réception" },
+      { kind: "h", text: "3. Remboursement" },
       {
         kind: "p",
-        text: "Si votre colis arrive cassé, endommagé ou en mauvais état, veuillez nous contacter directement dès que possible après réception de votre commande.",
+        text: "Nous remboursons le prix de la pièce et les frais de livraison standard dans les 14 jours suivant votre rétractation, par le moyen de paiement utilisé. Nous pouvons attendre d’avoir récupéré la pièce. Si elle nous revient abîmée par une manipulation allant au-delà de ce qui était nécessaire pour l’examiner, le remboursement peut être réduit d’autant.",
       },
-      { kind: "p", text: "Pour traiter votre demande, nous pouvons vous demander :" },
+      { kind: "h", text: "4. Tapis sur mesure" },
       {
-        kind: "ul",
-        items: [
-          "des photos du colis,",
-          "des photos du produit endommagé,",
-          "et une preuve d’achat.",
-        ],
+        kind: "p",
+        text: "Un tapis Mrirt tissé selon vos propres dimensions ou votre propre motif est confectionné selon vos spécifications : le droit de rétractation ne s’y applique pas. Les tapis déjà tissés et les tapis de nos collections dans une taille proposée en bénéficient comme toute autre pièce.",
+      },
+      { kind: "h", text: "5. Pièces endommagées à la réception" },
+      {
+        kind: "p",
+        text: "Si une pièce arrive cassée ou endommagée, contactez-nous dès que possible après la livraison — si possible sous 7 jours — avec des photos du colis et de la pièce, et conservez l’emballage.",
       },
       {
         kind: "p",
-        text: "Après examen de votre dossier, nous pourrons vous proposer une carte cadeau à titre de compensation.",
-      },
-
-      { kind: "h", text: "4. Politique de réclamation" },
-      {
-        kind: "p",
-        text: "Toute réclamation concernant un produit endommagé doit être formulée dans un délai raisonnable après réception du colis.",
+        text: "Une fois le dommage constaté, nous remboursons intégralement la pièce, livraison comprise. Si vous le préférez, nous pouvons à la place organiser une réparation lorsqu’elle est possible, ou établir un avoir. L’avoir est toujours proposé comme un choix, jamais imposé.",
       },
       {
         kind: "p",
-        text: "Nous nous réservons le droit de rejeter toute réclamation incomplète, frauduleuse ou n’apportant pas de preuve suffisante du dommage signalé.",
-      },
-
-      { kind: "h", text: "5. Acceptation des conditions" },
-      {
-        kind: "p",
-        text: "En passant commande sur notre boutique, vous reconnaissez avoir lu et accepté l’ensemble de ces conditions relatives aux retours, aux remboursements et aux produits endommagés.",
+        text: "Rien de ceci ne limite les garanties légales applicables à votre achat.",
       },
     ],
   },
@@ -946,7 +944,7 @@ const fr: Record<string, LegalDoc> = {
       { kind: "h", text: "2. Protection des données personnelles" },
       {
         kind: "p",
-        text: "Les informations recueillies sur ce site sont traitées aux fins de [finalité du traitement, par exemple : gestion des commandes et des relations clients à l’international].",
+        text: "Les informations recueillies sur ce site sont traitées aux fins de la gestion des commandes et de la relation client, y compris à l’international.",
       },
       {
         kind: "p",
@@ -974,7 +972,7 @@ const fr: Record<string, LegalDoc> = {
       { kind: "h", text: "3. Cookies" },
       {
         kind: "p",
-        text: "Ce site utilise des cookies afin d’améliorer votre expérience utilisateur et d’analyser le trafic. Vous pouvez gérer vos préférences via les paramètres de votre navigateur. Pour plus d’informations, consultez notre section relative aux cookies.",
+        text: "Ce que ce site enregistre sur votre appareil, et pourquoi, est détaillé dans notre politique relative aux cookies. Vous pouvez aussi gérer les cookies dans les paramètres de votre navigateur.",
       },
 
       { kind: "h", text: "4. Responsabilité" },
@@ -1017,19 +1015,7 @@ const fr: Record<string, LegalDoc> = {
       { kind: "h", text: "8. Retours et remboursements" },
       {
         kind: "p",
-        text: "En raison de la fragilité des produits proposés par The Roots Corner, les retours et remboursements ne sont pas acceptés.",
-      },
-      {
-        kind: "p",
-        text: "Nos pièces nécessitent un emballage spécifique afin d’être protégées durant le transport. Une fois expédiées puis manipulées après livraison, nous ne pouvons plus garantir qu’elles seront restituées dans leur état d’origine.",
-      },
-      {
-        kind: "p",
-        text: "Si un colis arrive cassé ou endommagé à la livraison, le client doit nous contacter directement dès que possible, avec des photos du colis et du produit concerné.",
-      },
-      {
-        kind: "p",
-        text: "Après vérification, un bon d’achat pourra être proposé à titre de compensation.",
+        text: "Vous disposez de 14 jours à compter de la réception de votre commande pour vous rétracter. Les modalités de retour, de remboursement et de prise en charge des pièces endommagées sont précisées dans notre politique de rétractation.",
       },
     ],
   },
@@ -1052,10 +1038,6 @@ const fr: Record<string, LegalDoc> = {
             "Maroc : 25 €. International : 50 €, ou 80 € pour les commandes à partir de 200 €. Le montant exact s’affiche au paiement, avant de régler.",
           ],
           [
-            "Vais-je payer des frais de douane ?",
-            "Hors du Maroc, des droits de douane et la TVA à l’importation peuvent être demandés par le transporteur à la livraison, selon votre pays. Ils ne sont compris ni dans le prix ni dans les frais de livraison.",
-          ],
-          [
             "Comment payer ?",
             "Par virement bancaire (SEPA). Nos coordonnées bancaires arrivent avec la confirmation de commande. La pièce vous est réservée 3 jours et part dès réception du virement.",
           ],
@@ -1070,6 +1052,30 @@ const fr: Record<string, LegalDoc> = {
           [
             "Puis-je commander un tapis Mrirt sur mesure ?",
             "Oui. Les tapis Mrirt sont tissés main sur commande par une coopérative de femmes à Mrirt, dans le Moyen Atlas. Vous choisissez la taille, la couleur, le motif et la texture : décrivez le tapis que vous imaginez sur la page Tapis Mrirt et nous vous contactons personnellement.",
+          ],
+          [
+            "Les pièces sont-elles anciennes ou neuves ?",
+            "Les deux. La collection réunit des pièces anciennes, des pièces vintage et des créations artisanales récentes. Chaque fiche indique de quoi il s’agit, avec l’origine et l’époque lorsqu’elles sont connues. Ce que nous ne savons pas, nous ne l’écrivons pas.",
+          ],
+          [
+            "Les dimensions sont-elles exactes ?",
+            "Elles sont données à titre indicatif. Un objet fait main n’a pas de mesures parfaitement régulières, et quelques centimètres d’écart sont possibles — un tapis tissé main peut aussi varier légèrement de la taille annoncée. Si une mesure précise compte pour vous, demandez-la-nous avant d’acheter.",
+          ],
+          [
+            "Les imperfections sont-elles normales ?",
+            "Oui. Une patine, une usure, une petite fissure, une réparation ancienne, une ligne irrégulière : ce sont les marques du temps et de la main, et elles font partie de la pièce. Tout ce qui va au-delà est montré sur les photos ou décrit sur la fiche.",
+          ],
+          [
+            "Quels sont les délais pour un tapis sur mesure ?",
+            "Ils dépendent de la taille et du tissage. Le délai vous est confirmé avec le devis, avant tout engagement.",
+          ],
+          [
+            "Les droits de douane sont-ils inclus ?",
+            "Non. Hors du Maroc, des droits de douane et la TVA à l’importation peuvent être demandés par le transporteur à la livraison, selon votre pays. Ils ne sont compris ni dans le prix ni dans les frais de livraison.",
+          ],
+          [
+            "Puis-je retourner une pièce ?",
+            "Oui. Vous disposez de 14 jours après la livraison pour vous rétracter, et une pièce arrivée endommagée est remboursée intégralement. Le détail figure dans notre politique de rétractation.",
           ],
           [
             "Puis-je poser une question sur une pièce avant d’acheter ?",

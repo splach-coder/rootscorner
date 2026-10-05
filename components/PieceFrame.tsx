@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
 import { imagePath, type Piece } from "@/lib/catalog";
-import { displayName } from "@/lib/specs";
+import { displayName, type Lang } from "@/lib/specs";
 
 type PieceFrameProps = {
   piece: Piece;
+  /** The alt text is the piece's name, in the page's language (V1 §3). */
+  locale?: Lang;
   /** Frame shape, e.g. "frame-tall". */
   shape?: string;
   sizes: string;
@@ -28,6 +30,7 @@ type PieceFrameProps = {
  */
 export default function PieceFrame({
   piece,
+  locale = "en",
   shape = "frame-tall",
   sizes,
   width,
@@ -38,7 +41,7 @@ export default function PieceFrame({
   const swap = imagePath(piece.swapImage ?? undefined);
   if (!primary) return null;
 
-  const name = displayName(piece);
+  const name = displayName(piece, locale);
 
   return (
     <Reveal

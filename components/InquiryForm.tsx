@@ -6,7 +6,11 @@ export type InquiryField = {
   name: string;
   label: string;
   hint?: string;
-  kind?: "text" | "email" | "textarea" | "file" | "choice";
+  /**
+   * `check` is a single yes/no — V1 §9's "Être accompagnée dans mon choix".
+   * Ticked, it sends `defaultValue` ("Oui"); unticked, nothing.
+   */
+  kind?: "text" | "email" | "textarea" | "file" | "choice" | "check";
   required?: boolean;
   defaultValue?: string;
   /**
@@ -199,6 +203,27 @@ export default function InquiryForm({
         return (
           field.kind === "choice" ? (
             <ChoiceField key={field.name} field={field} />
+          ) : field.kind === "check" ? (
+            <div
+              key={field.name}
+              className={`inquiry-field inquiry-check${field.no ? " inquiry-field-no" : ""}`}
+            >
+              {field.no && (
+                <span className="label inquiry-no" aria-hidden="true">
+                  {field.no}
+                </span>
+              )}
+              <label className="inquiry-check-label" htmlFor={id}>
+                <input
+                  id={id}
+                  name={field.name}
+                  type="checkbox"
+                  value={field.defaultValue ?? "1"}
+                  className="inquiry-checkbox"
+                />
+                <span className="label">{field.label}</span>
+              </label>
+            </div>
           ) : (
           <div
             key={field.name}

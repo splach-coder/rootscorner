@@ -71,7 +71,7 @@ export default function CheckoutOrder({
    * question about an order they are about to place.
    */
   const summary = lines
-    .map((line) => `· ${displayName(line.piece)} — ${formatPrice(line.piece, locale) ?? "—"}`)
+    .map((line) => `· ${displayName(line.piece, locale)} — ${formatPrice(line.piece, locale) ?? "—"}`)
     .join("\n");
   const subject =
     locale === "fr" ? "Commande — The Roots Corner" : "Order — The Roots Corner";
@@ -117,7 +117,7 @@ export default function CheckoutOrder({
                     href={piece.href ?? `/${locale}/piece/${piece.slug}`}
                     className="checkout-name display d-3"
                   >
-                    {displayName(piece)}
+                    {displayName(piece, locale)}
                   </Link>
                   <button
                     type="button"

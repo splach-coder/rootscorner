@@ -2576,6 +2576,9 @@ html[data-intro="run"] .site-header-lockup {
     */
     width: min(68%, 19rem);
     height: auto;
+    /* A block in a centred column still needs its own auto margins — with
+       the logo line under it, sitting left of centre read as a mistake. */
+    margin-inline: auto;
     color: var(--ink-inverse);
   }
 }
@@ -2894,6 +2897,17 @@ html[data-intro="run"] .site-header-lockup {
 }
 
 .hero-title {
+  text-wrap: balance;
+}
+
+/* V1 feedback — what the house offers, in one sentence. Body type, not the
+   label register: it is read, not scanned. */
+.hero-lead {
+  color: var(--ink-inverse);
+  font-size: clamp(0.95rem, 1.6vw, 1.08rem);
+  line-height: 1.6;
+  max-width: 36rem;
+  margin: 1.1rem auto 0;
   text-wrap: balance;
 }
 

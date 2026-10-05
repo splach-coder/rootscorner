@@ -60,12 +60,19 @@ export async function generateMetadata({
  * sentence borrows that sentence's provenance unless it is described plainly,
  * which is the same reasoning §24 records for the artisans page.
  *
- * No founder chapter and no name, for now (feedback, 25 Sept): the page is
- * the house's story, told in its four movements.
+ * No founder chapter and no name, for now (feedback, 25 Sept, and V1): the
+ * page is "About The Roots Corner", in the five movements V1 asks for — how it
+ * was born, the vision, craft and material, sourcing, what sets it apart.
+ *
+ * V1 also proposes a short signed quote from the founder under the story.
+ * It is NOT here, deliberately: the same document says not to name her for
+ * now, and a quote needs both her words and her name. Add it as one block
+ * after the statement once the house supplies the quote and lifts the rule.
  */
 
 /** One photograph per movement, in the order the movements are written. */
 const FRAMES = [
+  { src: "/place/city-dusk.jpg", w: 1333, h: 2000, alt: "born" },
   { src: "/place/rug-shop.jpg", w: 1334, h: 2000, alt: "soul" },
   { src: "/place/shadow-rail.jpg", w: 1333, h: 2000, alt: "heritage" },
   { src: "/place/medina-street.jpg", w: 1333, h: 2000, alt: "hands" },

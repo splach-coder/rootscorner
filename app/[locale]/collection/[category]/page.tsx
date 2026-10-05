@@ -71,7 +71,7 @@ export default async function CategoryPage({
 
   return (
     <>
-      <JsonLd data={itemListLd(locale as Locale, pieces, displayName)} />
+      <JsonLd data={itemListLd(locale as Locale, pieces, (p) => displayName(p, locale as Locale))} />
       <JsonLd
         data={breadcrumbLd([
           { name: "The Roots Corner", path: `/${locale}` },

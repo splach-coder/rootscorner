@@ -28,11 +28,14 @@ type Labels = {
 export default function RugBuy({
   series,
   swatches,
+  colourLabels,
   locale,
   labels,
 }: {
   series: RugSeries;
   swatches: Record<string, string[] | undefined>;
+  /** Colour name as shown in this locale, keyed by Shopify's own value. */
+  colourLabels: Record<string, string>;
   locale: string;
   labels: Labels;
 }) {
@@ -51,13 +54,13 @@ export default function RugBuy({
       maximumFractionDigits: 0,
     }).format(n);
 
-  const ask = `/${locale}/mrirt#comment`;
+  const ask = `/${locale}/mrirt#sur-mesure`;
 
   return (
     <div className="rug-buy">
       <div className="rug-buy-group" role="radiogroup" aria-labelledby="rug-colour">
         <p id="rug-colour" className="label rug-buy-key">
-          {labels.colour} <span className="rug-buy-chosen">{colour}</span>
+          {labels.colour} <span className="rug-buy-chosen">{colourLabels[colour] ?? colour}</span>
         </p>
         <div className="choice-options choice-list rug-buy-options">
           {series.colours.map((c) => (
@@ -76,7 +79,7 @@ export default function RugBuy({
                   ))}
                 </span>
               )}
-              <span className="label">{c.name}</span>
+              <span className="label">{colourLabels[c.name] ?? c.name}</span>
             </label>
           ))}
         </div>

@@ -6,7 +6,7 @@ import Reveal from "@/components/Reveal";
 import RugBuy from "@/components/RugBuy";
 import JsonLd from "@/components/JsonLd";
 import { getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
-import { allRugSeries, fromPrice, rugSeriesByHandle } from "@/lib/rugs";
+import { allRugSeries, colourName, fromPrice, rugSeriesByHandle, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { swatchFor } from "@/lib/rug-options";
 import { breadcrumbLd, pageMeta } from "@/lib/seo";
@@ -26,11 +26,12 @@ export async function generateMetadata({
   if (!isLocale(locale) || !series) return {};
   const l = rugLabels(locale);
   const image = series.images[0];
+  const title = seriesTitle(series, locale);
   return pageMeta({
     locale,
     path: `/tapis/${handle}`,
-    title: `${l.collectionEyebrow} ${series.title} — The Roots Corner`,
-    description: series.description || `${l.collectionEyebrow} ${series.title}. ${l.collectionNote}`,
+    title: `${l.rugName} ${title} — The Roots Corner`,
+    description: seriesLine(series, locale) ?? `${l.rugName} ${title}. ${l.collectionNote}`,
     ...(image ? { image: { url: image.src, width: image.w, height: image.h } } : {}),
   });
 }
@@ -54,6 +55,9 @@ export default async function RugSeriesPage({
   const l = rugLabels(locale as Locale);
   const swatches = Object.fromEntries(series.colours.map((c) => [c.name, swatchFor(c.name, c.image)]));
   const from = fromPrice(series);
+  const title = seriesTitle(series, locale);
+  const line = seriesLine(series, locale);
+  const colourLabels = Object.fromEntries(series.colours.map((c) => [c.name, colourName(c.name, locale)]));
 
   return (
     <>
@@ -61,7 +65,7 @@ export default async function RugSeriesPage({
         data={breadcrumbLd([
           { name: "The Roots Corner", path: `/${locale}` },
           { name: l.collectionEyebrow, path: `/${locale}/mrirt` },
-          { name: series.title, path: `/${locale}/tapis/${handle}` },
+          { name: title, path: `/${locale}/tapis/${handle}` },
         ])}
       />
       {from !== null && (
@@ -69,7 +73,7 @@ export default async function RugSeriesPage({
           data={{
             "@context": "https://schema.org",
             "@type": "Product",
-            name: `${l.collectionEyebrow} ${series.title}`,
+            name: `${l.rugName} ${title}`,
             url: `${SITE_URL}/${locale}/tapis/${handle}`,
             ...(series.images[0] ? { image: series.images.map((i) => i.src) } : {}),
             brand: { "@type": "Brand", name: "The Roots Corner" },
@@ -90,7 +94,7 @@ export default async function RugSeriesPage({
               <Reveal key={img.src} variant="frame" delay={i * 60} className="frame rug-page-frame">
                 <Image
                   src={img.src}
-                  alt={img.alt ?? `${l.collectionEyebrow} ${series.title}`}
+                  alt={`${l.rugName} ${title}`}
                   width={img.w}
                   height={img.h}
                   priority={i === 0}
@@ -107,14 +111,15 @@ export default async function RugSeriesPage({
                   {l.collectionEyebrow}
                 </Link>
               </p>
-              <h1 className="display d-1 rug-page-title">{series.title}</h1>
-              {series.description && <p className="prose rug-page-lede">{series.description}</p>}
+              <h1 className="display d-1 rug-page-title">{title}</h1>
+              {line && <p className="prose rug-page-lede">{line}</p>}
             </Reveal>
 
             <Reveal delay={90}>
               <RugBuy
                 series={series}
                 swatches={swatches}
+                colourLabels={colourLabels}
                 locale={locale}
                 labels={{
                   colour: l.colour,
@@ -141,6 +146,12 @@ export default async function RugSeriesPage({
                 <p className="prose">{t.rugs.body[0]}</p>
                 <p className="prose">{t.rugs.body[1]}</p>
               </details>
+              {/* V1 §7, after Beni: the material, stated with the product. */}
+              <details>
+                <summary className="label">{l.material}</summary>
+                <p className="prose">{l.materialBody}</p>
+                <p className="prose">{t.rugs.wool}</p>
+              </details>
               <details>
                 <summary className="label">{l.shipping}</summary>
                 <p className="prose">{l.shippingBody}</p>
@@ -148,7 +159,7 @@ export default async function RugSeriesPage({
               <details>
                 <summary className="label">{l.custom}</summary>
                 <p className="prose">{l.customBody}</p>
-                <Link href={`/${locale}/mrirt#comment`} className="link label">
+                <Link href={`/${locale}/mrirt#sur-mesure`} className="link label">
                   {l.customCta}
                 </Link>
               </details>

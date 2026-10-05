@@ -4890,3 +4890,26 @@ live store at the client's instruction** — orders can be placed at them until
 Dahab sets real ones. Beni's product names and photos were deliberately not
 copied: their images are copyrighted and their names on a live shop would
 misrepresent what is sold.
+
+## 68. Client feedback V1 (5 Oct) — every point, and the three that wait on the house
+
+`Feedback - The Roots Corner website  V1.pdf`, 19 pages. Done:
+
+| V1 | Where |
+|---|---|
+| Logo line "always included" | `Wordmark` in BrandMarks.tsx draws it under the name — measured off their reference, tapered. Header, hero and footer all carry it. |
+| Hero: say what the house offers | `hero.lead`, their sentence; the old intro now opens the presentation section. |
+| §2 categories | Their names and their order (`CATEGORY_ORDER` in lib/catalog.ts); "Tout voir" last. |
+| §3 names FR/EN, §6 origin | **lib/piece-names.ts** — a reviewed name, origin, nature (ancienne/vintage/artisanale) and period per piece, both languages. Attributions read "Afrique de l’Ouest — attribué à la tradition Dogon", never resolved into a country. Only facts the record states. |
+| §4 descriptions | FR rewrites in lib/product-fr.ts (the clay pot is their sentence); EN edited into `PRODUCT_EN`, same facts, fewer words. |
+| §7–9 rugs | /mrirt in their order: Tapis disponibles → Tapis sur commande (the Shopify collections, each with its own line, `SERIES_TEXT` in lib/rugs.ts) → Tapis sur mesure (form: dimensions, motif & couleurs, their four textures, "Être accompagnée dans mon choix"). |
+| §13 apartments | "Séjourner à Marrakech", story → photos → apartments → booking. |
+| §15 origin claims | Footer, meta, llms.txt, contact: "Maroc, Afrique et ailleurs". |
+| §17 legal (high priority) | One position everywhere: 14-day withdrawal, damaged pieces refunded in full (credit note only by choice), made-to-measure rugs excluded. Withdrawal + terms §8 rewritten (`source: null`); the product records' "all sales are final" lines are filtered; every "this site uses cookies for advertising" sentence corrected; Terms §2's empty bracket filled. **Needs the house's legal adviser.** |
+| §18 FAQ | Their five questions added, both languages. |
+| §19 piece page | Real delivery times (the old "1–2 weeks" was the Morocco line), link to the policy, "Disponible" beside "Chaque pièce est unique". |
+
+**Waiting on the house — not invented:**
+- **Founder quote** (About page): V1 asks for one *and* says not to name her yet. Needs her words and permission.
+- **Rug lead time** for made-to-measure: the FAQ says it is confirmed with the quote. Give a range and it goes in.
+- **Reviews, artisan section, Instagram "Vu chez vous"**: V1 lists them as future, needing real content.

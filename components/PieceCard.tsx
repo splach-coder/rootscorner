@@ -50,6 +50,7 @@ export default function PieceCard({
     <li className={gone ? "card is-gone" : "card"}>
       <Link href={`/${locale}/piece/${piece.slug}`} className="card-link swap-host">
         <PieceFrame
+          locale={locale}
           piece={piece}
           shape="card-frame"
           delay={delay}

@@ -60,6 +60,7 @@ export default function ClosingBand({
                 className="hang-link swap-host"
               >
                 <PieceFrame
+                  locale={locale}
                   piece={piece}
                   delay={i * 100}
                   width={piece.images[0]?.w ?? 1400}

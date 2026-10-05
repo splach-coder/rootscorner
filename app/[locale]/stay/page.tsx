@@ -66,8 +66,24 @@ export default async function StayPage({
         eyebrow={t.stay.eyebrow}
         heading={t.stay.heading}
         meta={`${PLACE.city}, ${PLACE.country[locale]}`}
-        lede={t.stay.body[0]}
+        lede={t.stay.lede}
       />
+
+      {/* --- V1 feedback §13: Story → Photos → Apartment → Booking. The
+           apartments are an extension of the house, so the page opens on why
+           they exist before it shows a room. --- */}
+      <section className="section stay-story">
+        <div className="shell">
+          <Reveal className="stay-intro">
+            <p className="label stay-inside-key">{t.stay.storyEyebrow}</p>
+            {t.stay.body.map((line, i) => (
+              <p key={i} className={i === 0 ? "lede" : "prose"}>
+                {line}
+              </p>
+            ))}
+          </Reveal>
+        </div>
+      </section>
 
       {/* --- One room, the width of the page.
 
@@ -85,46 +101,6 @@ export default async function StayPage({
             sizes="100vw"
           />
         </Reveal>
-      </section>
-
-      <section className="section stay">
-        <div className="shell">
-          <Reveal className="stay-intro">
-            <p className="prose">{t.stay.body[1]}</p>
-          </Reveal>
-
-          <ul className="stay-rooms">
-            {rooms.map((room, i) => (
-              <li key={room.key} className="stay-room">
-                <Reveal variant="frame" delay={i * 100} className="frame stay-frame">
-                  <Image
-                    src={room.image.src}
-                    alt={room.image.alt}
-                    width={room.image.w}
-                    height={room.image.h}
-                    sizes="(max-width: 860px) 100vw, 46vw"
-                  />
-                </Reveal>
-
-                <Reveal delay={i * 100 + 80} className="stay-body">
-                  <h2 className="display d-2 stay-name">{room.name}</h2>
-                  <p className="prose stay-blurb">{room.blurb}</p>
-                  {/* Opens the chat with the apartment already named. External,
-                      so it says where it goes before it is clicked. */}
-                  <a
-                    href={room.href}
-                    className="label stay-book"
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    {t.stay.book}
-                  </a>
-                  <p className="label stay-note">{t.stay.note}</p>
-                </Reveal>
-              </li>
-            ))}
-          </ul>
-        </div>
       </section>
 
       {/* --- Inside.
@@ -178,6 +154,46 @@ export default async function StayPage({
           </ul>
         </div>
       </section>
+      <section className="section stay">
+        <div className="shell">
+          <Reveal as="p" className="label stay-inside-key">
+            {t.stay.apartmentsEyebrow}
+          </Reveal>
+
+          <ul className="stay-rooms">
+            {rooms.map((room, i) => (
+              <li key={room.key} className="stay-room">
+                <Reveal variant="frame" delay={i * 100} className="frame stay-frame">
+                  <Image
+                    src={room.image.src}
+                    alt={room.image.alt}
+                    width={room.image.w}
+                    height={room.image.h}
+                    sizes="(max-width: 860px) 100vw, 46vw"
+                  />
+                </Reveal>
+
+                <Reveal delay={i * 100 + 80} className="stay-body">
+                  <h2 className="display d-2 stay-name">{room.name}</h2>
+                  <p className="prose stay-blurb">{room.blurb}</p>
+                  {/* Opens the chat with the apartment already named. External,
+                      so it says where it goes before it is clicked. */}
+                  <a
+                    href={room.href}
+                    className="label stay-book"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    {t.stay.book}
+                  </a>
+                  <p className="label stay-note">{t.stay.note}</p>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
     </>
   );
 }

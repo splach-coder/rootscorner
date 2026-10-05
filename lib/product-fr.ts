@@ -12,12 +12,8 @@
  *
  * Two consequences worth stating, because they look like mistakes:
  *
- * - **Product NAMES are not translated.** "Dogon Stool" stays "Dogon Stool" on
- *   /fr. Tribal and regional attributions work as proper nouns in the trade —
- *   a dealer says Dogon, Senufo, Baule in any language — and inventing a
- *   French name for an object whose name is the client's own record is exactly
- *   the invention §5 forbids. Several names also carry typos in the source
- *   (§13), and correcting those is the client's call, not ours.
+ * - **Product NAMES live in lib/piece-names.ts**, in both languages, since
+ *   the house asked for French names on the French site (V1 feedback §3).
  *
  * - **The delivery window is translated literally.** Every product says
  *   "1 - 2 Weeks" while the FAQ says 3–8 weeks for Europe (§9.3). The French
@@ -382,67 +378,67 @@ export const PRODUCT_FR: Record<string, string> = {
   "An object steeped in history and memory.":
     "Un objet chargé d’histoire et de mémoire.",
   "A beautiful blend of tradition and wabi-sabi aesthetics, this pot is a must-have for lovers of raw, artisanal decor.":
-    "Beau mélange de tradition et d’esthétique wabi-sabi, ce pot est incontournable pour les amateurs de décoration brute et artisanale.",
+    "La tradition et l’esprit wabi-sabi, réunis dans un pot.",
   "Authentic Moroccan Craftsmanship : A piece of history, shaped by hand and fire.":
-    "Artisanat marocain authentique : un morceau d’histoire, façonné à la main et par le feu.",
+    "Artisanat marocain : façonné par la main et par le feu.",
   "Organic Texture & Rich Patina : The natural variations in the clay add depth and warmth to any decor.":
-    "Texture organique et patine riche : les variations naturelles de l’argile apportent profondeur et chaleur à toute décoration.",
+    "Texture organique, patine profonde : les variations naturelles de l’argile lui donnent profondeur et chaleur.",
   "Timeless & Unique : Each pot carries its own imperfections, making it one-of-a-kind.":
-    "Intemporel et unique : chaque pot porte ses propres imperfections, ce qui le rend unique.",
+    "Chaque pot porte ses propres imperfections ; aucun n’est semblable à un autre.",
   "Versatile Styling : Perfect as a statement accent, a unique planter, or a shelf display.":
-    "Mise en scène polyvalente : parfait comme accent fort, cache-pot original ou objet d’étagère.",
+    "Seul, en cache-pot ou sur une étagère.",
   "Its aged charm and unique ethnic motifs make it a distinctive decorative object, perfect for adding a warm and authentic touch to your interior. Placed on a shelf, piece of furniture, or console, it draws the eye and enhances any space with elegance.":
-    "Son charme patiné et ses motifs ethniques singuliers en font un objet décoratif distinctif, parfait pour apporter une touche chaleureuse et authentique à votre intérieur. Posé sur une étagère, un meuble ou une console, il attire le regard et met en valeur l’espace avec élégance.",
+    "Son charme patiné et ses motifs en font un objet qui retient le regard, sur une étagère, un meuble ou une console.",
   "Today, this memory-filled object finds new life as a decorative piece. Bring a touch of authenticity and character to your interior with this beautiful ancestral toy.":
-    "Aujourd’hui, cet objet chargé de mémoire trouve une nouvelle vie comme pièce décorative. Apportez une touche d’authenticité et de caractère à votre intérieur avec ce beau jouet ancestral.",
+    "Aujourd’hui, cet objet chargé de mémoire trouve une seconde vie.",
 
   // ---- Full descriptions -------------------------------------------------
   "The Baoulé chair is a traditional wooden chair from Côte d’Ivoire. It is hand-carved and known for its low seat, vertical backrest and simple, structured design. Each piece is unique due to the natural variations in the wood and the handcrafting process.":
-    "La chaise Baoulé est une chaise traditionnelle en bois de Côte d’Ivoire. Sculptée à la main, elle est connue pour son assise basse, son dossier vertical et son design simple et structuré. Chaque pièce est unique en raison des variations naturelles du bois et du travail artisanal.",
+    "Chaise traditionnelle baoulé de Côte d’Ivoire, sculptée à la main : une assise basse, un dossier droit, une ligne simple et structurée. Le grain du bois et la main du sculpteur rendent chacune différente des autres.",
   "This Dogon stool is distinguished by its simple form and timeless character. A versatile piece that can be used as a stool, side table, or sculptural accent within the home.":
-    "Ce tabouret Dogon se distingue par sa forme simple et son caractère intemporel. Une pièce polyvalente, qui peut servir de tabouret, de table d’appoint ou d’accent sculptural dans la maison.",
+    "Un tabouret Dogon à la forme simple et à la présence intemporelle — assise, table d’appoint ou sculpture dans une pièce.",
   "Hand-carved from a single piece of wood, the Senufo stool is a timeless object originating from West Africa. Traditionally used as a seat, it now serves equally well as a side table, pedestal, or decorative accent. Each piece is unique, marked by the natural variations of the wood and the hand of the artisan.":
-    "Sculpté à la main dans une seule pièce de bois, le tabouret Senufo est un objet intemporel originaire d’Afrique de l’Ouest. Traditionnellement utilisé comme assise, il sert aujourd’hui tout aussi bien de table d’appoint, de sellette ou d’accent décoratif. Chaque pièce est unique, marquée par les variations naturelles du bois et la main de l’artisan.",
+    "Sculpté à la main dans une seule pièce de bois, le tabouret sénoufo vient d’Afrique de l’Ouest. Autrefois assise, il se fait aujourd’hui table d’appoint, sellette ou sculpture. Le bois et la main de l’artisan rendent chacun unique.",
   "This black stool in dark varnished wood features an elegant, deep finish. Its slightly cracked bars bear witness to the passage of time, enhancing its unique character while preserving its decorative charm and structural solidity.":
-    "Ce tabouret noir en bois vernis foncé présente une finition élégante et profonde. Ses barreaux légèrement fendillés témoignent du passage du temps, renforçant son caractère unique tout en préservant son charme décoratif et sa solidité structurelle.",
+    "Tabouret noir en bois verni foncé, à la finition profonde. Ses barreaux légèrement fendillés portent la marque du temps : elle ajoute à son caractère sans rien retirer à sa solidité.",
   "Entirely hand-carved, this stool showcases the richness and refinement of traditional African craftsmanship. Its deep aged brown patina, shaped by time and marks of use, gives it a rare authenticity and a unique character.":
-    "Entièrement sculpté à la main, ce tabouret met en valeur la richesse et le raffinement de l’artisanat africain traditionnel. Sa patine brune profonde, façonnée par le temps et les marques d’usage, lui confère une authenticité rare et un caractère unique.",
+    "Entièrement sculpté à la main. Sa patine brune profonde, façonnée par le temps et l’usage, lui donne une authenticité rare.",
   "This candle is handcrafted in Tamegroute, Morocco. Each ceramic vessel is shaped and glazed by hand, resulting in subtle variations that make every piece unique. Scented with Moroccan orange blossom, it offers a fresh, floral scent. Once the candle has burned, the ceramic vessel can be reused as a decorative object.":
-    "Cette bougie est fabriquée à la main à Tamegroute, au Maroc. Chaque contenant en céramique est façonné et émaillé à la main, ce qui donne des variations subtiles rendant chaque pièce unique. Parfumée à la fleur d’oranger marocaine, elle offre une senteur fraîche et florale. Une fois la bougie consumée, le contenant en céramique peut être réutilisé comme objet décoratif.",
+    "Façonnée à la main à Tamegroute, au Maroc. Chaque contenant en céramique est modelé et émaillé à la main ; aucun n’est tout à fait semblable. Parfumée à la fleur d’oranger du Maroc, fraîche et florale. La bougie consumée, le contenant demeure, objet à part entière.",
   "This is an ancestral spinning top mounted on a metal rod. Once used as a traditional toy, it bears the marks of its use, reflecting its history and authenticity.":
-    "Il s’agit d’une toupie ancestrale montée sur une tige métallique. Autrefois utilisée comme jouet traditionnel, elle porte les marques de son usage, reflet de son histoire et de son authenticité.",
+    "Toupie ancestrale montée sur une tige de métal. Autrefois jouet traditionnel, elle garde les marques de son usage.",
   "Antique wooden tent stake, finely hand-carved with traditional ethnic motifs. Its slender silhouette and engraved details make it an elegant and authentic decorative piece.":
-    "Piquet de tente ancien en bois, finement sculpté à la main de motifs ethniques traditionnels. Sa silhouette élancée et ses détails gravés en font une pièce décorative élégante et authentique.",
+    "Piquet de tente ancien en bois, finement sculpté à la main de motifs traditionnels. Une silhouette élancée, des détails gravés.",
   "Discover an authentic antique hook comb, once used to brush and maintain carpets with precision. A true piece steeped in history, this antique object captivates with its artisanal charm, unique character, and authenticity. Ideal as a vintage decorative piece or collector’s item, it adds a rustic and timeless touch to your home.":
-    "Découvrez un authentique peigne à crochet ancien, autrefois utilisé pour brosser et entretenir les tapis avec précision. Véritable pièce chargée d’histoire, cet objet ancien séduit par son charme artisanal, son caractère unique et son authenticité. Idéal comme pièce décorative vintage ou objet de collection, il apporte une touche rustique et intemporelle à votre intérieur.",
+    "Peigne à crochet ancien, autrefois utilisé pour brosser et entretenir les tapis. Métal et bois, usés par le geste — un outil de tisserand, gardé aujourd’hui pour lui-même.",
   "Discover this handcrafted stool made entirely of wood, crafted with authentic expertise and unique details. Its legs are adorned with finely carved faces, adding character and an artistic touch to this decorative piece. Both sturdy and elegant, this wooden stool combines traditional charm with authenticity, making it the perfect choice to enhance a warm and original interior design.":
-    "Découvrez ce tabouret artisanal entièrement en bois, réalisé avec un savoir-faire authentique et des détails singuliers. Ses pieds sont ornés de visages finement sculptés, apportant du caractère et une touche artistique à cette pièce décorative. À la fois robuste et élégant, ce tabouret en bois allie charme traditionnel et authenticité, ce qui en fait le choix idéal pour sublimer une décoration intérieure chaleureuse et originale.",
+    "Entièrement en bois, ses pieds ornés de visages finement sculptés. Robuste et raffiné à la fois.",
   "Give a touch of authenticity and originality to your interior décor with this antique glazed Berber vase. A genuine handcrafted piece with timeless charm, it captivates with its unique details, historical character, and distinctive finish. Perfect for creating a warm and elegant atmosphere, this antique vase brings an ethnic flair and a unique charm to your living space.":
-    "Donnez une touche d’authenticité et d’originalité à votre décoration intérieure avec ce vase berbère ancien émaillé. Véritable pièce artisanale au charme intemporel, il séduit par ses détails singuliers, son caractère historique et sa finition distinctive. Parfait pour créer une atmosphère chaleureuse et élégante, ce vase ancien apporte une note ethnique et un charme unique à votre espace de vie.",
+    "Vase berbère ancien, émaillé, fait à la main. Ses détails, son émail et son âge lui donnent une présence discrète et singulière.",
   "Handcrafted in Morocco, this ceramic candlestick reflects the distinctive character of traditional Tamegroute pottery. Defined by its organic form and natural finish, it brings texture, warmth, and a timeless presence to any interior.":
-    "Fabriqué à la main au Maroc, ce bougeoir en céramique reflète le caractère distinctif de la poterie traditionnelle de Tamegroute. Défini par sa forme organique et sa finition naturelle, il apporte texture, chaleur et une présence intemporelle à tout intérieur.",
+    "Façonné à la main au Maroc, ce bougeoir en céramique porte le caractère de la poterie traditionnelle de Tamegroute : une forme organique, une finition naturelle, de la matière et de la chaleur.",
   "Handcrafted in Morocco, this sculptural vase is composed of interconnected tubular forms that create a striking architectural silhouette. Its balance of traditional craftsmanship and contemporary design makes it a distinctive decorative piece for any space.":
-    "Fabriqué à la main au Maroc, ce vase sculptural se compose de formes tubulaires reliées entre elles qui créent une silhouette architecturale saisissante. Son équilibre entre artisanat traditionnel et design contemporain en fait une pièce décorative distinctive pour tout espace.",
+    "Façonné à la main au Maroc, un vase composé de formes tubulaires imbriquées — une silhouette architecturale, entre artisanat traditionnel et design contemporain.",
   "This traditional Moroccan clay pot, handcrafted using ancestral pottery techniques, embodies both functionality and raw beauty. Its distinctive blackened surface results from a unique firing process, giving it an earthy, timeworn patina. Once used for cooking or storage, it now serves as a sculptural piece, bringing an authentic, rustic touch to any space.":
-    "Ce pot marocain traditionnel en argile, façonné à la main selon des techniques de poterie ancestrales, incarne à la fois la fonctionnalité et la beauté brute. Sa surface noircie caractéristique résulte d’un procédé de cuisson unique, qui lui donne une patine terreuse et patinée par le temps. Autrefois utilisé pour la cuisson ou le stockage, il sert aujourd’hui de pièce sculpturale, apportant une touche authentique et rustique à tout espace.",
+    "Pot marocain traditionnel en argile, façonné à la main selon des techniques ancestrales. Sa surface noircie résulte d’un procédé de cuisson traditionnel qui lui confère une texture profonde et une patine singulière. Autrefois destiné à la cuisson ou à la conservation, il se tient aujourd’hui comme une sculpture.",
   "A handcrafted black wooden stool with a historic feel, featuring openwork details and finely carved motifs throughout the structure. This one-of-a-kind piece combines authenticity with traditional craftsmanship, adding a bold and timeless decorative touch to any interior.":
-    "Un tabouret artisanal en bois noir au caractère historique, orné de détails ajourés et de motifs finement sculptés sur toute la structure. Cette pièce unique allie authenticité et savoir-faire traditionnel, apportant une touche décorative affirmée et intemporelle à tout intérieur.",
+    "Tabouret en bois noir, ajouré et finement sculpté sur toute sa structure. Une pièce d’un autre temps, faite à la main.",
   "A handcrafted black wooden stool with a historic feel, meticulously crafted with openwork details and finely carved motifs throughout the structure. Its varnished finish highlights the depth of the wood as well as the decorative details. Adorned with African-inspired moldings, this unique piece combines authenticity, traditional craftsmanship, and elegance, adding a bold and timeless decorative touch to any interior.":
-    "Un tabouret artisanal en bois noir au caractère historique, minutieusement travaillé avec des détails ajourés et des motifs finement sculptés sur toute la structure. Sa finition vernie met en valeur la profondeur du bois ainsi que les détails décoratifs. Orné de moulures d’inspiration africaine, cette pièce unique allie authenticité, savoir-faire traditionnel et élégance, apportant une touche décorative affirmée et intemporelle à tout intérieur.",
+    "Tabouret en bois noir, ajouré et finement sculpté sur toute sa structure. Le vernis révèle la profondeur du bois et le détail des moulures d’inspiration africaine.",
   "A traditional African wooden mortar, entirely handmade, previously used, and bearing the authentic marks of its history. This one-of-a-kind piece is a testament to true traditional craftsmanship and brings character, authenticity, and soul to your home":
-    "Un mortier africain traditionnel en bois, entièrement fait main, ayant déjà servi et portant les marques authentiques de son histoire. Cette pièce unique témoigne d’un véritable savoir-faire traditionnel et apporte du caractère, de l’authenticité et de l’âme à votre intérieur",
+    "Mortier africain traditionnel en bois, entièrement fait main. Il a servi, et en porte les marques.",
   "An antique wooden tablet bearing traces of Arabic writing, a true testament to the past and its unique history. This authentic piece, crafted from fine wood and weathered by time, captivates with its rarity and charm steeped in history. Both a decorative object and a fragment of history, it adds a cultural and timeless touch to any interior.":
-    "Une tablette ancienne en bois portant des traces d’écriture arabe, véritable témoignage du passé et de son histoire singulière. Cette pièce authentique, façonnée dans un bois de qualité et patinée par le temps, séduit par sa rareté et son charme chargé d’histoire. À la fois objet décoratif et fragment d’histoire, elle apporte une touche culturelle et intemporelle à tout intérieur.",
+    "Tablette ancienne en bois portant des traces d’écriture arabe. Un bois fin, patiné par le temps — à la fois objet et fragment d’histoire.",
   "Antique Bamileke royal wooden stool from Cameroon, dating back to the first half of the 20th century. A true chief’s throne, this exceptional piece is adorned with a frieze of stylized spiders, a traditional symbol of cohesion, wisdom, and unity within the Bamileke clan.":
-    "Tabouret royal Bamileke ancien en bois, du Cameroun, datant de la première moitié du XXᵉ siècle. Véritable trône de chef, cette pièce exceptionnelle est ornée d’une frise d’araignées stylisées, symbole traditionnel de cohésion, de sagesse et d’unité au sein du clan Bamileke.",
+    "Tabouret royal Bamileke ancien, en bois, du Cameroun, datant de la première moitié du XXᵉ siècle. Un siège de chef, orné d’une frise d’araignées stylisées — symbole de cohésion, de sagesse et d’unité au sein du clan Bamileke.",
   "Antique Moroccan terracotta vase adorned with hand-painted traditional Berber designs. This authentic piece reflects the rich craftsmanship and cultural heritage of Morocco.":
-    "Vase marocain ancien en terre cuite, orné de motifs berbères traditionnels peints à la main. Cette pièce authentique reflète la richesse de l’artisanat et du patrimoine culturel du Maroc.",
+    "Vase marocain ancien en terre cuite, peint à la main de motifs berbères traditionnels.",
   "Brought back from Cameroon, this collector’s piece blends history, symbolism, and timeless elegance, making it a remarkable decorative object full of soul.":
-    "Rapportée du Cameroun, cette pièce de collection mêle histoire, symbolisme et élégance intemporelle, ce qui en fait un objet décoratif remarquable et plein d’âme.",
+    "Rapportée du Cameroun : une pièce de collection, entre histoire et symbole.",
   "Brown wooden stool with an elegant, deep finish, enhanced by a golden top edge that adds a refined and sophisticated touch. Fine triangular carvings run along the wood, highlighting its artisanal craftsmanship and unique design. This decorative piece combines authenticity, elegance, and originality, making it perfect for enhancing any interior space.":
-    "Tabouret en bois brun à la finition élégante et profonde, rehaussé d’un liseré doré sur le dessus qui apporte une touche raffinée et sophistiquée. De fines gravures triangulaires parcourent le bois, mettant en valeur son travail artisanal et son design singulier. Cette pièce décorative allie authenticité, élégance et originalité, ce qui la rend parfaite pour sublimer tout espace intérieur.",
+    "Tabouret en bois brun à la finition profonde, rehaussé d’un liseré doré. De fines gravures triangulaires parcourent le bois.",
   "A one-of-a-kind handcrafted lamp that embodies the beauty of imperfection. This unique piece is created using an antique Moroccan vase, carefully repurposed to bring warmth and authenticity to any space. The aged patina of the ceramic base tells a story of time, while the natural woven linen shade adds an organic, earthy touch. Perfect for those who appreciate wabi-sabi aesthetics and the charm of artisanal craftsmanship.":
-    "Une lampe artisanale unique qui incarne la beauté de l’imperfection. Cette pièce singulière est créée à partir d’un vase marocain ancien, soigneusement réemployé pour apporter chaleur et authenticité à tout espace. La patine du pied en céramique raconte une histoire du temps, tandis que l’abat-jour en lin tissé naturel ajoute une touche organique et terreuse. Parfaite pour celles et ceux qui apprécient l’esthétique wabi-sabi et le charme du travail artisanal.",
+    "Une lampe unique, née d’un vase marocain ancien. La patine du pied en céramique, un abat-jour en lin tissé naturel — la beauté de l’imperfection, dans l’esprit wabi-sabi.",
 };
 
 /**
@@ -473,4 +469,90 @@ export function frLine(line: string): string {
 /** Translate a block, preserving order and paragraph breaks. */
 export function frLines(lines: string[]): string[] {
   return lines.map(frLine);
+}
+
+/**
+ * English, edited — V1 feedback §4: editorial, premium, natural, precise and
+ * human, never the generic language of a home-decor webshop.
+ *
+ * The house's English descriptions were written in that register (Discover…,
+ * Give a touch of authenticity…, a must-have). These are the same facts in
+ * fewer, plainer words: nothing added, nothing dropped that is a fact. Keyed by
+ * the original sentence, exactly like PRODUCT_FR, so every edit can be checked
+ * against what she wrote.
+ */
+export const PRODUCT_EN: Record<string, string> = {
+  "The Baoulé chair is a traditional wooden chair from Côte d’Ivoire. It is hand-carved and known for its low seat, vertical backrest and simple, structured design. Each piece is unique due to the natural variations in the wood and the handcrafting process.":
+    "A traditional Baoulé chair from Côte d’Ivoire, carved by hand: a low seat, an upright back, a plain and structured line. The grain of the wood and the carver’s hand make each one unlike any other.",
+  "This Dogon stool is distinguished by its simple form and timeless character. A versatile piece that can be used as a stool, side table, or sculptural accent within the home.":
+    "A Dogon stool of simple form and timeless presence — a seat, a side table, or a sculpture in a room.",
+  "Hand-carved from a single piece of wood, the Senufo stool is a timeless object originating from West Africa. Traditionally used as a seat, it now serves equally well as a side table, pedestal, or decorative accent. Each piece is unique, marked by the natural variations of the wood and the hand of the artisan.":
+    "Carved by hand from a single piece of wood, the Senufo stool comes from West Africa. Once a seat, it works as well today as a side table, a pedestal or a sculpture. The wood and the carver’s hand make each one unique.",
+  "This black stool in dark varnished wood features an elegant, deep finish. Its slightly cracked bars bear witness to the passage of time, enhancing its unique character while preserving its decorative charm and structural solidity.":
+    "A black stool in dark varnished wood, with a deep finish. Its bars are lightly cracked — the mark of time, which adds to its character and takes nothing from its strength.",
+  "Entirely hand-carved, this stool showcases the richness and refinement of traditional African craftsmanship. Its deep aged brown patina, shaped by time and marks of use, gives it a rare authenticity and a unique character.":
+    "Carved entirely by hand. Its deep brown patina, shaped by time and use, gives it a rare authenticity.",
+  "This candle is handcrafted in Tamegroute, Morocco. Each ceramic vessel is shaped and glazed by hand, resulting in subtle variations that make every piece unique. Scented with Moroccan orange blossom, it offers a fresh, floral scent. Once the candle has burned, the ceramic vessel can be reused as a decorative object.":
+    "Made by hand in Tamegroute, Morocco. Each ceramic vessel is shaped and glazed by hand, so no two are quite alike. Scented with Moroccan orange blossom — fresh and floral. Once the candle has burned, the vessel stays, an object in its own right.",
+  "This is an ancestral spinning top mounted on a metal rod. Once used as a traditional toy, it bears the marks of its use, reflecting its history and authenticity.":
+    "An ancestral spinning top mounted on a metal rod. Once a traditional toy, it still carries the marks of its use.",
+  "Antique wooden tent stake, finely hand-carved with traditional ethnic motifs. Its slender silhouette and engraved details make it an elegant and authentic decorative piece.":
+    "An antique wooden tent stake, finely carved by hand with traditional motifs. A slender silhouette, engraved detail.",
+  "Discover an authentic antique hook comb, once used to brush and maintain carpets with precision. A true piece steeped in history, this antique object captivates with its artisanal charm, unique character, and authenticity. Ideal as a vintage decorative piece or collector’s item, it adds a rustic and timeless touch to your home.":
+    "An antique hook comb, once used to brush and tend rugs. Metal and wood, worn by the hand — a weaver’s tool, kept now for itself.",
+  "Discover this handcrafted stool made entirely of wood, crafted with authentic expertise and unique details. Its legs are adorned with finely carved faces, adding character and an artistic touch to this decorative piece. Both sturdy and elegant, this wooden stool combines traditional charm with authenticity, making it the perfect choice to enhance a warm and original interior design.":
+    "Made entirely of wood, its legs carved with fine faces. Sturdy and refined at once.",
+  "Give a touch of authenticity and originality to your interior décor with this antique glazed Berber vase. A genuine handcrafted piece with timeless charm, it captivates with its unique details, historical character, and distinctive finish. Perfect for creating a warm and elegant atmosphere, this antique vase brings an ethnic flair and a unique charm to your living space.":
+    "An antique glazed Berber vase, made by hand. Its detail, its glaze and its age give it a quiet, singular presence.",
+  "Handcrafted in Morocco, this ceramic candlestick reflects the distinctive character of traditional Tamegroute pottery. Defined by its organic form and natural finish, it brings texture, warmth, and a timeless presence to any interior.":
+    "Made by hand in Morocco, this ceramic candlestick carries the character of traditional Tamegroute pottery: an organic form, a natural finish, texture and warmth.",
+  "Handcrafted in Morocco, this sculptural vase is composed of interconnected tubular forms that create a striking architectural silhouette. Its balance of traditional craftsmanship and contemporary design makes it a distinctive decorative piece for any space.":
+    "Made by hand in Morocco, a vase built from interlocking tubular forms — an architectural silhouette, between traditional craft and contemporary design.",
+  "This traditional Moroccan clay pot, handcrafted using ancestral pottery techniques, embodies both functionality and raw beauty. Its distinctive blackened surface results from a unique firing process, giving it an earthy, timeworn patina. Once used for cooking or storage, it now serves as a sculptural piece, bringing an authentic, rustic touch to any space.":
+    "A traditional Moroccan clay pot, shaped by hand using ancestral techniques. Its blackened surface comes from a traditional firing that gives it a deep texture and a singular patina. Once used for cooking or storage, it now stands as a sculpture.",
+  "A handcrafted black wooden stool with a historic feel, featuring openwork details and finely carved motifs throughout the structure. This one-of-a-kind piece combines authenticity with traditional craftsmanship, adding a bold and timeless decorative touch to any interior.":
+    "A black wooden stool, openwork and finely carved across its whole structure. A piece of another time, made by hand.",
+  "A handcrafted black wooden stool with a historic feel, meticulously crafted with openwork details and finely carved motifs throughout the structure. Its varnished finish highlights the depth of the wood as well as the decorative details. Adorned with African-inspired moldings, this unique piece combines authenticity, traditional craftsmanship, and elegance, adding a bold and timeless decorative touch to any interior.":
+    "A black wooden stool, openwork and finely carved across its whole structure. The varnish brings out the depth of the wood and the detail of its African-inspired mouldings.",
+  "A traditional African wooden mortar, entirely handmade, previously used, and bearing the authentic marks of its history. This one-of-a-kind piece is a testament to true traditional craftsmanship and brings character, authenticity, and soul to your home":
+    "A traditional African wooden mortar, made entirely by hand. It has been used, and it carries the marks.",
+  "An antique wooden tablet bearing traces of Arabic writing, a true testament to the past and its unique history. This authentic piece, crafted from fine wood and weathered by time, captivates with its rarity and charm steeped in history. Both a decorative object and a fragment of history, it adds a cultural and timeless touch to any interior.":
+    "An antique wooden tablet bearing traces of Arabic writing. Fine wood, weathered by time — an object and a fragment of history at once.",
+  "Antique Bamileke royal wooden stool from Cameroon, dating back to the first half of the 20th century. A true chief’s throne, this exceptional piece is adorned with a frieze of stylized spiders, a traditional symbol of cohesion, wisdom, and unity within the Bamileke clan.":
+    "An antique royal Bamileke stool in wood, from Cameroon, dating from the first half of the 20th century. A chief’s seat, carved with a frieze of stylised spiders — a symbol of cohesion, wisdom and unity within the Bamileke clan.",
+  "Antique Moroccan terracotta vase adorned with hand-painted traditional Berber designs. This authentic piece reflects the rich craftsmanship and cultural heritage of Morocco.":
+    "An antique Moroccan terracotta vase, hand-painted with traditional Berber designs.",
+  "Brought back from Cameroon, this collector’s piece blends history, symbolism, and timeless elegance, making it a remarkable decorative object full of soul.":
+    "Brought back from Cameroon: a collector’s piece, between history and symbol.",
+  "Brown wooden stool with an elegant, deep finish, enhanced by a golden top edge that adds a refined and sophisticated touch. Fine triangular carvings run along the wood, highlighting its artisanal craftsmanship and unique design. This decorative piece combines authenticity, elegance, and originality, making it perfect for enhancing any interior space.":
+    "A brown wooden stool with a deep finish and a gilded upper rim. Fine triangular carving runs through the wood.",
+  "A one-of-a-kind handcrafted lamp that embodies the beauty of imperfection. This unique piece is created using an antique Moroccan vase, carefully repurposed to bring warmth and authenticity to any space. The aged patina of the ceramic base tells a story of time, while the natural woven linen shade adds an organic, earthy touch. Perfect for those who appreciate wabi-sabi aesthetics and the charm of artisanal craftsmanship.":
+    "A one-of-a-kind lamp made from an antique Moroccan vase. The aged patina of the ceramic base, a shade of natural woven linen — the beauty of imperfection, in the spirit of wabi-sabi.",
+  "A beautiful blend of tradition and wabi-sabi aesthetics, this pot is a must-have for lovers of raw, artisanal decor.":
+    "Tradition and the wabi-sabi eye, in one pot.",
+  "Authentic Moroccan Craftsmanship : A piece of history, shaped by hand and fire.":
+    "Moroccan craft: shaped by hand and by fire.",
+  "Organic Texture & Rich Patina : The natural variations in the clay add depth and warmth to any decor.":
+    "Organic texture, deep patina: the natural variations of the clay give it depth and warmth.",
+  "Timeless & Unique : Each pot carries its own imperfections, making it one-of-a-kind.":
+    "Each pot carries its own imperfections; no two are alike.",
+  "Versatile Styling : Perfect as a statement accent, a unique planter, or a shelf display.":
+    "On its own, as a planter, or on a shelf.",
+  "Its aged charm and unique ethnic motifs make it a distinctive decorative object, perfect for adding a warm and authentic touch to your interior. Placed on a shelf, piece of furniture, or console, it draws the eye and enhances any space with elegance.":
+    "Its aged charm and its motifs make it an object that holds the eye — on a shelf, a sideboard or a console.",
+  "Today, this memory-filled object finds new life as a decorative piece. Bring a touch of authenticity and character to your interior with this beautiful ancestral toy.":
+    "Today, this object full of memory finds a second life.",
+};
+
+const EN_BY_NORMALISED: Record<string, string> = Object.fromEntries(
+  Object.entries(PRODUCT_EN).map(([original, edited]) => [normalise(original), edited]),
+);
+
+/** The edited English for one line, falling back to the house's own. */
+export function enLine(line: string): string {
+  return EN_BY_NORMALISED[normalise(line)] ?? line;
+}
+
+export function enLines(lines: string[]): string[] {
+  return lines.map(enLine);
 }

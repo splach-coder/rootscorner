@@ -4,11 +4,13 @@ import type { Locale } from "@/lib/dictionaries";
 export function rugLabels(locale: Locale) {
   const fr = locale === "fr";
   return {
-    collectionEyebrow: fr ? "Tapis Mrirt" : "Mrirt rugs",
-    collectionHeading: fr ? "Les séries" : "The series",
+    collectionEyebrow: fr ? "Tapis sur commande" : "Rugs to order",
+    rugName: fr ? "Tapis Mrirt" : "Mrirt rug",
+    // V1 §7–8: the rugs woven to order, as named collections.
+    collectionHeading: fr ? "Nos collections" : "Our collections",
     collectionNote: fr
-      ? "Tissés main sur commande, dans la couleur et la taille que vous choisissez."
-      : "Handwoven to order, in the colour and size you choose.",
+      ? "Tissés selon vos dimensions et vos choix."
+      : "Woven to your dimensions and your choices.",
     colour: fr ? "Couleur" : "Colour",
     size: fr ? "Taille" : "Size",
     from: fr ? "À partir de" : "From",
@@ -21,6 +23,10 @@ export function rugLabels(locale: Locale) {
     colourways: fr ? "couleurs" : "colourways",
     colourwaysOne: fr ? "couleur" : "colourway",
     craft: fr ? "Le tissage" : "The weaving",
+    material: fr ? "La matière" : "The material",
+    materialBody: fr
+      ? "Laine, tissée à la main à Mrirt, dans le Moyen Atlas, par une coopérative de femmes."
+      : "Wool, handwoven in Mrirt, in the Middle Atlas, by a women’s cooperative.",
     shipping: fr ? "Livraison" : "Shipping",
     shippingBody: fr
       ? "Maroc : 25 €. International : 50 €, ou 80 € à partir de 200 €. Hors du Maroc, des droits de douane et la TVA à l’importation peuvent être demandés à la livraison."
@@ -29,6 +35,6 @@ export function rugLabels(locale: Locale) {
     customBody: fr
       ? "Chaque tapis est tissé sur commande : décrivez-nous le vôtre."
       : "Every rug is woven to order: describe yours to us.",
-    customCta: fr ? "Tapis sur mesure" : "Made to measure",
+    customCta: fr ? "Tapis sur mesure" : "Made-to-measure rugs",
   };
 }

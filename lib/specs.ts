@@ -14,6 +14,7 @@
  */
 
 import type { Piece } from "./catalog";
+import { NATURE_LABEL, PIECE_TEXT } from "./piece-names";
 
 export type Lang = "fr" | "en";
 
@@ -123,6 +124,11 @@ const ORIGIN_TERMS: [RegExp, Record<Lang, string>][] = [
 ];
 
 export function originOf(piece: Piece, locale: Lang = "en"): string | null {
+  // The 38 original pieces carry a reviewed origin (lib/piece-names.ts, V1
+  // §6) — or deliberately none. Only a piece added later in Shopify falls
+  // through to the name terms below.
+  const known = PIECE_TEXT[piece.slug];
+  if (known) return known.origin?.[locale] ?? null;
   for (const [re, forms] of ORIGIN_TERMS) {
     if (re.test(piece.name)) return forms[locale];
   }
@@ -138,7 +144,10 @@ export function originOf(piece: Piece, locale: Lang = "en"): string | null {
 const REDUNDANT_TAIL =
   /\s*\((?:[^)]*(?:ivoire|morocco|moroccan|indonesian?|cameroon|berbere|berber|gasing)[^)]*)\)\s*$/i;
 
-export function displayName(piece: Piece): string {
+export function displayName(piece: Piece, locale: Lang = "en"): string {
+  // V1 §3: a French name on the French site, an English one on the English.
+  const known = PIECE_TEXT[piece.slug];
+  if (known) return known.name[locale];
   return piece.name.replace(REDUNDANT_TAIL, "").trim() || piece.name;
 }
 
@@ -186,6 +195,12 @@ export function labelFor(piece: Piece, locale: Lang): LabelField[] {
 
   const origin = originOf(piece, locale);
   if (origin) fields.push({ key: "origin", value: origin });
+
+  // V1 §6 — antique, vintage or artisanal, and the period, only where the
+  // house's own record says so.
+  const text = PIECE_TEXT[piece.slug];
+  if (text?.period) fields.push({ key: "period", value: text.period[locale] });
+  if (text?.nature) fields.push({ key: "nature", value: NATURE_LABEL[text.nature][locale] });
 
   const dims = normaliseDimensions(piece.dimensions, locale);
   if (dims) fields.push({ key: "dimensions", value: dims });
