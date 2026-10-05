@@ -3824,3 +3824,142 @@ textarea.inquiry-input {
     transition: none;
   }
 }
+
+/* --- /mrirt opening: the homepage hero, framed on the rug and the fire ---- */
+.rugs-page-hero .hero-media img {
+  object-position: 50% 64%;
+}
+
+@media (max-width: 767px) {
+  .rugs-page-hero .hero-media img {
+    object-position: 34% 50%;
+  }
+}
+
+.rugs-page-hero .hero-title {
+  font-size: clamp(3rem, 8vw, 6.6rem);
+  line-height: 0.98;
+}
+
+/* --- The collection menu, in the site's hand (client, 6 Oct) ------------- */
+.rug-bar-menu {
+  position: relative;
+}
+
+.rug-menu-toggle {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  min-height: 44px;
+  padding: 0;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.rug-menu-caret {
+  transition: transform var(--dur-hover) var(--ease-material);
+}
+
+.rug-menu-toggle[aria-expanded="true"] .rug-menu-caret {
+  transform: rotate(180deg);
+}
+
+.rug-menu-toggle:focus-visible,
+.rug-menu-option:focus-visible {
+  outline: 1.5px solid var(--clay);
+  outline-offset: 2px;
+}
+
+.rug-menu-list[hidden] {
+  display: none;
+}
+
+/* Hangs from the bar's lower rule, the width of its cell, on the page's own
+   ground — a continuation of the bar, not a floating box. */
+.rug-menu-list {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  margin: 0;
+  padding: 0.5rem 0 0.7rem;
+  list-style: none;
+  background: var(--hour-morning);
+  border-bottom: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  animation: rug-menu-in 260ms var(--ease-material);
+}
+
+@keyframes rug-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.rug-menu-option {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.55rem 1.2rem;
+  text-align: left;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color var(--dur-hover) var(--ease-material), background-color var(--dur-hover) var(--ease-material);
+}
+
+.rug-menu-option:hover {
+  color: var(--ink);
+  background: rgba(190, 171, 147, 0.14);
+}
+
+.rug-menu-option[aria-selected="true"] {
+  color: var(--ink);
+}
+
+.rug-menu-option[aria-selected="true"] span {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rug-menu-list {
+    animation: none;
+  }
+}
+
+/* The wall's rows: on a pointer device the words are revealed on hover, and
+   they now sit OVER the foot of the tile rather than below it, so hidden
+   words no longer leave an empty band between rows. */
+@media (hover: hover) and (min-width: 700px) {
+  .rug-wall.is-grid .rug-tile-link {
+    position: relative;
+  }
+
+  .rug-wall.is-grid .rug-tile-said {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.9rem 1rem 1rem;
+    background: rgba(247, 245, 242, 0.94);
+  }
+}
+
+@media (hover: hover) and (min-width: 700px) {
+  /* The rug rides higher in its tile so the revealed words only ever cover
+     the sand under it — nothing is laid over a rug (§18). */
+  .rug-wall.is-grid .rug-tile-ground img[src*="demo-rugs"] {
+    padding: 8% 15% 22%;
+  }
+}

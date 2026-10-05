@@ -1,5 +1,6 @@
 import Image from "next/image";
 import RugBrowser, { type RugTile } from "@/components/RugBrowser";
+import HeroMedia from "@/components/HeroMedia";
 import { allRugSeries, colourName, formatEuro, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { rugChoices } from "@/lib/rug-options";
@@ -187,25 +188,29 @@ export default async function MrirtPage({
       {/* The lede says "nothing here is in stock". The moment a finished rug
           is, that is false — so it follows the shelf rather than being a fixed
           claim about a page that now sells two different things. */}
-      {/* --- The opening, after benirugs.com's collection page.
+      {/* --- The opening: the homepage's own hero (client, 6 Oct) — full
+           screen, the same load sequence (dark ground, photograph, then the
+           words), the same light header over it. After benirugs.com's
+           collection page, which opens on a room the same way.
 
            A room with a rug in it, full bleed, the name of the page set over
            its top edge the way Beni sets theirs — and, as on the homepage, no
            tint laid over the photograph: the type carries its own soft shadow
            (client, 5 Oct). The house's own photograph. --- */}
-      <section className="rugs-hero">
-        <Image
-          src="/rugs/series/floor-fire.jpg"
-          alt={fr ? "Un tapis Mrirt au sol, près d’un feu allumé" : "A Mrirt rug on the floor beside a lit fire"}
-          width={1600}
-          height={2400}
-          priority
-          sizes="100vw"
-          className="rugs-hero-img"
-        />
-        <div className="shell rugs-hero-said">
-          <p className="label rugs-hero-crumb">The Roots Corner</p>
-          <h1 className="display rugs-hero-title">{t.nav.rugs}</h1>
+      <section className="hero rugs-page-hero">
+        <div className="hero-media">
+          <HeroMedia src="/rugs/series/floor-fire.jpg" width={1600} height={2400} />
+        </div>
+        <div className="hero-plate">
+          <Reveal as="div" className="hero-inner shell">
+            <div>
+              <h1 className="display d-hero hero-title">{t.nav.rugs}</h1>
+              <div className="hero-line">
+                <p className="hero-tagline label">{t.mrirtPage.place}</p>
+              </div>
+              <p className="hero-lead">{rl.shopIntro}</p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -214,9 +219,6 @@ export default async function MrirtPage({
         <span id="disponibles" className="rugs-anchor" />
         <span id="sur-commande" className="rugs-anchor" />
         <div className="shell">
-          <Reveal as="p" className="rugs-shop-intro">
-            {rl.shopIntro}
-          </Reveal>
           <RugBrowser tiles={tiles} collections={collectionsList} labels={rl.browser} />
         </div>
       </section>

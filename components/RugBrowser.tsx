@@ -114,27 +114,16 @@ export default function RugBrowser({
           ))}
         </div>
 
-        <label className="rug-bar-cell rug-bar-select">
-          <span className="label rug-bar-key">{labels.collection}</span>
-          <select
-            value={collection}
-            onChange={(e) => {
-              setCollection(e.target.value);
-              if (e.target.value) setKind("order");
-            }}
-            className="label"
-          >
-            <option value="">{labels.allCollections}</option>
-            {collections.map((c) => (
-              <option key={c.handle} value={c.handle}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-          <svg className="rug-bar-caret" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true">
-            <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.2" />
-          </svg>
-        </label>
+        <CollectionMenu
+          label={labels.collection}
+          allLabel={labels.allCollections}
+          value={collection}
+          options={collections}
+          onChange={(v) => {
+            setCollection(v);
+            if (v) setKind("order");
+          }}
+        />
 
         <div className="rug-bar-cell rug-bar-view" role="group" aria-label={labels.view}>
           <span className="label rug-bar-key">{labels.view}</span>
@@ -192,6 +181,107 @@ export default function RugBrowser({
           ))}
         </ul>
       )}
+    </div>
+  );
+}
+
+/**
+ * The collection choice, drawn in the site's own hand rather than the
+ * system's (client, 6 Oct: the native list opened in the OS's blue). A row
+ * that states the current choice, opening onto a plain list under a hairline;
+ * the chosen line is underlined, as in the type filter beside it. A listbox
+ * to a keyboard and a screen reader: arrows move, Enter chooses, Escape and an
+ * outside click close.
+ */
+function CollectionMenu({
+  label,
+  allLabel,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  allLabel: string;
+  value: string;
+  options: { handle: string; name: string }[];
+  onChange: (value: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  const list = [{ handle: "", name: allLabel }, ...options];
+  const current = list.find((o) => o.handle === value) ?? list[0];
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => {
+      if (!root.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        root.current?.querySelector<HTMLButtonElement>(".rug-menu-toggle")?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    root.current?.querySelector<HTMLButtonElement>('[aria-selected="true"]')?.focus();
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  const move = (e: React.KeyboardEvent<HTMLUListElement>) => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+    e.preventDefault();
+    const items = [...(root.current?.querySelectorAll<HTMLButtonElement>(".rug-menu-option") ?? [])];
+    const at = items.indexOf(document.activeElement as HTMLButtonElement);
+    const next = items[(at + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length];
+    next?.focus();
+  };
+
+  return (
+    <div ref={root} className="rug-bar-cell rug-bar-menu">
+      <span className="label rug-bar-key" id="rug-menu-label">
+        {label}
+      </span>
+      <button
+        type="button"
+        className="label rug-menu-toggle"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-labelledby="rug-menu-label rug-menu-current"
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span id="rug-menu-current">{current.name}</span>
+        <svg viewBox="0 0 10 6" width="10" height="6" aria-hidden="true" className="rug-menu-caret">
+          <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.2" />
+        </svg>
+      </button>
+      <ul
+        className="rug-menu-list"
+        role="listbox"
+        aria-labelledby="rug-menu-label"
+        hidden={!open}
+        onKeyDown={move}
+      >
+        {list.map((o) => (
+          <li key={o.handle || "all"} role="none">
+            <button
+              type="button"
+              role="option"
+              aria-selected={o.handle === value}
+              className="rug-menu-option"
+              onClick={() => {
+                onChange(o.handle);
+                setOpen(false);
+              }}
+            >
+              <span className="display">{o.name}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
