@@ -4,6 +4,21 @@ const nextConfig: NextConfig = {
   // Next appends its own notes to CLAUDE.md otherwise; that file is the
   // project's design record and is maintained by hand.
   agentRules: false,
+  /*
+    ⚠️ Do not remove (5 Oct outage, CLAUDE.md §70).
+
+    Next 16 bundles small prefetch responses together by default
+    ("prefetch inlining"). Under that setting the router still asks for a
+    segment (`Next-Router-Segment-Prefetch: /_tree`), but @opennextjs/aws's
+    cache interceptor skips segment data whenever prefetchInlining is truthy
+    and answers with the FULL page payload. The router cannot use it and asks
+    again at once, forever: ~200 requests/s per open tab, which emptied the
+    Workers daily quota and took the site down. Off, OpenNext serves the
+    stored segment and each link is fetched once.
+  */
+  experimental: {
+    prefetchInlining: false,
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     // Piece photography is portrait-heavy and shown large; these widths cover
