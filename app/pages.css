@@ -5480,3 +5480,107 @@ textarea.inquiry-input {
     padding-inline: 0;
   }
 }
+
+/* Piece gallery bar — the rug slider's counter and arrows, plus a zoom
+   button, on every piece page (client, 6 Oct). */
+.gallery-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+}
+
+.gallery-bar-count {
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.gallery-bar-count span {
+  padding-inline: 0.35rem;
+  opacity: 0.5;
+}
+
+.gallery-bar-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.gallery-bar-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--ink);
+}
+
+.gallery-bar-btn:hover,
+.gallery-bar-btn:focus-visible {
+  color: var(--clay-ink);
+}
+
+/* The old "05 / 08" counter is said by the bar now. */
+.gallery-count {
+  display: none;
+}
+
+/* Round buttons on the photograph (client, 6 Oct). */
+.gallery-frame {
+  position: relative;
+}
+
+.gallery-fab {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(247, 245, 242, 0.9);
+  color: var(--ink);
+  box-shadow: 0 1px 6px rgba(46, 32, 25, 0.12);
+  transition:
+    background-color var(--dur-hover) var(--ease-material),
+    color var(--dur-hover) var(--ease-material);
+}
+
+.gallery-fab:hover,
+.gallery-fab:focus-visible {
+  background: var(--umber);
+  color: var(--ink-inverse);
+}
+
+.gallery-fab-zoom {
+  top: 0.75rem;
+  right: 0.75rem;
+}
+
+.gallery-fab-prev,
+.gallery-fab-next {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gallery-fab-prev {
+  left: 0.75rem;
+}
+
+.gallery-fab-next {
+  right: 0.75rem;
+}
+
+.gallery-bar {
+  min-height: 44px;
+}
+
+/* Phone: the stage takes the lead photograph's own shape, so the buttons
+   sit ON the picture rather than on empty ground above or beside it. */
+@media (max-width: 699px) {
+  .gallery-frame .gallery-stage {
+    height: auto;
+    aspect-ratio: var(--lead-ratio, 3 / 4);
+    max-height: 78svh;
+  }
+}

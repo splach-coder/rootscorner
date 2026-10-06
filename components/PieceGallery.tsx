@@ -22,6 +22,8 @@ type PieceGalleryProps = {
     reset: string;
     hint: string;
     hintTouch: string;
+    prev?: string;
+    next?: string;
   };
 };
 
@@ -244,6 +246,10 @@ export default function PieceGallery({
           rather than on a separate control beside it — but it has to be a real
           button, not a div with a click handler, or it is unreachable by
           keyboard and unannounced by a screen reader. */}
+      <div
+        className="gallery-frame"
+        style={{ ["--lead-ratio" as string]: images[0] ? `${images[0].w} / ${images[0].h}` : "3 / 4" }}
+      >
       <button
         type="button"
         className="gallery-stage"
@@ -282,6 +288,16 @@ export default function PieceGallery({
           />
         ))}
       </button>
+        {/* On the photograph itself, as round buttons (client, 6 Oct): the
+            way to look closer and the way to the next one, where a thumb
+            already is. A light disc keeps the icon readable on any frame. */}
+        <button type="button" className="gallery-fab gallery-fab-zoom" aria-label={zoomLabels.open} onClick={() => setZoomOpen(true)}>
+          <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" strokeWidth="1.3" />
+            <path d="M13 13l5 5M8.5 5.5v6M5.5 8.5h6" fill="none" stroke="currentColor" strokeWidth="1.3" />
+          </svg>
+        </button>
+      </div>
 
       {/* Outside the stage button, so it cannot change the stage's height —
           and on the page ground, where its contrast is the same on all 38
@@ -319,14 +335,14 @@ export default function PieceGallery({
             ))}
           </div>
 
-          <p className="label gallery-count">
-            <span className="gallery-count-now">
-              {String(active + 1).padStart(2, "0")}
-            </span>
-            <span aria-hidden="true"> / </span>
-            <span>{String(images.length).padStart(2, "0")}</span>
-            <span className="gallery-count-of">{countLabel}</span>
-          </p>
+          {/* The rug slider's bar (client, 6 Oct): where you are, a way to
+              look closer, and the two arrows — so it is obvious on a phone
+              that the photographs move and open. */}
+          <div className="gallery-bar">
+            <p className="gallery-bar-count" aria-live="polite">
+              {active + 1} <span aria-hidden="true">|</span> {images.length}
+            </p>
+          </div>
         </>
       )}
 

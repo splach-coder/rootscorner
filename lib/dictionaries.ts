@@ -148,6 +148,8 @@ type Dictionary = {
       reset: string;
       hint: string;
       hintTouch: string;
+      prev: string;
+      next: string;
     };
   };
   storyPage: {
@@ -626,6 +628,8 @@ const en: Dictionary = {
       reset: "Fit to screen",
       hint: "Scroll to zoom · drag to move",
       hintTouch: "Pinch to zoom · drag to move",
+      prev: "Previous photograph",
+      next: "Next photograph",
     },
   },
   storyPage: {
@@ -1149,6 +1153,8 @@ const fr: Dictionary = {
       reset: "Ajuster à l’écran",
       hint: "Molette pour agrandir · glisser pour déplacer",
       hintTouch: "Pincer pour agrandir · glisser pour déplacer",
+      prev: "Photo précédente",
+      next: "Photo suivante",
     },
   },
   storyPage: {
