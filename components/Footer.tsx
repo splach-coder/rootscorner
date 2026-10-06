@@ -87,7 +87,7 @@ export default function Footer({ locale, t, legal: names }: FooterProps) {
         <div className="site-footer-ways">
           <nav className="site-footer-links label" aria-label={t.navLabel}>
             {links.map((link) => (
-              <Link key={link.href} href={link.href} className="site-footer-link">
+              <Link prefetch={false} key={link.href} href={link.href} className="site-footer-link">
                 {link.label}
               </Link>
             ))}
@@ -105,7 +105,7 @@ export default function Footer({ locale, t, legal: names }: FooterProps) {
             {legal.map((link, i) => (
               <span key={link.href}>
                 {i > 0 && <span aria-hidden="true"> · </span>}
-                <Link href={link.href} className="site-footer-link">
+                <Link prefetch={false} href={link.href} className="site-footer-link">
                   {link.label}
                 </Link>
               </span>

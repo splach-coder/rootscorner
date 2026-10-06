@@ -298,7 +298,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
           <ul className="site-nav-list">
             {shopLinks.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="link site-nav-link label">
+                <Link prefetch={false} href={link.href} className="link site-nav-link label">
                   {link.label}
                 </Link>
               </li>
@@ -306,7 +306,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
           </ul>
         </nav>
 
-        <Link href={`/${locale}`} className="site-header-mark" aria-label="The Roots Corner">
+        <Link prefetch={false} href={`/${locale}`} className="site-header-mark" aria-label="The Roots Corner">
           {/* The client's own artwork, not the name typeset.
 
               It was a <span> set in Jost — close to the logo's letterforms but
@@ -333,7 +333,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
             <ul className="site-nav-list">
               {houseLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="link site-nav-link label">
+                  <Link prefetch={false} href={link.href} className="link site-nav-link label">
                     {link.label}
                   </Link>
                 </li>
@@ -381,6 +381,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
               {(Object.keys(LANGS) as Locale[]).map((code) => (
                 <li key={code} role="none">
                   <Link
+                    prefetch={false}
                     role="menuitem"
                     href={code === locale ? pathname : swapped}
                     className="site-lang-option"
@@ -455,7 +456,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
                   className="site-panel-item"
                   style={{ "--i": i } as React.CSSProperties}
                 >
-                  <Link href={link.href} className="display d-1 site-panel-link">
+                  <Link prefetch={false} href={link.href} className="display d-1 site-panel-link">
                     {link.label}
                   </Link>
                 </li>
@@ -490,6 +491,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
               {(Object.keys(LANGS) as Locale[]).map((code) => (
                 <li key={code}>
                   <Link
+                    prefetch={false}
                     href={code === locale ? pathname : swapped}
                     className="label site-panel-lang"
                     lang={code}
