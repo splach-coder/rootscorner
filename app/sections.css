@@ -3197,6 +3197,10 @@ html[data-intro="run"] .site-header-lockup {
 .rug-slide-frame {
   display: block;
   aspect-ratio: 4 / 5;
+  /* The same solid beige as the Mrirt wall (.rug-tile-ground), so a rug sits on
+     one colour wherever it appears. The generic .frame tint is translucent and
+     read greyer over the page ground. */
+  background: #ece5da;
 }
 
 .rug-slide-link:hover .rug-slide-frame img:not(.is-swap),

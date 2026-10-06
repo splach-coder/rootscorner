@@ -4426,3 +4426,8 @@ textarea.inquiry-input {
     margin: 0.9rem auto 0;
   }
 }
+
+/* Rug cards elsewhere (RugCard) take the Mrirt wall's beige too. */
+.rug-card .card-frame {
+  background: #ece5da;
+}
