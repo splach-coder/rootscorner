@@ -1,7 +1,6 @@
 import Image from "next/image";
 import RugBrowser, { type RugTile } from "@/components/RugBrowser";
 import RugCard from "@/components/RugCard";
-import HeroMedia from "@/components/HeroMedia";
 import { isIllustrativeSeries, allRugSeries, colourName, formatEuro, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { rugChoices } from "@/lib/rug-options";
@@ -66,12 +65,6 @@ export async function generateMetadata({
  * is, how to order one, and what is already woven. Each is a real destination,
  * so the three named entries at the top land in three different places.
  */
-/** Where each of §10's three entries actually goes on this page. */
-const ENTRY_ANCHORS: Record<string, string> = {
-  ready: "#disponibles",
-  order: "#sur-commande",
-  custom: "#sur-mesure",
-};
 
 export default async function MrirtPage({
   params,
@@ -203,43 +196,27 @@ export default async function MrirtPage({
            its top edge the way Beni sets theirs — and, as on the homepage, no
            tint laid over the photograph: the type carries its own soft shadow
            (client, 5 Oct). The house's own photograph. --- */}
-      <section className="hero rugs-page-hero">
-        <div className="hero-media">
-          <HeroMedia src="/rugs/series/floor-fire.jpg" width={1600} height={2400} />
+      {/* --- The head: benirugs.com's shop page, structure for structure
+           (client, 6 Oct) — a small label at the top, the title set low in a
+           narrow left column, one wide room photograph to its right. Then the
+           ruled bar and the wall. The house's own room. --- */}
+      <section className="rugshop-head">
+        <div className="rugshop-head-said">
+          <p className="label rugshop-head-crumb">{t.mrirtPage.place}</p>
+          <div>
+            <h1 className="display d-hero rugshop-head-title">{t.nav.rugs}</h1>
+            <p className="rugshop-head-lead">{rl.shopIntro}</p>
+          </div>
         </div>
-        <div className="hero-plate">
-          <Reveal as="div" className="hero-inner shell">
-            <div>
-              <h1 className="display d-hero hero-title">{t.nav.rugs}</h1>
-              <div className="hero-line">
-                <p className="hero-tagline label">{t.mrirtPage.place}</p>
-              </div>
-              <p className="hero-lead">{rl.shopIntro}</p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* V1 §7 — the three ways to a rug, named apart, each with the house's
-           own sentence. Each lands on what it names: the first two set the
-           wall's filter (RugBrowser reads the hash), the third is the form. */}
-      <section className="section rugs-entries" aria-label={m.entriesEyebrow}>
-        <div className="shell">
-          <ol className="mrirt-entry-list">
-            {m.entries.map((e, i) => (
-              <li key={e.key} className="mrirt-entry">
-                <a href={ENTRY_ANCHORS[e.key]} className="mrirt-entry-link">
-                  <span className="label mrirt-entry-no" aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="mrirt-entry-said">
-                    <span className="display d-3 mrirt-entry-name">{e.name}</span>
-                    <span className="mrirt-entry-note">{e.note}</span>
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ol>
+        <div className="rugshop-head-media">
+          <Image
+            src="/rugs/series/floor-fire.jpg"
+            alt={t.mrirtPage.roomAlt}
+            width={1600}
+            height={2400}
+            priority
+            sizes="(max-width: 900px) 100vw, 66vw"
+          />
         </div>
       </section>
 

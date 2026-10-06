@@ -149,10 +149,9 @@ export const SITE_URL = "https://therootscorner.com";
 /**
  * PayPal, as a payment method at Shopify's checkout (§64).
  *
- * Switched on in the Shopify ADMIN, never here: Settings → Payments → PayPal,
- * logging in with the house's PayPal Business account. Once it shows at
- * checkout, set NEXT_PUBLIC_PAYPAL=1 and rebuild, and the site's own copy (the
- * FAQ, the checkout page) starts saying so. Until then it says nothing about
- * PayPal — a payment method the site names must actually be there (§5).
+ * ON by default (client, 6 Oct: "let the FAQ say PayPal as well"), so the FAQ
+ * and the checkout page name it. NEXT_PUBLIC_PAYPAL=0 turns the mention off
+ * again if PayPal is ever removed from the Shopify checkout: a payment method
+ * the site names must actually be there (§5).
  */
-export const PAYPAL = process.env.NEXT_PUBLIC_PAYPAL === "1";
+export const PAYPAL = process.env.NEXT_PUBLIC_PAYPAL !== "0";

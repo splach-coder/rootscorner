@@ -1,20 +1,16 @@
-import Link from "next/link";
-import MoreRugs from "@/components/MoreRugs";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Reveal from "@/components/Reveal";
-import PieceGallery from "@/components/PieceGallery";
-import { RUG_DEMO, type PieceImage } from "@/lib/catalog";
+import { RUG_DEMO } from "@/lib/catalog";
 import RugBuy from "@/components/RugBuy";
+import RugProduct from "@/components/RugProduct";
 import JsonLd from "@/components/JsonLd";
-import { fill, getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
+import { getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
 import { allRugSeries, colourName, fromPrice, isIllustrativeSeries, rugSeriesByHandle, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { swatchFor } from "@/lib/rug-options";
 import { breadcrumbLd, pageMeta } from "@/lib/seo";
-import { SITE_URL, whatsappHref } from "@/lib/site";
+import { SITE_URL } from "@/lib/site";
 import { formatEuro } from "@/lib/rugs";
-import { rugFaq } from "@/lib/rug-faq";
 
 export function generateStaticParams() {
   return locales.flatMap((locale) => allRugSeries().map((s) => ({ locale, handle: s.handle })));
@@ -63,10 +59,6 @@ export default async function RugSeriesPage({
   const title = seriesTitle(series, locale);
   const line = seriesLine(series, locale);
   const colourLabels = Object.fromEntries(series.colours.map((c) => [c.name, colourName(c.name, locale)]));
-  // The gallery takes the piece shape; a series' photographs live on Shopify.
-  const faq = Object.fromEntries(rugFaq(locale as Locale).map((r) => [r.key, r.a]));
-  const wa = whatsappHref(`${l.rugName} ${title}`);
-  const images: PieceImage[] = series.images.map((i) => ({ file: i.src, original: i.src, src: i.src, w: i.w, h: i.h }));
 
   return (
     <>
@@ -96,167 +88,49 @@ export default async function RugSeriesPage({
         />
       )}
 
-      {/* The piece page's own structure — gallery, label column, the words
-          below — so a rug is met exactly the way every piece is (client,
-          5 Oct: the rugs looked like a different site). */}
-      <article className="piece rug-piece">
-        <div className="shell piece-inner">
-          <div className="piece-gallery-column">
-            <PieceGallery
-              images={images}
-              name={`${l.rugName} ${title}`}
-              countLabel={fill(images.length === 1 ? t.piece.photographsOne : t.piece.photographs, {
-                n: images.length,
-              })}
-              railLabel={t.piece.photographsRail}
-              zoomLabels={t.piece.zoom}
-            />
-          </div>
-
-          <div className="piece-label-column">
-            <Reveal className="piece-label-sticky">
-              <p className="label piece-accession">
-                <Link href={`/${locale}/mrirt`} className="link">
-                  {t.nav.rugs}
-                </Link>
-                <span aria-hidden="true"> · </span>
-                <Link href={`/${locale}/mrirt#sur-commande`} className="link">
-                  {l.collectionEyebrow}
-                </Link>
-              </p>
-
-              {/* Beni: the name, and the figure squared off against it. */}
-              <div className="rug-head">
-                <h1 className="display d-2 piece-name">{title}</h1>
-                <p className="display d-3 rug-head-price">
-                  {from !== null ? `${l.from} ${formatEuro(from, locale)}` : l.onRequest}
-                </p>
-              </div>
-              {line && <p className="prose rug-piece-line">{line}</p>}
-              {isIllustrativeSeries(series) && <p className="label rug-demo-note">{l.illustration}</p>}
-
-              {/* The same label schema as a piece: what it is made of, where,
-                  and how — all from the house's own Mrirt copy. */}
-              <div className="wall-label wall-label-schema">
-                <dl className="wall-label-specs">
-                  <div className="wall-label-row">
-                    <dt className="label wall-label-key">{t.pieceLabel.material}</dt>
-                    <dd className="wall-label-value">{t.mrirtPage.rug.material}</dd>
-                  </div>
-                  <div className="wall-label-row">
-                    <dt className="label wall-label-key">{t.pieceLabel.origin}</dt>
-                    <dd className="wall-label-value">{t.mrirtPage.rug.origin}</dd>
-                  </div>
-                  <div className="wall-label-row">
-                    <dt className="label wall-label-key">{t.mrirtPage.rug.madeKey}</dt>
-                    <dd className="wall-label-value">{t.mrirtPage.rug.made}</dd>
-                  </div>
-                </dl>
-              </div>
-
-              <RugBuy
-                demo={isIllustrativeSeries(series)}
-                series={series}
-                swatches={swatches}
-                colourLabels={colourLabels}
-                locale={locale}
-                labels={{
-                  colour: l.colour,
-                  size: l.size,
-                  from: l.from,
-                  onRequest: l.onRequest,
-                  onRequestNote: l.onRequestNote,
-                  ask: l.ask,
-                  madeToOrder: l.madeToOrder,
-                  demoAsk: l.demoAsk,
-                  askBar: l.askBar,
-                  leadNote: l.leadNote,
-                  craftLink: l.craftLink,
-                  cart: {
-                    add: t.cart.add,
-                    added: t.cart.added,
-                    view: t.cart.view,
-                    sold: t.common.sold,
-                    soldNote: t.piece.soldNote,
-                  },
-                }}
-              />
-
-              {/* Beni's lead-time paragraph and its three folds. Every line is
-                  the FAQ's own answer (lib/rug-faq.ts), so the rug page and
-                  the FAQ cannot say different things. */}
-              <div className="rug-lead">
-                <p className="label rug-lead-key">{l.leadKey}</p>
-                <p className="rug-lead-body">{l.leadBody}</p>
-              </div>
-              <div className="rug-folds">
-                <details className="piece-fold">
-                  <summary className="label">{l.variationsKey}</summary>
-                  <p>{faq.variations}</p>
-                </details>
-                <details className="piece-fold">
-                  <summary className="label">{l.helpKey}</summary>
-                  <p>{l.helpBody}</p>
-                  <p className="rug-fold-links">
-                    {wa && (
-                      <a href={wa} className="link label" target="_blank" rel="noreferrer noopener">
-                        {l.helpWhatsapp}
-                      </a>
-                    )}
-                    <Link href={`/${locale}/mrirt#sur-mesure`} className="link label">
-                      {l.helpForm}
-                    </Link>
-                  </p>
-                </details>
-                <details className="piece-fold">
-                  <summary className="label">{l.returnsKey}</summary>
-                  <p>{faq.returns}</p>
-                  <p>{l.shippingBody}</p>
-                  <p className="rug-fold-links">
-                    <Link href={`/${locale}/legal/withdrawal`} className="link label">
-                      {t.legal.items.withdrawal}
-                    </Link>
-                  </p>
-                </details>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-
-        {/* The words, under a hairline — as on a piece page. */}
-        <div className="shell piece-words" id="tissage">
-          <Reveal className="piece-story">
-            <p className="label">{l.craft}</p>
-            <div className="prose piece-prose">
-              <p className="lede">{t.rugs.body[0]}</p>
-              <p>{t.rugs.body[1]}</p>
-            </div>
-          </Reveal>
-          <Reveal delay={80} className="piece-specs">
-            <div className="piece-spec-block">
-              <p className="label">{l.material}</p>
-              <ul className="piece-spec-list">
-                <li>{l.materialBody}</li>
-                <li>{t.rugs.wool}</li>
-              </ul>
-            </div>
-            <div className="piece-spec-block">
-              <p className="label">{l.custom}</p>
-              <ul className="piece-spec-list">
-                <li>{l.customBody}</li>
-              </ul>
-            </div>
-          </Reveal>
-        </div>
-      </article>
-{/* No pieces here: the rug pages show rugs only (client, 5 Oct). The
-          band below is rugs too — the other collections and the rugs already
-          woven. */}
-      <MoreRugs
+      <RugProduct
         locale={locale as Locale}
-        heading={t.piece.more}
-        excludeSeries={series.handle}
-        labels={{ from: l.from, onRequest: l.onRequest, rugName: l.rugName }}
+        crumbs={[
+          { label: l.shopCrumb, href: `/${locale}/mrirt` },
+          { label: l.collectionEyebrow, href: `/${locale}/mrirt#sur-commande` },
+        ]}
+        title={title}
+        headPrice={from !== null ? `${l.from} ${formatEuro(from, locale)}` : l.onRequest}
+        line={line}
+        note={isIllustrativeSeries(series) ? l.illustration : null}
+        images={series.images.map((i) => ({ src: i.src, w: i.w, h: i.h, alt: `${l.rugName} ${title}` }))}
+        exclude={{ series: series.handle }}
+        order={
+          <RugBuy
+            demo={isIllustrativeSeries(series)}
+            series={series}
+            swatches={swatches}
+            colourLabels={colourLabels}
+            locale={locale}
+            labels={{
+              colour: l.colour,
+              size: l.size,
+              from: l.from,
+              onRequest: l.onRequest,
+              onRequestNote: l.onRequestNote,
+              ask: l.ask,
+              madeToOrder: l.madeToOrder,
+              demoAsk: l.demoAsk,
+              askBar: l.askBar,
+              leadNote: l.leadNote,
+              craftLink: l.craftLink,
+              dockName: `${l.rugName} ${title}`,
+              dockEdit: l.dockEdit,
+              cart: {
+                add: t.cart.add,
+                added: t.cart.added,
+                view: t.cart.view,
+                sold: t.common.sold,
+                soldNote: t.piece.soldNote,
+              },
+            }}
+          />
+        }
       />
     </>
   );

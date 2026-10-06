@@ -25,6 +25,8 @@ type Labels = {
   all: string;
   ready: string;
   order: string;
+  /** V1 §7's third way — not a filter, the form further down. */
+  custom?: string;
   collection: string;
   allCollections: string;
   view: string;
@@ -140,6 +142,11 @@ export default function RugBrowser({
               <span className="rug-bar-n">{k.n}</span>
             </button>
           ))}
+          {labels.custom && (
+            <a href="#sur-mesure" className="label rug-bar-option">
+              {labels.custom}
+            </a>
+          )}
         </div>
 
         <CollectionMenu

@@ -9,6 +9,9 @@ import PieceGallery from "@/components/PieceGallery";
 import AddToCart from "@/components/AddToCart";
 import ClosingBand from "@/components/ClosingBand";
 import MoreRugs from "@/components/MoreRugs";
+import RugProduct from "@/components/RugProduct";
+import RugDock from "@/components/RugDock";
+import { rugLabels } from "@/lib/rug-labels";
 import { getDictionary, isLocale, fill, locales, type Locale } from "@/lib/dictionaries";
 import {
   accession,
@@ -18,7 +21,7 @@ import {
   relatedPieces,
   isMultiple,
 } from "@/lib/catalog";
-import { displayName, materialOf, originOf } from "@/lib/specs";
+import { displayName, labelFor, materialOf, originOf } from "@/lib/specs";
 import JsonLd from "@/components/JsonLd";
 import { breadcrumbLd, pageMeta, pieceOg, productLd } from "@/lib/seo";
 import { enLine, enLines, frLine, frLines } from "@/lib/product-fr";
@@ -130,6 +133,91 @@ export default async function PiecePage({
   // can then show the photograph, the label and the price of what is being
   // asked about, and open the message with the piece's own number.
   const enquiry = `/${locale}/contact?piece=${piece.slug}`;
+
+  /* A finished rug is shown the way a rug is chosen — benirugs.com's product
+     page (components/RugProduct) — not the way an object is hung (client,
+     6 Oct: "our rug product is identical to the articles"). */
+  if (isRug) {
+    const l = rugLabels(locale as Locale);
+    const cartLabels = {
+      add: t.cart.add,
+      added: t.cart.added,
+      view: t.cart.view,
+      sold: t.common.sold,
+      soldNote: t.piece.soldNote,
+    };
+    const sellable = piece.available && piece.price !== null && !piece.illustrative;
+    const action = !piece.available ? (
+      <div className="piece-buy is-gone" role="status">
+        <p className="piece-price display d-3 is-gone">{t.common.sold}</p>
+        <p className="label piece-cta-note">{t.piece.soldNote}</p>
+      </div>
+    ) : sellable ? (
+      <AddToCart slug={piece.slug} labels={cartLabels} price={price ?? undefined} />
+    ) : (
+      <Link href={enquiry} className="piece-buy-add label has-price rug-buy-ask">
+        <span>{l.askBar}</span>
+        <span className="piece-buy-price">{l.onRequest}</span>
+      </Link>
+    );
+    const words = say(locale as Locale, piece.description);
+    return (
+      <>
+        <JsonLd
+          data={breadcrumbLd([
+            { name: "The Roots Corner", path: `/${locale}` },
+            { name: l.shopCrumb, path: `/${locale}/mrirt` },
+            { name, path: `/${locale}/piece/${piece.slug}` },
+          ])}
+        />
+        <RugProduct
+          locale={locale as Locale}
+          crumbs={[
+            { label: l.shopCrumb, href: `/${locale}/mrirt` },
+            { label: l.readyCrumb, href: `/${locale}/mrirt#disponibles` },
+          ]}
+          title={name}
+          headPrice={!piece.available ? t.common.sold : sellable && price ? price : l.onRequest}
+          line={words.find((w) => !/^photos?\s+d[’']illustration\.?$/i.test(w.trim())) ?? null}
+          note={piece.illustrative ? l.illustration : null}
+          images={piece.images.map((img) => ({
+            src: img.src ?? `/pieces/${img.file}`,
+            w: img.w,
+            h: img.h,
+            alt: name,
+          }))}
+          exclude={{ piece: piece.slug }}
+          specs={
+            labelFor(piece, locale as Locale).length > 0 ? (
+              <PieceLabel piece={piece} locale={locale} labels={t.pieceLabel} variant="specs" />
+            ) : null
+          }
+          order={
+            <div className="rug-buy">
+              <p className="piece-unique label">
+                {t.selection.unique}
+                {piece.available && (
+                  <>
+                    <span aria-hidden="true"> · </span>
+                    {t.common.available}
+                  </>
+                )}
+              </p>
+              <div className="rug-buy-bar">{action}</div>
+              <a href="#tissage" className="link label rug-buy-craft">
+                {l.craftLink}
+              </a>
+              {piece.available && (
+                <RugDock name={name} editLabel={l.dockEdit}>
+                  {action}
+                </RugDock>
+              )}
+            </div>
+          }
+        />
+      </>
+    );
+  }
 
   return (
     <>

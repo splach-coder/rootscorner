@@ -20,8 +20,9 @@ export function rugLabels(locale: Locale) {
     browser: {
       type: fr ? "Tapis" : "Rugs",
       all: fr ? "Tous" : "All",
-      ready: fr ? "Disponibles" : "Available",
-      order: fr ? "Sur commande" : "To order",
+      ready: fr ? "Tapis disponibles" : "Available rugs",
+      order: fr ? "Tapis sur commande" : "Rugs to order",
+      custom: fr ? "Tapis sur mesure" : "Made-to-measure rugs",
       collection: fr ? "Collection" : "Collection",
       allCollections: fr ? "Toutes" : "All",
       view: fr ? "Vue" : "View",
@@ -83,5 +84,23 @@ export function rugLabels(locale: Locale) {
     returnsKey: fr ? "Retours et livraison" : "Returns and delivery",
     faqTitle: fr ? "Questions fréquentes" : "Frequently asked",
     faqAll: fr ? "Toutes les questions" : "All questions",
+    // The rug product page, built on benirugs.com's structure (client, 6 Oct).
+    detailsHeading: fr ? "Les détails" : "The details",
+    details: {
+      unique: fr ? "Une pièce unique" : "One of a kind",
+      wool: fr ? "La laine" : "The wool",
+      weaving: fr ? "Le tissage" : "The weaving",
+      custom: fr ? "À votre mesure" : "To your measure",
+    },
+    helpBox: fr
+      ? "Pas sûre de votre choix ? Nous vous accompagnons, personnellement."
+      : "Not sure where to go from here? We will guide you, personally.",
+    helpBoxCta: fr ? "Parler de votre tapis" : "Talk about your rug",
+    processEyebrow: fr ? "Notre façon de faire" : "How it is made",
+    moreFrom: fr ? "D’autres tapis Mrirt" : "More Mrirt rugs",
+    cardLine: fr ? "Laine · Tissé main" : "Wool · Handwoven",
+    dockEdit: fr ? "Modifier" : "Edit",
+    shopCrumb: fr ? "Tapis Mrirt" : "Mrirt rugs",
+    readyCrumb: fr ? "Tapis disponibles" : "Available rugs",
   };
 }

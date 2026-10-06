@@ -5003,3 +5003,28 @@ with the quote" until the house gives a range.
 Not copied from Beni, deliberately: swatch-photo chips (no per-colour photos
 yet), a tassels-style option, swatch/sample sets for sale, a founder quote.
 Each needs the house's content or decision.
+
+## 73. Rug pages on benirugs.com's structure (6 Oct)
+
+Client: "a design like benirugs, not the touch or the colours but the
+structure … our rug product is identical to the articles, we don't want
+that." Both Beni pages were captured whole (shop-all and a product page,
+desktop + phone) and mirrored section for section:
+
+- **/mrirt**: split head (small label, title low in a narrow left column,
+  one wide room photo right; `.rugshop-head` — NOT `.rugs-head`, which an old
+  homepage rule in sections.css still owns) → the ruled filter bar → the
+  wall, six across ≥1300px. Then Nos collections, savoir-faire, the form,
+  the rug FAQ.
+- **Rug product** (`components/RugProduct.tsx`) — used by `/tapis/[handle]`
+  AND by `/piece/[slug]` when category is rugs, so a rug never renders as an
+  article again: narrow order panel LEFT (crumbs · name + figure · line ·
+  choices · one filled bar · Le tissage · Délai · 3 folds), large photos
+  RIGHT on the tile ground → Les détails (4 facts + photo) → ruled help box
+  → one room full width → umber process panel → "D'autres tapis Mrirt" as
+  Beni's 3-up cards. `RugDock` docks name + choices + the same action at the
+  foot of the screen once `#rug-order` has scrolled away.
+- Every rug grid track is `minmax(0, 1fr)`: an `auto` track takes a photo's
+  1600px intrinsic width and the panel ran off a phone.
+- PayPal is ON by default (`PAYPAL` in lib/site.ts; `NEXT_PUBLIC_PAYPAL=0`
+  turns the mention off). The FAQ and checkout now name it.

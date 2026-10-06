@@ -4603,3 +4603,522 @@ textarea.inquiry-input {
   color: var(--ink);
   padding-block: 0.4rem;
 }
+
+/* ==========================================================================
+   The rug product page — benirugs.com's structure (client, 6 Oct), in this
+   site's palette and type. See components/RugProduct.tsx for the order of
+   the sections and why each is there.
+   ========================================================================== */
+
+.rugp {
+  --rug-tile: #ece5da;
+  --rug-edge: clamp(0.75rem, 1.2vw, 1.25rem);
+}
+
+.rugp-top {
+  display: grid;
+  gap: 2rem;
+  padding: calc(var(--header-h) + 1.5rem) var(--rug-edge) 0;
+}
+
+.rugp-panel-inner {
+  display: grid;
+  align-content: start;
+}
+
+.rugp-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.1rem;
+  margin-bottom: clamp(1.4rem, 3vw, 2.6rem);
+  color: var(--ink-soft);
+  font-size: 0.62rem;
+}
+
+.rugp-crumb {
+  color: inherit;
+  transition: color var(--dur-hover) var(--ease-material);
+}
+
+.rugp-crumb:hover,
+.rugp-crumb:focus-visible {
+  color: var(--ink);
+}
+
+.rugp-crumb-sep {
+  padding-inline: 0.5rem;
+  opacity: 0.6;
+}
+
+.rugp-line {
+  margin-top: 0.8rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.rugp .rug-demo-note {
+  margin-top: 0.8rem;
+}
+
+.rugp .wall-label-schema {
+  margin-top: 1.4rem;
+}
+
+.rugp .rug-buy {
+  margin-top: 1.8rem;
+}
+
+.rugp .rug-folds {
+  margin-bottom: 0.5rem;
+}
+
+/* The photographs: large, on the wall's tile ground, whole. */
+.rugp-media {
+  display: grid;
+  gap: 8px;
+}
+
+/* A block, not a grid: a percentage height on a grid item's image does not
+   resolve against the plate, and the photograph spilled out of it. */
+.rugp-plate {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 9 / 8;
+  padding: clamp(1rem, 4vw, 3.5rem);
+  background: var(--rug-tile);
+}
+
+.rugp-plate img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (min-width: 900px) {
+  .rugp-top {
+    grid-template-columns: minmax(20rem, 27rem) minmax(0, 1fr);
+    gap: clamp(2.4rem, 3.5vw, 3.2rem);
+    align-items: start;
+  }
+
+  .rugp-panel {
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+    padding-left: clamp(0.5rem, 2vw, 1.8rem);
+  }
+
+  .rugp-plate {
+    aspect-ratio: auto;
+    height: min(calc(100svh - var(--header-h) - 3rem), 56rem);
+  }
+}
+
+/* --- Les détails --------------------------------------------------------- */
+
+.rugp-h {
+  margin: 0;
+  padding-bottom: clamp(1rem, 2vw, 1.4rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.rugp-details,
+.rugp-more {
+  padding: clamp(4rem, 9vw, 8rem) var(--rug-edge) 0;
+}
+
+.rugp-details-grid {
+  display: grid;
+  gap: clamp(2.4rem, 5vw, 4rem);
+  margin-top: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.rugp-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 3rem);
+  align-items: start;
+}
+
+.rugp-detail-said p {
+  margin-top: 0.9rem;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+.rugp-detail-plate {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--rug-tile);
+}
+
+.rugp-detail-plate img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 900px) {
+  .rugp-details-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(3rem, 6vw, 6rem);
+  }
+
+  .rugp-detail-said {
+    max-width: 22rem;
+  }
+
+  .rugp-detail-plate {
+    max-width: 16rem;
+  }
+}
+
+/* --- Help, in a ruled box ------------------------------------------------ */
+
+.rugp-help {
+  padding: clamp(4rem, 9vw, 8rem) var(--gutter) 0;
+}
+
+.rugp-help-box {
+  display: grid;
+  gap: 1.6rem;
+  max-width: 44rem;
+  margin-inline: auto;
+  padding: clamp(1.6rem, 4vw, 2.6rem);
+  border: 1px solid var(--rule);
+}
+
+.rugp-help-box .link {
+  justify-self: start;
+}
+
+/* --- One room, full width ------------------------------------------------ */
+
+.rugp-room {
+  margin-top: clamp(4rem, 9vw, 8rem);
+}
+
+.rugp-room-frame {
+  height: min(78svh, 46rem);
+}
+
+.rugp-room-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 62%;
+}
+
+/* --- How it is made: photograph and words, side by side ------------------ */
+
+.rugp-process {
+  display: grid;
+  margin: clamp(4rem, 9vw, 8rem) var(--rug-edge) 0;
+}
+
+.rugp-process-plate {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.rugp-process-plate img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rugp-process-said {
+  display: grid;
+  align-content: space-between;
+  gap: 2rem;
+  padding: clamp(1.6rem, 4vw, 3rem);
+  background: var(--umber);
+  color: var(--ink-inverse);
+}
+
+.rugp-process-said .label,
+.rugp-process-said h2 {
+  color: var(--ink-inverse);
+}
+
+.rugp-process-said h2 {
+  margin-top: 1.2rem;
+}
+
+.rugp-process-body {
+  display: grid;
+  gap: 1rem;
+  max-width: 30rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+@media (min-width: 900px) {
+  .rugp-process {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  }
+
+  .rugp-process-plate {
+    aspect-ratio: auto;
+    min-height: 40rem;
+  }
+}
+
+/* --- More rugs ----------------------------------------------------------- */
+
+.rugp-more {
+  padding-bottom: clamp(4rem, 8vw, 7rem);
+}
+
+.rugp-more-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: 8px;
+  margin-top: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.rugp-more-link {
+  display: grid;
+  gap: 0.9rem;
+  padding-bottom: 1.2rem;
+}
+
+.rugp-more-plate {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  padding: 12%;
+  background: #ece5da;
+}
+
+.rugp-more-plate img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform var(--dur-hover) var(--ease-material);
+}
+
+.rugp-more-link:hover .rugp-more-plate img {
+  transform: scale(1.02);
+}
+
+.rugp-more-said {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.rugp-more-price {
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.rugp-more-line {
+  margin-top: -0.4rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+/* --- The docked bar ------------------------------------------------------ */
+
+.rug-dock {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 40;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  padding: 0.75rem var(--rug-edge, 1rem);
+  background: var(--hour-afternoon);
+  border-top: 1px solid var(--rule);
+  transform: translateY(100%);
+  visibility: hidden;
+  transition:
+    transform 500ms var(--ease-material),
+    visibility 0s linear 500ms;
+}
+
+.rug-dock.is-on {
+  transform: none;
+  visibility: visible;
+  transition: transform 500ms var(--ease-material);
+}
+
+.rug-dock-name {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.rug-dock-detail {
+  margin-top: 0.25rem;
+  color: var(--ink-soft);
+}
+
+.rug-dock-action .piece-buy-add {
+  margin-top: 0;
+  min-width: min(26rem, 46vw);
+}
+
+.rug-dock-action .piece-buy {
+  margin-top: 0;
+  border-top: 0;
+  padding: 0;
+}
+
+.rug-dock-edit {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .rug-dock {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  .rug-dock-edit {
+    display: inline-flex;
+    align-items: center;
+    min-height: 3.2rem;
+    padding-inline: 1.6rem;
+    border: 1px solid var(--rule);
+    background: var(--ecru);
+  }
+}
+
+@media (max-width: 699px) {
+  .rug-dock {
+    grid-template-columns: 1fr;
+  }
+
+  .rug-dock-action .piece-buy-add {
+    min-width: 0;
+  }
+}
+
+/* The WhatsApp button steps up while the dock is out. */
+html:has(.rug-dock.is-on) .wa-float {
+  bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (max-width: 699px) {
+  html:has(.rug-dock.is-on) .wa-float {
+    bottom: calc(9rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rug-dock,
+  .rug-dock.is-on {
+    transition: none;
+  }
+}
+
+/* --- /mrirt head, after benirugs.com's shop page ------------------------- */
+
+.rugshop-head {
+  display: grid;
+  gap: 1.4rem;
+  padding: calc(var(--header-h) + 1.4rem) clamp(0.75rem, 1.2vw, 1.25rem) 0;
+}
+
+.rugshop-head-said {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.rugshop-head-crumb {
+  color: var(--ink-soft);
+  font-size: 0.62rem;
+}
+
+.rugshop-head-title {
+  margin: 0;
+  line-height: 1;
+}
+
+.rugshop-head-lead {
+  margin-top: 1rem;
+  max-width: 24rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.rugshop-head-media {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+
+.rugshop-head-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 70%;
+}
+
+@media (min-width: 900px) {
+  .rugshop-head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .rugshop-head-said {
+    align-content: space-between;
+    padding-left: clamp(0rem, 0.5vw, 0.5rem);
+  }
+
+  .rugshop-head-media {
+    aspect-ratio: auto;
+    height: min(62svh, 34rem);
+  }
+}
+
+/* Beni's wall is dense: six across on a wide screen. */
+@media (min-width: 1300px) {
+  .rug-wall.is-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* Grid tracks default to `auto`, which takes a photograph's intrinsic width
+   (1600px) as its minimum — the panel ran off the side of a phone. Every
+   rug track says minmax(0, 1fr). And the head is a grid item of <main>, so it
+   has to claim the width itself. */
+.rugshop-head,
+.rugp-top,
+.rugshop-head-said,
+.rugp-more-link {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.rugshop-head {
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .rugshop-head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+
+  .rugp-top {
+    grid-template-columns: minmax(20rem, 27rem) minmax(0, 1fr);
+  }
+}
+
+/* "More rugs" sits outside .rugp, so it carries its own edge. Three across,
+   like Beni's "More from…". */
+.rugp-more {
+  --rug-edge: clamp(0.75rem, 1.2vw, 1.25rem);
+  padding-inline: var(--rug-edge);
+}
+
+@media (min-width: 900px) {
+  .rugp-more-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

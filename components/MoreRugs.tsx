@@ -21,12 +21,16 @@ export default function MoreRugs({
   excludePiece,
   excludeSeries,
   labels,
+  layout = "hang",
 }: {
+  /** "cards" — benirugs.com's "More from…": equal tiles, name and figure on
+      one line, the material under them. Used by the rug product page. */
+  layout?: "hang" | "cards";
   locale: Locale;
   heading: string;
   excludePiece?: string;
   excludeSeries?: string;
-  labels: { from: string; onRequest: string; rugName: string };
+  labels: { from: string; onRequest: string; rugName: string; line?: string };
 }) {
   const fromPiece = (p: Piece): Item | null => {
     const img = p.images[0];
@@ -63,6 +67,30 @@ export default function MoreRugs({
   const ordered = excludeSeries ? [...series, ...ready] : [...ready, ...series];
   const items = ordered.filter((x): x is Item => x !== null).slice(0, 3);
   if (items.length === 0) return null;
+
+  if (layout === "cards") {
+    return (
+      <section className="rugp-more">
+        <h2 className="display d-1 rugp-h">{heading}</h2>
+        <ul className="rugp-more-list">
+          {items.map((it) => (
+            <li key={it.key} className="rugp-more-item">
+              <Link href={it.href} className="rugp-more-link">
+                <span className="rugp-more-plate">
+                  <Image src={it.src} alt={it.name} width={it.w} height={it.h} sizes="(max-width: 700px) 84vw, 32vw" />
+                </span>
+                <span className="rugp-more-said">
+                  <span className="display d-3 rugp-more-name">{it.name}</span>
+                  <span className="rugp-more-price">{it.price}</span>
+                </span>
+                {labels.line && <span className="rugp-more-line">{labels.line}</span>}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+  }
 
   return (
     <section className="section piece-more">
