@@ -10,6 +10,14 @@ import { rugLabels } from "@/lib/rug-labels";
 import { rugFaq } from "@/lib/rug-faq";
 import { whatsappHref } from "@/lib/site";
 
+/** The house's own photographs of its rugs in rooms. */
+const REEL = [
+  { src: "/rugs/series/floor-fire.jpg", w: 1600, h: 2400 },
+  { src: "/rugs/interior-fire.jpg", w: 1800, h: 2700 },
+  { src: "/rugs/series/floor-shelves.jpg", w: 1600, h: 2400 },
+  { src: "/rugs/mrirt-room.jpg", w: 1206, h: 1889 },
+];
+
 export type RugImage = { src: string; w: number; h: number; alt: string };
 
 /**
@@ -179,12 +187,10 @@ export default function RugProduct({
           </Reveal>
         </section>
 
-        {/* --- 4. One room, full width — the house's own. --- */}
-        <div className="rugp-room">
-          <Reveal variant="frame" className="frame rugp-room-frame">
-            <Image src="/rugs/series/floor-shelves.jpg" alt={t.mrirtPage.roomAlt} width={1600} height={2400} sizes="100vw" />
-          </Reveal>
-        </div>
+        {/* --- 4. A big slider of the rugs at home — the house's own rooms. --- */}
+        <section className="rugp-reel">
+          <RugGallery variant="reel" slides={REEL.map((r) => ({ ...r, alt: t.mrirtPage.roomAlt }))} labels={{ prev: l.prev, next: l.next }} />
+        </section>
 
         {/* --- 5. How it is made. --- */}
         <section className="rugp-process">

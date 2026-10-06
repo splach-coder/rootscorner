@@ -19,9 +19,12 @@ type Slide = { src: string; w: number; h: number; alt: string };
 export default function RugGallery({
   slides,
   labels,
+  variant = "plate",
 }: {
   slides: Slide[];
   labels: { prev: string; next: string };
+  /** "reel" — the big full-width slider of rooms further down the page. */
+  variant?: "plate" | "reel";
 }) {
   const track = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
@@ -55,7 +58,7 @@ export default function RugGallery({
   );
 
   return (
-    <div className="rugg">
+    <div className={`rugg rugg-${variant}`}>
       <div
         ref={track}
         className="rugg-track"
@@ -78,8 +81,8 @@ export default function RugGallery({
               alt={s.alt}
               width={s.w}
               height={s.h}
-              priority={i === 0}
-              sizes="(max-width: 900px) 100vw, 64vw"
+              priority={variant === "plate" && i === 0}
+              sizes={variant === "reel" ? "100vw" : "(max-width: 900px) 100vw, 64vw"}
             />
           </div>
         ))}

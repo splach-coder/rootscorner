@@ -5368,3 +5368,56 @@ textarea.inquiry-input {
   }
 
 }
+
+/* The big slider of rooms (replaces the single full-width room). Full bleed,
+   cropped to a wide frame, the counter and arrows set on the page edge. */
+.rugp-reel {
+  margin-top: clamp(4rem, 9vw, 8rem);
+}
+
+.rugg-reel .rugg-track {
+  background: none;
+}
+
+.rugg-reel .rugg-slide {
+  aspect-ratio: 4 / 5;
+  padding: 0;
+}
+
+.rugg-reel .rugg-slide img {
+  object-fit: cover;
+  object-position: 50% 62%;
+}
+
+.rugg-reel .rugg-bar {
+  padding-inline: var(--rug-edge, 1rem);
+}
+
+@media (min-width: 900px) {
+  .rugg-reel .rugg-slide {
+    aspect-ratio: auto;
+    height: min(82svh, 52rem);
+  }
+
+  .rugg-reel .rugg-bar {
+    grid-template-columns: 1fr auto 1fr;
+  }
+}
+
+@media (max-width: 899px) {
+  .rugg-reel .rugg-arrows {
+    display: flex;
+    justify-self: end;
+  }
+
+  .rugg-reel .rugg-bar {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+/* Arrows and counter sit on one line, centred on each other. */
+.rugg-count {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
