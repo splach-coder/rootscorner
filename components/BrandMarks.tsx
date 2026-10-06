@@ -84,7 +84,7 @@ export function Wordmark({ className, title, crescent = true, ...rest }: MarkPro
         The trimmed box is the lettering's own bounds, measured with getBBox on
         the rendered paths rather than guessed. It comes out almost exactly 2:1.
       */
-      viewBox={crescent ? "0 0 96.57 142.1" : "0 84.03 96.58 58.07"}
+      viewBox={crescent ? "0 0 96.57 143.2" : "0 84.03 96.58 59.17"}
       fill="currentColor"
       role={title ? "img" : "presentation"}
       aria-hidden={title ? undefined : true}
@@ -112,12 +112,13 @@ export function Wordmark({ className, title, crescent = true, ...rest }: MarkPro
       {/*
         The line under the name — part of the official lockup (client feedback
         V1, §0: "should always be included when the full logo is displayed").
-        The Illustrator export in brand/ does not carry it, so it is measured
-        off the reference the house sent: it starts inside the R, ends flush
-        with the S, and tapers to a point at both ends. Same fill as the
-        lettering, so it recolours with it.
+        The house's own line, traced from their file "Logo - The Roots
+        Corner.png" (6 Oct): hand-drawn, a touch lower at the left and rising
+        gently to the right, thinning at both ends. Placed exactly as in their lockup,
+        measured off the reference: from inside the R to the end of the S. Same fill as the lettering,
+        so it recolours with it.
       */}
-      <path d="M11.5,141.5Q53.95,140.7 96.4,141.5Q53.95,142.3 11.5,141.5Z" />
+      <path d="M11.63,141.99 L13.33,141.68 L15.02,141.69 L16.72,141.70 L18.42,141.67 L20.11,141.64 L21.81,141.61 L23.51,141.60 L25.21,141.53 L26.90,141.52 L28.60,141.48 L30.30,141.42 L31.99,141.39 L33.69,141.37 L35.39,141.34 L37.08,141.35 L38.78,141.27 L40.48,141.23 L42.17,141.28 L43.87,141.30 L45.57,141.30 L47.26,141.30 L48.96,141.28 L50.66,141.30 L52.36,141.29 L54.05,141.30 L55.75,141.31 L57.45,141.30 L59.14,141.28 L60.84,141.29 L62.54,141.30 L64.23,141.29 L65.93,141.29 L67.63,141.29 L69.32,141.29 L71.02,141.30 L72.72,141.29 L74.41,141.29 L76.11,141.30 L77.81,141.30 L79.51,141.29 L81.20,141.29 L82.90,141.29 L84.60,141.27 L86.29,141.28 L87.99,141.24 L89.69,141.20 L91.38,141.17 L93.08,141.14 L94.78,141.11 L96.47,141.43 L96.58,141.45 L96.58,141.53 L96.47,141.53 L94.78,141.87 L93.08,141.91 L91.38,141.95 L89.69,141.99 L87.99,141.99 L86.29,142.00 L84.60,142.04 L82.90,142.05 L81.20,142.06 L79.51,142.06 L77.81,142.05 L76.11,142.05 L74.41,142.06 L72.72,142.06 L71.02,142.06 L69.32,142.06 L67.63,142.06 L65.93,142.06 L64.23,142.07 L62.54,142.06 L60.84,142.06 L59.14,142.07 L57.45,142.06 L55.75,142.04 L54.05,142.05 L52.36,142.07 L50.66,142.06 L48.96,142.08 L47.26,142.05 L45.57,142.05 L43.87,142.05 L42.17,142.06 L40.48,142.09 L38.78,142.10 L37.08,142.05 L35.39,142.09 L33.69,142.11 L31.99,142.16 L30.30,142.19 L28.60,142.18 L26.90,142.21 L25.21,142.24 L23.51,142.23 L21.81,142.30 L20.11,142.33 L18.42,142.34 L16.72,142.34 L15.02,142.35 L13.33,142.36 L11.63,142.06Z" />
     </svg>
   );
 }
