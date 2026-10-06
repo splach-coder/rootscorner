@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { PAYPAL } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 import type { Metadata } from "next";
 import PageHead from "@/components/PageHead";
@@ -60,7 +61,7 @@ export default async function CheckoutPage({
       <PageHead
         eyebrow={t.checkout.eyebrow}
         heading={t.checkout.heading}
-        lede={t.checkout.lede}
+        lede={PAYPAL ? `${t.checkout.lede} ${t.checkout.methods}` : t.checkout.lede}
       />
 
       <section className="section checkout">

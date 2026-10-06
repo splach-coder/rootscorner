@@ -1,5 +1,6 @@
 import type { Locale } from "./dictionaries";
 import { paymentReady } from "./checkout";
+import { PAYPAL } from "./site";
 
 /**
  * The house's legal and information pages.
@@ -564,7 +565,9 @@ const en: Record<string, LegalDoc> = {
           ],
           [
             "How can I pay?",
-            "By bank transfer (SEPA). Your bank details arrive with the order confirmation. The piece is reserved for you for 3 days and ships as soon as the transfer arrives.",
+            PAYPAL
+              ? "With PayPal, or by card through PayPal without needing an account, on the secure payment page. You can also pay by bank transfer (SEPA): the details arrive with the order confirmation, the piece is reserved for 3 days and ships as soon as the transfer arrives."
+              : "By bank transfer (SEPA). Your bank details arrive with the order confirmation. The piece is reserved for you for 3 days and ships as soon as the transfer arrives.",
           ],
           [
             "Is each piece really unique?",
@@ -1039,7 +1042,9 @@ const fr: Record<string, LegalDoc> = {
           ],
           [
             "Comment payer ?",
-            "Par virement bancaire (SEPA). Nos coordonnées bancaires arrivent avec la confirmation de commande. La pièce vous est réservée 3 jours et part dès réception du virement.",
+            PAYPAL
+              ? "Avec PayPal, ou par carte bancaire via PayPal sans avoir besoin de compte, sur la page de paiement sécurisée. Vous pouvez aussi payer par virement bancaire (SEPA) : les coordonnées arrivent avec la confirmation de commande, la pièce vous est réservée 3 jours et part dès réception du virement."
+              : "Par virement bancaire (SEPA). Nos coordonnées bancaires arrivent avec la confirmation de commande. La pièce vous est réservée 3 jours et part dès réception du virement.",
           ],
           [
             "Chaque pièce est-elle vraiment unique ?",

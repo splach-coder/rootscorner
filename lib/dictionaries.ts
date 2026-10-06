@@ -373,6 +373,8 @@ type Dictionary = {
     eyebrow: string;
     heading: string;
     lede: string;
+    /** Shown only when PAYPAL is on (lib/site.ts). */
+    methods: string;
     order: string;
     subtotal: string;
     shippingNote: string;
@@ -904,6 +906,7 @@ const en: Dictionary = {
     eyebrow: "Checkout",
     heading: "Your order",
     lede: "Address and payment are taken on the next step, on a secure page.",
+    methods: "Pay with PayPal, by card through PayPal, or by bank transfer.",
     order: "The pieces",
     subtotal: "Subtotal",
     // Shipped from Marrakech: outside Morocco the parcel crosses a customs
@@ -1393,6 +1396,7 @@ const fr: Dictionary = {
     eyebrow: "Paiement",
     heading: "Votre commande",
     lede: "L’adresse et le paiement se font à l’étape suivante, sur une page sécurisée.",
+    methods: "Paiement par PayPal, par carte bancaire via PayPal, ou par virement.",
     order: "Les pièces",
     subtotal: "Sous-total",
     shippingNote:
