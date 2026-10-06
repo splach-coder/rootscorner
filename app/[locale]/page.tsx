@@ -5,6 +5,7 @@ import Reveal from "@/components/Reveal";
 import { Wordmark } from "@/components/BrandMarks";
 import Newsletter from "@/components/Newsletter";
 import HeroMedia from "@/components/HeroMedia";
+import DragScroll from "@/components/DragScroll";
 import RugSlider, { type RugSlide } from "@/components/RugSlider";
 import { allRugSeries, formatEuro, fromPrice, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
@@ -557,7 +558,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
 
         {feed.length > 0 && (
-          <ul className="instagram-strip">
+          <DragScroll className="instagram-strip">
             {feed.map((frame, i) => (
               <li key={frame.file} className="instagram-cell">
                 <a
@@ -578,7 +579,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 </a>
               </li>
             ))}
-          </ul>
+          </DragScroll>
         )}
       </section>
 

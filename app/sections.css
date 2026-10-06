@@ -3339,3 +3339,25 @@ html[data-intro="run"] .site-header-lockup {
 .rug-slide-said {
   gap: 0.3rem;
 }
+
+/* A strip the mouse can drag (components/DragScroll.tsx). Touch keeps the
+   browser's own swipe; a mouse gets a hand to hold it by. */
+.drag-scroll {
+  cursor: grab;
+  touch-action: pan-x pan-y;
+}
+
+.drag-scroll.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+.drag-scroll.is-dragging a {
+  pointer-events: none;
+}
+
+.drag-scroll img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
