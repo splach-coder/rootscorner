@@ -119,11 +119,11 @@ export default function RugProduct({
                   <p>{l.helpBody}</p>
                   <p className="rug-fold-links">
                     {wa && (
-                      <a href={wa} className="link label" target="_blank" rel="noreferrer noopener">
+                      <a href={wa} className="label rug-btn rug-btn-fill" target="_blank" rel="noreferrer noopener">
                         {l.helpWhatsapp}
                       </a>
                     )}
-                    <Link href={`/${locale}/mrirt#sur-mesure`} className="link label">
+                    <Link href={`/${locale}/mrirt#sur-mesure`} className="label rug-btn">
                       {l.helpForm}
                     </Link>
                   </p>
@@ -133,7 +133,7 @@ export default function RugProduct({
                   <p>{faq.returns}</p>
                   <p>{l.shippingBody}</p>
                   <p className="rug-fold-links">
-                    <Link href={`/${locale}/legal/withdrawal`} className="link label">
+                    <Link href={`/${locale}/legal/withdrawal`} className="label rug-btn">
                       {t.legal.items.withdrawal}
                     </Link>
                   </p>

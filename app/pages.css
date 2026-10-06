@@ -5246,3 +5246,64 @@ textarea.inquiry-input {
     height: 100%;
   }
 }
+
+/* Actions inside the folds are buttons, not underlined words (client, 6 Oct). */
+.rug-fold-links {
+  gap: 0.6rem;
+  padding: 0.4rem 0 1rem;
+}
+
+.rug-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 1.2rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  transition:
+    background-color var(--dur-hover) var(--ease-material),
+    color var(--dur-hover) var(--ease-material);
+}
+
+.rug-btn:hover,
+.rug-btn:focus-visible {
+  background: var(--ink);
+  color: var(--ink-inverse);
+}
+
+.rug-btn-fill {
+  background: var(--umber);
+  border-color: var(--umber);
+  color: var(--ink-inverse);
+}
+
+.rug-btn-fill:hover,
+.rug-btn-fill:focus-visible {
+  background: var(--hour-night);
+  border-color: var(--hour-night);
+}
+
+@media (max-width: 699px) {
+  .rug-fold-links .rug-btn {
+    flex: 1 1 100%;
+  }
+}
+
+/* Les détails on a phone: each fact is photograph, then title, then words —
+   one per row, in step, instead of a narrow text column beside a thumbnail. */
+@media (max-width: 699px) {
+  .rugp-detail {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .rugp-detail-plate {
+    order: -1;
+    aspect-ratio: 4 / 3;
+  }
+
+  .rugp-details-grid {
+    gap: 2.6rem;
+  }
+}
