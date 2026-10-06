@@ -4431,3 +4431,14 @@ textarea.inquiry-input {
 .rug-card .card-frame {
   background: #ece5da;
 }
+
+/* The channel's mark beside its key on the contact desk — the footer's drawing. */
+.desk-channel-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.desk-channel-key .channel-mark {
+  flex: none;
+  color: var(--ink);
+}

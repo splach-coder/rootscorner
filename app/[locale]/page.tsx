@@ -159,7 +159,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
 
         <div className="hero-plate">
-          <Reveal as="div" className="hero-inner shell">
+          {/* Not a Reveal: the hero has its own entrance (sections.css, "The
+              hero entrance"), each line arriving from its own direction. */}
+          <div className="hero-inner shell">
             <div>
               {/*
                 One heading, set two ways.
@@ -208,7 +210,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
 
             <p className="hero-note">{t.hero.intro}</p>
-          </Reveal>
+          </div>
         </div>
       </section>
 

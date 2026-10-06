@@ -76,3 +76,24 @@ export default function Social({ className = "" }: { className?: string }) {
     </ul>
   );
 }
+
+/** One channel's mark alone — the same drawing as the footer's, for a label. */
+export function ChannelMark({ channel, size = 18 }: { channel: "instagram" | "whatsapp"; size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+      className="channel-mark"
+    >
+      {MARKS[channel]}
+    </svg>
+  );
+}

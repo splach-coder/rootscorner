@@ -8,6 +8,7 @@ import PieceLabel from "@/components/PieceLabel";
 import PieceGallery from "@/components/PieceGallery";
 import AddToCart from "@/components/AddToCart";
 import ClosingBand from "@/components/ClosingBand";
+import MoreRugs from "@/components/MoreRugs";
 import { getDictionary, isLocale, fill, locales, type Locale } from "@/lib/dictionaries";
 import {
   accession,
@@ -121,7 +122,9 @@ export default async function PiecePage({
   const no = accession(piece);
   const price = formatPrice(piece, locale);
   const room = t.categories.items[piece.category] ?? piece.category;
-  const related = relatedPieces(piece);
+  // A rug suggests rugs only (client, 6 Oct) — MoreRugs below; a piece, pieces.
+  const isRug = piece.category === "rugs";
+  const related = isRug ? [] : relatedPieces(piece);
 
   // The slug, not a display string: contact resolves it back to the record and
   // can then show the photograph, the label and the price of what is being
@@ -379,12 +382,25 @@ export default async function PiecePage({
         </section>
       )}
 
-      <ClosingBand
-        locale={locale as Locale}
-        t={t.closing}
-        labels={t.pieceLabel}
-        exclude={[piece.slug, ...related.map((other) => other.slug)]}
-      />
+      {isRug ? (
+        <MoreRugs
+          locale={locale as Locale}
+          heading={t.piece.more}
+          excludePiece={piece.slug}
+          labels={{
+            from: locale === "fr" ? "À partir de" : "From",
+            onRequest: locale === "fr" ? "Prix sur demande" : "Price on request",
+            rugName: locale === "fr" ? "Tapis Mrirt" : "Mrirt rug",
+          }}
+        />
+      ) : (
+        <ClosingBand
+          locale={locale as Locale}
+          t={t.closing}
+          labels={t.pieceLabel}
+          exclude={[piece.slug, ...related.map((other) => other.slug)]}
+        />
+      )}
     </>
   );
 }

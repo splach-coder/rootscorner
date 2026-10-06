@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ChannelMark } from "@/components/Social";
 import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -167,7 +168,7 @@ export default async function ContactPage({
                 worst thing this page could publish (CLAUDE.md §5). */}
             <div className="desk-channel">
               <div className="desk-channel-item">
-                <p className="label desk-channel-key">Instagram</p>
+                <p className="label desk-channel-key"><ChannelMark channel="instagram" />Instagram</p>
                 <a
                   href={INSTAGRAM}
                   className="link display d-3 desk-handle"
@@ -181,7 +182,7 @@ export default async function ContactPage({
 
               {whatsapp && (
                 <div className="desk-channel-item">
-                  <p className="label desk-channel-key">WhatsApp</p>
+                  <p className="label desk-channel-key"><ChannelMark channel="whatsapp" />WhatsApp</p>
                   <a
                     href={whatsapp}
                     className="link display d-3 desk-handle"

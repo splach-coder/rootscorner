@@ -3409,3 +3409,96 @@ html[data-intro="run"] .site-header-lockup {
     transition: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   The hero entrance (client, 6 Oct): everything arrives together, each from
+   its own side, instead of the type fading in as one block and the logo
+   following last on a separate cue.
+
+   One trigger — the photograph decoded (`.hero[data-ready]`, HeroMedia) — and
+   one tempo: long, eased, nothing springy (§3's motion note). Within ~500 ms:
+     photograph   settles, a slow fade from a touch larger
+     logo         from the top-left corner
+     menu         from the top
+     tools        from the top-right corner
+     title        rises from below, then the tagline, then the sentence
+
+   The header is outside the hero, so it listens with :has(). Pages without a
+   hero never match, and the header keeps its usual rise. Never while the
+   intro veil is up: html[data-intro="run"] holds everything, and removing it
+   starts the entrance as the veil lifts.
+   -------------------------------------------------------------------------- */
+
+@keyframes hero-from-below {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-from-top {
+  from { opacity: 0; transform: translateY(-18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-from-top-left {
+  from { opacity: 0; transform: translate(-16px, -16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-from-top-right {
+  from { opacity: 0; transform: translate(16px, -16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-settle {
+  from { opacity: 0; transform: scale(1.05); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  /* The plate itself no longer fades; its lines do. */
+  .hero .hero-plate {
+    opacity: 1;
+    transition: none;
+  }
+
+  .hero .hero-media img,
+  .hero .hero-title,
+  .hero .hero-line,
+  .hero .hero-lead,
+  .hero .hero-note,
+  html:has(.hero:not([data-ready])) .site-header-mark,
+  html:has(.hero:not([data-ready])) .site-nav,
+  html:has(.hero:not([data-ready])) .site-header-end,
+  html[data-intro="run"]:has(.hero) .site-header-mark,
+  html[data-intro="run"]:has(.hero) .site-nav,
+  html[data-intro="run"]:has(.hero) .site-header-end {
+    opacity: 0;
+    transition: none;
+  }
+
+  /* The lockup inside the mark has its own rise; on the hero the mark moves
+     as one, so it is switched off there. */
+  html:has(.hero) .site-header-lockup {
+    animation: none;
+    opacity: 1;
+  }
+
+  html:not([data-intro="run"]) .hero[data-ready] .hero-media img {
+    animation: hero-settle 1600ms var(--ease-material) both;
+  }
+  html:not([data-intro="run"]):has(.hero[data-ready]) .site-header-mark {
+    animation: hero-from-top-left 1100ms var(--ease-material) 120ms both;
+  }
+  html:not([data-intro="run"]):has(.hero[data-ready]) .site-nav {
+    animation: hero-from-top 1100ms var(--ease-material) 200ms both;
+  }
+  html:not([data-intro="run"]):has(.hero[data-ready]) .site-header-end {
+    animation: hero-from-top-right 1100ms var(--ease-material) 280ms both;
+  }
+  html:not([data-intro="run"]) .hero[data-ready] .hero-title {
+    animation: hero-from-below 1200ms var(--ease-material) 260ms both;
+  }
+  html:not([data-intro="run"]) .hero[data-ready] .hero-line {
+    animation: hero-from-below 1100ms var(--ease-material) 420ms both;
+  }
+  html:not([data-intro="run"]) .hero[data-ready] .hero-lead,
+  html:not([data-intro="run"]) .hero[data-ready] .hero-note {
+    animation: hero-from-below 1100ms var(--ease-material) 540ms both;
+  }
+}

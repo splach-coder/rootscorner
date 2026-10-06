@@ -1,4 +1,5 @@
 import Link from "next/link";
+import MoreRugs from "@/components/MoreRugs";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
@@ -207,7 +208,15 @@ export default async function RugSeriesPage({
           </Reveal>
         </div>
       </article>
-{/* No pieces here: the rug pages show rugs only (client, 5 Oct). */}
+{/* No pieces here: the rug pages show rugs only (client, 5 Oct). The
+          band below is rugs too — the other collections and the rugs already
+          woven. */}
+      <MoreRugs
+        locale={locale as Locale}
+        heading={t.piece.more}
+        excludeSeries={series.handle}
+        labels={{ from: l.from, onRequest: l.onRequest, rugName: l.rugName }}
+      />
     </>
   );
 }
