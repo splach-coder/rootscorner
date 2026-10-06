@@ -35,7 +35,14 @@ export default function RugGallery({
     let frame = 0;
     const read = () => {
       frame = 0;
-      setIndex(Math.round(el.scrollLeft / Math.max(1, el.clientWidth)));
+      // Slides can be narrower than the track (the reel's columns), so the
+      // current one is the slide whose left edge is nearest the scroll.
+      const kids = [...el.children] as HTMLElement[];
+      let best = 0;
+      kids.forEach((k, i) => {
+        if (Math.abs(k.offsetLeft - el.scrollLeft) < Math.abs(kids[best].offsetLeft - el.scrollLeft)) best = i;
+      });
+      setIndex(best);
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(read);
@@ -52,7 +59,8 @@ export default function RugGallery({
       const el = track.current;
       if (!el) return;
       const n = (to + slides.length) % slides.length;
-      el.scrollTo({ left: n * el.clientWidth, behavior: "smooth" });
+      const slide = el.children[n] as HTMLElement | undefined;
+      el.scrollTo({ left: slide ? slide.offsetLeft : 0, behavior: "smooth" });
     },
     [slides.length],
   );
@@ -82,7 +90,7 @@ export default function RugGallery({
               width={s.w}
               height={s.h}
               priority={variant === "plate" && i === 0}
-              sizes={variant === "reel" ? "100vw" : "(max-width: 900px) 100vw, 64vw"}
+              sizes={variant === "reel" ? "(max-width: 900px) 80vw, 36rem" : "(max-width: 900px) 100vw, 64vw"}
             />
           </div>
         ))}

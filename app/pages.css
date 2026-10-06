@@ -5421,3 +5421,51 @@ textarea.inquiry-input {
   align-items: center;
   min-height: 44px;
 }
+
+/* The reel as columns (client, 6 Oct: "col image, not full width"): portrait
+   photographs at one height, side by side with Beni's 8px gutter, the row
+   running off the right edge. Each slide is its own photograph's width. */
+.rugg-reel .rugg-track {
+  gap: 8px;
+  padding-inline: var(--rug-edge, 1rem);
+  scroll-padding-inline: var(--rug-edge, 1rem);
+}
+
+.rugg-reel .rugg-slide {
+  flex: 0 0 auto;
+  height: min(70svh, 40rem);
+  aspect-ratio: 2 / 3;
+  width: auto;
+}
+
+.rugg-reel .rugg-slide img {
+  object-position: 50% 50%;
+}
+
+@media (min-width: 900px) {
+  .rugg-reel .rugg-slide {
+    height: min(78svh, 46rem);
+    aspect-ratio: 2 / 3;
+  }
+}
+
+@media (max-width: 899px) {
+  .rugg-reel .rugg-slide {
+    height: auto;
+    width: 78vw;
+    aspect-ratio: 2 / 3;
+  }
+}
+
+/* Arrows on phones too (client, 6 Oct): they say the photographs move. */
+@media (max-width: 899px) {
+  .rugg .rugg-arrows {
+    display: flex;
+    justify-self: end;
+    gap: 0.2rem;
+  }
+
+  .rugg .rugg-bar {
+    grid-template-columns: 1fr auto;
+  }
+}
