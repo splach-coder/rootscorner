@@ -268,44 +268,7 @@ export default async function MrirtPage({
            tying a street photograph to the passage beside it about the wool of
            a Mrirt rug would be invented provenance with a camera (§5). --- */}
       <section id="savoir-faire" className="section mrirt-pair">
-        <div className="shell mrirt-pair-inner">
-          <div className="mrirt-said-stack">
-            <Reveal className="mrirt-label">
-              <p className="display d-3 wall-label-name mrirt-label-name">{rug.name}</p>
-              <dl className="wall-label-specs">
-                <div className="wall-label-row">
-                  <dt className="label wall-label-key">{t.pieceLabel.origin}</dt>
-                  <dd className="wall-label-value">{rug.origin}</dd>
-                </div>
-                <div className="wall-label-row">
-                  <dt className="label wall-label-key">{t.pieceLabel.material}</dt>
-                  <dd className="wall-label-value">{rug.material}</dd>
-                </div>
-                <div className="wall-label-row">
-                  <dt className="label wall-label-key">{rug.madeKey}</dt>
-                  <dd className="wall-label-value">{rug.made}</dd>
-                </div>
-              </dl>
-              {/* No dimensions row. A rug that does not exist yet has none, and
-                  the schema omits a field rather than inventing one (§5). */}
-              <p className="label mrirt-label-order">{t.rugs.order}</p>
-            </Reveal>
-
-            {/* One heading and one sentence; the rest of the house's copy is
-                folded, not cut (client, 5 Oct: the page read like a book). */}
-            <Reveal delay={90} className="mrirt-said">
-              <h2 className="display d-2 mrirt-heading">{m.coopHeading}</h2>
-              <p className="prose">{t.rugs.body[1]}</p>
-              <details className="mrirt-more">
-                <summary className="label">{fr ? "En savoir plus" : "Read more"}</summary>
-                <p className="prose">{t.rugs.body[0]}</p>
-                <p className="prose">{t.rugs.craft}</p>
-                <p className="prose">{t.rugs.wool}</p>
-              </details>
-            </Reveal>
-
-          </div>
-
+        <div className="shell mrirt-pair-inner mrirt-pair-beni">
           <figure className="mrirt-yarn">
             <Reveal variant="frame" delay={140} className="frame mrirt-yarn-frame">
               <Image
@@ -320,6 +283,24 @@ export default async function MrirtPage({
               {t.mrirtPage.yarnCaption}
             </Reveal>
           </figure>
+          <div className="mrirt-said-stack">
+
+            {/* One heading and one sentence; the rest of the house's copy is
+                folded, not cut (client, 5 Oct: the page read like a book). */}
+            <Reveal delay={90} className="mrirt-said">
+              <p className="label mrirt-eyebrow">{m.coopEyebrow}</p>
+              <h2 className="display d-2 mrirt-heading">{m.coopHeading}</h2>
+              <p className="prose">{t.rugs.body[1]}</p>
+              <details className="mrirt-more">
+                <summary className="label">{fr ? "En savoir plus" : "Read more"}</summary>
+                <p className="prose">{t.rugs.body[0]}</p>
+                <p className="prose">{t.rugs.craft}</p>
+                <p className="prose">{t.rugs.wool}</p>
+              </details>
+            </Reveal>
+
+          </div>
+
         </div>
       </section>
 

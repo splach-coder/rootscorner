@@ -4958,3 +4958,45 @@ textarea.inquiry-input {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* The cooperative, after benirugs.com's "Introducing Rif" block (client,
+   6 Oct): a small portrait photograph on the left, the words beside it,
+   centred against it — the photograph no longer takes the row's height. */
+.mrirt-pair-beni .mrirt-yarn-frame {
+  aspect-ratio: 2 / 3;
+  height: auto;
+}
+
+.mrirt-pair-beni .mrirt-said > .prose {
+  font-size: clamp(1.1rem, 0.95rem + 0.6vw, 1.5rem);
+  line-height: 1.45;
+  color: var(--ink);
+  max-width: 38rem;
+}
+
+@media (min-width: 900px) {
+  .mrirt-pair-beni {
+    grid-template-columns: minmax(0, 26rem) minmax(0, 1fr);
+    column-gap: clamp(3rem, 9vw, 9rem);
+    align-items: center;
+  }
+
+  .mrirt-pair-beni .mrirt-yarn {
+    grid-template-rows: auto auto;
+  }
+
+  .mrirt-pair-beni .mrirt-yarn-frame {
+    aspect-ratio: 2 / 3;
+    height: auto;
+  }
+}
+
+@media (max-width: 899px) {
+  .mrirt-pair-beni .mrirt-yarn {
+    width: min(70%, 20rem);
+  }
+}
+
+.mrirt-pair-beni .mrirt-more {
+  max-width: 38rem;
+}
