@@ -4442,3 +4442,164 @@ textarea.inquiry-input {
   flex: none;
   color: var(--ink);
 }
+
+/* ==========================================================================
+   Rugs after benirugs.com (V1 §7–9; client, 6 Oct: "a copy of that Beni rugs
+   style on the rugs page"). Their panel, in this site's palette and type:
+   the name with the figure squared off against it, two closed pickers, a
+   line of lead time under the size, ONE filled bar carrying both the action
+   and the price, an underlined link to the weaving, then a lead-time
+   paragraph and three folds.
+   ========================================================================== */
+
+.rug-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.rug-head .piece-name {
+  margin: 0;
+}
+
+.rug-head-price {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.piece-buy-add.has-price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: left;
+  padding-block: 1.15rem;
+}
+
+.piece-buy-price {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+.rug-buy-bar > .piece-buy-add,
+.rug-buy-bar > .piece-buy {
+  margin-top: 0;
+}
+
+.rug-buy-ask {
+  color: var(--ink-inverse);
+}
+
+.rug-buy-craft {
+  justify-self: start;
+  margin-top: -0.2rem;
+}
+
+.rug-buy-lead {
+  margin-top: 0.6rem;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+.rug-lead {
+  margin-top: 1.8rem;
+  padding-top: 1.3rem;
+  border-top: 1px solid var(--rule);
+}
+
+.rug-lead-key {
+  color: var(--ink-soft);
+}
+
+.rug-lead-body {
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.rug-folds {
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--rule);
+}
+
+.rug-folds .piece-fold {
+  border-bottom: 1px solid var(--rule);
+}
+
+.rug-fold-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.4rem;
+  padding-bottom: 0.4rem;
+}
+
+/* The wall says what the chosen filter means — the house's own sentences. */
+.rug-wall-note {
+  margin-top: 1.1rem;
+  max-width: 36rem;
+  color: var(--ink);
+}
+
+/* §7 — the three entries, between the hero and the wall. */
+.rugs-entries {
+  padding-bottom: 0;
+}
+
+.rugs-entries .mrirt-entry-list {
+  margin-top: 0;
+}
+
+/* §8 — "Nos collections". */
+.rugs-collections-heading {
+  margin: 0;
+}
+
+.rugs-collections-note {
+  margin-top: 0.6rem;
+  color: var(--ink-soft);
+}
+
+.rugs-collections-cards {
+  margin-top: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+/* The rug FAQ at the foot of /mrirt. */
+.rugs-faq-list {
+  margin-top: 1.4rem;
+  max-width: 46rem;
+  border-top: 1px solid var(--rule);
+}
+
+.rugs-faq-list .piece-fold {
+  border-bottom: 1px solid var(--rule);
+}
+
+.rugs-faq-more {
+  display: inline-block;
+  margin-top: 1.4rem;
+}
+
+@media (max-width: 699px) {
+  .piece-label-sticky > .rug-head { order: 1; }
+  .piece-label-sticky > .rug-lead { order: 8; }
+  .piece-label-sticky > .rug-folds { order: 9; margin-top: 0; }
+  .piece-label-sticky > .rug-head .piece-name { margin-top: 0; }
+}
+
+/* Beni sets its folds in sentence case, not as labels. */
+.rug-folds .piece-fold summary,
+.rugs-faq-list .piece-fold summary {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.rugs-faq-list .piece-fold summary {
+  color: var(--ink);
+  padding-block: 0.4rem;
+}

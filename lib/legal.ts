@@ -1,3 +1,4 @@
+import { RUG_FAQ_HEADING, rugFaq } from "./rug-faq";
 import type { Locale } from "./dictionaries";
 import { paymentReady } from "./checkout";
 import { PAYPAL } from "./site";
@@ -578,10 +579,6 @@ const en: Record<string, LegalDoc> = {
             "Open “My orders” on the site and sign in with your email address: you receive a one-time code, there is no password. You will see your order, its status and, once it has shipped, the tracking link. You are also emailed when it ships.",
           ],
           [
-            "Can I order a made-to-measure Mrirt rug?",
-            "Yes. Mrirt rugs are handwoven to order by a women’s weaving cooperative in Mrirt, in the Middle Atlas. You choose the size, colour, design and texture: describe the rug you have in mind on the Mrirt rugs page and we contact you personally.",
-          ],
-          [
             "Are the pieces antique or new?",
             "Both. The collection brings together antique pieces, vintage pieces and recent handmade work. Each piece page says which, and gives its origin and its period where they are known. Where we do not know, we do not say.",
           ],
@@ -592,10 +589,6 @@ const en: Record<string, LegalDoc> = {
           [
             "Are imperfections normal?",
             "Yes. Patina, wear, a small crack, an old repair, an irregular line: these are the marks of time and of the hand, and they are part of the piece. Anything beyond that is shown in the photographs or described on the piece page.",
-          ],
-          [
-            "How long does a made-to-measure rug take?",
-            "It depends on the size and the weaving. The time is confirmed with your quote, before you commit to anything.",
           ],
           [
             "Are customs duties included?",
@@ -611,6 +604,8 @@ const en: Record<string, LegalDoc> = {
           ],
         ],
       },
+      { kind: "h", text: RUG_FAQ_HEADING.en },
+      { kind: "dl", items: rugFaq("en").map((r) => [r.q, r.a] as [string, string]) },
     ],
   },
 };
@@ -1055,10 +1050,6 @@ const fr: Record<string, LegalDoc> = {
             "Ouvrez « Mes commandes » sur le site et connectez-vous avec votre adresse e-mail : vous recevez un code à usage unique, sans mot de passe. Vous y voyez votre commande, son statut et, une fois expédiée, le lien de suivi. Un e-mail vous est aussi envoyé à l’expédition.",
           ],
           [
-            "Puis-je commander un tapis Mrirt sur mesure ?",
-            "Oui. Les tapis Mrirt sont tissés main sur commande par une coopérative de femmes à Mrirt, dans le Moyen Atlas. Vous choisissez la taille, la couleur, le motif et la texture : décrivez le tapis que vous imaginez sur la page Tapis Mrirt et nous vous contactons personnellement.",
-          ],
-          [
             "Les pièces sont-elles anciennes ou neuves ?",
             "Les deux. La collection réunit des pièces anciennes, des pièces vintage et des créations artisanales récentes. Chaque fiche indique de quoi il s’agit, avec l’origine et l’époque lorsqu’elles sont connues. Ce que nous ne savons pas, nous ne l’écrivons pas.",
           ],
@@ -1069,10 +1060,6 @@ const fr: Record<string, LegalDoc> = {
           [
             "Les imperfections sont-elles normales ?",
             "Oui. Une patine, une usure, une petite fissure, une réparation ancienne, une ligne irrégulière : ce sont les marques du temps et de la main, et elles font partie de la pièce. Tout ce qui va au-delà est montré sur les photos ou décrit sur la fiche.",
-          ],
-          [
-            "Quels sont les délais pour un tapis sur mesure ?",
-            "Ils dépendent de la taille et du tissage. Le délai vous est confirmé avec le devis, avant tout engagement.",
           ],
           [
             "Les droits de douane sont-ils inclus ?",
@@ -1088,6 +1075,8 @@ const fr: Record<string, LegalDoc> = {
           ],
         ],
       },
+      { kind: "h", text: RUG_FAQ_HEADING.fr },
+      { kind: "dl", items: rugFaq("fr").map((r) => [r.q, r.a] as [string, string]) },
     ],
   },
 };

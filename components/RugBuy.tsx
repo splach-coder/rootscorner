@@ -13,6 +13,11 @@ type Labels = {
   onRequestNote: string;
   ask: string;
   madeToOrder: string;
+  /** Beni's line under the size grid; ours restates "confirmed with the quote". */
+  leadNote?: string;
+  /** Beni's underlined "CRAFT" under the bar — to the weaving, below. */
+  craftLink?: string;
+  askBar?: string;
   cart: { add: string; added: string; view: string; sold: string; soldNote: string };
 };
 
@@ -97,34 +102,33 @@ export default function RugBuy({
           layout="grid"
           options={series.sizes.map((z) => ({ value: z, label: z }))}
           onChange={setSize}
+          note={labels.leadNote}
         />
       )}
 
       <p className="label rug-buy-note">{labels.madeToOrder}</p>
 
-      <div className="piece-action rug-buy-bar">
-        {demo ? (
-          <>
-            <p className="piece-price display d-3">{labels.onRequest}</p>
-            <Link href={ask} className="link label piece-cta">
-              {labels.demoAsk ?? labels.ask}
-            </Link>
-          </>
-        ) : price !== null && variant ? (
-          <>
-            <p className="piece-price display d-3">{fmt(price)}</p>
-            <AddToCart key={variant.id} slug={`rug:${variant.id}`} labels={labels.cart} />
-          </>
+      {/* Beni's bar: one filled row, the action on the left and the figure on
+          the right, so the price is read on the thing that spends it. */}
+      <div className="rug-buy-bar">
+        {!demo && price !== null && variant ? (
+          <AddToCart key={variant.id} slug={`rug:${variant.id}`} labels={labels.cart} price={fmt(price)} />
         ) : (
           <>
-            <p className="piece-price display d-3">{labels.onRequest}</p>
-            <p className="label piece-cta-note">{labels.onRequestNote}</p>
-            <Link href={ask} className="link label piece-cta">
-              {labels.ask}
+            <Link href={ask} className="piece-buy-add label has-price rug-buy-ask">
+              <span>{labels.askBar ?? labels.demoAsk ?? labels.ask}</span>
+              <span className="piece-buy-price">{labels.onRequest}</span>
             </Link>
+            {!demo && <p className="label piece-cta-note">{labels.onRequestNote}</p>}
           </>
         )}
       </div>
+
+      {labels.craftLink && (
+        <a href="#tissage" className="link label rug-buy-craft">
+          {labels.craftLink}
+        </a>
+      )}
     </div>
   );
 }
@@ -140,7 +144,9 @@ function Picker({
   layout,
   options,
   onChange,
+  note,
 }: {
+  note?: string;
   id: string;
   label: string;
   value: string;
@@ -203,6 +209,7 @@ function Picker({
           </label>
         ))}
       </div>
+      {note && <p className="rug-buy-lead">· {note}</p>}
     </div>
   );
 }

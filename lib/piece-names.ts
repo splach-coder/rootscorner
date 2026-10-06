@@ -270,6 +270,16 @@ export const PIECE_TEXT: Record<string, PieceText> = {
     name: { fr: "Roue de Lombok, Indonésie", en: "Lombok wheel, Indonesia" },
     origin: { fr: "Lombok, Indonésie", en: "Lombok, Indonesia" },
   },
+
+  // ---- Tapis (Shopify-only) ------------------------------------------------
+  // The house's own Shopify titles, given an English name so /en never shows
+  // French (V1 §3). Nothing added beyond the title.
+  "tapis-laine-sable-carreaux-ocre": {
+    name: { fr: "Tapis Mrirt, laine sable, carreaux ocre", en: "Mrirt rug, sand wool, ochre squares" },
+  },
+  "tapis-laine-prune-frise": {
+    name: { fr: "Tapis Mrirt, laine prune, frise", en: "Mrirt rug, plum wool, border" },
+  },
 };
 
 export const NATURE_LABEL: Record<Nature, Both> = {

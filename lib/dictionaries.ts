@@ -456,6 +456,7 @@ const en: Dictionary = {
       "ceramics-tamegroute": "Tamegroute ceramics",
       lamp: "Lighting",
       "african-decoration": "Antique & tribal pieces",
+      rugs: "Rugs",
     },
   },
   story: {
@@ -996,6 +997,7 @@ const fr: Dictionary = {
       "ceramics-tamegroute": "Céramiques de Tamegroute",
       lamp: "Luminaires",
       "african-decoration": "Pièces anciennes & tribales",
+      rugs: "Tapis",
     },
   },
   story: {

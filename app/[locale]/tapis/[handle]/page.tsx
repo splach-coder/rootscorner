@@ -12,7 +12,9 @@ import { allRugSeries, colourName, fromPrice, isIllustrativeSeries, rugSeriesByH
 import { rugLabels } from "@/lib/rug-labels";
 import { swatchFor } from "@/lib/rug-options";
 import { breadcrumbLd, pageMeta } from "@/lib/seo";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, whatsappHref } from "@/lib/site";
+import { formatEuro } from "@/lib/rugs";
+import { rugFaq } from "@/lib/rug-faq";
 
 export function generateStaticParams() {
   return locales.flatMap((locale) => allRugSeries().map((s) => ({ locale, handle: s.handle })));
@@ -62,6 +64,8 @@ export default async function RugSeriesPage({
   const line = seriesLine(series, locale);
   const colourLabels = Object.fromEntries(series.colours.map((c) => [c.name, colourName(c.name, locale)]));
   // The gallery takes the piece shape; a series' photographs live on Shopify.
+  const faq = Object.fromEntries(rugFaq(locale as Locale).map((r) => [r.key, r.a]));
+  const wa = whatsappHref(`${l.rugName} ${title}`);
   const images: PieceImage[] = series.images.map((i) => ({ file: i.src, original: i.src, src: i.src, w: i.w, h: i.h }));
 
   return (
@@ -121,7 +125,13 @@ export default async function RugSeriesPage({
                 </Link>
               </p>
 
-              <h1 className="display d-2 piece-name">{title}</h1>
+              {/* Beni: the name, and the figure squared off against it. */}
+              <div className="rug-head">
+                <h1 className="display d-2 piece-name">{title}</h1>
+                <p className="display d-3 rug-head-price">
+                  {from !== null ? `${l.from} ${formatEuro(from, locale)}` : l.onRequest}
+                </p>
+              </div>
               {line && <p className="prose rug-piece-line">{line}</p>}
               {isIllustrativeSeries(series) && <p className="label rug-demo-note">{l.illustration}</p>}
 
@@ -159,6 +169,9 @@ export default async function RugSeriesPage({
                   ask: l.ask,
                   madeToOrder: l.madeToOrder,
                   demoAsk: l.demoAsk,
+                  askBar: l.askBar,
+                  leadNote: l.leadNote,
+                  craftLink: l.craftLink,
                   cart: {
                     add: t.cart.add,
                     added: t.cart.added,
@@ -169,21 +182,49 @@ export default async function RugSeriesPage({
                 }}
               />
 
-              <details className="piece-delivery piece-fold">
-                <summary className="label">{l.shipping}</summary>
-                <p>{l.shippingBody}</p>
-                <p className="label piece-delivery-note">
-                  <Link href={`/${locale}/mrirt#sur-mesure`} className="link">
-                    {l.custom}
-                  </Link>
-                </p>
-              </details>
+              {/* Beni's lead-time paragraph and its three folds. Every line is
+                  the FAQ's own answer (lib/rug-faq.ts), so the rug page and
+                  the FAQ cannot say different things. */}
+              <div className="rug-lead">
+                <p className="label rug-lead-key">{l.leadKey}</p>
+                <p className="rug-lead-body">{l.leadBody}</p>
+              </div>
+              <div className="rug-folds">
+                <details className="piece-fold">
+                  <summary className="label">{l.variationsKey}</summary>
+                  <p>{faq.variations}</p>
+                </details>
+                <details className="piece-fold">
+                  <summary className="label">{l.helpKey}</summary>
+                  <p>{l.helpBody}</p>
+                  <p className="rug-fold-links">
+                    {wa && (
+                      <a href={wa} className="link label" target="_blank" rel="noreferrer noopener">
+                        {l.helpWhatsapp}
+                      </a>
+                    )}
+                    <Link href={`/${locale}/mrirt#sur-mesure`} className="link label">
+                      {l.helpForm}
+                    </Link>
+                  </p>
+                </details>
+                <details className="piece-fold">
+                  <summary className="label">{l.returnsKey}</summary>
+                  <p>{faq.returns}</p>
+                  <p>{l.shippingBody}</p>
+                  <p className="rug-fold-links">
+                    <Link href={`/${locale}/legal/withdrawal`} className="link label">
+                      {t.legal.items.withdrawal}
+                    </Link>
+                  </p>
+                </details>
+              </div>
             </Reveal>
           </div>
         </div>
 
         {/* The words, under a hairline — as on a piece page. */}
-        <div className="shell piece-words">
+        <div className="shell piece-words" id="tissage">
           <Reveal className="piece-story">
             <p className="label">{l.craft}</p>
             <div className="prose piece-prose">

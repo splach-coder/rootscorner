@@ -64,5 +64,24 @@ export function rugLabels(locale: Locale) {
       ? "Chaque tapis est tissé sur commande : décrivez-nous le vôtre."
       : "Every rug is woven to order: describe yours to us.",
     customCta: fr ? "Tapis sur mesure" : "Made-to-measure rugs",
+    // The order panel, after benirugs.com (V1 §7; client, 6 Oct). Every line
+    // restates a fact from lib/rug-faq.ts — nothing new is claimed.
+    askBar: fr ? "Demander ce tapis" : "Ask about this rug",
+    craftLink: fr ? "Le tissage" : "The weaving",
+    leadKey: fr ? "Délai" : "Lead time",
+    leadBody: fr
+      ? "Chaque tapis Mrirt est tissé entièrement à la main, sur commande, par une coopérative de femmes du Moyen Atlas. Le délai dépend de la taille et du tissage : il vous est confirmé avec le devis, avant tout engagement."
+      : "Every Mrirt rug is woven entirely by hand, to order, by a women’s cooperative in the Middle Atlas. The time depends on the size and the weaving: it is confirmed with your quote, before you commit to anything.",
+    leadNote: fr ? "Délai confirmé avec le devis, selon la taille." : "Lead time confirmed with the quote, by size.",
+    variationsKey: fr ? "Variations naturelles" : "Natural variations",
+    helpKey: fr ? "Besoin d’aide ? Parlez-nous de votre tapis" : "Need help? Talk to us about your rug",
+    helpBody: fr
+      ? "Nous vous accompagnons dans le choix de la collection, de la couleur et de la taille, et nous répondons personnellement."
+      : "We guide you through the collection, the colour and the size, and we reply personally.",
+    helpWhatsapp: fr ? "Écrire sur WhatsApp" : "Write on WhatsApp",
+    helpForm: fr ? "Le formulaire sur mesure" : "The made-to-measure form",
+    returnsKey: fr ? "Retours et livraison" : "Returns and delivery",
+    faqTitle: fr ? "Questions fréquentes" : "Frequently asked",
+    faqAll: fr ? "Toutes les questions" : "All questions",
   };
 }

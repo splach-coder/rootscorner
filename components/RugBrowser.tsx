@@ -35,6 +35,9 @@ type Labels = {
   empty: string;
 };
 
+/** V1 §7–8: what each filter means, said under the bar, in the house's words. */
+type Notes = { ready: string; order: string; collections: Record<string, string> };
+
 /**
  * The rug wall — after benirugs.com's collection page, in this house's
  * language (client, 5 Oct).
@@ -52,10 +55,12 @@ export default function RugBrowser({
   tiles,
   collections,
   labels,
+  notes,
 }: {
   tiles: RugTile[];
   collections: { handle: string; name: string }[];
   labels: Labels;
+  notes?: Notes;
 }) {
   const [kind, setKind] = useState<"all" | "ready" | "order">("all");
   const [collection, setCollection] = useState("");
@@ -68,6 +73,29 @@ export default function RugBrowser({
       if (saved === "grid" || saved === "column") setView(saved);
     } catch {}
   }, []);
+
+  /* The three entries above the wall link to #disponibles and #sur-commande:
+     arriving by either sets the filter, so each entry lands on what it names. */
+  useEffect(() => {
+    const read = () => {
+      const h = window.location.hash;
+      if (h === "#disponibles") {
+        setKind("ready");
+        setCollection("");
+      } else if (h === "#sur-commande") setKind("order");
+    };
+    read();
+    window.addEventListener("hashchange", read);
+    return () => window.removeEventListener("hashchange", read);
+  }, []);
+
+  const note = collection
+    ? notes?.collections[collection]
+    : kind === "ready"
+      ? notes?.ready
+      : kind === "order"
+        ? notes?.order
+        : undefined;
 
   const choose = (v: "grid" | "column") => {
     setView(v);
@@ -145,6 +173,8 @@ export default function RugBrowser({
           </button>
         </div>
       </div>
+
+      {note && <p className="prose rug-wall-note">{note}</p>}
 
       <p className="label rug-wall-count" aria-live="polite">
         {(shown.length === 1 ? labels.countOne : labels.count).replace("{n}", String(shown.length))}

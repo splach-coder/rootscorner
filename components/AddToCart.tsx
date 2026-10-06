@@ -7,6 +7,8 @@ import { liveAvailability } from "@/lib/shopify";
 type AddToCartProps = {
   slug: string;
   labels: { add: string; added: string; view: string; sold: string; soldNote: string };
+  /** Shown inside the button, right-aligned — the rug panel's bar, after Beni. */
+  price?: string;
 };
 
 /**
@@ -22,7 +24,7 @@ type AddToCartProps = {
  * button becomes the same sold statement the server renders for a sold piece,
  * and it is taken out of the cart so nobody reaches checkout with it.
  */
-export default function AddToCart({ slug, labels }: AddToCartProps) {
+export default function AddToCart({ slug, labels, price }: AddToCartProps) {
   const { has, add, remove, setOpen, ready } = useCart();
   const [gone, setGone] = useState(false);
   const inCart = ready && has(slug);
@@ -62,8 +64,15 @@ export default function AddToCart({ slug, labels }: AddToCartProps) {
   }
 
   return (
-    <button type="button" className="piece-buy-add label" onClick={() => add(slug)}>
-      {labels.add}
+    <button type="button" className={`piece-buy-add label${price ? " has-price" : ""}`} onClick={() => add(slug)}>
+      {price ? (
+        <>
+          <span>{labels.add}</span>
+          <span className="piece-buy-price">{price}</span>
+        </>
+      ) : (
+        labels.add
+      )}
     </button>
   );
 }

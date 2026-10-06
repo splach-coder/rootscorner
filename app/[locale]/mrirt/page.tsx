@@ -1,9 +1,12 @@
 import Image from "next/image";
 import RugBrowser, { type RugTile } from "@/components/RugBrowser";
+import RugCard from "@/components/RugCard";
 import HeroMedia from "@/components/HeroMedia";
-import { isIllustrativeSeries, allRugSeries, colourName, formatEuro, seriesTitle } from "@/lib/rugs";
+import { isIllustrativeSeries, allRugSeries, colourName, formatEuro, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { rugChoices } from "@/lib/rug-options";
+import { rugFaq } from "@/lib/rug-faq";
+import Link from "next/link";
 import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -217,15 +220,70 @@ export default async function MrirtPage({
         </div>
       </section>
 
+      {/* V1 §7 — the three ways to a rug, named apart, each with the house's
+           own sentence. Each lands on what it names: the first two set the
+           wall's filter (RugBrowser reads the hash), the third is the form. */}
+      <section className="section rugs-entries" aria-label={m.entriesEyebrow}>
+        <div className="shell">
+          <ol className="mrirt-entry-list">
+            {m.entries.map((e, i) => (
+              <li key={e.key} className="mrirt-entry">
+                <a href={ENTRY_ANCHORS[e.key]} className="mrirt-entry-link">
+                  <span className="label mrirt-entry-no" aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="mrirt-entry-said">
+                    <span className="display d-3 mrirt-entry-name">{e.name}</span>
+                    <span className="mrirt-entry-note">{e.note}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
       <section className="section rugs-shop" id="tapis">
-        {/* The three entries still land somewhere: the wall filters itself. */}
         <span id="disponibles" className="rugs-anchor" />
         <span id="sur-commande" className="rugs-anchor" />
         <div className="shell">
           {RUG_DEMO && <p className="label rug-demo-note">{rl.illustration}</p>}
-          <RugBrowser tiles={tiles} collections={collectionsList} labels={rl.browser} />
+          <RugBrowser
+            tiles={tiles}
+            collections={collectionsList}
+            labels={rl.browser}
+            notes={{
+              ready: m.entries[0].note,
+              order: m.entries[1].note,
+              collections: Object.fromEntries(series.map((sr) => [sr.handle, seriesLine(sr, locale) ?? ""])),
+            }}
+          />
         </div>
       </section>
+
+      {/* V1 §8 — "Nos collections": each collection its own universe, after
+           Beni, who sell rugs as named design families. One card each, its own
+           line, its own page. */}
+      {series.length > 0 && (
+        <section className="section rugs-collections" id="collections">
+          <div className="shell">
+            <Reveal>
+              <h2 className="display d-2 rugs-collections-heading">{rl.collectionHeading}</h2>
+              <p className="prose rugs-collections-note">{rl.collectionNote}</p>
+            </Reveal>
+            <ul className="cards rugs-collections-cards">
+              {series.map((sr) => (
+                <RugCard
+                  key={sr.handle}
+                  series={sr}
+                  locale={locale}
+                  labels={{ from: rl.from, onRequest: rl.onRequest, colourways: rl.colourways, colourwaysOne: rl.colourwaysOne }}
+                />
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* --- The rug itself — what a Mrirt rug is, before any choice.
 
@@ -357,7 +415,26 @@ export default async function MrirtPage({
           </div>
         </div>
       </section>
-{/* No pieces here: the rug pages show rugs only (client, 5 Oct). */}
+{/* Beni answers the practical questions beside the rugs (V1 §18). The same
+           list as the FAQ page's "Tapis Mrirt" group — one source. */}
+      <section className="section rugs-faq" id="questions">
+        <div className="shell">
+          <Reveal>
+            <h2 className="display d-2 rugs-collections-heading">{rl.faqTitle}</h2>
+          </Reveal>
+          <div className="rugs-faq-list">
+            {rugFaq(locale as Locale).map((r) => (
+              <details key={r.key} className="piece-fold">
+                <summary className="label">{r.q}</summary>
+                <p>{r.a}</p>
+              </details>
+            ))}
+          </div>
+          <Link href={`/${locale}/faq`} className="link label rugs-faq-more">
+            {rl.faqAll}
+          </Link>
+        </div>
+      </section>
     </>
   );
 }

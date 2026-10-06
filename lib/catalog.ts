@@ -14,6 +14,7 @@
 import rawCatalog from "@/docs/catalog.json";
 import rawImages from "@/docs/images.json";
 import live from "@/docs/shopify-live.json";
+import { displayName } from "./specs";
 
 /**
  * Lines the scraper swept up that are not product copy.
@@ -461,6 +462,7 @@ const CATEGORY_ORDER = [
   "ceramics-tamegroute",
   "lamp",
   "african-decoration",
+  "rugs",
 ];
 
 export function imagePath(image: PieceImage | undefined): string | null {
@@ -653,7 +655,7 @@ export const WOVEN_RUGS: WovenRug[] = (() => {
     src: p.images[0].src ?? `/pieces/${p.images[0].file}`,
     width: p.images[0].w,
     height: p.images[0].h,
-    name: { fr: p.name, en: p.name },
+    name: { fr: displayName(p, "fr"), en: displayName(p, "en") },
     slug: p.slug,
   }));
 })();

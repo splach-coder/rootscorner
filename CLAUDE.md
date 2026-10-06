@@ -4979,3 +4979,27 @@ next CI deploy. Now:
 
 Verified: a demo series rug and a demo finished rug forced into the cart both
 drop out; only a real piece reaches checkout. 0 `/demo-rugs/` references.
+
+## 72. V1 re-check (6 Oct) — rugs rebuilt after Beni, one rug FAQ
+
+Whole V1 PDF re-read (text + every image, incl. the 7 Beni screenshots on p.18)
+against the live site. Fixed: category "rugs" was printing its slug (now
+Tapis/Rugs); the two finished rugs had French names on /en (PIECE_TEXT);
+"Diamètre : 25 cm" French colon spacing (lib/specs.ts).
+
+Rugs, after the Beni screenshots: series page = name with the figure beside
+it, colour + size pickers, a lead-time line under the size, ONE filled bar
+carrying action + price (`AddToCart price=`), "Le tissage" link, a lead-time
+paragraph, three folds (Variations naturelles · Besoin d'aide · Retours et
+livraison). /mrirt = the three V1 §7 entries with their sentences (they set
+the wall filter via #disponibles / #sur-commande), the wall says what the
+chosen filter or collection is, "Nos collections" (V1 §8), and a rug FAQ.
+
+**lib/rug-faq.ts is the one source** for rug questions: FAQ page (its own
+"Tapis Mrirt" group, so FAQPage markup too), /mrirt, and the series folds.
+Every answer restates a fact already on the site; lead time stays "confirmed
+with the quote" until the house gives a range.
+
+Not copied from Beni, deliberately: swatch-photo chips (no per-colour photos
+yet), a tassels-style option, swatch/sample sets for sale, a founder quote.
+Each needs the house's content or decision.

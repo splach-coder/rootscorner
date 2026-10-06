@@ -90,6 +90,9 @@ export function normaliseDimensions(raw: string | null, locale: Lang = "en"): st
   // Glue every number to its unit so the pair never breaks across lines.
   value = value.replace(/(\d(?:[.,]\d+)?)\s*(cm|mm|m|in)\b/gi, "$1 $2");
 
+  // French sets a narrow unbreakable space before a colon: "Diamètre : 25 cm".
+  if (locale === "fr") value = value.replace(/\s*:/g, " :");
+
   return value || null;
 }
 
