@@ -3361,3 +3361,47 @@ html[data-intro="run"] .site-header-lockup {
   -webkit-user-drag: none;
   user-select: none;
 }
+
+/* The WhatsApp mark (client, 6 Oct): small, bottom right, arrives on scroll.
+   Umber and cream like Send — no green, no radius, no shadow. */
+.wa-float {
+  position: fixed;
+  right: clamp(0.9rem, 2.4vw, 1.6rem);
+  bottom: calc(clamp(0.9rem, 2.4vw, 1.6rem) + env(safe-area-inset-bottom));
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--hour-morning);
+  background: var(--umber);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition:
+    opacity 500ms var(--ease-dissolve),
+    transform 700ms var(--ease-material),
+    background-color var(--dur-hover) var(--ease-material);
+}
+
+.wa-float.is-shown {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.wa-float:hover {
+  background: #3a2519;
+}
+
+.wa-float:focus-visible {
+  outline: 1.5px solid var(--clay);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-float {
+    transition: none;
+  }
+}

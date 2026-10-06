@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import { whatsappHref } from "@/lib/site";
 import JsonLd from "@/components/JsonLd";
 import { organizationLd, pageMeta } from "@/lib/seo";
 import { Marcellus, Jost } from "next/font/google";
@@ -156,6 +158,10 @@ export default async function LocaleLayout({
           <main id="main">{children}</main>
           <Footer locale={locale as Locale} t={t.footer} legal={t.legal} />
           <CartPanel locale={locale as Locale} t={t.cart} />
+          <WhatsAppButton
+            href={whatsappHref()}
+            label={locale === "fr" ? "Nous écrire sur WhatsApp" : "Message us on WhatsApp"}
+          />
           {/* Renders nothing while the site sets no cookies (lib/consent.ts).
               Last in the body so it is the final tab stop rather than standing
               between the visitor and the page they came to read. */}
