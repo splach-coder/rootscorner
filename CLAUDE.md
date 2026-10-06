@@ -4924,13 +4924,25 @@ Verified by scanning all 126 sitemap pages plus checkout and llms.txt for U+2014
 
 ## 70. 5 Oct outage, and the cart that clears itself after payment
 
-**Outage.** One real Chrome tab on the live site (the user's own profile,
-opened 19:56 UTC on /en) re-fetched the four header pages ~200 times a second
-until the Workers free plan's 100k/day was spent; the whole site returned 429
-until 00:00 UTC. Not reproducible in a clean browser, with simulated extensions,
-or on the local Cloudflare build. Structural fix: **no prefetch on header or
-footer links** (they are on screen on every page). Nothing on this site may poll
-Shopify or the Worker in a loop. Recommended: Workers Paid + a WAF rate limit.
+**Outage.** Browsers on the live site re-fetched linked pages ~37–200 times a
+second until the Workers free plan's 100k/day was spent; the whole site returned
+429 until 00:00 UTC.
+
+**Root cause (found 6 Oct, after the reset, on live):** Next 16 turns on
+`experimental.prefetchInlining` by default. The router then asks for segments
+(`Next-Router-Segment-Prefetch: /_tree`), but `@opennextjs/aws`'s cache
+interceptor skips the stored segment data whenever prefetchInlining is truthy
+and answers with the FULL page payload (77 KB instead of the 348-byte route
+tree). The router cannot use it and asks again at once — every visible `<Link>`,
+every visitor, forever. Invisible locally: `next start` and a cold local
+Cloudflare build both generate the right answer; only a cache HIT is wrong.
+
+**Fix:** `experimental: { prefetchInlining: false }` in next.config.ts — **do
+not remove it** while on OpenNext. Verified on live: segment reply 348 bytes,
+0 prefetches while idle. Header/footer links also keep `prefetch={false}`.
+After any Next or OpenNext upgrade, re-run this check against the live site:
+a segment-prefetch request must not return the full page. Recommended still:
+Workers Paid + a WAF rate limit, so one bug cannot take the site down again.
 
 **Cart sync** (lib/cart-sync.ts). The cart lives in localStorage; payment is on
 Shopify's hosted checkout. On hand-off the Shopify cart id and its slugs are
