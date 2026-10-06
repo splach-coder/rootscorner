@@ -5000,3 +5000,19 @@ textarea.inquiry-input {
 .mrirt-pair-beni .mrirt-more {
   max-width: 38rem;
 }
+
+/* More air above and below, and the pair drawn in towards the centre
+   (client, 6 Oct). */
+#savoir-faire.mrirt-pair {
+  padding-block: clamp(4.5rem, 10vw, 9rem);
+}
+
+@media (min-width: 900px) {
+  .mrirt-pair-beni {
+    max-width: 82rem;
+    margin-inline: auto;
+    grid-template-columns: minmax(0, 24rem) minmax(0, 40rem);
+    justify-content: center;
+    column-gap: clamp(3rem, 7vw, 7rem);
+  }
+}
