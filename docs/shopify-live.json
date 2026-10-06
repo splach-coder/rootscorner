@@ -1,6 +1,6 @@
 {
- "pulledAt": "2026-10-05T23:46:18.843Z",
- "hash": "82a8fe711b37040c",
+ "pulledAt": "2026-10-06T10:38:14.897Z",
+ "hash": "01c9e57b58f0c76e",
  "pieces": {
   "handcrafted-wood-stool---cote-d-ivoire": {
    "price": 480,
@@ -155,16 +155,57 @@
    "available": false
   }
  },
- "extra": [],
+ "extra": [
+  {
+   "slug": "tapis-laine-sable-carreaux-ocre",
+   "variantId": "gid://shopify/ProductVariant/59384515035484",
+   "name": "Tapis Mrirt, laine sable, carreaux ocre",
+   "price": 1290,
+   "currency": "EUR",
+   "available": true,
+   "category": "rugs",
+   "description": [
+    "Photos d'illustration."
+   ],
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/parterre.jpg?v=1791282658",
+     "w": 1600,
+     "h": 2194,
+     "alt": "Photo d'illustration"
+    }
+   ]
+  },
+  {
+   "slug": "tapis-laine-prune-frise",
+   "variantId": "gid://shopify/ProductVariant/59384515101020",
+   "name": "Tapis Mrirt, laine prune, frise",
+   "price": 980,
+   "currency": "EUR",
+   "available": true,
+   "category": "rugs",
+   "description": [
+    "Photos d'illustration."
+   ],
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/niko-pinecone-taupe.jpg?v=1791282661",
+     "w": 1600,
+     "h": 2194,
+     "alt": "Photo d'illustration"
+    }
+   ]
+  }
+ ],
  "rugSeries": [
   {
    "handle": "mrirt-uni",
    "title": "Uni",
    "description": "",
    "image": {
-    "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/mrirt-rug.jpg?v=1790353585",
-    "w": 1800,
-    "h": 3200
+    "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/jameson-natural-wool-amber.jpg?v=1791282646",
+    "w": 1600,
+    "h": 2194
    },
    "colours": [
     {
@@ -190,16 +231,16 @@
    ],
    "images": [
     {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/mrirt-rug.jpg?v=1790353585",
-     "w": 1800,
-     "h": 3200,
-     "alt": "Tapis Mrirt Uni"
+     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/jameson-natural-wool-amber.jpg?v=1791282646",
+     "w": 1600,
+     "h": 2194,
+     "alt": "Photo d'illustration"
     },
     {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/live-mrirt-detail.jpg?v=1790353585",
-     "w": 800,
-     "h": 800,
-     "alt": "Tapis Mrirt Uni"
+     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/jameson-taupe-pinecone.jpg?v=1791282646",
+     "w": 1600,
+     "h": 2194,
+     "alt": "Photo d'illustration"
     }
    ],
    "variants": [
@@ -354,9 +395,9 @@
    "title": "Lignes",
    "description": "",
    "image": {
-    "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/floor-fire.jpg?v=1790353587",
+    "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/austin-oat-pinecone.jpg?v=1791282649",
     "w": 1600,
-    "h": 2400
+    "h": 2195
    },
    "colours": [
     {
@@ -378,16 +419,16 @@
    ],
    "images": [
     {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/floor-fire.jpg?v=1790353587",
+     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/austin-oat-pinecone.jpg?v=1791282649",
      "w": 1600,
-     "h": 2400,
-     "alt": "Tapis Mrirt Lignes"
+     "h": 2195,
+     "alt": "Photo d'illustration"
     },
     {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/interior-fire.jpg?v=1790353587",
-     "w": 1800,
-     "h": 2700,
-     "alt": "Tapis Mrirt Lignes"
+     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/mikey-medium-brown-chocolate-brown.jpg?v=1791282649",
+     "w": 1600,
+     "h": 2195,
+     "alt": "Photo d'illustration"
     }
    ],
    "variants": [
@@ -494,9 +535,9 @@
    "title": "Losanges",
    "description": "",
    "image": {
-    "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/floor-shelves.jpg?v=1790353587",
+    "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/lattice.jpg?v=1791282652",
     "w": 1600,
-    "h": 2400
+    "h": 2194
    },
    "colours": [
     {
@@ -518,16 +559,16 @@
    ],
    "images": [
     {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/floor-shelves.jpg?v=1790353587",
+     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/lattice.jpg?v=1791282652",
      "w": 1600,
-     "h": 2400,
-     "alt": "Tapis Mrirt Losanges"
+     "h": 2194,
+     "alt": "Photo d'illustration"
     },
     {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/mrirt-room.jpg?v=1790353587",
-     "w": 1206,
-     "h": 1889,
-     "alt": "Tapis Mrirt Losanges"
+     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/ridgeline-chocolate-brown-amber.jpg?v=1791282652",
+     "w": 1600,
+     "h": 2194,
+     "alt": "Photo d'illustration"
     }
    ],
    "variants": [
@@ -634,9 +675,9 @@
    "title": "Graphique",
    "description": "",
    "image": {
-    "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/mrirt-pile-trim.jpg?v=1790353588",
-    "w": 784,
-    "h": 784
+    "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/weft-chocolate-brown-sienna.jpg?v=1791282655",
+    "w": 1600,
+    "h": 2194
    },
    "colours": [
     {
@@ -658,16 +699,16 @@
    ],
    "images": [
     {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/mrirt-pile-trim.jpg?v=1790353588",
-     "w": 784,
-     "h": 784,
-     "alt": "Tapis Mrirt Graphique"
+     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/weft-chocolate-brown-sienna.jpg?v=1791282655",
+     "w": 1600,
+     "h": 2194,
+     "alt": "Photo d'illustration"
     },
     {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/rug-fire-card.jpg?v=1790353588",
-     "w": 1800,
-     "h": 2250,
-     "alt": "Tapis Mrirt Graphique"
+     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/sundial-oxblood-taupe.jpg?v=1791282655",
+     "w": 1600,
+     "h": 2194,
+     "alt": "Photo d'illustration"
     }
    ],
    "variants": [
