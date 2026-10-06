@@ -99,9 +99,19 @@ export default async function ContactPage({
 
   const whatsapp = whatsappHref(opener);
 
+  const c = t.contactPage;
   const fields: InquiryField[] = [
-    { name: "name", label: t.form.name, required: true },
-    { name: "email", label: t.form.email, kind: "email", required: true },
+    /* What the message is about — the four routes that used to be a numbered
+       list beside the form are now its first answer (client, 6 Oct). */
+    {
+      name: "topic",
+      label: c.topicLabel,
+      kind: "chips",
+      options: [c.ways.piece, c.ways.rug, c.ways.delivery, c.topicOther].map((value) => ({ value })),
+      defaultValue: asked ? c.ways.piece : undefined,
+    },
+    { name: "name", label: t.form.name, required: true, half: true },
+    { name: "email", label: t.form.email, kind: "email", required: true, half: true },
     {
       name: "message",
       label: t.form.message,
@@ -123,37 +133,11 @@ export default async function ContactPage({
       label: t.form.photo,
       kind: "file",
       hint: t.form.photoHint,
+      placeholder: c.photoAdd,
     },
   ];
 
-  const ways = [
-    {
-      key: "piece",
-      name: t.contactPage.ways.piece,
-      note: t.contactPage.wayNotes.piece,
-      href: `/${locale}/collection`,
-    },
-    {
-      key: "rug",
-      name: t.contactPage.ways.rug,
-      note: t.contactPage.wayNotes.rug,
-      href: `/${locale}/mrirt`,
-    },
-    // No link: the shipping page is not built, because the client's own
-    // delivery times contradict each other and that has to be settled first.
-    {
-      key: "delivery",
-      name: t.contactPage.ways.delivery,
-      note: t.contactPage.wayNotes.delivery,
-      href: null,
-    },
-    {
-      key: "seen",
-      name: t.contactPage.ways.seen,
-      note: t.contactPage.wayNotes.seen,
-      href: INSTAGRAM,
-    },
-  ];
+
 
   return (
     <>
@@ -269,48 +253,17 @@ export default async function ContactPage({
         </div>
       </section>
 
-      {/* --- The enquiry. What it can be about, and where to write it. --- */}
+      {/* --- The enquiry (redesigned 6 Oct).
+
+           One composition instead of a list beside a form: the form takes the
+           wide column and opens on what the message is about, and a room from
+           the house stays in view beside it while you write, so the section
+           shows a place rather than a column of text. --- */}
       <section className="section enquire">
         <div className="shell enquire-inner">
-          <Reveal className="enquire-ways">
-            <p className="label">{t.contactPage.waysEyebrow}</p>
-
-            {/* Numbered like the register, because these are routes, not a
-                menu — and because a number is the easiest thing to quote. */}
-            <ol className="ways">
-              {ways.map((way, i) => {
-                const no = String(i + 1).padStart(2, "0");
-                const name = <span className="display d-3 way-name">{way.name}</span>;
-                return (
-                  <li key={way.key} className="way">
-                    <span className="label way-no">{no}</span>
-                    <span className="way-body">
-                      {way.href === null ? (
-                        name
-                      ) : way.href.startsWith("http") ? (
-                        <a
-                          href={way.href}
-                          className="link way-link"
-                          target="_blank"
-                          rel="noreferrer noopener"
-                        >
-                          {name}
-                        </a>
-                      ) : (
-                        <Link href={way.href} className="link way-link">
-                          {name}
-                        </Link>
-                      )}
-                      <span className="way-note">{way.note}</span>
-                    </span>
-                  </li>
-                );
-              })}
-            </ol>
-          </Reveal>
-
-          <Reveal delay={120} className="enquire-form">
-            <p className="label">{t.contactPage.formEyebrow}</p>
+          <Reveal delay={60} className="enquire-form">
+            <h2 className="display d-2 enquire-heading">{c.formHeading}</h2>
+            <p className="prose enquire-lede">{c.formLede}</p>
             <InquiryForm
               fields={fields}
               topic="message"
@@ -325,9 +278,23 @@ export default async function ContactPage({
                 viaInstagram: t.form.viaInstagram,
                 viaWhatsapp: t.form.viaWhatsapp,
                 photoTooBig: t.form.photoTooBig,
+                photoChange: c.photoChange,
+                photoRemove: c.photoRemove,
               }}
             />
           </Reveal>
+
+          <div className="enquire-room">
+            <Reveal variant="frame" delay={140} className="frame enquire-room-frame">
+              <Image
+                src="/rugs/interior-lamp.jpg"
+                alt={c.roomAlt}
+                width={810}
+                height={1256}
+                sizes="(max-width: 939px) 100vw, 34vw"
+              />
+            </Reveal>
+          </div>
         </div>
       </section>
 

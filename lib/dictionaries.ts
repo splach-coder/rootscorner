@@ -258,6 +258,15 @@ type Dictionary = {
     findLede: string;
     whatsappNote: string;
     emailKey: string;
+    /** The redesigned enquiry (6 Oct). */
+    formHeading: string;
+    formLede: string;
+    topicLabel: string;
+    topicOther: string;
+    photoAdd: string;
+    photoChange: string;
+    photoRemove: string;
+    roomAlt: string;
     /** The four real routes an enquiry takes. Order is the order shown. */
     ways: { piece: string; rug: string; delivery: string; seen: string };
     wayNotes: { piece: string; rug: string; delivery: string; seen: string };
@@ -756,6 +765,14 @@ const en: Dictionary = {
     waysEyebrow: "What to ask",
     whatsappNote: "Message us directly.",
     emailKey: "Email",
+    formHeading: "A message",
+    formLede: "Tell us what it is about. We reply personally.",
+    topicLabel: "About",
+    topicOther: "Something else",
+    photoAdd: "Add a photo",
+    photoChange: "Change",
+    photoRemove: "Remove",
+    roomAlt: "A lamp lit in a plaster alcove, in the evening",
     ways: {
       piece: "A piece",
       rug: "A rug",
@@ -1260,6 +1277,14 @@ const fr: Dictionary = {
     waysEyebrow: "Ce qu’on peut demander",
     whatsappNote: "Par message, directement.",
     emailKey: "E-mail",
+    formHeading: "Un message",
+    formLede: "Dites-nous de quoi il s’agit. Nous répondons personnellement.",
+    topicLabel: "À propos de",
+    topicOther: "Autre chose",
+    photoAdd: "Ajouter une photo",
+    photoChange: "Changer",
+    photoRemove: "Retirer",
+    roomAlt: "Une lampe allumée dans une alcôve de plâtre, le soir",
     ways: {
       piece: "Une pièce",
       rug: "Un tapis",

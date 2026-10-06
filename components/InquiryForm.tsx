@@ -10,7 +10,7 @@ export type InquiryField = {
    * `check` is a single yes/no — V1 §9's "Être accompagnée dans mon choix".
    * Ticked, it sends `defaultValue` ("Oui"); unticked, nothing.
    */
-  kind?: "text" | "email" | "textarea" | "file" | "choice" | "check";
+  kind?: "text" | "email" | "textarea" | "file" | "choice" | "check" | "chips";
   required?: boolean;
   defaultValue?: string;
   /**
@@ -35,8 +35,11 @@ export type InquiryField = {
   options?: { value: string; swatch?: string[] }[];
   layout?: "list" | "grid";
   other?: { label: string; hint: string };
-  /** Shown in the closed row before anything is chosen. */
+  /** Shown in the closed row before anything is chosen. For `file`, the
+      button's own words ("Ajouter une photo"). */
   placeholder?: string;
+  /** Half the form's width from 700px — two short fields share a row. */
+  half?: boolean;
 };
 
 /** Radio value that means "use the text box instead". */
@@ -63,6 +66,9 @@ type InquiryFormProps = {
     viaWhatsapp: string;
     /** §2 — shown when the photograph someone attached is too large to send. */
     photoTooBig: string;
+    /** The file field's two states, in the page's language. */
+    photoChange?: string;
+    photoRemove?: string;
   };
 };
 
@@ -101,6 +107,7 @@ export default function InquiryForm({
   const [state, setState] = useState<State>("idle");
   const [tooBig, setTooBig] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [photo, setPhoto] = useState<{ name: string; url: string } | null>(null);
   /** What the visitor typed, kept so a failed send can carry it onward. */
   const [written, setWritten] = useState("");
 
@@ -201,7 +208,31 @@ export default function InquiryForm({
         const hintId = field.hint ? `${id}-hint` : undefined;
 
         return (
-          field.kind === "choice" ? (
+          field.kind === "chips" ? (
+            <div
+              key={field.name}
+              role="radiogroup"
+              aria-labelledby={`${id}-label`}
+              className="inquiry-field inquiry-chips"
+            >
+              <p id={`${id}-label`} className="label inquiry-label">
+                {field.label}
+              </p>
+              <div className="inquiry-chip-row">
+                {(field.options ?? []).map((o, i) => (
+                  <label key={o.value} className="inquiry-chip">
+                    <input
+                      type="radio"
+                      name={field.name}
+                      value={o.value}
+                      defaultChecked={field.defaultValue ? field.defaultValue === o.value : i === 0}
+                    />
+                    <span className="display">{o.value}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          ) : field.kind === "choice" ? (
             <ChoiceField key={field.name} field={field} />
           ) : field.kind === "check" ? (
             <div
@@ -227,7 +258,7 @@ export default function InquiryForm({
           ) : (
           <div
             key={field.name}
-            className={`inquiry-field${field.no ? " inquiry-field-no" : ""}`}
+            className={`inquiry-field${field.no ? " inquiry-field-no" : ""}${field.half ? " inquiry-field-half" : ""}${field.kind === "file" ? " inquiry-field-file" : ""}`}
           >
             {field.no && (
               <span className="label inquiry-no" aria-hidden="true">
@@ -255,15 +286,62 @@ export default function InquiryForm({
             )}
 
             {field.kind === "file" ? (
-              <input
-                id={id}
-                ref={fileRef}
-                name={field.name}
-                type="file"
-                accept="image/*"
-                aria-describedby={hintId}
-                className="inquiry-file"
-              />
+              /* The system's file button speaks the browser's language
+                 ("Choose file / No file chosen" on a French page). The real
+                 input stays — it is what a keyboard and a screen reader use —
+                 and is drawn as the site's own hairline button, with the
+                 chosen photograph shown back at once. */
+              <div className="inquiry-photo">
+                <input
+                  id={id}
+                  ref={fileRef}
+                  name={field.name}
+                  type="file"
+                  accept="image/*"
+                  aria-describedby={hintId}
+                  className="inquiry-file-input"
+                  onChange={(e) => {
+                    const f = e.currentTarget.files?.[0];
+                    setTooBig(false);
+                    setPhoto((prev) => {
+                      if (prev) URL.revokeObjectURL(prev.url);
+                      return f ? { name: f.name, url: URL.createObjectURL(f) } : null;
+                    });
+                  }}
+                />
+                {photo ? (
+                  <div className="inquiry-photo-chosen">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={photo.url} alt="" className="inquiry-photo-thumb" />
+                    <span className="inquiry-photo-name">{photo.name}</span>
+                    <label htmlFor={id} className="link label inquiry-photo-action">
+                      {labels.photoChange ?? "Change"}
+                    </label>
+                    <button
+                      type="button"
+                      className="link label inquiry-photo-action"
+                      onClick={() => {
+                        if (fileRef.current) fileRef.current.value = "";
+                        setPhoto((prev) => {
+                          if (prev) URL.revokeObjectURL(prev.url);
+                          return null;
+                        });
+                      }}
+                    >
+                      {labels.photoRemove ?? "Remove"}
+                    </button>
+                  </div>
+                ) : (
+                  <label htmlFor={id} className="label inquiry-photo-add">
+                    <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.1">
+                      <rect x="2.5" y="4.5" width="15" height="11" />
+                      <circle cx="7.5" cy="8.5" r="1.4" />
+                      <path d="M3 14l4.5-4 3.5 3 2.5-2 4 3.5" />
+                    </svg>
+                    {field.placeholder ?? field.label}
+                  </label>
+                )}
+              </div>
             ) : field.kind === "textarea" ? (
               <textarea
                 id={id}

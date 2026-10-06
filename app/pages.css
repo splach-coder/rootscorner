@@ -3963,3 +3963,350 @@ textarea.inquiry-input {
     padding: 8% 15% 22%;
   }
 }
+
+/* ==========================================================================
+   Contact — the enquiry, redesigned (6 Oct)
+   The form in the wide column, a room from the house beside it that stays in
+   view while you write. Topic first, as a row of choices; name and e-mail
+   share a line; the photo field is the site's own button with a preview.
+   ========================================================================== */
+
+@media (min-width: 940px) {
+  .enquire-inner {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: clamp(3rem, 7vw, 6rem);
+    align-items: stretch;
+  }
+
+  .enquire-room {
+    position: relative;
+  }
+
+  .enquire-room-frame {
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+  }
+}
+
+.enquire-heading {
+  line-height: 1.05;
+}
+
+.enquire-lede {
+  margin-top: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.enquire-room-frame {
+  aspect-ratio: 810 / 1256;
+}
+
+@media (max-width: 939px) {
+  /* On a phone the room is a band under the form, not a second tall page. */
+  .enquire-room-frame {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* Two short fields on one line. */
+.enquire-form .inquiry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 1.6rem;
+}
+
+.enquire-form .inquiry > * {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 700px) {
+  .enquire-form .inquiry > .inquiry-field-half {
+    grid-column: auto;
+  }
+}
+
+/* The topic: a row of choices drawn like the rug filter — words, the chosen
+   one underlined. Real radios underneath. */
+.inquiry-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1.4rem;
+  margin-top: 0.35rem;
+}
+
+.inquiry-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: color var(--dur-hover) var(--ease-material);
+}
+
+.inquiry-chip input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.inquiry-chip span {
+  font-size: 1.15rem;
+  line-height: 1.2;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-hover) var(--ease-material);
+}
+
+.inquiry-chip:hover,
+.inquiry-chip:has(input:checked) {
+  color: var(--ink);
+}
+
+.inquiry-chip:has(input:checked) span {
+  border-bottom-color: currentColor;
+}
+
+.inquiry-chip:has(input:focus-visible) span {
+  outline: 1.5px solid var(--clay);
+  outline-offset: 3px;
+}
+
+/* The photo: the real input, visually hidden but reachable, and the site's
+   hairline button in its place. */
+.inquiry-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.inquiry-photo {
+  position: relative;
+  margin-top: 0.6rem;
+}
+
+.inquiry-photo-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 48px;
+  padding: 0 1.2rem;
+  color: var(--ink);
+  border: 1px dashed rgba(107, 92, 74, 0.45);
+  cursor: pointer;
+  transition: border-color var(--dur-hover) var(--ease-material), background-color var(--dur-hover) var(--ease-material);
+}
+
+.inquiry-photo-add:hover {
+  border-color: var(--ink);
+  background: rgba(190, 171, 147, 0.12);
+}
+
+.inquiry-photo:has(.inquiry-file-input:focus-visible) .inquiry-photo-add {
+  outline: 1.5px solid var(--clay);
+  outline-offset: 3px;
+}
+
+.inquiry-photo-chosen {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.4rem 1rem;
+}
+
+.inquiry-photo-thumb {
+  width: 4rem;
+  height: 4rem;
+  object-fit: cover;
+}
+
+.inquiry-photo-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+.inquiry-photo-action {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+@media (max-width: 479px) {
+  .inquiry-photo-chosen {
+    grid-template-columns: 4rem minmax(0, 1fr);
+  }
+}
+
+/* --- The rug wall on a phone (client, 6 Oct: "too much wrapped text") ------
+   The type filter is one line you can push sideways, without its "Tapis"
+   label (the page says what it is). Tiles stack the name over the price,
+   so a name is never squeezed into a one-word column beside it. */
+@media (max-width: 699px) {
+  .rug-bar-kinds {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 1.2rem;
+  }
+
+  .rug-bar-kinds::-webkit-scrollbar {
+    display: none;
+  }
+
+  .rug-bar-kinds .rug-bar-key,
+  .rug-bar-view .rug-bar-key {
+    display: none;
+  }
+
+  .rug-bar-option {
+    flex: none;
+    white-space: nowrap;
+  }
+
+  .rug-bar-menu .rug-bar-key {
+    display: none;
+  }
+
+  .rug-tile-said {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.2rem;
+    padding: 0.6rem 0.05rem 0.4rem;
+  }
+
+  .rug-tile-name {
+    font-size: 0.98rem;
+    line-height: 1.3;
+  }
+
+  .rug-tile-price,
+  .rug-tile-detail {
+    font-size: 0.76rem;
+    white-space: normal;
+  }
+}
+
+/* Two cards across on a phone leave a name ~167px: a long one ("Bougeoir en
+   céramique de Tamegroute") stacked into three short lines. A size step down
+   there gives it two. */
+@media (max-width: 639px) {
+  .card-said .wall-label-name,
+  .wall-label-sell .wall-label-name {
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+
+  .card-said .wall-label-name {
+    min-height: 2.6em;
+  }
+}
+
+/* --- Forms on a phone: every field the full width (client, 6 Oct) ---------
+   The numbered column (2.4rem + gap) indented every field, so name, e-mail
+   and message lost a fifth of a 390px screen. On a phone the numeral sits
+   above its label instead, and fields — and Send — run edge to edge. */
+@media (max-width: 699px) {
+  .mrirt-form .inquiry-field,
+  .inquiry-field-no {
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
+  }
+
+  .mrirt-form .inquiry-field > *,
+  .inquiry-field-no > *,
+  .inquiry-field-no > .choice-current,
+  .inquiry-field-no > .choice-options,
+  .inquiry-field-no > .choice-other {
+    grid-column: 1;
+  }
+
+  .mrirt-form .inquiry-no,
+  .inquiry-field-no > .inquiry-no {
+    grid-row: auto;
+    grid-column: 1;
+    padding-top: 0;
+    margin-bottom: 0.15rem;
+  }
+
+  .inquiry-check > .inquiry-no {
+    align-self: start;
+  }
+
+  .inquiry-send {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .inquiry-actions {
+    display: block;
+  }
+}
+
+/* Full width for every field, at every size (client, 6 Oct). */
+.enquire-form .inquiry,
+.mrirt-form .inquiry {
+  max-width: none;
+  width: 100%;
+}
+
+/* The Mrirt label (client, 6 Oct): the order line was jammed under the last
+   row. It is the label's closing statement, so it gets its own breath and a
+   rule above it, the way a price closes a piece's label. */
+.mrirt-label .wall-label-specs {
+  gap: 0.45rem;
+}
+
+.mrirt-label .mrirt-label-order {
+  margin-top: 1.1rem;
+  margin-bottom: 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rule);
+  line-height: 1.7;
+}
+
+/* Less air above the label on a phone: the section's own padding plus the
+   stack gap left an empty screen-third under the wall. */
+@media (max-width: 699px) {
+  #savoir-faire.section {
+    padding-top: clamp(1.6rem, 6vw, 2.4rem);
+  }
+
+  /* The wall needs no filters on a phone (client, 6 Oct): each tile already
+     says whether it is available or which collection it belongs to. The
+     count and the wall/column view stay, on one quiet line. */
+  .rug-bar-kinds,
+  .rug-bar-menu {
+    display: none;
+  }
+
+  .rug-bar {
+    grid-template-columns: minmax(0, 1fr);
+    border-top: 0;
+  }
+
+  .rug-bar-view {
+    justify-content: flex-end;
+    border-left: 0;
+    padding-inline: 0;
+  }
+}
+
+@media (max-width: 699px) {
+  /* Two classes: `.rug-bar-cell + .rug-bar-cell` draws the divider and
+     outweighs a single class. */
+  .rug-bar .rug-bar-view {
+    border-left: 0;
+    padding-left: 0;
+  }
+}
