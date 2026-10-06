@@ -5469,3 +5469,14 @@ textarea.inquiry-input {
     grid-template-columns: 1fr auto;
   }
 }
+
+/* Phone: the top slider sits inside the 16px edge, not against the glass. */
+@media (max-width: 899px) {
+  .rugp-media {
+    margin-inline: 0;
+  }
+
+  .rugg-plate .rugg-bar {
+    padding-inline: 0;
+  }
+}
