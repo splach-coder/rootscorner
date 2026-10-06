@@ -5307,3 +5307,64 @@ textarea.inquiry-input {
     gap: 2.6rem;
   }
 }
+
+/* Les détails on a phone, after benirugs.com exactly: the title, then the
+   photograph large and square, then the words small under it. 16px edges,
+   one fact per screen-height of air. Overrides the earlier phone stack. */
+@media (max-width: 699px) {
+  .rugp,
+  .rugp-more {
+    --rug-edge: 1rem;
+  }
+
+  .rugp-details {
+    padding-top: 4rem;
+  }
+
+  .rugp-details-grid {
+    gap: 4.5rem;
+    margin-top: 1.8rem;
+  }
+
+  .rugp-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .rugp-detail-said {
+    display: contents;
+  }
+
+  .rugp-detail-said h3 {
+    order: 1;
+    margin: 0 0 0.9rem;
+    font-size: 1.45rem;
+    line-height: 1.2;
+  }
+
+  .rugp-detail-plate {
+    order: 2;
+    width: 100%;
+    max-width: none;
+    aspect-ratio: 1 / 1;
+  }
+
+  .rugp-detail-said p {
+    order: 3;
+    margin-top: 0.9rem;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  /* The rest of the page on the same 16px edge. */
+  .rugp-help {
+    padding-inline: var(--rug-edge);
+  }
+
+  .rugp-process {
+    margin-inline: var(--rug-edge);
+  }
+
+}
