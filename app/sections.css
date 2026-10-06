@@ -3502,3 +3502,286 @@ html[data-intro="run"] .site-header-lockup {
     animation: hero-from-below 1100ms var(--ease-material) 540ms both;
   }
 }
+
+/* ==========================================================================
+   The cart, after benirugs.com's drawer (client, 6 Oct) — in our palette.
+   Warm panel, title large with its count, chevron to close; each line a
+   thumbnail on the rug-tile ground, a small overline (unique / to order),
+   the name, a ruled spec list; the total carried inside the filled bar, and
+   a line of help under it.
+   ========================================================================== */
+
+.cart-panel {
+  width: min(30rem, 100vw);
+  background: var(--hour-midday);
+  border-left: 0;
+  box-shadow: -18px 0 50px rgba(46, 32, 25, 0.08);
+}
+
+.cart-head {
+  margin-inline: clamp(1rem, 3vw, 2.4rem);
+  padding: 1.6rem 0 1.2rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cart-title {
+  margin: 0;
+  font-size: clamp(1.6rem, 1.3rem + 1vw, 2rem);
+  line-height: 1.1;
+  color: var(--ink);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.cart-count {
+  margin-left: 0.5rem;
+  font-size: 0.55em;
+  color: var(--ink-soft);
+  vertical-align: 0.25em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: -0.7rem;
+  color: var(--ink);
+}
+
+.cart-lines {
+  padding: 1.6rem clamp(1rem, 3vw, 2.4rem);
+  gap: 0;
+}
+
+.cart-line {
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 1.1rem;
+  padding-block: 1.3rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cart-line:first-child {
+  padding-top: 0;
+}
+
+.cart-line-frame {
+  display: block;
+  aspect-ratio: 4 / 5;
+  padding: 0.55rem;
+  background: #ece5da;
+  overflow: hidden;
+}
+
+.cart-line-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cart-line-said {
+  display: grid;
+  gap: 0.8rem;
+  justify-items: stretch;
+}
+
+.cart-line-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.cart-line-tag {
+  font-size: 0.58rem;
+  color: var(--clay-ink);
+  margin-bottom: 0.3rem;
+}
+
+.cart-line-name {
+  display: block;
+  font-size: 1.12rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.cart-line-remove {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: none;
+  min-height: 44px;
+  margin: -0.8rem -0.2rem 0 0;
+  font-size: 0.58rem;
+  color: var(--ink-soft);
+}
+
+.cart-line-specs {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+}
+
+.cart-line-row {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: baseline;
+}
+
+.cart-line-row dt {
+  font-size: 0.56rem;
+  color: var(--ink-soft);
+}
+
+.cart-line-row dd {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-foot {
+  margin-inline: clamp(1rem, 3vw, 2.4rem);
+  padding: 1.1rem 0 1.6rem;
+}
+
+.cart-sum .label {
+  color: var(--ink);
+}
+
+.cart-sum-value {
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+}
+
+.cart-note {
+  font-size: 0.78rem;
+}
+
+.cart-checkout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.1rem;
+  padding: 1.2rem 1.4rem;
+  text-align: left;
+}
+
+.cart-checkout-sum {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+.cart-help {
+  margin-top: 0.9rem;
+  font-size: 0.86rem;
+  color: var(--ink);
+}
+
+.cart-note-unique {
+  margin-top: 0.4rem;
+}
+
+/* Empty: the crescent, one line, two ways in. */
+.cart-empty {
+  flex: 1;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: 1.2rem;
+  padding-inline: clamp(1rem, 3vw, 2.4rem);
+}
+
+.cart-empty-mark {
+  width: 2.6rem;
+  height: auto;
+  color: var(--taupe);
+}
+
+.cart-empty-line {
+  margin: 0;
+  color: var(--ink);
+}
+
+.cart-empty-ways {
+  display: grid;
+  gap: 0.6rem;
+  width: min(100%, 20rem);
+  margin-top: 0.6rem;
+}
+
+.cart-empty-ways .cart-checkout {
+  justify-content: center;
+  text-align: center;
+  margin-top: 0;
+}
+
+.cart-ghost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.4rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  transition:
+    background-color var(--dur-hover) var(--ease-material),
+    color var(--dur-hover) var(--ease-material);
+}
+
+.cart-ghost:hover,
+.cart-ghost:focus-visible {
+  background: var(--ink);
+  color: var(--ink-inverse);
+}
+
+/* A piece is photographed in its room: it fills its frame. A rug is a
+   cut-out: it sits on the tile ground, contained. */
+.cart-line-frame {
+  padding: 0;
+}
+
+.cart-line-frame img {
+  object-fit: cover;
+}
+
+.cart-line-frame.is-rug {
+  padding: 0.55rem;
+}
+
+.cart-line-frame.is-rug img {
+  object-fit: contain;
+}
+
+/* Values read as sentences, not as a shouting column. */
+.cart-line-row {
+  grid-template-columns: 5.6rem minmax(0, 1fr);
+}
+
+.cart-line-row dd {
+  font-size: 0.84rem;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+@media (max-width: 480px) {
+  .cart-line {
+    grid-template-columns: 5.2rem minmax(0, 1fr);
+    gap: 0.9rem;
+  }
+
+  .cart-line-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .cart-line-specs {
+    gap: 0.5rem;
+  }
+}

@@ -6,7 +6,9 @@ import { useEffect, useRef } from "react";
 import { useCart } from "./CartProvider";
 import { cartLines, cartTotal } from "@/lib/cart";
 import { imagePath } from "@/lib/catalog";
-import { displayName } from "@/lib/specs";
+import { displayName, normaliseDimensions, originOf } from "@/lib/specs";
+import { whatsappHref } from "@/lib/site";
+import { Picto } from "./BrandMarks";
 import type { Locale } from "@/lib/dictionaries";
 
 export type CartLabels = {
@@ -19,6 +21,17 @@ export type CartLabels = {
   checkout: string;
   close: string;
   unique: string;
+  count: string;
+  origin: string;
+  dimensions: string;
+  colour: string;
+  size: string;
+  price: string;
+  uniqueTag: string;
+  orderTag: string;
+  emptyRugs: string;
+  help: string;
+  helpLink: string;
 };
 
 /**
@@ -46,6 +59,7 @@ export default function CartPanel({
 
   const lines = cartLines(slugs, locale);
   const { total } = cartTotal(lines, locale);
+  const wa = whatsappHref();
 
   useEffect(() => {
     if (!open) return;
@@ -110,63 +124,90 @@ export default function CartPanel({
         aria-modal="true"
         aria-label={t.title}
       >
+        {/* After benirugs.com's drawer: the title large, the count beside
+            it, a chevron to close; each line a thumbnail on the tile ground,
+            the name, and a small ruled list of what it is. */}
         <div className="cart-head">
-          <p className="label cart-title">{t.title}</p>
-          <button type="button" className="label cart-close" onClick={() => setOpen(false)}>
-            {t.close}
+          <p className="display d-2 cart-title">
+            {t.title}
+            {lines.length > 0 && <span className="cart-count">{t.count.replace("{n}", String(lines.length))}</span>}
+          </p>
+          <button type="button" className="cart-close" aria-label={t.close} onClick={() => setOpen(false)}>
+            <svg viewBox="0 0 12 20" width="10" height="16" aria-hidden="true">
+              <path d="M2 2l8 8-8 8" fill="none" stroke="currentColor" strokeWidth="1.4" />
+            </svg>
           </button>
         </div>
 
         {lines.length === 0 ? (
           <div className="cart-empty">
-            <p className="prose">{t.empty}</p>
-            <Link
-              href={`/${locale}/collection`}
-              className="link label"
-              onClick={() => setOpen(false)}
-            >
-              {t.emptyCta}
-            </Link>
+            <Picto className="cart-empty-mark" />
+            <p className="display d-3 cart-empty-line">{t.empty}</p>
+            <div className="cart-empty-ways">
+              <Link href={`/${locale}/collection`} className="cart-checkout label" onClick={() => setOpen(false)}>
+                {t.emptyCta}
+              </Link>
+              <Link href={`/${locale}/mrirt`} className="cart-ghost label" onClick={() => setOpen(false)}>
+                {t.emptyRugs}
+              </Link>
+            </div>
           </div>
         ) : (
           <>
             <ul className="cart-lines">
               {lines.map(({ piece, price }) => {
                 const src = imagePath(piece.images[0]);
+                const href = piece.href ?? `/${locale}/piece/${piece.slug}`;
+                const isRug = piece.slug.startsWith("rug:");
+                // A rug line's name is "Mrirt rug · Series · Colour · Size".
+                const parts = isRug ? piece.name.split(" · ") : [];
+                const title = isRug ? parts.slice(0, 2).join(" ") : displayName(piece, locale);
+                const rows: [string, string][] = isRug
+                  ? ([
+                      [t.colour, parts[2]],
+                      [t.size, parts[3]],
+                    ].filter(([, v]) => v) as [string, string][])
+                  : ([
+                      [t.origin, originOf(piece, locale)],
+                      [t.dimensions, normaliseDimensions(piece.dimensions, locale)],
+                    ].filter(([, v]) => v) as [string, string][]);
+                if (price) rows.push([t.price, price]);
                 return (
                   <li key={piece.slug} className="cart-line">
-                    <Link
-                      href={piece.href ?? `/${locale}/piece/${piece.slug}`}
-                      className="cart-line-frame frame"
-                      onClick={() => setOpen(false)}
-                    >
+                    <Link href={href} className={`cart-line-frame${isRug ? " is-rug" : ""}`} onClick={() => setOpen(false)} tabIndex={-1} aria-hidden="true">
                       {src && (
-                        <Image
-                          src={src}
-                          alt=""
-                          width={piece.images[0].w}
-                          height={piece.images[0].h}
-                          sizes="96px"
-                        />
+                        <Image src={src} alt="" width={piece.images[0].w} height={piece.images[0].h} sizes="112px" />
                       )}
                     </Link>
 
                     <div className="cart-line-said">
-                      <Link
-                        href={piece.href ?? `/${locale}/piece/${piece.slug}`}
-                        className="cart-line-name display d-3"
-                        onClick={() => setOpen(false)}
-                      >
-                        {displayName(piece, locale)}
-                      </Link>
-                      {price && <p className="cart-line-price">{price}</p>}
-                      <button
-                        type="button"
-                        className="label cart-line-remove"
-                        onClick={() => remove(piece.slug)}
-                      >
-                        {t.remove}
-                      </button>
+                      <div className="cart-line-top">
+                        <div>
+                          <p className="label cart-line-tag">{isRug ? t.orderTag : t.uniqueTag}</p>
+                          <Link href={href} className="cart-line-name display" onClick={() => setOpen(false)}>
+                            {title}
+                          </Link>
+                        </div>
+                        <button
+                          type="button"
+                          className="label cart-line-remove"
+                          aria-label={`${t.remove}: ${title}`}
+                          onClick={() => remove(piece.slug)}
+                        >
+                          {t.remove}
+                          <svg viewBox="0 0 10 10" width="8" height="8" aria-hidden="true">
+                            <path d="M1 1l8 8M9 1l-8 8" stroke="currentColor" strokeWidth="1.2" />
+                          </svg>
+                        </button>
+                      </div>
+                      <dl className="cart-line-specs">
+                        {rows.map(([k, v]) => (
+                          <div key={k} className="cart-line-row">
+                            <dt className="label">{k}</dt>
+                            <dd>{v}</dd>
+                          </div>
+                        ))}
+                      </dl>
                     </div>
                   </li>
                 );
@@ -176,17 +217,26 @@ export default function CartPanel({
             <div className="cart-foot">
               <div className="cart-sum">
                 <span className="label">{t.subtotal}</span>
-                <span className="cart-sum-value display d-3">{total}</span>
+                <span className="cart-sum-value">{total}</span>
               </div>
-              <p className="label cart-note">{t.shippingNote}</p>
-              <p className="label cart-note cart-note-unique">{t.unique}</p>
-              <Link
-                href={`/${locale}/checkout`}
-                className="cart-checkout label"
-                onClick={() => setOpen(false)}
-              >
-                {t.checkout}
+              <p className="cart-note">{t.shippingNote}</p>
+              <Link href={`/${locale}/checkout`} className="cart-checkout label" onClick={() => setOpen(false)}>
+                <span>{t.checkout}</span>
+                <span className="cart-checkout-sum">{total}</span>
               </Link>
+              <p className="cart-help">
+                {t.help}{" "}
+                {wa ? (
+                  <a href={wa} className="link" target="_blank" rel="noreferrer noopener">
+                    {t.helpLink}
+                  </a>
+                ) : (
+                  <Link href={`/${locale}/contact`} className="link" onClick={() => setOpen(false)}>
+                    {t.helpLink}
+                  </Link>
+                )}
+              </p>
+              <p className="cart-note cart-note-unique">{t.unique}</p>
             </div>
           </>
         )}

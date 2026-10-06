@@ -379,6 +379,17 @@ type Dictionary = {
     add: string;
     added: string;
     view: string;
+    count: string;
+    origin: string;
+    dimensions: string;
+    colour: string;
+    size: string;
+    price: string;
+    uniqueTag: string;
+    orderTag: string;
+    emptyRugs: string;
+    help: string;
+    helpLink: string;
   };
   checkout: {
     eyebrow: string;
@@ -919,10 +930,21 @@ const en: Dictionary = {
     shippingNote: "Shipping is calculated at payment.",
     checkout: "Go to payment",
     close: "Close",
-    unique: "There is one of each. Yours until you leave.",
+    unique: "There is one of each: a piece is yours once it is paid for.",
     add: "Add to cart",
     added: "In your cart",
     view: "See the cart",
+    count: "({n})",
+    origin: "Origin",
+    dimensions: "Dimensions",
+    colour: "Colour",
+    size: "Size",
+    price: "Price",
+    uniqueTag: "One of a kind",
+    orderTag: "Woven to order",
+    emptyRugs: "See the Mrirt rugs",
+    help: "Need help?",
+    helpLink: "Write to us on WhatsApp",
   },
   checkout: {
     eyebrow: "Checkout",
@@ -1420,10 +1442,21 @@ const fr: Dictionary = {
     shippingNote: "La livraison est calculée au paiement.",
     checkout: "Passer au paiement",
     close: "Fermer",
-    unique: "Il n’y en a qu’une de chaque. À vous jusqu’à votre départ.",
+    unique: "Il n’y en a qu’une de chaque : une pièce est à vous une fois réglée.",
     add: "Ajouter au panier",
     added: "Dans votre panier",
     view: "Voir le panier",
+    count: "({n})",
+    origin: "Origine",
+    dimensions: "Dimensions",
+    colour: "Couleur",
+    size: "Taille",
+    price: "Prix",
+    uniqueTag: "Pièce unique",
+    orderTag: "Tissé sur commande",
+    emptyRugs: "Voir les tapis Mrirt",
+    help: "Besoin d’aide ?",
+    helpLink: "Écrivez-nous sur WhatsApp",
   },
   checkout: {
     eyebrow: "Paiement",
