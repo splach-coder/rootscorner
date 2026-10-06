@@ -7,7 +7,7 @@ import { RUG_DEMO, type PieceImage } from "@/lib/catalog";
 import RugBuy from "@/components/RugBuy";
 import JsonLd from "@/components/JsonLd";
 import { fill, getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
-import { allRugSeries, colourName, fromPrice, rugSeriesByHandle, seriesLine, seriesTitle } from "@/lib/rugs";
+import { allRugSeries, colourName, fromPrice, isIllustrativeSeries, rugSeriesByHandle, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { swatchFor } from "@/lib/rug-options";
 import { breadcrumbLd, pageMeta } from "@/lib/seo";
@@ -122,7 +122,7 @@ export default async function RugSeriesPage({
 
               <h1 className="display d-2 piece-name">{title}</h1>
               {line && <p className="prose rug-piece-line">{line}</p>}
-              {RUG_DEMO && <p className="label rug-demo-note">{l.illustration}</p>}
+              {isIllustrativeSeries(series) && <p className="label rug-demo-note">{l.illustration}</p>}
 
               {/* The same label schema as a piece: what it is made of, where,
                   and how — all from the house's own Mrirt copy. */}
@@ -144,6 +144,7 @@ export default async function RugSeriesPage({
               </div>
 
               <RugBuy
+                demo={isIllustrativeSeries(series)}
                 series={series}
                 swatches={swatches}
                 colourLabels={colourLabels}

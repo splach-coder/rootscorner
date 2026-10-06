@@ -1,5 +1,5 @@
 import live from "@/docs/shopify-live.json";
-import type { Piece, PieceImage } from "@/lib/catalog";
+import { isIllustration, type Piece, type PieceImage } from "@/lib/catalog";
 
 /**
  * Mrirt rugs — sold like benirugs.com.
@@ -114,6 +114,11 @@ export function colourName(name: string, locale: string): string {
     .join(" + ");
 }
 
+/** Its photographs are still placeholders (Shopify alt "Photo d'illustration"): shown, never sold. */
+export function isIllustrativeSeries(series: RugSeries): boolean {
+  return series.images.some((i) => isIllustration(i.alt));
+}
+
 export function allRugSeries(): RugSeries[] {
   return SERIES;
 }
@@ -124,6 +129,8 @@ export function rugSeriesByHandle(handle: string): RugSeries | undefined {
 
 /** The lowest price the house has set, or null if none yet. */
 export function fromPrice(series: RugSeries): number | null {
+  // Placeholder photographs: no price shown anywhere (6 Oct).
+  if (isIllustrativeSeries(series)) return null;
   const priced = series.variants.map((v) => v.price).filter((p) => p > 0);
   return priced.length ? Math.min(...priced) : null;
 }
@@ -149,7 +156,7 @@ export function rugVariantId(entry: string): string | null {
   if (!entry.startsWith(RUG_PREFIX)) return null;
   const id = entry.slice(RUG_PREFIX.length);
   const found = findVariant(id);
-  return found && found.variant.price > 0 ? id : null;
+  return found && found.variant.price > 0 && !isIllustrativeSeries(found.series) ? id : null;
 }
 
 /**
@@ -160,7 +167,7 @@ export function rugVariantId(entry: string): string | null {
 export function rugAsPiece(entry: string, locale: string): Piece | null {
   if (!entry.startsWith(RUG_PREFIX)) return null;
   const found = findVariant(entry.slice(RUG_PREFIX.length));
-  if (!found || found.variant.price <= 0 || !found.variant.available) return null;
+  if (!found || found.variant.price <= 0 || !found.variant.available || isIllustrativeSeries(found.series)) return null;
   const { series, variant } = found;
   const image = series.colours.find((c) => c.name === variant.colour)?.image ?? series.images[0]?.src;
   const images: PieceImage[] = image

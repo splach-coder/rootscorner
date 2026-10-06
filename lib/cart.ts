@@ -64,7 +64,8 @@ export function cartLines(slugs: string[], locale: string): CartLine[] {
   return slugs.flatMap((slug) => {
     // A Mrirt rug variant (lib/rugs.ts) rides in the same cart as the pieces.
     const piece = rugAsPiece(slug, locale) ?? pieceBySlug(slug);
-    if (!piece || !piece.available) return [];
+    // Illustrative photographs (6 Oct) are shown, never sold.
+    if (!piece || !piece.available || piece.illustrative) return [];
     return [{ piece, price: formatPrice(piece, locale) }];
   });
 }

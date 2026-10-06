@@ -105,7 +105,7 @@ export default function RugBuy({
       <div className="piece-action rug-buy-bar">
         {demo ? (
           <>
-            {price !== null && <p className="piece-price display d-3">{fmt(price)}</p>}
+            <p className="piece-price display d-3">{labels.onRequest}</p>
             <Link href={ask} className="link label piece-cta">
               {labels.demoAsk ?? labels.ask}
             </Link>

@@ -132,6 +132,8 @@ export const PLACE = {
  */
 export const SOCIAL: { key: string; label: string; href: string }[] = [
   { key: "instagram", label: "Instagram", href: INSTAGRAM },
+  // The house's own number (§49) — the channel most of its customers use.
+  { key: "whatsapp", label: "WhatsApp", href: whatsappHref() ?? "" },
   { key: "facebook", label: "Facebook", href: process.env.NEXT_PUBLIC_FACEBOOK || "" },
   { key: "pinterest", label: "Pinterest", href: process.env.NEXT_PUBLIC_PINTEREST || "" },
   { key: "tiktok", label: "TikTok", href: process.env.NEXT_PUBLIC_TIKTOK || "" },

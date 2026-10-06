@@ -17,6 +17,15 @@ const MARKS: Record<string, React.ReactNode> = {
       <circle cx="17.1" cy="6.9" r="0.85" fill="currentColor" stroke="none" />
     </>
   ),
+  // A speech bubble with its tail at the lower left and a handset inside — the
+  // WhatsApp sign, drawn in the same hairline as the others rather than taken
+  // from the brand's filled logo.
+  whatsapp: (
+    <>
+      <path d="M4.6 19.4l1.1-3.6a8.4 8.4 0 1 1 3 2.6z" />
+      <path d="M9.3 8.4c.3-.4.7-.4.9-.1l.8 1.6c.1.3 0 .5-.2.7l-.4.4c.6 1.2 1.5 2.1 2.7 2.7l.4-.4c.2-.2.5-.3.7-.2l1.6.8c.3.2.3.6-.1.9-.7.7-1.6.9-2.5.5a8 8 0 0 1-4.4-4.4c-.4-.9-.2-1.8.5-2.5z" />
+    </>
+  ),
   facebook: (
     <>
       <rect x="3.4" y="3.4" width="17.2" height="17.2" rx="5" />

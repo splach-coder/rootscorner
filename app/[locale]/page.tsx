@@ -129,7 +129,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       const key = woven.id as keyof typeof t.mrirtPage.woven.items;
       return {
         key: `woven-${woven.id}`,
-        href: `/${locale}/mrirt#disponibles`,
+        href: woven.slug ? `/${locale}/piece/${woven.slug}` : `/${locale}/mrirt#disponibles`,
         src: woven.src,
         w: woven.width,
         h: woven.height,

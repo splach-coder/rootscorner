@@ -1,7 +1,7 @@
 import Image from "next/image";
 import RugBrowser, { type RugTile } from "@/components/RugBrowser";
 import HeroMedia from "@/components/HeroMedia";
-import { allRugSeries, colourName, formatEuro, seriesTitle } from "@/lib/rugs";
+import { isIllustrativeSeries, allRugSeries, colourName, formatEuro, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { rugChoices } from "@/lib/rug-options";
 import { pageMeta, og } from "@/lib/seo";
@@ -112,7 +112,7 @@ export default async function MrirtPage({
       const name = woven.name?.[locale as Locale] ?? t.mrirtPage.woven.items[key];
       return {
         key: `woven-${woven.id}`,
-        href: "#sur-mesure",
+        href: woven.slug ? `/${locale}/piece/${woven.slug}` : "#sur-mesure",
         src: woven.src,
         w: woven.width,
         h: woven.height,
@@ -130,7 +130,9 @@ export default async function MrirtPage({
         const img = c.image
           ? { src: c.image, w: sr.images[0]?.w ?? 1600, h: sr.images[0]?.h ?? 2000 }
           : sr.images[i % Math.max(1, sr.images.length)];
-        const from = sr.variants.filter((v) => v.colour === c.name && v.price > 0).map((v) => v.price);
+        const from = isIllustrativeSeries(sr)
+          ? []
+          : sr.variants.filter((v) => v.colour === c.name && v.price > 0).map((v) => v.price);
         const colour = colourName(c.name, locale);
         return {
           key: `${sr.handle}-${c.name}`,

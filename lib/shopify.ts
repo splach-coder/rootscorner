@@ -67,7 +67,10 @@ const VARIANTS: Record<string, string> = {
   // Pieces the house added in Shopify after launch, from the build snapshot
   // (scripts/shopify-pull.mjs). They were never in docs/shopify.json.
   ...Object.fromEntries(
-    (live as { extra: { slug: string; variantId: string }[] }).extra.map((e) => [e.slug, e.variantId]),
+    (live as { extra: { slug: string; variantId: string; images?: { alt: string | null }[] }[] }).extra
+      // Placeholder photographs (alt "Photo d'illustration"): never sold.
+      .filter((e) => !(e.images ?? []).some((i) => (i.alt ?? "").trim().toLowerCase() === "photo d'illustration"))
+      .map((e) => [e.slug, e.variantId]),
   ),
 };
 

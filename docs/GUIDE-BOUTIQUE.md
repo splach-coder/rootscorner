@@ -93,3 +93,20 @@ Losanges, Graphique), leurs couleurs, et surtout **les prix, qui sont des prix
 d'exemple** (290 € à 2 390 € selon la taille). Tant qu'ils sont en ligne, un
 client peut commander à ces prix. Les photos viennent de vos propres photos de
 tapis ; remplacez-les par celles de chaque série.
+
+## Les photos d'illustration des tapis
+
+En attendant vos propres photos de tapis, les tapis du site utilisent des
+**photos d'illustration**. Elles sont dans Shopify, sur chaque série (Tapis
+Mrirt) et sur les deux tapis « disponibles » (type de produit « Tapis »).
+
+Tant qu'un tapis garde une photo dont le **texte alternatif** est
+« Photo d'illustration », le site :
+- affiche « Photos d'illustration » ;
+- ne montre **pas de prix** et **ne le vend pas** (le client peut demander) ;
+- ne le montre pas à Google.
+
+**Pour mettre vos vrais tapis :** dans Shopify, ouvrez le tapis → supprimez la
+photo d'illustration → ajoutez votre photo. Dès qu'un tapis n'a plus de photo
+d'illustration, il s'affiche avec son prix et se vend normalement. Vérifiez donc
+le prix **avant** de remplacer la photo.

@@ -155,6 +155,11 @@ export type Piece = {
    * the cart (lib/rugs.ts) links to its series page instead.
    */
   href?: string;
+  /**
+   * Its photographs are placeholders (Shopify alt text "Photo d'illustration",
+   * see ILLUSTRATION). Shown, labelled, never sold — the enquiry instead.
+   */
+  illustrative?: boolean;
   description: string[];
   details: string[];
   care: string[];
@@ -288,9 +293,21 @@ for (const piece of pieces) {
   piece.available = state.available;
 }
 
+/**
+ * The marker for placeholder photographs: the alt text set on them in Shopify.
+ * Until the house photographs her own rugs, the illustrative rug photographs
+ * carry it (client decision, 6 Oct). Replace the photo — or just its alt text —
+ * and that rug becomes an ordinary piece for sale, with no code change.
+ */
+export const ILLUSTRATION = "Photo d'illustration";
+export function isIllustration(alt: string | null | undefined): boolean {
+  return (alt ?? "").trim().toLowerCase() === ILLUSTRATION.toLowerCase();
+}
+
 const known = new Set(pieces.map((p) => p.slug));
 for (const entry of snapshot.extra) {
   if (known.has(entry.slug)) continue;
+  const illustrative = entry.images.some((i) => isIllustration(i.alt));
   const images: PieceImage[] = entry.images.map((i) => ({
     file: i.src,
     original: i.src,
@@ -302,7 +319,9 @@ for (const entry of snapshot.extra) {
     slug: entry.slug,
     index: pieces.length + 1,
     name: entry.name.trim(),
-    price: entry.price,
+    // Illustrative photographs: no price shown and nothing sold — the price
+    // stays in Shopify for the day the house's own photograph replaces it.
+    price: illustrative ? null : entry.price,
     currency: entry.currency,
     category: entry.category,
     images,
@@ -313,6 +332,7 @@ for (const entry of snapshot.extra) {
     description: entry.description,
     details: [],
     care: [],
+    illustrative,
   });
 }
 
@@ -597,6 +617,8 @@ export type WovenRug = {
   /** Set only by the LOCAL demo (scripts/demo-rugs.mjs), whose photographs
       need their own description. */
   name?: { fr: string; en: string };
+  /** A finished rug sold in Shopify: its piece page. */
+  slug?: string;
 };
 
 const HOUSE_WOVEN: WovenRug[] = [
@@ -606,23 +628,35 @@ const HOUSE_WOVEN: WovenRug[] = [
   { id: "pile", src: "/rugs/mrirt-pile-trim.jpg", width: 784, height: 784 },
 ];
 
-/* LOCAL DEMO ONLY. `demoWoven` exists in the snapshot only while
-   scripts/demo-rugs.mjs is applied on this machine; every deploy re-pulls the
-   snapshot from Shopify, which never carries it, and cf:build refuses to run
-   while it is present. */
-const demoWoven = (live as { demoWoven?: { id: string; src: string; w: number; h: number; name: { fr: string; en: string } }[] }).demoWoven;
+/**
+ * True while any rug on the site still carries illustrative photographs
+ * (ILLUSTRATION, set in Shopify). The rug pages are then labelled
+ * "Photos d'illustration", kept out of search, and sell nothing — client
+ * decision, 6 Oct: the site is shown to people before launch. It switches off
+ * by itself once the house has replaced every placeholder photo.
+ */
+type LiveRugImages = { rugSeries?: { images?: { alt: string | null }[] }[] };
+export const RUG_DEMO =
+  ((live as LiveRugImages).rugSeries ?? []).some((s) => (s.images ?? []).some((i) => isIllustration(i.alt))) ||
+  snapshot.extra.some((e) => e.category === "rugs" && e.images.some((i) => isIllustration(i.alt)));
 
 /**
- * True only while the Beni demo is applied (scripts/demo-rugs.mjs). The site
- * then shows the rugs but sells none of them, keeps those pages out of search,
- * and labels the photographs as illustrations (client decision, 6 Oct: the
- * site is a test, shown to people before launch).
+ * The "already woven" rugs on the wall and the homepage slider: the finished
+ * rugs the house sells in Shopify (product type "Tapis"), and only when there
+ * are none, her two photographed rugs as an enquiry.
  */
-export const RUG_DEMO = Boolean(demoWoven);
-
-export const WOVEN_RUGS: WovenRug[] = demoWoven
-  ? demoWoven.map((d) => ({ id: d.id, src: d.src, width: d.w, height: d.h, name: d.name }))
-  : HOUSE_WOVEN;
+export const WOVEN_RUGS: WovenRug[] = (() => {
+  const stocked = pieces.filter((p) => p.category === "rugs" && p.images.length > 0);
+  if (stocked.length === 0) return HOUSE_WOVEN;
+  return stocked.map((p) => ({
+    id: p.slug,
+    src: p.images[0].src ?? `/pieces/${p.images[0].file}`,
+    width: p.images[0].w,
+    height: p.images[0].h,
+    name: { fr: p.name, en: p.name },
+    slug: p.slug,
+  }));
+})();
 
 /* Two, not three. mrirt-room.jpg was the obvious third, but its rug sits in the
    bottom sixth of the frame — every card crop of it is a photograph of a floor.

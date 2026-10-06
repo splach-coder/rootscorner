@@ -74,6 +74,7 @@ export async function generateMetadata({
     title: `${name} | The Roots Corner`,
     description,
     image: pieceOg(piece, name),
+    index: !piece.illustrative,
   });
 }
 
@@ -232,7 +233,14 @@ export default async function PiecePage({
                         priced cannot be sold from the site, so it keeps the
                         enquiry it always had. Nothing invents a price to make
                         the button work. */}
-                    {piece.price !== null ? (
+                    {/* A rug still carrying illustrative photographs (RUG_DEMO,
+                        6 Oct): shown and labelled, never sold. */}
+                    {piece.illustrative && (
+                      <p className="label rug-demo-note">
+                        {locale === "fr" ? "Photos d’illustration." : "Illustrative photographs."}
+                      </p>
+                    )}
+                    {piece.price !== null && !piece.illustrative ? (
                       <>
                         <AddToCart
                           slug={piece.slug}

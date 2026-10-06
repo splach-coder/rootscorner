@@ -4954,3 +4954,28 @@ unpublished pieces are dropped. Only a clean `null` ever removes anything; one
 request per check, throttled to one per 20 s, on load / tab return / back-button.
 Verified end to end against the live store (cancel keeps the piece; a completed
 cart id removes it). A real paid order has not been run through it yet.
+
+## 71. The rug demo lives in Shopify now (6 Oct)
+
+Client decision: keep the illustrative rug photographs until the house has its
+own. They were a local-only overlay (`demo-rugs.mjs`, `cf:deploy:demo`), which
+put another company's images live from an untracked folder and vanished on the
+next CI deploy. Now:
+
+- The photographs are **Shopify product media** — the four series and two
+  finished rugs (type "Tapis", stock 1). Their white studio background was
+  replaced with the page ground `#F7F5F2` before upload (pure white is banned,
+  §2, and read as white boxes on the wall).
+- Every such image carries alt **"Photo d'illustration"** (`ILLUSTRATION` in
+  lib/catalog.ts). That marker, not a build flag, drives the demo: a rug whose
+  photos carry it shows the label, has **no price shown and cannot be sold**
+  (`piece.price = null`, `piece.illustrative`, `isIllustrativeSeries`, guarded
+  again in `cartLines`, `variantFor` and `rugVariantId`), and its page is
+  noindex. `RUG_DEMO` is derived from it. Replacing a photo in the admin makes
+  that rug an ordinary piece for sale — **its mock price goes live with it.**
+- `WOVEN_RUGS` now comes from Shopify pieces of category rugs.
+- `cf:deploy:demo` is removed; `demo-rugs.mjs check` still guards cf:build.
+- WhatsApp is in the footer channels (`SOCIAL`, hairline mark in Social.tsx).
+
+Verified: a demo series rug and a demo finished rug forced into the cart both
+drop out; only a real piece reaches checkout. 0 `/demo-rugs/` references.
