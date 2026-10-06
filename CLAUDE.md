@@ -5028,3 +5028,8 @@ desktop + phone) and mirrored section for section:
   1600px intrinsic width and the panel ran off a phone.
 - PayPal is ON by default (`PAYPAL` in lib/site.ts; `NEXT_PUBLIC_PAYPAL=0`
   turns the mention off). The FAQ and checkout now name it.
+- Second pass (6 Oct, after the Jameson runner page): the photographs are ONE
+  slider (`components/RugGallery.tsx`, scroll-snap, "1 | 3" + arrows). On
+  desktop the photo column is sticky and the panel scrolls; on a phone the
+  slider comes first (`order: -1`), swiped, no arrows. "Notre façon de faire"
+  is a smaller fixed-height panel (~40rem), after "The Beni Difference".

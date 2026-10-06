@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import Reveal from "./Reveal";
 import MoreRugs from "./MoreRugs";
+import RugGallery from "./RugGallery";
 import { RUG_SHOTS } from "@/lib/catalog";
 import { getDictionary, type Locale } from "@/lib/dictionaries";
 import { rugLabels } from "@/lib/rug-labels";
@@ -142,18 +143,7 @@ export default function RugProduct({
           </div>
 
           <div className="rugp-media">
-            {images.map((img, i) => (
-              <div key={img.src} className="rugp-plate">
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  width={img.w}
-                  height={img.h}
-                  priority={i === 0}
-                  sizes="(max-width: 900px) 100vw, 64vw"
-                />
-              </div>
-            ))}
+            <RugGallery slides={images} labels={{ prev: l.prev, next: l.next }} />
           </div>
         </div>
 

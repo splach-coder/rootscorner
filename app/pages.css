@@ -5095,3 +5095,154 @@ textarea.inquiry-input {
 .rugs-faq .rugs-faq-more {
   justify-self: center;
 }
+
+/* ==========================================================================
+   Rug product, second pass after benirugs.com (client, 6 Oct): the
+   photographs are ONE slider; on a desktop that column stays put and the
+   order panel scrolls past it; on a phone the slider comes first.
+   ========================================================================== */
+
+.rugg {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.rugg-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  background: var(--rug-tile, #ece5da);
+}
+
+.rugg-track::-webkit-scrollbar {
+  display: none;
+}
+
+.rugg-track:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.rugg-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  aspect-ratio: 4 / 3;
+  padding: clamp(1rem, 4vw, 3.5rem);
+}
+
+.rugg-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.rugg-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.rugg-count {
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.rugg-count span {
+  padding-inline: 0.35rem;
+  opacity: 0.5;
+}
+
+.rugg-arrows {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.rugg-arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--ink);
+}
+
+.rugg-arrow:hover,
+.rugg-arrow:focus-visible {
+  color: var(--clay-ink);
+}
+
+/* Phone: the slider first, then the panel. No arrows — the track is swiped. */
+@media (max-width: 899px) {
+  .rugp-media {
+    order: -1;
+    margin-inline: calc(-1 * var(--rug-edge));
+  }
+
+  .rugg-arrows {
+    display: none;
+  }
+
+  .rugg-bar {
+    padding-inline: var(--rug-edge);
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Desktop: the photographs hold, the panel moves. */
+@media (min-width: 900px) {
+  .rugp-panel {
+    position: static;
+  }
+
+  .rugp-media {
+    position: sticky;
+    top: calc(var(--header-h) + 1rem);
+  }
+
+  .rugg-slide {
+    aspect-ratio: auto;
+    height: min(calc(100svh - var(--header-h) - 5.5rem), 52rem);
+  }
+}
+
+/* --- How it is made: smaller, after Beni's "The Beni Difference" --------- */
+
+.rugp-process {
+  margin-top: clamp(4rem, 8vw, 7rem);
+}
+
+.rugp-process-plate {
+  aspect-ratio: 4 / 3;
+}
+
+.rugp-process-said {
+  gap: 1.4rem;
+  padding: clamp(1.4rem, 3vw, 2.4rem);
+}
+
+.rugp-process-said h2 {
+  margin-top: 0.8rem;
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.6rem);
+}
+
+.rugp-process-body {
+  max-width: 24rem;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 900px) {
+  .rugp-process {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    height: min(70svh, 40rem);
+  }
+
+  .rugp-process-plate {
+    aspect-ratio: auto;
+    min-height: 0;
+    height: 100%;
+  }
+}
