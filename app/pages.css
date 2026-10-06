@@ -4924,160 +4924,6 @@ textarea.inquiry-input {
   color: var(--ink-soft);
 }
 
-/* --- The docked bar ------------------------------------------------------ */
-
-.rug-dock {
-  position: fixed;
-  inset: auto 0 0 0;
-  z-index: 40;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.6rem 1rem;
-  padding: 0.75rem var(--rug-edge, 1rem);
-  background: var(--hour-afternoon);
-  border-top: 1px solid var(--rule);
-  transform: translateY(100%);
-  visibility: hidden;
-  transition:
-    transform 500ms var(--ease-material),
-    visibility 0s linear 500ms;
-}
-
-.rug-dock.is-on {
-  transform: none;
-  visibility: visible;
-  transition: transform 500ms var(--ease-material);
-}
-
-.rug-dock-name {
-  margin: 0;
-  line-height: 1.2;
-}
-
-.rug-dock-detail {
-  margin-top: 0.25rem;
-  color: var(--ink-soft);
-}
-
-.rug-dock-action .piece-buy-add {
-  margin-top: 0;
-  min-width: min(26rem, 46vw);
-}
-
-.rug-dock-action .piece-buy {
-  margin-top: 0;
-  border-top: 0;
-  padding: 0;
-}
-
-.rug-dock-edit {
-  display: none;
-}
-
-@media (min-width: 900px) {
-  .rug-dock {
-    grid-template-columns: minmax(0, 1fr) auto auto;
-  }
-
-  .rug-dock-edit {
-    display: inline-flex;
-    align-items: center;
-    min-height: 3.2rem;
-    padding-inline: 1.6rem;
-    border: 1px solid var(--rule);
-    background: var(--ecru);
-  }
-}
-
-@media (max-width: 699px) {
-  .rug-dock {
-    grid-template-columns: 1fr;
-  }
-
-  .rug-dock-action .piece-buy-add {
-    min-width: 0;
-  }
-}
-
-/* The WhatsApp button steps up while the dock is out. */
-html:has(.rug-dock.is-on) .wa-float {
-  bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
-}
-
-@media (max-width: 699px) {
-  html:has(.rug-dock.is-on) .wa-float {
-    bottom: calc(9rem + env(safe-area-inset-bottom, 0px));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .rug-dock,
-  .rug-dock.is-on {
-    transition: none;
-  }
-}
-
-/* --- /mrirt head, after benirugs.com's shop page ------------------------- */
-
-.rugshop-head {
-  display: grid;
-  gap: 1.4rem;
-  padding: calc(var(--header-h) + 1.4rem) clamp(0.75rem, 1.2vw, 1.25rem) 0;
-}
-
-.rugshop-head-said {
-  display: grid;
-  gap: 1.4rem;
-}
-
-.rugshop-head-crumb {
-  color: var(--ink-soft);
-  font-size: 0.62rem;
-}
-
-.rugshop-head-title {
-  margin: 0;
-  line-height: 1;
-}
-
-.rugshop-head-lead {
-  margin-top: 1rem;
-  max-width: 24rem;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--ink);
-}
-
-.rugshop-head-media {
-  aspect-ratio: 3 / 2;
-  overflow: hidden;
-}
-
-.rugshop-head-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 70%;
-}
-
-@media (min-width: 900px) {
-  .rugshop-head {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    gap: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
-  .rugshop-head-said {
-    align-content: space-between;
-    padding-left: clamp(0rem, 0.5vw, 0.5rem);
-  }
-
-  .rugshop-head-media {
-    aspect-ratio: auto;
-    height: min(62svh, 34rem);
-  }
-}
-
 /* Beni's wall is dense: six across on a wide screen. */
 @media (min-width: 1300px) {
   .rug-wall.is-grid {
@@ -5089,22 +4935,12 @@ html:has(.rug-dock.is-on) .wa-float {
    (1600px) as its minimum — the panel ran off the side of a phone. Every
    rug track says minmax(0, 1fr). And the head is a grid item of <main>, so it
    has to claim the width itself. */
-.rugshop-head,
 .rugp-top,
-.rugshop-head-said,
 .rugp-more-link {
   grid-template-columns: minmax(0, 1fr);
 }
 
-.rugshop-head {
-  width: 100%;
-}
-
 @media (min-width: 900px) {
-  .rugshop-head {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-  }
-
   .rugp-top {
     grid-template-columns: minmax(20rem, 27rem) minmax(0, 1fr);
   }

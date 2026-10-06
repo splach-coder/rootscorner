@@ -5011,9 +5011,8 @@ structure … our rug product is identical to the articles, we don't want
 that." Both Beni pages were captured whole (shop-all and a product page,
 desktop + phone) and mirrored section for section:
 
-- **/mrirt**: split head (small label, title low in a narrow left column,
-  one wide room photo right; `.rugshop-head` — NOT `.rugs-head`, which an old
-  homepage rule in sections.css still owns) → the ruled filter bar → the
+- **/mrirt**: the full-screen hero (`.hero.rugs-page-hero`) — a Beni split
+  head was tried and reverted at the client's request → the ruled filter bar → the
   wall, six across ≥1300px. Then Nos collections, savoir-faire, the form,
   the rug FAQ.
 - **Rug product** (`components/RugProduct.tsx`) — used by `/tapis/[handle]`
@@ -5023,7 +5022,8 @@ desktop + phone) and mirrored section for section:
   RIGHT on the tile ground → Les détails (4 facts + photo) → ruled help box
   → one room full width → umber process panel → "D'autres tapis Mrirt" as
   Beni's 3-up cards. `RugDock` docks name + choices + the same action at the
-  foot of the screen once `#rug-order` has scrolled away.
+  foot of the screen once `#rug-order` has scrolled away. **Removed the same
+  day at the client's request — do not re-add a docked bar.**
 - Every rug grid track is `minmax(0, 1fr)`: an `auto` track takes a photo's
   1600px intrinsic width and the panel ran off a phone.
 - PayPal is ON by default (`PAYPAL` in lib/site.ts; `NEXT_PUBLIC_PAYPAL=0`

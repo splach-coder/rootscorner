@@ -1,4 +1,5 @@
 import Image from "next/image";
+import HeroMedia from "@/components/HeroMedia";
 import RugBrowser, { type RugTile } from "@/components/RugBrowser";
 import RugCard from "@/components/RugCard";
 import { isIllustrativeSeries, allRugSeries, colourName, formatEuro, seriesLine, seriesTitle } from "@/lib/rugs";
@@ -196,27 +197,20 @@ export default async function MrirtPage({
            its top edge the way Beni sets theirs — and, as on the homepage, no
            tint laid over the photograph: the type carries its own soft shadow
            (client, 5 Oct). The house's own photograph. --- */}
-      {/* --- The head: benirugs.com's shop page, structure for structure
-           (client, 6 Oct) — a small label at the top, the title set low in a
-           narrow left column, one wide room photograph to its right. Then the
-           ruled bar and the wall. The house's own room. --- */}
-      <section className="rugshop-head">
-        <div className="rugshop-head-said">
-          <p className="label rugshop-head-crumb">{t.mrirtPage.place}</p>
-          <div>
-            <h1 className="display d-hero rugshop-head-title">{t.nav.rugs}</h1>
-            <p className="rugshop-head-lead">{rl.shopIntro}</p>
-          </div>
+      <section className="hero rugs-page-hero">
+        <div className="hero-media">
+          <HeroMedia src="/rugs/series/floor-fire.jpg" width={1600} height={2400} />
         </div>
-        <div className="rugshop-head-media">
-          <Image
-            src="/rugs/series/floor-fire.jpg"
-            alt={t.mrirtPage.roomAlt}
-            width={1600}
-            height={2400}
-            priority
-            sizes="(max-width: 900px) 100vw, 66vw"
-          />
+        <div className="hero-plate">
+          <Reveal as="div" className="hero-inner shell">
+            <div>
+              <h1 className="display d-hero hero-title">{t.nav.rugs}</h1>
+              <div className="hero-line">
+                <p className="hero-tagline label">{t.mrirtPage.place}</p>
+              </div>
+              <p className="hero-lead">{rl.shopIntro}</p>
+            </div>
+          </Reveal>
         </div>
       </section>
 

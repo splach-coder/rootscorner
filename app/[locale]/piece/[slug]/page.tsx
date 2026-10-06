@@ -10,7 +10,6 @@ import AddToCart from "@/components/AddToCart";
 import ClosingBand from "@/components/ClosingBand";
 import MoreRugs from "@/components/MoreRugs";
 import RugProduct from "@/components/RugProduct";
-import RugDock from "@/components/RugDock";
 import { rugLabels } from "@/lib/rug-labels";
 import { getDictionary, isLocale, fill, locales, type Locale } from "@/lib/dictionaries";
 import {
@@ -207,11 +206,6 @@ export default async function PiecePage({
               <a href="#tissage" className="link label rug-buy-craft">
                 {l.craftLink}
               </a>
-              {piece.available && (
-                <RugDock name={name} editLabel={l.dockEdit}>
-                  {action}
-                </RugDock>
-              )}
             </div>
           }
         />

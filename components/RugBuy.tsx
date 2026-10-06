@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import AddToCart from "./AddToCart";
-import RugDock from "./RugDock";
 import type { RugSeries } from "@/lib/rugs";
 
 type Labels = {
@@ -19,9 +18,6 @@ type Labels = {
   /** Beni's underlined "CRAFT" under the bar — to the weaving, below. */
   craftLink?: string;
   askBar?: string;
-  /** The docked bar at the foot of the screen (after Beni). */
-  dockName?: string;
-  dockEdit?: string;
   cart: { add: string; added: string; view: string; sold: string; soldNote: string };
 };
 
@@ -133,15 +129,6 @@ export default function RugBuy({
         <a href="#tissage" className="link label rug-buy-craft">
           {labels.craftLink}
         </a>
-      )}
-      {labels.dockName && (
-        <RugDock
-          name={labels.dockName}
-          detail={[size, colourLabels[colour] ?? colour].filter(Boolean).join(" | ")}
-          editLabel={labels.dockEdit ?? ""}
-        >
-          {action}
-        </RugDock>
       )}
     </div>
   );

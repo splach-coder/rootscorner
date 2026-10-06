@@ -119,8 +119,6 @@ export default async function RugSeriesPage({
               askBar: l.askBar,
               leadNote: l.leadNote,
               craftLink: l.craftLink,
-              dockName: `${l.rugName} ${title}`,
-              dockEdit: l.dockEdit,
               cart: {
                 add: t.cart.add,
                 added: t.cart.added,
