@@ -4310,3 +4310,119 @@ textarea.inquiry-input {
     padding-left: 0;
   }
 }
+
+/* "Photos d'illustration" — shown only while the rug demo is applied. */
+.rug-demo-note {
+  margin: 0.6rem 0 1rem;
+  color: var(--ink-soft);
+}
+
+/* ==========================================================================
+   Piece and rug pages on a phone (client, 6 Oct: "lots of text under the
+   image"). After the photograph: the name, the price and Add to cart — the
+   things a buyer came for — then the details, quieter, then delivery folded
+   into one line. The photo counter goes: the thumbnails already say how
+   many there are.
+   ========================================================================== */
+
+.piece-fold summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  cursor: pointer;
+  list-style: none;
+  color: var(--ink);
+}
+
+.piece-fold summary::-webkit-details-marker {
+  display: none;
+}
+
+.piece-fold summary::after {
+  content: "+";
+  color: var(--ink-soft);
+}
+
+.piece-fold[open] summary::after {
+  content: "\2212";
+}
+
+.piece-fold p {
+  margin-bottom: 0.6rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 699px) {
+  .gallery-count {
+    display: none;
+  }
+
+  .piece-label-sticky {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .piece-label-sticky > .piece-name { order: 1; margin-top: 0; }
+  .piece-label-sticky > .rug-piece-line { order: 2; }
+  .piece-label-sticky > .rug-demo-note { order: 3; }
+  .piece-label-sticky > .piece-action,
+  .piece-label-sticky > .rug-buy { order: 4; }
+  .piece-label-sticky > .wall-label { order: 5; }
+  .piece-label-sticky > .piece-unique { order: 6; }
+  .piece-label-sticky > .piece-accession { order: 7; }
+  .piece-label-sticky > .piece-fold { order: 8; }
+
+  /* The price sits right under the name, no rule between them. */
+  .piece-label-sticky > .piece-action {
+    margin-top: 0.9rem;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .piece-label-sticky > .rug-buy {
+    margin-top: 1rem;
+  }
+
+  .piece-label-sticky > .wall-label {
+    margin-top: 1.6rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .piece-label-sticky > .wall-label .wall-label-specs {
+    margin-top: 0;
+  }
+
+  .piece-label-sticky > .piece-unique {
+    margin-top: 0.9rem;
+  }
+
+  .piece-label-sticky > .piece-accession {
+    margin-top: 0.6rem;
+    font-size: 0.6rem;
+    color: var(--ink-soft);
+  }
+
+  .piece-label-sticky > .piece-fold {
+    margin-top: 1rem;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .piece-ask {
+    display: block;
+    margin-top: 0.9rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 699px) {
+  /* Centred under the button, its rule only as wide as its words. */
+  .piece-ask {
+    display: table;
+    margin: 0.9rem auto 0;
+  }
+}

@@ -35,13 +35,16 @@ export default function RugBuy({
   colourLabels,
   locale,
   labels,
+  demo = false,
 }: {
   series: RugSeries;
   swatches: Record<string, string[] | undefined>;
   /** Colour name as shown in this locale, keyed by Shopify's own value. */
   colourLabels: Record<string, string>;
   locale: string;
-  labels: Labels;
+  labels: Labels & { demoAsk?: string };
+  /** Demo photographs (RUG_DEMO): show, never sell. */
+  demo?: boolean;
 }) {
   const [colour, setColour] = useState(series.colours[0]?.name ?? "");
   const [size, setSize] = useState(series.sizes[0] ?? "");
@@ -100,7 +103,14 @@ export default function RugBuy({
       <p className="label rug-buy-note">{labels.madeToOrder}</p>
 
       <div className="piece-action rug-buy-bar">
-        {price !== null && variant ? (
+        {demo ? (
+          <>
+            {price !== null && <p className="piece-price display d-3">{fmt(price)}</p>}
+            <Link href={ask} className="link label piece-cta">
+              {labels.demoAsk ?? labels.ask}
+            </Link>
+          </>
+        ) : price !== null && variant ? (
           <>
             <p className="piece-price display d-3">{fmt(price)}</p>
             <AddToCart key={variant.id} slug={`rug:${variant.id}`} labels={labels.cart} />

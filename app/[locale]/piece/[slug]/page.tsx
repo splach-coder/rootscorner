@@ -270,15 +270,15 @@ export default async function PiecePage({
                   line of the house's own delivery table; shown to a buyer in
                   Paris it was wrong. Both lines of the table now, with the
                   table itself one click away. */}
-              <dl className="piece-delivery">
-                <dt className="label">{t.piece.delivery}</dt>
-                <dd>{t.piece.deliveryTimes}</dd>
-                <dd className="label piece-delivery-note">
+              <details className="piece-delivery piece-fold">
+                <summary className="label">{t.piece.delivery}</summary>
+                <p>{t.piece.deliveryTimes}</p>
+                <p className="label piece-delivery-note">
                   <Link href={`/${locale}/legal/delivery`} className="link">
                     {t.piece.deliveryNote}
                   </Link>
-                </dd>
-              </dl>
+                </p>
+              </details>
             </Reveal>
           </div>
 

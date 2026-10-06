@@ -10,7 +10,7 @@ import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
 import InquiryForm, { type InquiryField } from "@/components/InquiryForm";
 import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
-import { RUG_SHOTS, WOVEN_RUGS, readyRugs } from "@/lib/catalog";
+import { RUG_DEMO, RUG_SHOTS, WOVEN_RUGS, readyRugs } from "@/lib/catalog";
 import { INSTAGRAM, whatsappDigits } from "@/lib/site";
 
 export async function generateMetadata({
@@ -28,6 +28,7 @@ export async function generateMetadata({
     title: `${t.nav.rugs} | The Roots Corner`,
     description: t.rugs.body[0],
     image: og("mrirt.jpg"),
+    index: !RUG_DEMO,
   });
 }
 
@@ -219,6 +220,7 @@ export default async function MrirtPage({
         <span id="disponibles" className="rugs-anchor" />
         <span id="sur-commande" className="rugs-anchor" />
         <div className="shell">
+          {RUG_DEMO && <p className="label rug-demo-note">{rl.illustration}</p>}
           <RugBrowser tiles={tiles} collections={collectionsList} labels={rl.browser} />
         </div>
       </section>

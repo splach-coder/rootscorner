@@ -612,6 +612,14 @@ const HOUSE_WOVEN: WovenRug[] = [
    while it is present. */
 const demoWoven = (live as { demoWoven?: { id: string; src: string; w: number; h: number; name: { fr: string; en: string } }[] }).demoWoven;
 
+/**
+ * True only while the Beni demo is applied (scripts/demo-rugs.mjs). The site
+ * then shows the rugs but sells none of them, keeps those pages out of search,
+ * and labels the photographs as illustrations (client decision, 6 Oct: the
+ * site is a test, shown to people before launch).
+ */
+export const RUG_DEMO = Boolean(demoWoven);
+
 export const WOVEN_RUGS: WovenRug[] = demoWoven
   ? demoWoven.map((d) => ({ id: d.id, src: d.src, width: d.w, height: d.h, name: d.name }))
   : HOUSE_WOVEN;

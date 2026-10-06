@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -16,9 +17,15 @@ import {
   categories,
   featuredPieces,
   imagePath,
+  RUG_DEMO,
   shopSelection,
   WOVEN_RUGS,
 } from "@/lib/catalog";
+
+/* Out of search while the Beni demo photographs are on the page (RUG_DEMO). */
+export function generateMetadata(): Metadata {
+  return RUG_DEMO ? { robots: { index: false, follow: true } } : {};
+}
 import { INSTAGRAM } from "@/lib/site";
 import { instagramFrames, scene } from "@/lib/instagram";
 
@@ -218,6 +225,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               {t.nav.rugs}
             </h2>
             <p className="rugs-home-line">{rl.homeLine}</p>
+            {RUG_DEMO && <p className="label rug-demo-note">{rl.illustration}</p>}
           </Reveal>
           <Reveal delay={80}>
             <Link href={`/${locale}/mrirt`} className="link label rugs-home-cta">

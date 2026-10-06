@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
 import PieceGallery from "@/components/PieceGallery";
-import type { PieceImage } from "@/lib/catalog";
+import { RUG_DEMO, type PieceImage } from "@/lib/catalog";
 import RugBuy from "@/components/RugBuy";
 import JsonLd from "@/components/JsonLd";
 import { fill, getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
@@ -34,6 +34,7 @@ export async function generateMetadata({
     title: `${l.rugName} ${title} | The Roots Corner`,
     description: seriesLine(series, locale) ?? `${l.rugName} ${title}. ${l.collectionNote}`,
     ...(image ? { image: { url: image.src, width: image.w, height: image.h } } : {}),
+    index: !RUG_DEMO,
   });
 }
 
@@ -121,6 +122,7 @@ export default async function RugSeriesPage({
 
               <h1 className="display d-2 piece-name">{title}</h1>
               {line && <p className="prose rug-piece-line">{line}</p>}
+              {RUG_DEMO && <p className="label rug-demo-note">{l.illustration}</p>}
 
               {/* The same label schema as a piece: what it is made of, where,
                   and how — all from the house's own Mrirt copy. */}
@@ -154,6 +156,7 @@ export default async function RugSeriesPage({
                   onRequestNote: l.onRequestNote,
                   ask: l.ask,
                   madeToOrder: l.madeToOrder,
+                  demoAsk: l.demoAsk,
                   cart: {
                     add: t.cart.add,
                     added: t.cart.added,
@@ -164,15 +167,15 @@ export default async function RugSeriesPage({
                 }}
               />
 
-              <dl className="piece-delivery">
-                <dt className="label">{l.shipping}</dt>
-                <dd>{l.shippingBody}</dd>
-                <dd className="label piece-delivery-note">
+              <details className="piece-delivery piece-fold">
+                <summary className="label">{l.shipping}</summary>
+                <p>{l.shippingBody}</p>
+                <p className="label piece-delivery-note">
                   <Link href={`/${locale}/mrirt#sur-mesure`} className="link">
                     {l.custom}
                   </Link>
-                </dd>
-              </dl>
+                </p>
+              </details>
             </Reveal>
           </div>
         </div>

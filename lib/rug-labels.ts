@@ -10,6 +10,8 @@ export function rugLabels(locale: Locale) {
       ? "Tissés main à Mrirt, dans le Moyen Atlas. Déjà tissés ou à votre mesure."
       : "Handwoven in Mrirt, in the Middle Atlas. Already woven, or made to your measure.",
     homeCta: fr ? "Voir les tapis" : "See the rugs",
+    illustration: fr ? "Photos d’illustration." : "Illustrative photographs.",
+    demoAsk: fr ? "Demander ce tapis" : "Ask about this rug",
     collectionWord: fr ? "Collection" : "Collection",
     // /mrirt, after Beni's collection page (client, 5 Oct).
     shopIntro: fr

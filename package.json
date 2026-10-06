@@ -10,6 +10,7 @@
     "cf:build": "node scripts/demo-rugs.mjs check && node scripts/shopify-pull.mjs && opennextjs-cloudflare build",
     "cf:preview": "npm run cf:build && opennextjs-cloudflare preview",
     "cf:deploy": "npm run cf:build && opennextjs-cloudflare deploy",
+    "cf:deploy:demo": "node scripts/shopify-pull.mjs && node scripts/demo-rugs.mjs apply && opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "shopify:pull": "node scripts/shopify-pull.mjs"
   },
   "dependencies": {
