@@ -5016,3 +5016,65 @@ textarea.inquiry-input {
     column-gap: clamp(3rem, 7vw, 7rem);
   }
 }
+
+/* The wool block — the cooperative block, mirrored: words left, photo right. */
+.mrirt-pair-wool {
+  padding-block: clamp(4.5rem, 10vw, 9rem);
+}
+
+@media (min-width: 900px) {
+  .mrirt-pair-beni.mrirt-pair-flip {
+    grid-template-columns: minmax(0, 40rem) minmax(0, 24rem);
+  }
+}
+
+@media (max-width: 899px) {
+  .mrirt-pair-flip .mrirt-yarn {
+    justify-self: end;
+  }
+}
+
+/* The featured pair, after benirugs.com: one room, large, at the left edge;
+   one collection card standing in the space to its right. */
+.rugs-feature {
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.rugs-feature-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 3rem);
+}
+
+.rugs-feature-room {
+  aspect-ratio: 3 / 2;
+}
+
+.rugs-feature-room img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 70%;
+}
+
+.rugs-feature-card {
+  width: min(84%, 22rem);
+  margin-inline: auto;
+}
+
+@media (min-width: 900px) {
+  .rugs-feature-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    padding-right: var(--gutter);
+  }
+
+  .rugs-feature-room {
+    aspect-ratio: auto;
+    height: min(72svh, 40rem);
+  }
+
+  .rugs-feature-card {
+    width: min(100%, 22rem);
+  }
+}
