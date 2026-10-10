@@ -5109,7 +5109,13 @@ holds the auth). Applied once, idempotent.
 | Price, stock, variants | price, sold state, size picker (Tamegroute S 45 € / M 65 € are MOCK until she sets them) |
 | Type = one of the 5 groups | the product's collection, in the admin and on the site |
 
-English names and texts stay in lib/piece-names.ts / lib/piece-copy.ts (the
-app has no translations scope), as do the facts (origin, dimensions…).
+**English too, since the same day:** English is a published store language,
+attached to the domain, and `npx tsx scripts/shopify-en.mts` seeded every
+product's English (title + description) from lib/piece-names.ts /
+lib/piece-copy.ts / SERIES_TEXT. She edits it in **Translate & Adapt**. The
+pull reads it with `@inContext(language: EN)` (`Piece.enName` / `enText`,
+`RugSeries.titleEn`), kept only where it differs from the French; anything
+untranslated falls back to the site's files. Checkout shows each language's
+names. The facts (origin, dimensions…) stay in lib/piece-names.ts.
 `shopify-v2.mts` only writes a description where it is empty, so re-running it
 never overwrites her edits.
