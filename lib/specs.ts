@@ -128,6 +128,11 @@ const ORIGIN_TERMS: [RegExp, Record<Lang, string>][] = [
 ];
 
 export function originOf(piece: Piece, locale: Lang = "en"): string | null {
+  if (piece.facts) return factOf(piece, "origin", locale);
+  return siteOrigin(piece, locale);
+}
+
+function siteOrigin(piece: Piece, locale: Lang): string | null {
   // The 38 original pieces carry a reviewed origin (lib/piece-names.ts, V1
   // §6) — or deliberately none. Only a piece added later in Shopify falls
   // through to the name terms below.
@@ -184,6 +189,11 @@ const MATERIAL_TERMS: [RegExp, Record<Lang, string>][] = [
 ];
 
 export function materialOf(piece: Piece, locale: Lang): string | null {
+  if (piece.facts) return factOf(piece, "material", locale);
+  return siteMaterial(piece, locale);
+}
+
+function siteMaterial(piece: Piece, locale: Lang): string | null {
   const copy = PIECE_COPY[piece.slug];
   const blob = [
     ...piece.description,
@@ -209,15 +219,29 @@ export type LabelField = { key: string; value: string };
 export function labelFor(piece: Piece, locale: Lang): LabelField[] {
   // V2 §19 / Collection §5: Origine, Région, Époque, Matière, Dimensions,
   // Nature, État — always in this order, each only where it is known.
+  // Edited by the house in Shopify (product fields, "trc" namespace); the
+  // site's own values below are the fallback and the seed.
+  if (piece.facts) {
+    return FACT_KEYS.flatMap((key) => {
+      const value = factOf(piece, key, locale);
+      return value ? [{ key, value }] : [];
+    });
+  }
+  return siteFacts(piece, locale);
+}
+
+/** The details as the site's own files state them (lib/piece-names.ts, the
+ *  scrape's dimensions, the material read from the text). Seeds Shopify. */
+export function siteFacts(piece: Piece, locale: Lang): LabelField[] {
   const fields: LabelField[] = [];
   const text = PIECE_TEXT[piece.slug];
 
-  const origin = originOf(piece, locale);
+  const origin = siteOrigin(piece, locale);
   if (origin) fields.push({ key: "origin", value: origin });
   if (text?.region) fields.push({ key: "region", value: text.region[locale] });
   if (text?.period) fields.push({ key: "period", value: text.period[locale] });
 
-  const material = materialOf(piece, locale);
+  const material = siteMaterial(piece, locale);
   if (material) fields.push({ key: "material", value: material });
 
   const dims = normaliseDimensions(piece.dimensions, locale);
@@ -257,4 +281,31 @@ export function pieceWords(piece: Piece, locale: Lang): { short: string | null; 
   const copy = PIECE_COPY[base];
   if (copy) return { short: copy.short[locale], about: [copy.about[locale]] };
   return { short: null, about: [] };
+}
+
+/* ------------------------------------------------------------------ *
+ * The details, edited in Shopify
+ * ------------------------------------------------------------------ */
+
+export const FACT_KEYS = ["origin", "region", "period", "material", "dimensions", "nature", "condition"] as const;
+export type FactKey = (typeof FACT_KEYS)[number];
+
+/**
+ * One detail of a piece, in the reading language.
+ *
+ * French is the value the house typed in the product's field. English is her
+ * translation in Translate & Adapt. Where there is none yet: the site's own
+ * English if the French is still the value the site seeded (so nothing reads
+ * half-translated), otherwise her French — a changed fact is never shown in
+ * its old English.
+ */
+export function factOf(piece: Piece, key: FactKey | string, locale: Lang): string | null {
+  const facts = piece.facts;
+  if (!facts) return siteFacts(piece, locale).find((f) => f.key === key)?.value ?? null;
+  const fr = facts.fr[key] ?? null;
+  if (locale === "fr" || !fr) return fr;
+  if (facts.en[key]) return facts.en[key];
+  const siteFr = siteFacts(piece, "fr").find((f) => f.key === key)?.value;
+  const siteEn = siteFacts(piece, "en").find((f) => f.key === key)?.value;
+  return siteFr === fr && siteEn ? siteEn : fr;
 }

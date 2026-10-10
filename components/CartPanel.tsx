@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import { useCart } from "./CartProvider";
 import { cartLines, cartTotal } from "@/lib/cart";
 import { imagePath } from "@/lib/catalog";
-import { displayName, normaliseDimensions, originOf } from "@/lib/specs";
+import { displayName, factOf, originOf } from "@/lib/specs";
 import { whatsappHref } from "@/lib/site";
 import { Picto } from "./BrandMarks";
 import type { Locale } from "@/lib/dictionaries";
@@ -169,7 +169,7 @@ export default function CartPanel({
                     ].filter(([, v]) => v) as [string, string][])
                   : ([
                       [t.origin, originOf(piece, locale)],
-                      [t.dimensions, normaliseDimensions(piece.dimensions, locale)],
+                      [t.dimensions, factOf(piece, "dimensions", locale)],
                     ].filter(([, v]) => v) as [string, string][]);
                 if (price) rows.push([t.price, price]);
                 return (

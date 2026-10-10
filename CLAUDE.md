@@ -5116,6 +5116,14 @@ lib/piece-copy.ts / SERIES_TEXT. She edits it in **Translate & Adapt**. The
 pull reads it with `@inContext(language: EN)` (`Piece.enName` / `enText`,
 `RugSeries.titleEn`), kept only where it differs from the French; anything
 untranslated falls back to the site's files. Checkout shows each language's
-names. The facts (origin, dimensions…) stay in lib/piece-names.ts.
+names.
+
+**The details too:** seven pinned product fields, namespace `trc` (Origine,
+Région, Époque, Matière, Dimensions, Nature, État), created and seeded by
+`npx tsx scripts/shopify-facts.mts` from `siteFacts()` (lib/specs.ts), English
+registered as translations. The pull reads them in both languages
+(`Piece.facts`); `labelFor` / `originOf` / `materialOf` / `factOf` use them,
+and an empty field is a detail not shown. English of a changed fact that she
+has not translated shows her French, never the old English.
 `shopify-v2.mts` only writes a description where it is empty, so re-running it
 never overwrites her edits.

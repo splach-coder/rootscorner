@@ -183,6 +183,12 @@ export type Piece = {
    * is used then. */
   enName?: string;
   enText?: string[];
+  /**
+   * The details (Origine, Région, Époque, Matière, Dimensions, Nature, État),
+   * from the product's fields in Shopify, by key (lib/specs.ts FACT_KEYS).
+   * `en` holds only values she translated. Absent: the site's own details.
+   */
+  facts?: { fr: Record<string, string>; en: Record<string, string> };
   description: string[];
   details: string[];
   care: string[];
@@ -304,6 +310,7 @@ type LiveSnapshot = {
       text?: string[];
       enTitle?: string;
       enText?: string[];
+      facts?: { fr: Record<string, string>; en: Record<string, string> };
       images?: { src: string; w: number; h: number; alt: string | null }[];
     }
   >;
@@ -319,6 +326,7 @@ type LiveSnapshot = {
     images: { src: string; w: number; h: number; alt: string | null }[];
     enTitle?: string;
     enText?: string[];
+    facts?: { fr: Record<string, string>; en: Record<string, string> };
   }[];
 };
 const snapshot = live as LiveSnapshot;
@@ -333,6 +341,7 @@ for (const piece of pieces) {
   if (state.text?.length) piece.frText = state.text;
   if (state.enTitle) piece.enName = state.enTitle;
   if (state.enText?.length) piece.enText = state.enText;
+  if (state.facts && Object.keys(state.facts.fr).length) piece.facts = state.facts;
   /*
    * The photographs, in the order the house sets in the admin. A photograph
    * that is also in public/pieces (same file name, the import kept them) is
@@ -391,6 +400,7 @@ for (const entry of snapshot.extra) {
     frText: entry.description.length ? entry.description : undefined,
     enName: entry.enTitle,
     enText: entry.enText,
+    facts: entry.facts && Object.keys(entry.facts.fr).length ? entry.facts : undefined,
     details: [],
     care: [],
     illustrative,

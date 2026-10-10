@@ -78,11 +78,34 @@ const ROOM_BY_TYPE = {
   Tapis: "rugs",
 };
 
+/*
+ * The details of a piece, as product fields the house edits in the admin
+ * (namespace "trc", created by scripts/shopify-facts.mts). Shopify key →
+ * the site's key (lib/specs.ts FACT_KEYS).
+ */
+const FACT_FIELDS = {
+  origine: "origin",
+  region: "region",
+  epoque: "period",
+  matiere: "material",
+  dimensions: "dimensions",
+  nature: "nature",
+  etat: "condition",
+};
+const FACT_IDS = `[${Object.keys(FACT_FIELDS).map((k) => `{namespace: "trc", key: "${k}"}`).join(", ")}]`;
+const factsOf = (node) =>
+  Object.fromEntries(
+    (node?.metafields ?? [])
+      .filter((m) => m && m.value && m.value.trim())
+      .map((m) => [FACT_FIELDS[m.key], m.value.trim()]),
+  );
+
 const QUERY = `query($after: String) {
   products(first: 100, after: $after) {
     pageInfo { hasNextPage endCursor }
     nodes {
       handle title productType description descriptionHtml
+      metafields(identifiers: ${FACT_IDS}) { key value }
       images(first: 12) { nodes { url width height altText } }
       options { name optionValues { name } }
       variants(first: 100) { nodes { id availableForSale price { amount currencyCode }
@@ -141,7 +164,7 @@ try {
 const EN_QUERY = `query($after: String) @inContext(language: EN) {
   products(first: 100, after: $after) {
     pageInfo { hasNextPage endCursor }
-    nodes { handle title description descriptionHtml }
+    nodes { handle title description descriptionHtml metafields(identifiers: ${FACT_IDS}) { key value } }
   }
 }`;
 const english = {};
@@ -170,6 +193,13 @@ function englishOf(p) {
   const en = paragraphs(e.descriptionHtml, e.description);
   if (en.length && en.join("\n") !== fr.join("\n")) out.enText = en;
   return out;
+}
+/* The details in both languages; English only where it differs. */
+function detailsOf(p) {
+  const fr = factsOf(p);
+  if (!Object.keys(fr).length) return {};
+  const en = factsOf(english[p.handle]);
+  return { facts: { fr, en: Object.fromEntries(Object.entries(en).filter(([k, v]) => v !== fr[k])) } };
 }
 
 const variants = JSON.parse(readFileSync(join(ROOT, "docs/shopify.json"), "utf8"));
@@ -239,6 +269,7 @@ for (const p of products) {
       text: paragraphs(p.descriptionHtml, p.description),
       images: imagesOf(p),
       ...englishOf(p),
+      ...detailsOf(p),
     };
     // V2: a piece sold in several sizes (Tamegroute candles, S and M). Each
     // Shopify variant becomes a choice on the piece page, with its own price.
@@ -270,6 +301,7 @@ for (const p of products) {
     description: paragraphs(p.descriptionHtml, p.description),
     images: imagesOf(p),
     ...englishOf(p),
+    ...detailsOf(p),
   });
 }
 
