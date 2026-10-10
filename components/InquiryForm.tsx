@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 
 export type InquiryField = {
   name: string;
@@ -110,6 +110,14 @@ export default function InquiryForm({
   const [photo, setPhoto] = useState<{ name: string; url: string } | null>(null);
   /** What the visitor typed, kept so a failed send can carry it onward. */
   const [written, setWritten] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+
+  /* ?message=… (from a rug's page) opens the message already written. */
+  useEffect(() => {
+    const message = new URLSearchParams(window.location.search).get("message");
+    const box = formRef.current?.querySelector<HTMLTextAreaElement>('textarea[name="message"]');
+    if (message && box && !box.value) box.value = message;
+  }, []);
 
   if (state === "sent") {
     return (
@@ -202,7 +210,7 @@ export default function InquiryForm({
         : null;
 
   return (
-    <form className="inquiry" onSubmit={onSubmit}>
+    <form ref={formRef} className="inquiry" onSubmit={onSubmit}>
       {fields.map((field) => {
         const id = `inquiry-${field.name}`;
         const hintId = field.hint ? `${id}-hint` : undefined;
@@ -465,6 +473,18 @@ function ChoiceField({ field }: { field: InquiryField }) {
   const [value, setValue] = useState("");
   const id = `inquiry-${field.name}`;
   const options = field.options ?? [];
+
+  /*
+   * Arriving from a rug's page ("Demander ce tapis"), the collection, colour
+   * and size chosen there are in the URL under this field's name — so the form
+   * opens already filled in, instead of asking for the same rug again
+   * (client, 10 Oct). Only a value that is one of the options is taken.
+   */
+  useEffect(() => {
+    const asked = new URLSearchParams(window.location.search).get(field.name);
+    if (asked && options.some((o) => o.value === asked)) setValue(asked);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [field.name]);
   const chosen = options.find((o) => o.value === value);
   const isOther = value === OTHER;
 

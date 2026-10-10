@@ -103,6 +103,7 @@ export default async function RugSeriesPage({
         exclude={{ series: series.handle }}
         order={
           <RugBuy
+            seriesLabel={title}
             demo={isIllustrativeSeries(series)}
             series={series}
             swatches={swatches}

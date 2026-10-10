@@ -87,10 +87,13 @@ export default function Intro() {
           setPhase("open");
         }, HOLD),
 
-        window.setTimeout(
-          () => window.dispatchEvent(new Event(INTRO_DONE)),
-          HOLD + LIFT_DELAY,
-        ),
+        window.setTimeout(() => {
+          // The veil starts lifting now. data-lift releases the hero's own
+          // entrance at the same moment (sections.css), so the photograph and
+          // the title arrive under the lifting veil instead of after it.
+          root.dataset.lift = "";
+          window.dispatchEvent(new Event(INTRO_DONE));
+        }, HOLD + LIFT_DELAY),
 
         window.setTimeout(() => {
           // "done" both unlocks the page and tells the header its picto is now

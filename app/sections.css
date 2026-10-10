@@ -3465,9 +3465,18 @@ html[data-intro="run"] .site-header-lockup {
   html:has(.hero:not([data-ready])) .site-header-mark,
   html:has(.hero:not([data-ready])) .site-nav,
   html:has(.hero:not([data-ready])) .site-header-end,
-  html[data-intro="run"]:has(.hero) .site-header-mark,
-  html[data-intro="run"]:has(.hero) .site-nav,
-  html[data-intro="run"]:has(.hero) .site-header-end {
+  html[data-intro="run"]:not([data-lift]):has(.hero) .site-header-mark,
+  html[data-intro="run"]:not([data-lift]):has(.hero) .site-nav,
+  html[data-intro="run"]:not([data-lift]):has(.hero) .site-header-end {
+    opacity: 0;
+    transition: none;
+  }
+
+  /* Under the veil the photograph stays hidden even once it is decoded:
+     `.hero[data-ready] .hero-media img` would otherwise show it at full
+     strength behind the lifting veil, and the entrance below would then
+     restart it from nothing — the flash after the R (client, 10 Oct). */
+  html[data-intro="run"]:not([data-lift]) .hero .hero-media img {
     opacity: 0;
     transition: none;
   }
@@ -3479,26 +3488,26 @@ html[data-intro="run"] .site-header-lockup {
     opacity: 1;
   }
 
-  html:not([data-intro="run"]) .hero[data-ready] .hero-media img {
+  html:not([data-intro="run"]:not([data-lift])) .hero[data-ready] .hero-media img {
     animation: hero-settle 1600ms var(--ease-material) both;
   }
-  html:not([data-intro="run"]):has(.hero[data-ready]) .site-header-mark {
+  html:not([data-intro="run"]:not([data-lift])):has(.hero[data-ready]) .site-header-mark {
     animation: hero-from-top-left 1100ms var(--ease-material) 120ms both;
   }
-  html:not([data-intro="run"]):has(.hero[data-ready]) .site-nav {
+  html:not([data-intro="run"]:not([data-lift])):has(.hero[data-ready]) .site-nav {
     animation: hero-from-top 1100ms var(--ease-material) 200ms both;
   }
-  html:not([data-intro="run"]):has(.hero[data-ready]) .site-header-end {
+  html:not([data-intro="run"]:not([data-lift])):has(.hero[data-ready]) .site-header-end {
     animation: hero-from-top-right 1100ms var(--ease-material) 280ms both;
   }
-  html:not([data-intro="run"]) .hero[data-ready] .hero-title {
+  html:not([data-intro="run"]:not([data-lift])) .hero[data-ready] .hero-title {
     animation: hero-from-below 1200ms var(--ease-material) 260ms both;
   }
-  html:not([data-intro="run"]) .hero[data-ready] .hero-line {
+  html:not([data-intro="run"]:not([data-lift])) .hero[data-ready] .hero-line {
     animation: hero-from-below 1100ms var(--ease-material) 420ms both;
   }
-  html:not([data-intro="run"]) .hero[data-ready] .hero-lead,
-  html:not([data-intro="run"]) .hero[data-ready] .hero-note {
+  html:not([data-intro="run"]:not([data-lift])) .hero[data-ready] .hero-lead,
+  html:not([data-intro="run"]:not([data-lift])) .hero[data-ready] .hero-note {
     animation: hero-from-below 1100ms var(--ease-material) 540ms both;
   }
 }

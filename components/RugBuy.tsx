@@ -41,6 +41,7 @@ export default function RugBuy({
   locale,
   labels,
   demo = false,
+  seriesLabel,
 }: {
   series: RugSeries;
   swatches: Record<string, string[] | undefined>;
@@ -50,6 +51,8 @@ export default function RugBuy({
   labels: Labels & { demoAsk?: string };
   /** Demo photographs (RUG_DEMO): show, never sell. */
   demo?: boolean;
+  /** The collection's name in this locale, as the form's options spell it. */
+  seriesLabel?: string;
 }) {
   const [colour, setColour] = useState(series.colours[0]?.name ?? "");
   const [size, setSize] = useState(series.sizes[0] ?? "");
@@ -72,7 +75,23 @@ export default function RugBuy({
       maximumFractionDigits: 0,
     }).format(n);
 
-  const ask = `/${locale}/mrirt#sur-mesure`;
+  /*
+   * The enquiry carries what was chosen here — collection · colour, size and a
+   * first line of message — so the form on /mrirt opens filled in (client,
+   * 10 Oct: "you get sent back to the form and have to find the rug again").
+   * The values are spelt exactly as the form's options (lib/rug-options.ts).
+   */
+  const colourShown = colourLabels[colour] ?? colour;
+  const name = seriesLabel ?? series.title;
+  const sentence =
+    locale === "fr"
+      ? `Bonjour, je souhaite des informations sur le tapis ${name}${colourShown ? `, ${colourShown}` : ""}${size ? `, en ${size}` : ""}.`
+      : `Hello, I would like to know more about the ${name} rug${colourShown ? `, ${colourShown}` : ""}${size ? `, in ${size}` : ""}.`;
+  const query = new URLSearchParams();
+  if (colourShown) query.set("series", `${name} · ${colourShown}`);
+  if (size) query.set("size", size);
+  query.set("message", sentence);
+  const ask = `/${locale}/mrirt?${query.toString()}#sur-mesure`;
 
   const action =
     !demo && price !== null && variant ? (
