@@ -9,13 +9,14 @@
  * ---------------------------------------------------------------------------
  * 1. CATEGORIES AS PRODUCT TYPES, IN FRENCH
  *
- * Every product's "Type" becomes the French room name the site shows
- * ("Tabourets & sièges", not "stools"). Shopify autocompletes types, so when
- * Dahab adds a piece she picks its room from a list she can read.
+ * Every product's "Type" becomes the French name of its collection group
+ * (V2, 10 Oct: "Sièges & Tabourets", "Objets & Sculptures", …, GROUPS in
+ * lib/copy-v2.ts). Shopify autocompletes types, so when Dahab adds a piece
+ * she picks its group from a list she can read.
  *
- * 2. ONE AUTOMATIC COLLECTION PER ROOM
+ * 2. ONE AUTOMATIC COLLECTION PER GROUP
  *
- * Rule: Type equals the room name. A new piece lands in its collection the
+ * Rule: Type equals the group name. A new piece lands in its collection the
  * moment its type is chosen; nobody maintains collections by hand. "Tapis"
  * is created empty — it fills the day a finished rug is added (§32).
  *
@@ -80,17 +81,32 @@ const userErrors = (x) => {
   if (e?.length) throw new Error(e.map((u) => `${u.field ?? ""} ${u.message}`).join("; "));
 };
 
-/* The room names, from lib/dictionaries.ts (FR). The store's language is French. */
+/*
+ * The five collection groups (V2, 10 Oct) — keep in step with GROUPS in
+ * lib/copy-v2.ts and GROUP_OF / GROUP_OVERRIDE in lib/piece-copy.ts.
+ * The store's language is French. Collection handle → its title, which is
+ * also the product Type its rule matches.
+ */
 const ROOMS = {
-  stools: "Tabourets & sièges",
-  "african-decoration": "Pièces africaines",
-  pots: "Pots & contenants",
-  "ceramics-tamegroute": "Céramiques de Tamegroute",
-  vases: "Vases",
-  decoration: "Objets",
-  lamp: "Lumière",
+  "sieges-tabourets": "Sièges & Tabourets",
+  "objets-sculptures": "Objets & Sculptures",
+  "poteries-ceramiques": "Poteries & Céramiques",
+  "objets-anciens-artisanat": "Objets Anciens & Artisanat",
+  "mobilier-luminaires": "Mobilier & Luminaires",
   rugs: "Tapis",
 };
+/* The site's old room (docs/catalog.json category) → its group. */
+const GROUP_OF = {
+  stools: "sieges-tabourets",
+  decoration: "objets-sculptures",
+  pots: "poteries-ceramiques",
+  vases: "poteries-ceramiques",
+  "ceramics-tamegroute": "poteries-ceramiques",
+  "african-decoration": "objets-anciens-artisanat",
+  lamp: "mobilier-luminaires",
+  rugs: "rugs",
+};
+const GROUP_OVERRIDE = { "vintage-moroccan-shelf-berbere": "mobilier-luminaires" };
 
 /* ---- 1. product types ---------------------------------------------------- */
 
@@ -101,8 +117,9 @@ const slugOf = (url) => (url || "").replace(/\/+$/, "").split("/").pop() ?? "";
 
 let typed = 0;
 for (const entry of items) {
-  const variant = variants[slugOf(entry.url)];
-  const type = ROOMS[entry.category];
+  const slug = slugOf(entry.url);
+  const variant = variants[slug];
+  const type = ROOMS[GROUP_OVERRIDE[slug] ?? GROUP_OF[entry.category]];
   if (!variant || !type) continue;
   if (DRY) {
     typed++;
@@ -119,7 +136,7 @@ for (const entry of items) {
   );
   typed++;
 }
-console.log(`types:       ${typed} product(s) ${DRY ? "would be" : ""} set to their French room`);
+console.log(`types:       ${typed} product(s) ${DRY ? "would be" : ""} set to their French group`);
 
 /* ---- 2. collections ------------------------------------------------------ */
 

@@ -58,6 +58,14 @@ if (!SHOP || !TOKEN) keep("no store credentials");
 /* The room names the house picks as "Type" in the admin → the site's slugs.
    Kept identical to scripts/shopify-setup.mjs and lib/dictionaries.ts. */
 const ROOM_BY_TYPE = {
+  // V2 (10 Oct): the five collection groups are the product types now. A piece
+  // added under a group lands in a room that lib/piece-copy.ts maps back to it.
+  "Sièges & Tabourets": "stools",
+  "Objets & Sculptures": "decoration",
+  "Poteries & Céramiques": "pots",
+  "Objets Anciens & Artisanat": "african-decoration",
+  "Mobilier & Luminaires": "lamp",
+  // The old room types, still understood.
   "Tabourets & sièges": "stools",
   "Pièces africaines": "african-decoration",
   "Pots & contenants": "pots",
