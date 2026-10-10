@@ -5093,3 +5093,23 @@ Still open: the women-weaving photograph for /mrirt (yarn photo stands in,
 uncaptioned); the "guide d'entretien" the Mrirt FAQ mentions does not exist;
 "à confirmer" sentences in the product copy are the client's and are shown as
 written; product titles inside Shopify's hosted checkout are still English.
+
+### Shopify is where the house edits (10 Oct, after V2)
+
+Run with the Dev Dashboard app credentials in `.env.local`
+(`SHOPIFY_CLIENT_ID` / `SHOPIFY_CLIENT_SECRET`, never `NEXT_PUBLIC_`):
+`npx tsx scripts/shopify-v2.mts [--dry]` (`scripts/lib/shopify-admin.mjs`
+holds the auth). Applied once, idempotent.
+
+| In the Shopify admin | Reaches the site (≈5–15 min, CI sync) |
+|---|---|
+| Product title | the **French** name (`Piece.frName`, `displayName`) |
+| Description: 1st paragraph / the rest | **French** "Description courte" / "À propos" (`Piece.frText`, `pieceWords` in lib/specs.ts) |
+| Media, in order | the photographs; a file that is also in public/pieces is served locally, anything new from Shopify's CDN |
+| Price, stock, variants | price, sold state, size picker (Tamegroute S 45 € / M 65 € are MOCK until she sets them) |
+| Type = one of the 5 groups | the product's collection, in the admin and on the site |
+
+English names and texts stay in lib/piece-names.ts / lib/piece-copy.ts (the
+app has no translations scope), as do the facts (origin, dimensions…).
+`shopify-v2.mts` only writes a description where it is empty, so re-running it
+never overwrites her edits.

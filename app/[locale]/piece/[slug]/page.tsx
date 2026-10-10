@@ -22,9 +22,8 @@ import {
   groupOf,
   groupBySlug,
 } from "@/lib/catalog";
-import { PIECE_COPY } from "@/lib/piece-copy";
 import { MRIRT, PRODUCT } from "@/lib/copy-v2";
-import { displayName, labelFor, materialOf, originOf } from "@/lib/specs";
+import { displayName, labelFor, materialOf, originOf, pieceWords } from "@/lib/specs";
 import JsonLd from "@/components/JsonLd";
 import { breadcrumbLd, pageMeta, pieceOg, productLd } from "@/lib/seo";
 import { enLine, enLines, frLine, frLines } from "@/lib/product-fr";
@@ -62,7 +61,7 @@ export async function generateMetadata({
   // named it, price — and the uniqueness line. Never a generated description
   // of an object nobody described (CLAUDE.md §5). Translated too: this is the
   // sentence Google and WhatsApp print under the French page.
-  const own = PIECE_COPY[piece.slug]?.short[locale as Locale];
+  const own = pieceWords(piece, locale as Locale).short ?? undefined;
   const first = piece.description[0];
   const facts = [
     materialOf(piece, locale),
@@ -132,14 +131,15 @@ export default async function PiecePage({
   const isRug = piece.category === "rugs";
   const related = isRug ? [] : relatedPieces(piece);
   const lang = locale as Locale;
-  const copy = PIECE_COPY[piece.slug];
+  const words0 = pieceWords(piece, lang);
   const groupSlug = groupOf(piece);
   const group = groupSlug ? groupBySlug(groupSlug) : undefined;
-  // The house's own copy (V2) where it exists. A piece added later in Shopify
-  // has only its own description: first paragraph short, the rest "À propos".
+  // French: the text the house edits in Shopify; English: lib/piece-copy.ts
+  // (lib/specs.ts pieceWords). Failing both, the scraped description, split
+  // the same way: first paragraph short, the rest "À propos".
   const ownWords = say(lang, piece.description);
-  const shortText = copy ? copy.short[lang] : (ownWords[0] ?? null);
-  const aboutText = copy ? [copy.about[lang]] : ownWords.slice(1);
+  const shortText = words0.short ?? (ownWords[0] ?? null);
+  const aboutText = words0.short ? words0.about : ownWords.slice(1);
   const fields = labelFor(piece, lang);
 
   // The slug, not a display string: contact resolves it back to the record and
@@ -192,7 +192,7 @@ export default async function PiecePage({
           title={name}
           headPrice={!piece.available ? t.common.sold : sellable && price ? price : l.onRequest}
           line={
-            PIECE_COPY[piece.slug]?.short[locale as Locale] ??
+            pieceWords(piece, locale as Locale).short ??
             words.find((w) => !/^photos?\s+d[’']illustration\.?$/i.test(w.trim())) ??
             null
           }

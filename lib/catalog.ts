@@ -170,6 +170,14 @@ export type Piece = {
   options?: { id: string; label: string; price: number; available: boolean }[];
   /** On a cart line for one of those options: which one. */
   sizeLabel?: string;
+  /**
+   * V2: what the house edits in Shopify. The product title is the French
+   * name; the description is the French text, first paragraph = "Description
+   * courte", the rest = "À propos de cette pièce". Read in lib/specs.ts
+   * (displayName, pieceWords), which fall back to the site's own copy.
+   */
+  frName?: string;
+  frText?: string[];
   description: string[];
   details: string[];
   care: string[];
@@ -287,6 +295,9 @@ type LiveSnapshot = {
       price: number | null;
       available: boolean;
       options?: { id: string; label: string; price: number; available: boolean }[];
+      title?: string;
+      text?: string[];
+      images?: { src: string; w: number; h: number; alt: string | null }[];
     }
   >;
   extra: {
@@ -309,6 +320,23 @@ for (const piece of pieces) {
   if (state.price !== null) piece.price = state.price;
   piece.available = state.available;
   if (state.options && state.options.length > 1) piece.options = state.options;
+  if (state.title) piece.frName = state.title;
+  if (state.text?.length) piece.frText = state.text;
+  /*
+   * The photographs, in the order the house sets in the admin. A photograph
+   * that is also in public/pieces (same file name, the import kept them) is
+   * served from there; one she adds or replaces comes from Shopify's CDN.
+   */
+  if (state.images?.length) {
+    const base = (u: string) => u.split("?")[0].split("/").pop() ?? u;
+    const local = new Map(piece.images.map((img) => [base(img.original), img]));
+    const images: PieceImage[] = state.images.map(
+      (i) => local.get(base(i.src)) ?? { file: i.src, original: i.src, src: i.src, w: i.w, h: i.h },
+    );
+    const swap = piece.swapImage && images.includes(piece.swapImage) ? piece.swapImage : (images[1] ?? null);
+    piece.images = images;
+    piece.swapImage = swap;
+  }
 }
 
 /**
@@ -348,6 +376,8 @@ for (const entry of snapshot.extra) {
     available: entry.available,
     delivery: null,
     description: entry.description,
+    frName: entry.name.trim(),
+    frText: entry.description.length ? entry.description : undefined,
     details: [],
     care: [],
     illustrative,

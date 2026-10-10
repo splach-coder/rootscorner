@@ -11,10 +11,12 @@
  * WHAT SHOPIFY DECIDES, AND WHAT IT DOES NOT
  *
  * Shopify is the source of truth for what a buyer pays and whether they can:
- * **price** and **availability**. The client edits those in the admin and the
- * next build shows them. For the 38 original pieces, the site's own copy
- * (names, French translations, photography, dimensions) stays in charge —
- * that copy was cleaned and translated here (§46) and Shopify holds none of it.
+ * **price**, **availability** and **sizes**. Since V2 (10 Oct) it is also where
+ * the house edits, for every piece, the **French name** (product title), the
+ * **French text** (description: first paragraph = "Description courte", the
+ * rest = "À propos de cette pièce") and the **photographs** (media, in order).
+ * The site's own files keep what Shopify does not hold: the English name and
+ * text, and the facts (origin, dimensions…) in lib/piece-names.ts.
  *
  * A product that exists ONLY in Shopify — a piece added by the house after
  * launch — is taken whole: title, room (from its Type), description, photos.
@@ -80,7 +82,7 @@ const QUERY = `query($after: String) {
   products(first: 100, after: $after) {
     pageInfo { hasNextPage endCursor }
     nodes {
-      handle title productType description
+      handle title productType description descriptionHtml
       images(first: 12) { nodes { url width height altText } }
       options { name optionValues { name } }
       variants(first: 100) { nodes { id availableForSale price { amount currencyCode }
@@ -88,6 +90,28 @@ const QUERY = `query($after: String) {
     }
   }
 }`;
+
+/*
+ * The description as paragraphs. Read from the HTML, not the plain-text
+ * `description`, because Shopify's plain text runs paragraphs together.
+ */
+const ENTITIES = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: "\u00a0", rsquo: "’", lsquo: "‘", rdquo: "”", ldquo: "“", eacute: "é", egrave: "è", agrave: "à", ccedil: "ç", ecirc: "ê", ocirc: "ô" };
+function paragraphs(html, plain) {
+  if (!html) return (plain || "").split(/\n\s*\n|\n/).map((x) => x.trim()).filter(Boolean);
+  return html
+    .replace(/<\/(p|div|li|h[1-6])>|<br\s*\/?>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (m, e) =>
+      e[0] === "#" ? String.fromCodePoint(e[1].toLowerCase() === "x" ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10)) : ENTITIES[e.toLowerCase()] ?? m,
+    )
+    .split("\n")
+    .map((x) => x.replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+}
+const imagesOf = (p) =>
+  p.images.nodes
+    .filter((i) => i.url && i.width && i.height)
+    .map((i) => ({ src: i.url, w: i.width, h: i.height, alt: i.altText || null }));
 
 const products = [];
 try {
@@ -164,7 +188,14 @@ for (const p of products) {
   // Matched on any of its variants: adding sizes in the admin keeps the link.
   const known = p.variants.nodes.map((x) => slugByVariant[x.id]).find(Boolean);
   if (known) {
-    pieces[known] = { price, available: p.variants.nodes.some((x) => x.availableForSale) };
+    pieces[known] = {
+      price,
+      available: p.variants.nodes.some((x) => x.availableForSale),
+      // What the house edits in the admin (V2): French name, text, photos.
+      title: p.title.trim(),
+      text: paragraphs(p.descriptionHtml, p.description),
+      images: imagesOf(p),
+    };
     // V2: a piece sold in several sizes (Tamegroute candles, S and M). Each
     // Shopify variant becomes a choice on the piece page, with its own price.
     if (p.variants.nodes.length > 1) {
@@ -192,10 +223,8 @@ for (const p of products) {
     category,
     // Shopify's plain-text description, split into paragraphs. The house wrote
     // it; nothing is added (§5).
-    description: (p.description || "").split(/\n\s*\n|\n/).map((s) => s.trim()).filter(Boolean),
-    images: p.images.nodes
-      .filter((i) => i.url && i.width && i.height)
-      .map((i) => ({ src: i.url, w: i.width, h: i.height, alt: i.altText || null })),
+    description: paragraphs(p.descriptionHtml, p.description),
+    images: imagesOf(p),
   });
 }
 

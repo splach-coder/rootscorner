@@ -16,6 +16,9 @@
  *    deleted once nothing is typed into them any more. "Tapis" and
  *    "Tapis Mrirt" are left alone.
  *
+ * 4. Every piece's DESCRIPTION becomes the house's French copy, where it is
+ *    still empty — so Shopify is where names, texts and photos are edited.
+ *
  * Idempotent: a second run changes nothing. Prices, stock, photos and the
  * rugs are never touched.
  */
@@ -24,7 +27,7 @@ import { join } from "node:path";
 import { connect, gql, userErrors, ROOT } from "./lib/shopify-admin.mjs";
 import { PIECE_TEXT } from "../lib/piece-names";
 import { GROUPS } from "../lib/copy-v2";
-import { GROUP_OF, GROUP_OVERRIDE } from "../lib/piece-copy";
+import { GROUP_OF, GROUP_OVERRIDE, PIECE_COPY } from "../lib/piece-copy";
 
 const DRY = process.argv.includes("--dry");
 const OLD_ROOMS = ["stools", "african-decoration", "pots", "ceramics-tamegroute", "vases", "decoration", "lamp"];
@@ -125,4 +128,46 @@ for (const handle of OLD_ROOMS) {
     }),
   );
 }
+/* ---- 4. descriptions ----------------------------------------------------- */
+/*
+ * The house's French copy (lib/piece-copy.ts) becomes each product's
+ * description in Shopify: first paragraph = "Description courte", the rest =
+ * "À propos de cette pièce". From then on Shopify is where it is edited; the
+ * site reads it back (scripts/shopify-pull.mjs). Written only where the
+ * description is still EMPTY, so a re-run never overwrites her edits.
+ */
+const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const rugHandles = ["tapis-laine-sable-carreaux-ocre", "tapis-laine-prune-frise"];
+const targets: { slug: string; id: string }[] = [];
+for (const entry of items) {
+  const slug = slugOf(entry.url);
+  const variant = variants[slug];
+  if (!variant) continue;
+  const d = await gql(`query($id: ID!) { productVariant(id: $id) { product { id } } }`, { id: variant });
+  if (d.productVariant?.product) targets.push({ slug, id: d.productVariant.product.id });
+}
+for (const h of rugHandles) {
+  const d = await gql(`query($h: String!) { productByHandle(handle: $h) { id } }`, { h });
+  if (d.productByHandle) targets.push({ slug: h, id: d.productByHandle.id });
+}
+let described = 0;
+for (const { slug, id } of targets) {
+  const copy = PIECE_COPY[slug];
+  if (!copy) continue;
+  const cur = await gql(`query($id: ID!) { product(id: $id) { descriptionHtml } }`, { id });
+  const existing = (cur.product?.descriptionHtml ?? "").replace(/<[^>]+>/g, "").trim();
+  const isPlaceholder = /^photos?\s+d[’']illustration\.?$/i.test(existing);
+  if (existing && !isPlaceholder) continue;
+  const html = `<p>${esc(copy.short.fr)}</p>\n<p>${esc(copy.about.fr)}</p>`;
+  console.log(`${DRY ? "would describe" : "describe"}  ${slug}`);
+  described++;
+  if (DRY) continue;
+  userErrors(
+    await gql(`mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { userErrors { field message } } }`, {
+      p: { id, descriptionHtml: html },
+    }),
+  );
+}
+console.log(`descriptions: ${described} ${DRY ? "would be written" : "written"}`);
+
 console.log(DRY ? "dry run, nothing written" : "done");
