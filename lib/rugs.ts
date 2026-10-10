@@ -31,6 +31,9 @@ export type RugSeries = {
   handle: string;
   title: string;
   description: string;
+  /** English title and line from the store's translation, when there is one. */
+  titleEn?: string;
+  descriptionEn?: string;
   colours: { name: string; image: string | null }[];
   sizes: string[];
   images: { src: string; w: number; h: number; alt: string | null }[];
@@ -96,13 +99,13 @@ const COLOUR_EN: Record<string, string> = {
 
 export function seriesTitle(series: RugSeries, locale: string): string {
   if (locale === "fr") return series.title;
-  return SERIES_TEXT[series.handle]?.titleEn ?? series.title;
+  return series.titleEn ?? SERIES_TEXT[series.handle]?.titleEn ?? series.title;
 }
 
 export function seriesLine(series: RugSeries, locale: string): string | null {
   const text = SERIES_TEXT[series.handle];
   if (locale === "fr") return series.description || text?.fr || null;
-  return text?.en ?? null;
+  return series.descriptionEn ?? text?.en ?? null;
 }
 
 /** "Terracotta + Brun chocolat" → "Terracotta + Chocolate brown" on /en. */
@@ -198,3 +201,8 @@ export function rugAsPiece(entry: string, locale: string): Piece | null {
     href: `/${locale}/tapis/${series.handle}`,
   };
 }
+
+/** The site's English for the series, for scripts/shopify-en.mts to seed Shopify. */
+export const SERIES_TEXT_EN: Record<string, { title: string; line: string }> = Object.fromEntries(
+  Object.entries(SERIES_TEXT).map(([h, t]) => [h, { title: t.titleEn, line: t.en }]),
+);

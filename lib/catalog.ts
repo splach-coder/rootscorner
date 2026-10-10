@@ -178,6 +178,11 @@ export type Piece = {
    */
   frName?: string;
   frText?: string[];
+  /** The same in English, from the store's English translation (Translate &
+   * Adapt). Absent where she has not translated it; the site's own English
+   * is used then. */
+  enName?: string;
+  enText?: string[];
   description: string[];
   details: string[];
   care: string[];
@@ -297,6 +302,8 @@ type LiveSnapshot = {
       options?: { id: string; label: string; price: number; available: boolean }[];
       title?: string;
       text?: string[];
+      enTitle?: string;
+      enText?: string[];
       images?: { src: string; w: number; h: number; alt: string | null }[];
     }
   >;
@@ -310,6 +317,8 @@ type LiveSnapshot = {
     category: string;
     description: string[];
     images: { src: string; w: number; h: number; alt: string | null }[];
+    enTitle?: string;
+    enText?: string[];
   }[];
 };
 const snapshot = live as LiveSnapshot;
@@ -322,6 +331,8 @@ for (const piece of pieces) {
   if (state.options && state.options.length > 1) piece.options = state.options;
   if (state.title) piece.frName = state.title;
   if (state.text?.length) piece.frText = state.text;
+  if (state.enTitle) piece.enName = state.enTitle;
+  if (state.enText?.length) piece.enText = state.enText;
   /*
    * The photographs, in the order the house sets in the admin. A photograph
    * that is also in public/pieces (same file name, the import kept them) is
@@ -378,6 +389,8 @@ for (const entry of snapshot.extra) {
     description: entry.description,
     frName: entry.name.trim(),
     frText: entry.description.length ? entry.description : undefined,
+    enName: entry.enTitle,
+    enText: entry.enText,
     details: [],
     care: [],
     illustrative,

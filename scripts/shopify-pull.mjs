@@ -132,6 +132,46 @@ try {
   keep(e.message);
 }
 
+/*
+ * The same products in ENGLISH (store language "en", edited in Translate &
+ * Adapt). Shopify answers an untranslated field with the French, so English
+ * is kept only where it differs from the French; the site then falls back to
+ * its own English (lib/piece-names.ts, lib/piece-copy.ts, lib/rugs.ts).
+ */
+const EN_QUERY = `query($after: String) @inContext(language: EN) {
+  products(first: 100, after: $after) {
+    pageInfo { hasNextPage endCursor }
+    nodes { handle title description descriptionHtml }
+  }
+}`;
+const english = {};
+try {
+  let after = null;
+  do {
+    const r = await fetch(`https://${SHOP}/api/2025-01/graphql.json`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Shopify-Storefront-Access-Token": TOKEN },
+      body: JSON.stringify({ query: EN_QUERY, variables: { after } }),
+    });
+    const j = await r.json();
+    if (!r.ok || j.errors?.length) break;
+    for (const n of j.data.products.nodes) english[n.handle] = n;
+    after = j.data.products.pageInfo.hasNextPage ? j.data.products.pageInfo.endCursor : null;
+  } while (after);
+} catch {
+  // No English is not a failure: the site has its own.
+}
+function englishOf(p) {
+  const e = english[p.handle];
+  if (!e) return {};
+  const out = {};
+  if (e.title?.trim() && e.title.trim() !== p.title.trim()) out.enTitle = e.title.trim();
+  const fr = paragraphs(p.descriptionHtml, p.description);
+  const en = paragraphs(e.descriptionHtml, e.description);
+  if (en.length && en.join("\n") !== fr.join("\n")) out.enText = en;
+  return out;
+}
+
 const variants = JSON.parse(readFileSync(join(ROOT, "docs/shopify.json"), "utf8"));
 const slugByVariant = Object.fromEntries(Object.entries(variants).map(([s, v]) => [v, s]));
 
@@ -156,9 +196,12 @@ const distinctSwatches = (series) => {
 for (const p of products) {
   if (p.productType?.trim() === "Tapis Mrirt") {
     const opt = (n) => p.options.find((o) => o.name.toLowerCase() === n)?.optionValues.map((v) => v.name) ?? [];
+    const enS = englishOf(p);
     rugSeries.push(distinctSwatches({
       handle: p.handle,
       title: p.title.trim(),
+      ...(enS.enTitle ? { titleEn: enS.enTitle } : {}),
+      ...(enS.enText ? { descriptionEn: enS.enText.join(" ") } : {}),
       description: (p.description || "").trim(),
       image: p.images.nodes[0] ? { src: p.images.nodes[0].url, w: p.images.nodes[0].width, h: p.images.nodes[0].height } : null,
       colours: opt("couleur").map((name) => ({
@@ -195,6 +238,7 @@ for (const p of products) {
       title: p.title.trim(),
       text: paragraphs(p.descriptionHtml, p.description),
       images: imagesOf(p),
+      ...englishOf(p),
     };
     // V2: a piece sold in several sizes (Tamegroute candles, S and M). Each
     // Shopify variant becomes a choice on the piece page, with its own price.
@@ -225,6 +269,7 @@ for (const p of products) {
     // it; nothing is added (§5).
     description: paragraphs(p.descriptionHtml, p.description),
     images: imagesOf(p),
+    ...englishOf(p),
   });
 }
 

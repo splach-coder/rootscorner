@@ -157,9 +157,11 @@ export function displayName(piece: Piece, locale: Lang = "en"): string {
   const name =
     locale === "fr" && piece.frName
       ? piece.frName
-      : known
-        ? known.name[locale]
-        : piece.name.replace(REDUNDANT_TAIL, "").trim() || piece.name;
+      : locale === "en" && piece.enName
+        ? piece.enName
+        : known
+          ? known.name[locale]
+          : piece.name.replace(REDUNDANT_TAIL, "").trim() || piece.name;
   return piece.sizeLabel ? `${name} · ${piece.sizeLabel}` : name;
 }
 
@@ -243,15 +245,15 @@ export function coverage(pieces: Piece[], locale: Lang = "en") {
 /**
  * The short description and "À propos" text of a piece (V2 product template).
  *
- * French comes from Shopify, where the house edits it: first paragraph short,
- * the rest "À propos". English comes from lib/piece-copy.ts. A piece with
+ * Both languages come from Shopify, where the house edits them (French in the
+ * product, English in Translate & Adapt): first paragraph short, the rest
+ * "À propos". Where English is not translated there, lib/piece-copy.ts. A piece with
  * neither falls back to its own scraped description, split the same way.
  */
 export function pieceWords(piece: Piece, locale: Lang): { short: string | null; about: string[] } {
   const base = piece.slug.split("::")[0];
-  if (locale === "fr" && piece.frText?.length) {
-    return { short: piece.frText[0], about: piece.frText.slice(1) };
-  }
+  const fromShopify = locale === "fr" ? piece.frText : piece.enText;
+  if (fromShopify?.length) return { short: fromShopify[0], about: fromShopify.slice(1) };
   const copy = PIECE_COPY[base];
   if (copy) return { short: copy.short[locale], about: [copy.about[locale]] };
   return { short: null, about: [] };
