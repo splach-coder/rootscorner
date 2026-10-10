@@ -1,6 +1,6 @@
 {
- "pulledAt": "2026-10-06T10:52:49.972Z",
- "hash": "61ab677e22562e18",
+ "pulledAt": "2026-10-10T19:11:14.096Z",
+ "hash": "bdb676242ce3e4b6",
  "pieces": {
   "handcrafted-wood-stool---cote-d-ivoire": {
    "price": 480,
@@ -84,7 +84,21 @@
   },
   "tamegroute-candle-s-and-m": {
    "price": 45,
-   "available": true
+   "available": true,
+   "options": [
+    {
+     "id": "gid://shopify/ProductVariant/59247231107420",
+     "label": "S",
+     "price": 45,
+     "available": true
+    },
+    {
+     "id": "gid://shopify/ProductVariant/59432054882652",
+     "label": "M",
+     "price": 65,
+     "available": true
+    }
+   ]
   },
   "handmade-ceramic-candlestick-tamgroute": {
    "price": 120,
