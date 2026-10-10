@@ -5,7 +5,7 @@ import RugCard from "@/components/RugCard";
 import { isIllustrativeSeries, allRugSeries, colourName, formatEuro, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { rugChoices } from "@/lib/rug-options";
-import { rugFaq } from "@/lib/rug-faq";
+import { MRIRT } from "@/lib/copy-v2";
 import Link from "next/link";
 import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
@@ -13,7 +13,7 @@ import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
 import InquiryForm, { type InquiryField } from "@/components/InquiryForm";
 import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
-import { RUG_DEMO, RUG_SHOTS, WOVEN_RUGS, readyRugs } from "@/lib/catalog";
+import { RUG_DEMO, RUG_SHOTS, WOVEN_RUGS, formatPrice, pieceBySlug, readyRugs } from "@/lib/catalog";
 import { INSTAGRAM, whatsappDigits } from "@/lib/site";
 
 export async function generateMetadata({
@@ -99,6 +99,7 @@ export default async function MrirtPage({
   const series = allRugSeries();
   const rl = rugLabels(locale as Locale);
   const fr = locale === "fr";
+  const lang = locale as Locale;
 
   /* The wall: one tile per colourway of every collection, then the rugs
      already woven. A colourway without its own photograph takes the
@@ -107,6 +108,7 @@ export default async function MrirtPage({
     ...WOVEN_RUGS.map((woven) => {
       const key = woven.id as keyof typeof t.mrirtPage.woven.items;
       const name = woven.name?.[locale as Locale] ?? t.mrirtPage.woven.items[key];
+      const piece = woven.slug ? pieceBySlug(woven.slug) : undefined;
       return {
         key: `woven-${woven.id}`,
         href: woven.slug ? `/${locale}/piece/${woven.slug}` : "#sur-mesure",
@@ -118,7 +120,7 @@ export default async function MrirtPage({
         collection: "",
         name,
         detail: null,
-        price: rl.onRequest,
+        price: (piece && formatPrice(piece, locale)) || rl.onRequest,
       };
     }),
     ...series.flatMap((sr) => {
@@ -183,13 +185,6 @@ export default async function MrirtPage({
     { name: "message", label: t.form.message, kind: "textarea" as const },
   ];
 
-  // The featured collection beside the room: the first the house lists.
-  const featured = series[0] ?? null;
-  const featuredFrom =
-    featured && !isIllustrativeSeries(featured)
-      ? Math.min(...featured.variants.filter((v) => v.price > 0).map((v) => v.price))
-      : Infinity;
-  const featuredPrice = Number.isFinite(featuredFrom) ? `${rl.from} ${formatEuro(featuredFrom, locale)}` : rl.onRequest;
 
   return (
     <>
@@ -216,7 +211,6 @@ export default async function MrirtPage({
               <div className="hero-line">
                 <p className="hero-tagline label">{t.mrirtPage.place}</p>
               </div>
-              <p className="hero-lead">{rl.shopIntro}</p>
             </div>
           </Reveal>
         </div>
@@ -226,7 +220,7 @@ export default async function MrirtPage({
         <span id="disponibles" className="rugs-anchor" />
         <span id="sur-commande" className="rugs-anchor" />
         <div className="shell">
-          {RUG_DEMO && <p className="label rug-demo-note">{rl.illustration}</p>}
+          <p className="mrirt-variations">{MRIRT.variationsNote[lang]}</p>
           <RugBrowser
             tiles={tiles}
             collections={collectionsList}
@@ -277,6 +271,9 @@ export default async function MrirtPage({
            a Mrirt rug would be invented provenance with a camera (§5). --- */}
       <section id="savoir-faire" className="section mrirt-pair">
         <div className="shell mrirt-pair-inner mrirt-pair-beni">
+          {/* The client will send a photograph of the women weaving; until
+              then the house's own dyed yarn, with no caption tying it to a
+              claim. */}
           <figure className="mrirt-yarn">
             <Reveal variant="frame" delay={140} className="frame mrirt-yarn-frame">
               <Image
@@ -287,27 +284,18 @@ export default async function MrirtPage({
                 sizes="(max-width: 900px) 100vw, 38vw"
               />
             </Reveal>
-            <Reveal as="figcaption" delay={200} className="label mrirt-figure-caption">
-              {t.mrirtPage.yarnCaption}
-            </Reveal>
           </figure>
           <div className="mrirt-said-stack">
-
-            {/* One heading and one sentence; the rest of the house's copy is
-                folded, not cut (client, 5 Oct: the page read like a book). */}
-            <Reveal delay={90} className="mrirt-said">
-              <p className="label mrirt-eyebrow">{m.coopEyebrow}</p>
-              <h2 className="display d-2 mrirt-heading">{m.coopHeading}</h2>
-              <p className="prose">{t.rugs.body[1]}</p>
-              <details className="mrirt-more">
-                <summary className="label">{fr ? "En savoir plus" : "Read more"}</summary>
-                <p className="prose">{t.rugs.body[0]}</p>
-                <p className="prose">{t.rugs.craft}</p>
-              </details>
+            <Reveal delay={90} className="mrirt-said mrirt-hands">
+              <p className="label mrirt-eyebrow">{MRIRT.hands.eyebrow[lang]}</p>
+              <h2 className="display d-2 mrirt-heading">{MRIRT.hands.heading[lang]}</h2>
+              {MRIRT.hands.body.map((line, i) => (
+                <p key={i} className="prose">
+                  {line[lang]}
+                </p>
+              ))}
             </Reveal>
-
           </div>
-
         </div>
       </section>
 
@@ -327,7 +315,7 @@ export default async function MrirtPage({
           <div className="mrirt-ask">
             <Reveal>
               <h2 className="display d-2 mrirt-ask-heading">{m.entries[2].name}</h2>
-              <p className="prose mrirt-ask-note">{m.customTerms}</p>
+              <p className="prose mrirt-ask-note">{MRIRT.customTerms[lang]}</p>
             </Reveal>
 
             {/* The shelf's cards jump here, so the anchor sits on a plain
@@ -374,85 +362,20 @@ export default async function MrirtPage({
           </div>
         </div>
       </section>
-{/* After Made-to-measure, two of benirugs.com's own blocks (client,
-           6 Oct). First the cooperative block mirrored — words left, one
-           small portrait photograph right — for the wool. Then the featured
-           pair: one room, large, and one collection beside it as a card. */}
-      <section className="section mrirt-pair mrirt-pair-wool">
-        <div className="shell mrirt-pair-inner mrirt-pair-beni mrirt-pair-flip">
-          <div className="mrirt-said-stack">
-            <Reveal className="mrirt-said">
-              <p className="label mrirt-eyebrow">{m.matterEyebrow}</p>
-              <h2 className="display d-2 mrirt-heading">{m.matterHeading}</h2>
-              <p className="prose">{t.rugs.wool}</p>
-            </Reveal>
-          </div>
-          <figure className="mrirt-yarn">
-            <Reveal variant="frame" delay={140} className="frame mrirt-yarn-frame">
-              <Image
-                src={RUG_SHOTS.rug}
-                alt={rug.alt}
-                width={1800}
-                height={3200}
-                sizes="(max-width: 900px) 70vw, 24rem"
-              />
-            </Reveal>
-          </figure>
-        </div>
-      </section>
-
-      {featured && (
-        <section className="section rugs-feature">
-          <div className="rugs-feature-inner">
-            <Reveal variant="frame" className="frame rugs-feature-room">
-              <Image
-                src="/rugs/interior-fire.jpg"
-                alt={m.roomAlt}
-                width={1800}
-                height={2700}
-                sizes="(max-width: 900px) 100vw, 52vw"
-              />
-            </Reveal>
-            <Reveal delay={120} className="rugs-feature-card">
-              <a href={`/${locale}/tapis/${featured.handle}`} className="rugp-more-link">
-                <span className="rugp-more-plate">
-                  {featured.images[0] && (
-                    <Image
-                      src={featured.images[0].src}
-                      alt={`${rl.rugName} ${seriesTitle(featured, locale)}`}
-                      width={featured.images[0].w}
-                      height={featured.images[0].h}
-                      sizes="(max-width: 900px) 84vw, 22rem"
-                    />
-                  )}
-                </span>
-                <span className="rugp-more-said">
-                  <span className="display d-3 rugp-more-name">{seriesTitle(featured, locale)}</span>
-                  <span className="rugp-more-price">{featuredPrice}</span>
-                </span>
-                <span className="rugp-more-line">
-                  {rl.cardLine}
-                  <br />
-                  {featured.colours.length} {featured.colours.length === 1 ? rl.colourwaysOne : rl.colourways}
-                </span>
-              </a>
-            </Reveal>
-          </div>
-        </section>
-      )}
+
 
       {/* Beni answers the practical questions beside the rugs (V1 §18). The same
            list as the FAQ page's "Tapis Mrirt" group — one source. */}
       <section className="section rugs-faq" id="questions">
         <div className="shell">
           <Reveal>
-            <h2 className="display d-2 rugs-collections-heading">{rl.faqTitle}</h2>
+            <h2 className="display d-2 rugs-collections-heading">{MRIRT.faqHeading[lang]}</h2>
           </Reveal>
           <div className="rugs-faq-list">
-            {rugFaq(locale as Locale).map((r) => (
-              <details key={r.key} className="piece-fold">
-                <summary className="label">{r.q}</summary>
-                <p>{r.a}</p>
+            {MRIRT.faq.map((r, i) => (
+              <details key={i} className="piece-fold">
+                <summary className="label">{r.q[lang]}</summary>
+                <p>{r.a[lang]}</p>
               </details>
             ))}
           </div>

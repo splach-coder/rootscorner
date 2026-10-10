@@ -302,42 +302,6 @@ type Dictionary = {
     faq: string;
     items: Record<string, string>;
   };
-  /** The apartments. A second business line the brief never described. */
-  stay: {
-    nav: string;
-    eyebrow: string;
-    heading: string;
-    /** V1 feedback §13 — the line that opens the page. */
-    lede: string;
-    storyEyebrow: string;
-    apartmentsEyebrow: string;
-    body: string[];
-    book: string;
-    note: string;
-    /**
-     * The apartment shoot from the client's Drive (§51).
-     *
-     * Every string says only what is in the frame. None of them names an
-     * apartment: nothing in the folder says which of the two any photograph is
-     * in, and a caption that guessed would be an invented fact about a room
-     * somebody is about to book.
-     */
-    inside: {
-      eyebrow: string;
-      living: string;
-      kitchen: string;
-      shower: string;
-      candle: string;
-    };
-  };
-  /** The artisans page — the client's own tribute to the people who make. */
-  artisans: {
-    nav: string;
-    eyebrow: string;
-    heading: string;
-    body: string;
-    placesEyebrow: string;
-  };
   instagram: { eyebrow: string; heading: string; handle: string; cta: string };
   materials: { eyebrow: string; heading: string; body: string };
   invitation: { heading: string; body: string; cta: string };
@@ -357,8 +321,6 @@ type Dictionary = {
     story: string;
     rugs: string;
     contact: string;
-    artisans: string;
-    stay: string;
     faq: string;
     terms: string;
     privacy: string;
@@ -414,9 +376,9 @@ type Dictionary = {
 const en: Dictionary = {
   meta: {
     // Brief §4: the homepage must immediately convey the name and the tagline.
-    title: "The Roots Corner | Rare pieces. Stories. Materials.",
+    title: "The Roots Corner | Rooted in every corner",
     description:
-      "Antique objects, artisanal pieces and Moroccan rugs, selected for their material, their history and their character, from Morocco, Africa and beyond. Each piece is unique.",
+      "Antique objects, artisanal pieces and Moroccan rugs, selected for their material, their history and their character, from Morocco, Africa and beyond.",
   },
   nav: {
     collection: "Collection",
@@ -827,41 +789,6 @@ const en: Dictionary = {
     heading: "Other pieces, still here",
     cta: "See everything",
   },
-  stay: {
-    nav: "Stay in Marrakech",
-    eyebrow: "The Roots Corner",
-    // Was "Our Airbnb" — their own page title. The client asked for the
-    // platform off the site, so the heading is their own other word for the
-    // same thing: on /accueil/ they write "nos appartements à louer".
-    // V1 feedback §13: an extension of the house, not one of its pillars.
-    heading: "Stay in Marrakech",
-    lede: "Live Marrakech in an interior conceived like The Roots Corner.",
-    storyEyebrow: "The idea",
-    apartmentsEyebrow: "The apartments",
-    body: [
-      "More than a place to stay, The Roots Corner offers a unique way to experience Marrakech. Set in a peaceful location near the medina, our apartments bring together Moroccan craftsmanship, natural materials and timeless design.",
-      "Each space has been thoughtfully curated to feel warm, welcoming and authentic. Inspired by Moroccan heritage and shaped by contemporary living, every apartment reflects a deep appreciation for craftsmanship, simplicity and detail.",
-    ],
-    book: "Book your stay",
-    // Says where the button goes. A link that leaves the site should say so
-    // before it is clicked, not after — and this one opens a chat already
-    // naming the apartment.
-    note: "Booking is arranged on WhatsApp.",
-    inside: {
-      eyebrow: "Inside",
-      living: "A living room: a round table, a black chair, plaster shelves",
-      kitchen: "A kitchen corner: terracotta zellige, a ceramic lamp, a teapot on the shelf",
-      shower: "A walk-in shower, brass fittings and dark zellige",
-      candle: "A lit candle on a stone worktop",
-    },
-  },
-  artisans: {
-    nav: "Artisans",
-    eyebrow: "The people who make",
-    heading: "Discover our collaboration",
-    body: "We place particular importance on highlighting the artisans who bring to life unique pieces deeply rooted in their culture and heritage. Their work is at the heart of our approach, and it is inconceivable for us not to pay tribute to them.",
-    placesEyebrow: "Where we work",
-  },
   legal: {
     eyebrow: "The house",
     alsoHere: "Also here",
@@ -913,8 +840,6 @@ const en: Dictionary = {
     story: "Our Story",
     rugs: "Mrirt Rugs",
     contact: "Contact",
-    artisans: "Artisans",
-    stay: "Stay in Marrakech",
     faq: "FAQ",
     terms: "Terms & conditions",
     privacy: "Privacy",
@@ -974,9 +899,9 @@ const en: Dictionary = {
 
 const fr: Dictionary = {
   meta: {
-    title: "The Roots Corner | Pièces rares. Histoires. Matières.",
+    title: "The Roots Corner | Là où tout prend racine",
     description:
-      "Objets anciens, pièces artisanales et tapis marocains sélectionnés pour leur matière, leur histoire et leur caractère, au Maroc, en Afrique et ailleurs. Chaque pièce est unique.",
+      "Objets anciens, pièces artisanales et tapis marocains sélectionnés pour leur matière, leur histoire et leur caractère, au Maroc, en Afrique et ailleurs.",
   },
   nav: {
     collection: "Collection",
@@ -986,7 +911,7 @@ const fr: Dictionary = {
     menu: "Menu",
     close: "Fermer",
     switchTo: "EN",
-    switchLabel: "View this site in English",
+    switchLabel: "Voir le site en anglais",
     account: "Mes commandes",
   },
   hero: {
@@ -1349,37 +1274,6 @@ const fr: Dictionary = {
     heading: "D’autres pièces, encore là",
     cta: "Tout voir",
   },
-  stay: {
-    nav: "Séjourner à Marrakech",
-    eyebrow: "The Roots Corner",
-    // Retour V1 §13, mot pour mot.
-    heading: "Séjourner à Marrakech",
-    lede: "Vivez Marrakech dans un intérieur pensé comme The Roots Corner.",
-    storyEyebrow: "L’esprit",
-    apartmentsEyebrow: "Les appartements",
-    body: [
-      "Plus qu’un lieu où dormir, The Roots Corner propose une façon singulière de vivre Marrakech. Situés dans un endroit paisible près de la médina, nos appartements réunissent artisanat marocain, matières naturelles et design intemporel.",
-      // Their own French for the apartments, from /accueil/.
-      "Au-delà des objets décoratifs qui embellissent votre intérieur, nous vous invitons à découvrir nos appartements à louer. Il s’agit d’espaces uniques, conçus avec soin, où chaque détail reflète notre vision et notre sens du raffinement.",
-    ],
-    // Their word, from the button on /accueil/.
-    book: "Réserver",
-    note: "La réservation se fait par WhatsApp.",
-    inside: {
-      eyebrow: "À l’intérieur",
-      living: "Un séjour : table ronde, chaise noire, étagères de plâtre",
-      kitchen: "Un coin cuisine : zellige terracotta, lampe en céramique, théière sur l’étagère",
-      shower: "Une douche à l’italienne, robinetterie en laiton et zellige sombre",
-      candle: "Une bougie allumée sur un plan de travail en pierre",
-    },
-  },
-  artisans: {
-    nav: "Artisans",
-    eyebrow: "Celles et ceux qui font",
-    heading: "Découvrez notre collaboration",
-    body: "Nous accordons une importance particulière à mettre en lumière les artisans qui donnent vie à des pièces uniques, profondément ancrées dans leur culture et leur héritage. Leur travail est au cœur de notre démarche, et il nous est inconcevable de ne pas leur rendre hommage.",
-    placesEyebrow: "Où nous travaillons",
-  },
   legal: {
     eyebrow: "La maison",
     alsoHere: "Également ici",
@@ -1425,8 +1319,6 @@ const fr: Dictionary = {
     story: "Notre histoire",
     rugs: "Tapis Mrirt",
     contact: "Contact",
-    artisans: "Artisans",
-    stay: "Séjourner à Marrakech",
     faq: "FAQ",
     terms: "Conditions générales",
     privacy: "Confidentialité",

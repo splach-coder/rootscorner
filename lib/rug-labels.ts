@@ -58,8 +58,8 @@ export function rugLabels(locale: Locale) {
       : "Wool, handwoven in Mrirt, in the Middle Atlas, by a women’s cooperative.",
     shipping: fr ? "Livraison" : "Shipping",
     shippingBody: fr
-      ? "Maroc : 25 €. International : 50 €, ou 80 € à partir de 200 €. Hors du Maroc, des droits de douane et la TVA à l’importation peuvent être demandés à la livraison."
-      : "Morocco: €25. International: €50, or €80 from €200. Outside Morocco, customs duties and import VAT may be charged on delivery.",
+      ? "Les frais de livraison varient selon la destination, les dimensions et la nature de la pièce. Hors du Maroc, des droits de douane et des taxes à l’importation peuvent s’appliquer."
+      : "Shipping costs vary with the destination, the dimensions and the nature of the piece. Outside Morocco, customs duties and import taxes may apply.",
     custom: fr ? "Une autre taille, une autre couleur ?" : "Another size, another colour?",
     customBody: fr
       ? "Chaque tapis est tissé sur commande : décrivez-nous le vôtre."

@@ -1,17 +1,13 @@
+import Image from "next/image";
 import Link from "next/link";
-import JsonLd from "@/components/JsonLd";
-import { breadcrumbLd, itemListLd } from "@/lib/seo";
-import { displayName } from "@/lib/specs";
-import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import PageHead from "@/components/PageHead";
 import Reveal from "@/components/Reveal";
-import PieceCard from "@/components/PieceCard";
-import RoomsStrip from "@/components/RoomsStrip";
-import { getDictionary, isLocale, fill, type Locale } from "@/lib/dictionaries";
-import Image from "next/image";
-import { categories, collectionOrder, imagePath } from "@/lib/catalog";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbLd, pageMeta, og } from "@/lib/seo";
+import { fill, getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
+import { groups, imagePath } from "@/lib/catalog";
+import { COLLECTION } from "@/lib/copy-v2";
 
 export async function generateMetadata({
   params,
@@ -21,36 +17,23 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const t = getDictionary(locale);
-
   return pageMeta({
     locale,
     path: "/collection",
-    title: `${t.nav.collection} | The Roots Corner`,
-    description: `${t.nav.collection}: ${t.selection.unique}`,
+    title: `${COLLECTION.title[locale]} | The Roots Corner`,
+    description: t.meta.description,
     image: og("collection.jpg"),
   });
 }
 
 /**
- * The collection.
+ * La Collection — V2 (10 Oct).
  *
- * Rebuilt. It used to be two halves: a grid of room photographs, then the
- * register — all 38 pieces as one numbered list with the same six fields,
- * read down the page like an archive.
- *
- * The register was the better idea and the wrong one. It came out of the
- * brief's ban on catalogue presentation, and it did something no grid can: a
- * uniform schema made the gaps in the client's data visible instead of papered
- * over. But this page has to sell, and nobody buys from a list — you cannot see
- * what you are being offered. The client asked for cards, and they are right.
- *
- * So the page is now one thing, not two. The rooms stop being a section and
- * become what they always were on this page — navigation, a rail of names and
- * counts across the top. Everything below is the collection itself, every piece
- * at the same size, photograph first.
- *
- * The closing band is gone with them: the grid shows all 38, so a band of four
- * more was a second sighting of pieces already on the screen.
+ * The client: "when visitors click on Collection, they should first discover a
+ * selection of clearly defined categories", "no introductory paragraph", "the
+ * page should immediately present the five categories through large editorial
+ * photographs, their numbers and their titles". The N° numbering is kept (§20).
+ * Mrirt rugs are not here: they have their own page.
  */
 export default async function CollectionPage({
   params,
@@ -60,156 +43,52 @@ export default async function CollectionPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale as Locale);
-
-  // Interleaved by room, not in source order — see collectionOrder().
-  const pieces = collectionOrder();
-  const rooms = categories();
+  const list = groups();
 
   return (
     <>
-      <JsonLd data={itemListLd(locale as Locale, pieces, (p) => displayName(p, locale as Locale))} />
       <JsonLd
         data={breadcrumbLd([
           { name: "The Roots Corner", path: `/${locale}` },
-          { name: t.nav.collection, path: `/${locale}/collection` },
+          { name: COLLECTION.title[locale], path: `/${locale}/collection` },
         ])}
       />
-      {/* Feedback, 25 Sept: the title, the count line, the lede and "Par où
-          commencer" are off this page. It opens on its eyebrow and goes
-          straight to the rooms and the pieces. */}
-      <PageHead eyebrow={t.collection.eyebrow} heading={t.nav.collection} hideHeading />
+      <section className="collection-head shell">
+        <Reveal as="h1" className="display d-1 collection-title">
+          {COLLECTION.title[locale]}
+        </Reveal>
+      </section>
 
-      {/* --- The rooms, as a rail.
-
-           They were a grid of seven large photographs, which made a visitor
-           choose a room before they had seen a single piece — a whole screen
-           spent on navigation. The photographs still do that job on the
-           homepage, where a visitor genuinely does not know what is here yet.
-           On this page the rooms are a way to narrow what is already in front
-           of you, so they are set as what they are: names and counts. --- */}
-      <section className="section rooms-rail-section">
-        <div className="shell">
-
-          {/* One nav, two forms.
-
-              Wide screens keep the rail: eight short names and their counts on
-              one line, which is the right shape when they fit (§30). On a phone
-              they do not fit — they wrap onto four ragged lines of pure text —
-              so the same rooms are shown as a strip of their own covers that
-              you push sideways. `categories()` already carries a cover
-              photograph per room and the rail was throwing it away.
-
-              The covers are rendered for every viewport and hidden by CSS on
-              desktop rather than branched in JS: the server cannot know the
-              width, and a swap after hydration would flash. Next/Image only
-              fetches what the `sizes` query resolves to, and that query is
-              `(min-width: 700px) 0px`, so a desktop visitor downloads none of
-              them. */}
-          <Reveal delay={60} as="nav" className="rooms-rail" aria-label={t.collection.roomsHeading}>
-
-            {/* §9 — the categories are numbered and grouped in one place, so
-                the collection has a structure a visitor can hold in their head
-                rather than a list that happens to be in an order. "Toute la
-                collection" leads it, as the way to everything. */}
-            {rooms.map((room, i) => (
-              <Link
-                key={room.slug}
-                href={`/${locale}/collection/${room.slug}`}
-                className="rooms-rail-link"
-                data-no={String(i + 1).padStart(2, "0")}
-              >
-                {t.categories.items[room.slug] ?? room.slug}
-                <span className="rooms-rail-count">{room.count}</span>
-              </Link>
-            ))}
-
-            {/* V1 feedback §2: "Tout voir" closes the list, as in their
-                structure. Here it is where you already are. */}
-            <span className="rooms-rail-link is-here" aria-current="page">
-              {t.category.all}
-              <span className="rooms-rail-count">{pieces.length}</span>
-            </span>
-          </Reveal>
-
-          {/* aria-hidden, and every card here duplicates a link in the rail
-              above: a screen reader or a keyboard already has the whole list in
-              the nav, and offering it twice would double every room in the tab
-              order for a gesture neither can use. */}
-          {/* tabIndex={-1} because a scroll container is keyboard-focusable by
-              default — correct in general, so the arrow keys can scroll it, and
-              wrong inside an aria-hidden subtree, where it was a tab stop
-              leading into content that has been hidden from the tree. The rail
-              above holds every one of these destinations for a keyboard, and is
-              visually hidden rather than removed for exactly that reason. */}
-          {/* `reveal` is on the strip itself, with the same 120ms stagger the
-              rail beside it uses, so the covers settle in AFTER the eyebrow
-              above them rather than alongside it. RoomsStrip then waits for
-              this transition to end before it drifts — see the component. */}
-          <RoomsStrip
-            className="rooms-strip reveal"
-            revealDelay={120}
-            aria-hidden="true"
-            tabIndex={-1}
-          >
-            {/* Where you already are, and it leads the strip for the same reason
-                it leads the rail: a visitor who has narrowed to one room needs
-                the way back to everything, and on this page that is the state
-                they are already in. Stated, not a card — it has no cover of its
-                own, and borrowing a piece's photograph to stand for "all of it"
-                would make one object speak for thirty-eight. */}
-
-            {rooms.map((room) => {
-              const src = imagePath(room.cover?.images[0]);
-              return (
-                <Link
-                  key={room.slug}
-                  href={`/${locale}/collection/${room.slug}`}
-                  className="rooms-strip-cell"
-                  tabIndex={-1}
-                >
-                  <span className="frame rooms-strip-frame">
+      <section className="section collection-groups-section">
+        <ul className="shell collection-groups">
+          {list.map((g, i) => {
+            const src = imagePath(g.cover?.images[0]);
+            return (
+              <li key={g.slug} className={`collection-group collection-group-${i + 1}`}>
+                <Link href={`/${locale}/collection/${g.slug}`} className="collection-group-link">
+                  <Reveal variant="frame" delay={(i % 3) * 90} className="frame collection-group-frame">
                     {src && (
                       <Image
                         src={src}
-                        alt=""
-                        width={1200}
-                        height={1600}
-                        sizes="(min-width: 700px) 0px, 34vw"
+                        alt={g.name[locale]}
+                        width={1400}
+                        height={1750}
+                        sizes={i < 2 ? "(max-width: 699px) 100vw, 50vw" : "(max-width: 699px) 100vw, 33vw"}
                       />
                     )}
+                  </Reveal>
+                  <span className="collection-group-said">
+                    <span className="label collection-group-no">N° {g.no}</span>
+                    <span className="display collection-group-name">{g.name[locale]}</span>
+                    <span className="label collection-group-count">
+                      {fill(g.count === 1 ? COLLECTION.countOne[locale] : COLLECTION.count[locale], { n: g.count })}
+                    </span>
                   </span>
-                  <span className="rooms-strip-name">
-                    {t.categories.items[room.slug] ?? room.slug}
-                  </span>
-                  <span className="rooms-strip-count label">{room.count}</span>
                 </Link>
-              );
-            })}
-            <span className="rooms-strip-cell rooms-strip-all" aria-current="page">
-              <span className="rooms-strip-all-said">{t.category.all}</span>
-              <span className="rooms-strip-count label">{pieces.length}</span>
-            </span>
-          </RoomsStrip>
-        </div>
-      </section>
-
-      {/* --- Everything, at the same size. --- */}
-      <section className="section cards-section">
-        <div className="shell">
-          <ul className="cards">
-            {pieces.map((piece, i) => (
-              <PieceCard
-                key={piece.slug}
-                piece={piece}
-                locale={locale as Locale}
-                labels={t.pieceLabel}
-                room={t.categories.items[piece.category] ?? piece.category}
-                sold={t.common.sold}
-                delay={(i % 3) * 70}
-              />
-            ))}
-          </ul>
-        </div>
+              </li>
+            );
+          })}
+        </ul>
       </section>
     </>
   );

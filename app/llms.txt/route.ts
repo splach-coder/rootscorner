@@ -1,4 +1,4 @@
-import { allPieces, categorySlugs, formatPrice, piecesByCategory } from "@/lib/catalog";
+import { allPieces, formatPrice, groupBySlug, groupOf, groups } from "@/lib/catalog";
 import { getDictionary } from "@/lib/dictionaries";
 import { displayName } from "@/lib/specs";
 import { ADDRESS, CONTACT_EMAIL, INSTAGRAM, SITE_URL, WHATSAPP } from "@/lib/site";
@@ -19,7 +19,6 @@ export const dynamic = "force-static";
 export function GET() {
   const en = getDictionary("en");
   const fr = getDictionary("fr");
-  const rooms = categorySlugs();
 
   const lines = [
     "# The Roots Corner",
@@ -30,7 +29,7 @@ export function GET() {
     "",
     "- Every piece is one of a kind: there is one of each, and a sold piece is not restocked.",
     "- Prices are in euros (EUR), tax included. Pieces ship from Marrakech; outside Morocco, customs duties and import VAT may be charged on delivery.",
-    "- Shipping (the house's published rates): Morocco €25; international €50, or €80 for orders of €200 and more.",
+    "- Delivery: about 1 to 2 weeks in Morocco and 2 to 8 weeks internationally for available pieces; shipping costs vary with the destination, the dimensions and the nature of the piece.",
     "- Mrirt rugs are handwoven to order by a women's weaving cooperative in Mrirt (Middle Atlas); made-to-measure rugs are ordered by enquiry, not added to a cart.",
     "- The site is bilingual: French at /fr, English at /en.",
     "",
@@ -46,17 +45,15 @@ export function GET() {
     `- [Collection](${SITE_URL}/en/collection): every piece currently in the collection`,
     `- [Mrirt rugs](${SITE_URL}/en/mrirt): handwoven to order`,
     `- [Our story](${SITE_URL}/en/story)`,
-    `- [The artisans](${SITE_URL}/en/artisans)`,
-    `- [Apartments in Marrakech](${SITE_URL}/en/stay): booked by WhatsApp`,
     `- [Contact](${SITE_URL}/en/contact)`,
     `- [FAQ](${SITE_URL}/en/faq)`,
     `- [Delivery policy](${SITE_URL}/en/legal/delivery)`,
     `- French version of every page: replace /en/ with /fr/, e.g. ${SITE_URL}/fr/collection`,
     "",
-    "## Rooms",
+    "## Collection",
     "",
-    ...rooms.map(
-      (r) => `- [${en.categories.items[r] ?? r}](${SITE_URL}/en/collection/${r}): ${piecesByCategory(r).length} piece(s)`,
+    ...groups().map(
+      (g) => `- [N° ${g.no} ${g.name.en}](${SITE_URL}/en/collection/${g.slug}): ${g.count} piece(s)`,
     ),
     "",
     "## Pieces",
@@ -64,7 +61,9 @@ export function GET() {
     ...allPieces().map((p) => {
       const price = formatPrice(p, "en");
       const state = p.available ? "available" : "sold";
-      return `- [${displayName(p)}](${SITE_URL}/en/piece/${p.slug}): ${en.categories.items[p.category] ?? p.category}${price ? ` · ${price}` : ""} · ${state}`;
+      const g = groupOf(p);
+      const where = g ? groupBySlug(g)?.name.en : "Mrirt rugs";
+      return `- [${displayName(p)}](${SITE_URL}/en/piece/${p.slug}): ${where}${price ? ` · ${price}` : ""} · ${state}`;
     }),
     "",
   ];

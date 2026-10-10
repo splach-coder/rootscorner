@@ -63,9 +63,9 @@ export function writeCart(slugs: string[]): void {
 export function cartLines(slugs: string[], locale: string): CartLine[] {
   return slugs.flatMap((slug) => {
     // A Mrirt rug variant (lib/rugs.ts) rides in the same cart as the pieces.
-    const piece = rugAsPiece(slug, locale) ?? pieceBySlug(slug);
+    const piece = rugAsPiece(slug, locale) ?? optionAsPiece(slug, locale) ?? pieceBySlug(slug);
     // Illustrative photographs (6 Oct) are shown, never sold.
-    if (!piece || !piece.available || piece.illustrative) return [];
+    if (!piece || !piece.available) return [];
     return [{ piece, price: formatPrice(piece, locale) }];
   });
 }
@@ -89,5 +89,27 @@ export function cartTotal(
       maximumFractionDigits: 0,
     }).format(sum),
     unpriced,
+  };
+}
+
+/**
+ * A piece bought in one of its sizes (V2, Tamegroute candles S and M): the
+ * cart entry is "slug::variantId", and the line carries that size's price.
+ */
+export const OPTION_SEP = "::";
+
+function optionAsPiece(entry: string, locale: string) {
+  if (!entry.includes(OPTION_SEP)) return null;
+  const [slug, id] = entry.split(OPTION_SEP);
+  const base = pieceBySlug(slug);
+  const opt = base?.options?.find((o) => o.id === id);
+  if (!base || !opt) return null;
+  return {
+    ...base,
+    slug: entry,
+    price: opt.price,
+    available: base.available && opt.available,
+    sizeLabel: opt.label,
+    href: `/${locale}/piece/${slug}`,
   };
 }

@@ -153,9 +153,20 @@ for (const p of products) {
   const v = p.variants.nodes[0];
   if (!v) continue;
   const price = Number(v.price.amount);
-  const known = slugByVariant[v.id];
+  // Matched on any of its variants: adding sizes in the admin keeps the link.
+  const known = p.variants.nodes.map((x) => slugByVariant[x.id]).find(Boolean);
   if (known) {
-    pieces[known] = { price, available: v.availableForSale };
+    pieces[known] = { price, available: p.variants.nodes.some((x) => x.availableForSale) };
+    // V2: a piece sold in several sizes (Tamegroute candles, S and M). Each
+    // Shopify variant becomes a choice on the piece page, with its own price.
+    if (p.variants.nodes.length > 1) {
+      pieces[known].options = p.variants.nodes.map((x) => ({
+        id: x.id,
+        label: x.selectedOptions.map((o) => o.value).join(" · "),
+        price: Number(x.price.amount),
+        available: x.availableForSale,
+      }));
+    }
     continue;
   }
   const category = ROOM_BY_TYPE[p.productType?.trim()];

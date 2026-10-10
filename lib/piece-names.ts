@@ -50,6 +50,8 @@ export type Nature = "antique" | "vintage" | "artisanal";
 export type PieceText = {
   name: Both;
   origin?: Both;
+  /** V2 §19: the region, where the house's record names one. */
+  region?: Both;
   nature?: Nature;
   period?: Both;
 };
@@ -86,7 +88,8 @@ export const PIECE_TEXT: Record<string, PieceText> = {
     // The record: "Origin: Bandama Valley (Ivory Coast), 20th century" and
     // "This vintage piece…".
     name: { fr: "Tabouret en bois noir verni, Côte d’Ivoire", en: "Black varnished wooden stool, Côte d’Ivoire" },
-    origin: { fr: "Vallée du Bandama, Côte d’Ivoire", en: "Bandama Valley, Côte d’Ivoire" },
+    origin: { fr: "Côte d’Ivoire", en: "Côte d’Ivoire" },
+    region: { fr: "Vallée du Bandama", en: "Bandama Valley" },
     nature: "vintage",
     period: { fr: "XXᵉ siècle", en: "20th century" },
   },
@@ -178,13 +181,16 @@ export const PIECE_TEXT: Record<string, PieceText> = {
     nature: "artisanal",
   },
   "tamegroute-candle-s-and-m": {
-    name: { fr: "Bougie de Tamegroute (S et M)", en: "Tamegroute candle (S & M)" },
-    origin: { fr: "Tamegroute, Maroc", en: "Tamegroute, Morocco" },
+    // V2: the client's name for it.
+    name: { fr: "Bougies de Tamegroute, tailles S et M", en: "Tamegroute candles, sizes S and M" },
+    origin: { fr: "Maroc", en: "Morocco" },
+    region: { fr: "Tamegroute", en: "Tamegroute" },
     nature: "artisanal",
   },
   "handmade-ceramic-candlestick-tamgroute": {
     name: { fr: "Bougeoir en céramique de Tamegroute", en: "Tamegroute ceramic candlestick" },
-    origin: { fr: "Tamegroute, Maroc", en: "Tamegroute, Morocco" },
+    origin: { fr: "Maroc", en: "Morocco" },
+    region: { fr: "Tamegroute", en: "Tamegroute" },
     nature: "artisanal",
   },
 
@@ -251,11 +257,12 @@ export const PIECE_TEXT: Record<string, PieceText> = {
   },
   "antique-lombok-spinning-top": {
     name: { fr: "Toupie ancienne, Lombok", en: "Antique spinning top, Lombok" },
-    origin: { fr: "Lombok, Indonésie", en: "Lombok, Indonesia" },
+    origin: { fr: "Indonésie", en: "Indonesia" },
+    region: { fr: "Lombok", en: "Lombok" },
     nature: "antique",
   },
   "spinning-top-gasing-indonesia": {
-    name: { fr: "Toupie gasing, Indonésie", en: "Gasing spinning top, Indonesia" },
+    name: { fr: "Toupie Gasing, Indonésie", en: "Gasing spinning top, Indonesia" },
     origin: { fr: "Indonésie", en: "Indonesia" },
   },
   "spice-rack-morocco": {
@@ -268,7 +275,8 @@ export const PIECE_TEXT: Record<string, PieceText> = {
   },
   "lombok-weel-indonesian": {
     name: { fr: "Roue de Lombok, Indonésie", en: "Lombok wheel, Indonesia" },
-    origin: { fr: "Lombok, Indonésie", en: "Lombok, Indonesia" },
+    origin: { fr: "Indonésie", en: "Indonesia" },
+    region: { fr: "Lombok", en: "Lombok" },
   },
 
   // ---- Tapis (Shopify-only) ------------------------------------------------

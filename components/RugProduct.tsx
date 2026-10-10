@@ -107,7 +107,7 @@ export default function RugProduct({
                 <p className="display d-3 rug-head-price">{headPrice}</p>
               </div>
               {line && <p className="rugp-line">{line}</p>}
-              {note && <p className="label rug-demo-note">{note}</p>}
+              {note && <p className="rug-note">{note}</p>}
 
               {specs}
 

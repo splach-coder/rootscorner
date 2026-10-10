@@ -103,7 +103,7 @@ export function organizationLd(locale: Locale, description: string) {
         logo: `${SITE_URL}/brand/icon-512.png`,
         image: `${SITE_URL}${DEFAULT_OG.url}`,
         description,
-        slogan: locale === "fr" ? "Pièces rares. Histoires. Matières." : "Rare pieces. Stories. Materials.",
+        slogan: locale === "fr" ? "Là où tout prend racine" : "Rooted in every corner",
         email: CONTACT_EMAIL,
         ...(phone ? { telephone: phone } : {}),
         address: {

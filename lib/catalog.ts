@@ -14,6 +14,8 @@
 import rawCatalog from "@/docs/catalog.json";
 import rawImages from "@/docs/images.json";
 import live from "@/docs/shopify-live.json";
+import { GROUPS, type GroupSlug } from "./copy-v2";
+import { GROUP_OF, GROUP_OVERRIDE } from "./piece-copy";
 import { displayName } from "./specs";
 
 /**
@@ -161,6 +163,13 @@ export type Piece = {
    * see ILLUSTRATION). Shown, labelled, never sold — the enquiry instead.
    */
   illustrative?: boolean;
+  /**
+   * V2 (Tamegroute candles, S and M): the sizes a piece is sold in, from its
+   * Shopify variants, each with its own price. Absent for a piece with one.
+   */
+  options?: { id: string; label: string; price: number; available: boolean }[];
+  /** On a cart line for one of those options: which one. */
+  sizeLabel?: string;
   description: string[];
   details: string[];
   care: string[];
@@ -272,7 +281,14 @@ const pieces: Piece[] = (rawCatalog as RawCatalogEntry[]).map((entry, i) => {
  */
 type LiveSnapshot = {
   pulledAt: string | null;
-  pieces: Record<string, { price: number | null; available: boolean }>;
+  pieces: Record<
+    string,
+    {
+      price: number | null;
+      available: boolean;
+      options?: { id: string; label: string; price: number; available: boolean }[];
+    }
+  >;
   extra: {
     slug: string;
     variantId: string;
@@ -292,6 +308,7 @@ for (const piece of pieces) {
   if (!state) continue;
   if (state.price !== null) piece.price = state.price;
   piece.available = state.available;
+  if (state.options && state.options.length > 1) piece.options = state.options;
 }
 
 /**
@@ -320,9 +337,9 @@ for (const entry of snapshot.extra) {
     slug: entry.slug,
     index: pieces.length + 1,
     name: entry.name.trim(),
-    // Illustrative photographs: no price shown and nothing sold — the price
-    // stays in Shopify for the day the house's own photograph replaces it.
-    price: illustrative ? null : entry.price,
+    // V2 §6: a rug that is already available shows its actual price and can
+    // be bought, whatever its photographs are.
+    price: entry.price,
     currency: entry.currency,
     category: entry.category,
     images,
@@ -802,4 +819,36 @@ export function closingBand(exclude: string[] = [], count = 4): { piece: Piece; 
   }
 
   return band;
+}
+
+/* ------------------------------------------------------------------ *
+ * V2 (10 Oct): the collection in five categories, N° 01 to N° 05.
+ * Mrirt rugs are not in any of them; they have their own page.
+ * ------------------------------------------------------------------ */
+
+/** Which of the five a piece belongs to, or null for a rug. */
+export function groupOf(piece: Piece): GroupSlug | null {
+  if (piece.category === RUGS_CATEGORY) return null;
+  return (GROUP_OVERRIDE[piece.slug] ?? GROUP_OF[piece.category] ?? "objets-sculptures") as GroupSlug;
+}
+
+export function piecesByGroup(slug: string): Piece[] {
+  return pieces.filter((p) => groupOf(p) === slug);
+}
+
+/** The five, in order, with a count and a cover photograph each. */
+export function groups(): { slug: GroupSlug; no: string; name: { fr: string; en: string }; count: number; cover: Piece | undefined }[] {
+  return GROUPS.map((g) => {
+    const list = piecesByGroup(g.slug);
+    return { ...g, count: list.length, cover: list.find((p) => p.images.length > 0) };
+  });
+}
+
+export function groupBySlug(slug: string) {
+  return GROUPS.find((g) => g.slug === slug);
+}
+
+/** All the pieces of the collection (no rugs). */
+export function collectionPieces(): Piece[] {
+  return pieces.filter((p) => groupOf(p) !== null);
 }

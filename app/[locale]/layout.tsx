@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import "../globals.css";
 import "../sections.css";
 import "../pages.css";
+import "../v2.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Ground from "@/components/Ground";

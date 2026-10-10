@@ -11,6 +11,7 @@ import { swatchFor } from "@/lib/rug-options";
 import { breadcrumbLd, pageMeta } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { formatEuro } from "@/lib/rugs";
+import { MRIRT } from "@/lib/copy-v2";
 
 export function generateStaticParams() {
   return locales.flatMap((locale) => allRugSeries().map((s) => ({ locale, handle: s.handle })));
@@ -97,7 +98,7 @@ export default async function RugSeriesPage({
         title={title}
         headPrice={from !== null ? `${l.from} ${formatEuro(from, locale)}` : l.onRequest}
         line={line}
-        note={isIllustrativeSeries(series) ? l.illustration : null}
+        note={MRIRT.orderNote[locale as Locale]}
         images={series.images.map((i) => ({ src: i.src, w: i.w, h: i.h, alt: `${l.rugName} ${title}` }))}
         exclude={{ series: series.handle }}
         order={

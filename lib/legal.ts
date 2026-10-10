@@ -361,17 +361,36 @@ const en: Record<string, LegalDoc> = {
   delivery: {
     slug: "delivery",
     title: "Delivery Policy",
-    source: "https://www.therootscorner.com/delivery-policy/",
+    /*
+     * OURS since V2 (10 Oct): the house asked for the fixed rates (€25 / €50 /
+     * €80) to go, and for this page, the FAQ, the product pages and checkout
+     * to say the same thing. Every sentence restates their FAQ copy. The
+     * transcription of the old page is kept in docs/reference/legal/.
+     */
+    source: null,
     blocks: [
-      { kind: "h", text: "Delivery options" },
+      { kind: "h", text: "Delivery times" },
       {
         kind: "table",
-        head: ["Option", "Cost", "Delivery Time"],
+        head: ["Destination", "Estimated time"],
         rows: [
-          ["Morocco", "€25.00", "1 – 2 Weeks"],
-          ["Worldwide", "€50.00", "2 – 8 Weeks"],
-          ["Orders €200.00 and up", "€80.00", "2 – 8 Weeks"],
+          ["Morocco", "1 – 2 weeks"],
+          ["International", "2 – 8 weeks"],
         ],
+      },
+      {
+        kind: "p",
+        text: "These times apply to available pieces and vary with the destination, availability and nature of each piece. For made-to-measure rugs, making and delivery times depend on the dimensions, the model and the weaving; you will receive an estimate before your order is confirmed.",
+      },
+      { kind: "h", text: "Shipping costs" },
+      {
+        kind: "p",
+        text: "Shipping costs vary with the destination, the dimensions and the nature of the piece, as well as the shipping service chosen. The final amount is always shown to you before you pay. For an accurate quote, please contact us before placing your order.",
+      },
+      { kind: "h", text: "Customs duties and taxes" },
+      {
+        kind: "p",
+        text: "Every piece ships from Marrakech, Morocco. For international orders, customs duties and import taxes may apply depending on the regulations of the destination country. They are included neither in the price of the piece nor in the shipping costs, and are payable by the customer.",
       },
       { kind: "h", text: "Countries we ship to" },
       { kind: "p", text: COUNTRIES },
@@ -562,7 +581,7 @@ const en: Record<string, LegalDoc> = {
           ],
           [
             "How much is delivery?",
-            "Morocco: €25. International: €50, or €80 for orders of €200 and more. The exact amount is shown at checkout, before you pay.",
+            "Shipping costs vary with the destination, the dimensions and the nature of the piece. The exact amount is shown before you pay.",
           ],
           [
             "How can I pay?",
@@ -861,17 +880,31 @@ const fr: Record<string, LegalDoc> = {
   delivery: {
     slug: "delivery",
     title: "Livraison",
-    source: en.delivery.source,
+    // Ours since V2, see the English docblock. The house's FAQ copy, restated.
+    source: null,
     blocks: [
-      { kind: "h", text: "Options de livraison" },
+      { kind: "h", text: "Délais de livraison" },
       {
         kind: "table",
-        head: ["Option", "Coût", "Délai"],
+        head: ["Destination", "Délai estimé"],
         rows: [
-          ["Maroc", "25,00 €", "1 – 2 semaines"],
-          ["International", "50,00 €", "2 – 8 semaines"],
-          ["Commandes à partir de 200,00 €", "80,00 €", "2 – 8 semaines"],
+          ["Maroc", "1 – 2 semaines"],
+          ["International", "2 – 8 semaines"],
         ],
+      },
+      {
+        kind: "p",
+        text: "Ces délais concernent les pièces disponibles et varient selon la destination, la disponibilité et la nature de chaque pièce. Pour les tapis réalisés sur mesure, les délais de fabrication et de livraison dépendent des dimensions, du modèle et du travail de tissage. Une estimation vous sera communiquée avant la confirmation de votre commande.",
+      },
+      { kind: "h", text: "Frais de livraison" },
+      {
+        kind: "p",
+        text: "Les frais de livraison varient selon la destination, les dimensions et la nature de la pièce, ainsi que le service d’expédition choisi. Le montant définitif vous est toujours communiqué avant le paiement. Pour obtenir une estimation précise, nous vous invitons à nous contacter avant de passer commande.",
+      },
+      { kind: "h", text: "Droits de douane et taxes" },
+      {
+        kind: "p",
+        text: "Toutes nos pièces sont expédiées depuis Marrakech, au Maroc. Pour les commandes internationales, des droits de douane et des taxes à l’importation peuvent s’appliquer selon la réglementation du pays de destination. Ces frais ne sont inclus ni dans le prix d’achat ni dans les frais de livraison et restent à la charge du client.",
       },
       { kind: "h", text: "Pays desservis" },
       { kind: "p", text: COUNTRIES },
@@ -1033,7 +1066,7 @@ const fr: Record<string, LegalDoc> = {
           ],
           [
             "Combien coûte la livraison ?",
-            "Maroc : 25 €. International : 50 €, ou 80 € pour les commandes à partir de 200 €. Le montant exact s’affiche au paiement, avant de régler.",
+            "Les frais de livraison varient selon la destination, les dimensions et la nature de la pièce. Le montant exact s’affiche avant le paiement.",
           ],
           [
             "Comment payer ?",

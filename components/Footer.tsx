@@ -1,117 +1,124 @@
 import Link from "next/link";
 import { Wordmark } from "./BrandMarks";
-import Social from "./Social";
+import FooterNewsletter from "./FooterNewsletter";
 import type { Locale } from "@/lib/dictionaries";
+import { FOOTER } from "@/lib/copy-v2";
+import { SOCIAL } from "@/lib/site";
 
 type FooterProps = {
   locale: Locale;
   t: {
-    tagline: string;
-    place: string;
     navLabel: string;
-    instagramNote: string;
     rights: string;
     collection: string;
     story: string;
     rugs: string;
     contact: string;
-    artisans: string;
-    stay: string;
-    faq: string;
-    terms: string;
-    privacy: string;
-    withdrawal: string;
   };
   /** Names of the legal documents, in the client's own footer order. */
-  legal: { alsoHere: string; faq: string; items: Record<string, string> };
+  legal: { faq: string; items: Record<string, string> };
 };
 
 /**
- * Night — the last hour.
+ * The footer — V2 (10 Oct), after benirugs.com's.
  *
- * The brief asks for a "very simple" footer, and an early version that ignored
- * that — four columns of link lists in a newsletter voice — was rejected as the
- * shape of a large retailer. So this stays three bands: the house, the ways in,
- * the fine print. What changed is the composition, not the amount.
- *
- * The lockup is the client's actual artwork now, not a reconstruction of it.
- * The previous version set the crescent above the name and then typeset "The
- * Roots Corner" in Marcellus underneath — close, but the wrong letterforms, and
- * a logo assembled out of a different typeface every time it is drawn is not a
- * logo. Wordmark is the Illustrator export: crescent, name, spacing and all.
- * Nothing here is redrawn (CLAUDE.md §2); it is placed and scaled.
- *
- * It is also the largest thing in the footer on purpose. The page travels from
- * morning to night and the mark is a crescent, so at the end of the day it
- * reads as the moon over the room.
- *
- * Each band now has a left and a right. The old footer put everything in the
- * left column and left half the width empty, which reads as an unfinished
- * composition rather than as space.
+ * The client: a structured, minimal, editorial layout; the newsletter sign-up
+ * as a prominent but elegant section, then clearly organised links; a smaller
+ * logo; the dark ground kept; the legal information more discreet; one footer
+ * statement on every page.
  */
 export default function Footer({ locale, t, legal: names }: FooterProps) {
-  const links = [
-    { href: `/${locale}/collection`, label: t.collection },
-    { href: `/${locale}/mrirt`, label: t.rugs },
-    { href: `/${locale}/story`, label: t.story },
-    { href: `/${locale}/artisans`, label: t.artisans },
-    { href: `/${locale}/stay`, label: t.stay },
-    { href: `/${locale}/faq`, label: names.faq },
-    { href: `/${locale}/contact`, label: t.contact },
+  const groups = [
+    {
+      title: FOOTER.groups.shop[locale],
+      links: [
+        { href: `/${locale}/mrirt`, label: t.rugs },
+        { href: `/${locale}/collection`, label: t.collection },
+      ],
+    },
+    {
+      title: FOOTER.groups.house[locale],
+      links: [
+        { href: `/${locale}/story`, label: t.story },
+        { href: `/${locale}/faq`, label: names.faq },
+        { href: `/${locale}/contact`, label: t.contact },
+      ],
+    },
   ];
 
-  /**
-   * All six, in the order the client's own footer lists them — a visitor who
-   * knows the old site finds the same names in the same sequence. The
-   * documents behind them are their text, transcribed (lib/legal.ts).
-   */
-  const legal = ["imprint", "privacy", "cookies", "delivery", "withdrawal", "terms"].map(
-    (slug) => ({ href: `/${locale}/legal/${slug}`, label: names.items[slug] ?? slug }),
-  );
+  const legal = ["imprint", "privacy", "cookies", "delivery", "withdrawal", "terms"].map((slug) => ({
+    href: `/${locale}/legal/${slug}`,
+    label: names.items[slug] ?? slug,
+  }));
 
   return (
-    <footer className="section site-footer after-dark" data-tone="dark">
-      <div className="shell site-footer-inner">
-        {/* The house signs off. */}
-        <div className="site-footer-sign">
-          <Wordmark className="site-footer-mark" title="The Roots Corner" />
+    <footer className="site-footer foot-v2 after-dark" data-tone="dark">
+      <div className="shell foot-top">
+        <FooterNewsletter
+          privacyHref={`/${locale}/legal/privacy`}
+          labels={{
+            heading: FOOTER.newsletter.heading[locale],
+            body: FOOTER.newsletter.body[locale],
+            placeholder: FOOTER.newsletter.placeholder[locale],
+            submit: FOOTER.newsletter.submit[locale],
+            consent: FOOTER.newsletter.consent[locale],
+            privacy: FOOTER.newsletter.privacy[locale],
+            done: FOOTER.newsletter.done[locale],
+            error: FOOTER.newsletter.error[locale],
+          }}
+        />
 
-          <div className="site-footer-said">
-            <p className="site-footer-tagline">{t.tagline}</p>
-            <p className="label site-footer-place">{t.place}</p>
+        <nav className="foot-cols" aria-label={t.navLabel}>
+          {groups.map((g) => (
+            <div key={g.title} className="foot-col">
+              <p className="label foot-col-title">{g.title}</p>
+              <ul>
+                {g.links.map((link) => (
+                  <li key={link.href}>
+                    <Link prefetch={false} href={link.href} className="foot-link">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div className="foot-col">
+            <p className="label foot-col-title">{FOOTER.groups.follow[locale]}</p>
+            <ul>
+              {SOCIAL.map((channel) => (
+                <li key={channel.key}>
+                  <a href={channel.href} className="foot-link" target="_blank" rel="noreferrer noopener">
+                    {channel.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
+        </nav>
+      </div>
 
-        {/* The ways in. The channels are pulled out of the row: they are where
-            the brand actually lives, not two more pages of the site. */}
-        <div className="site-footer-ways">
-          <nav className="site-footer-links label" aria-label={t.navLabel}>
-            {links.map((link) => (
-              <Link prefetch={false} key={link.href} href={link.href} className="site-footer-link">
+      <div className="shell foot-sign">
+        <Wordmark className="foot-mark" title="The Roots Corner" />
+        <div className="foot-sign-said">
+          <p className="foot-statement">{FOOTER.statement[locale]}</p>
+          <p className="label foot-place">{FOOTER.place[locale]}</p>
+        </div>
+      </div>
+
+      <div className="shell foot-legal">
+        <p>
+          © {new Date().getFullYear()} {t.rights}
+        </p>
+        <ul>
+          {legal.map((link) => (
+            <li key={link.href}>
+              <Link prefetch={false} href={link.href} className="foot-legal-link">
                 {link.label}
               </Link>
-            ))}
-          </nav>
-
-          <Social className="site-footer-social" />
-        </div>
-
-        {/* The fine print. */}
-        <div className="site-footer-end label label-inverse">
-          <p>
-            © {new Date().getFullYear()} {t.rights}
-          </p>
-          <p className="site-footer-legal">
-            {legal.map((link, i) => (
-              <span key={link.href}>
-                {i > 0 && <span aria-hidden="true"> · </span>}
-                <Link prefetch={false} href={link.href} className="site-footer-link">
-                  {link.label}
-                </Link>
-              </span>
-            ))}
-          </p>
-        </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </footer>
   );

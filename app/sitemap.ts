@@ -30,8 +30,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       images: r.images.map((i) => i.src),
     })),
     { path: "/story", priority: 0.6 },
-    { path: "/artisans", priority: 0.5 },
-    { path: "/stay", priority: 0.5 },
     { path: "/contact", priority: 0.5 },
     { path: "/faq", priority: 0.3 },
     ...LEGAL_SLUGS.map((s) => ({ path: `/legal/${s}`, priority: 0.2 })),

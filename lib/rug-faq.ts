@@ -49,7 +49,7 @@ const FR: RugQuestion[] = [
   {
     key: "delivery",
     q: "Combien coûte la livraison ?",
-    a: "Maroc : 25 €. International : 50 €, ou 80 € à partir de 200 €. Hors du Maroc, des droits de douane et la TVA à l’importation peuvent être demandés à la livraison.",
+    a: "Les frais de livraison varient selon la destination, les dimensions et la nature de la pièce. Pour obtenir une estimation précise, nous vous invitons à contacter notre équipe avant de passer commande.",
   },
 ];
 
@@ -87,7 +87,7 @@ const EN: RugQuestion[] = [
   {
     key: "delivery",
     q: "How much is delivery?",
-    a: "Morocco: €25. International: €50, or €80 from €200. Outside Morocco, customs duties and import VAT may be charged on delivery.",
+    a: "Shipping costs vary with the destination, the dimensions and the nature of the piece. For an accurate estimate, please contact our team before placing your order.",
   },
 ];
 

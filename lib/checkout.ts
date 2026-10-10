@@ -67,7 +67,7 @@ type CartCreate = {
 };
 
 const CART_CREATE = `
-  mutation trcCartCreate($lines: [CartLineInput!]!) {
+  mutation trcCartCreate($lines: [CartLineInput!]!, $language: LanguageCode) @inContext(language: $language) {
     cartCreate(input: { lines: $lines }) {
       cart { id checkoutUrl }
       userErrors { field message }
@@ -81,7 +81,7 @@ const CART_CREATE = `
  * Takes slugs rather than variant IDs, because nothing above this file has any
  * reason to know what a variant ID is.
  */
-export async function startCheckout(slugs: string[]): Promise<CheckoutResult> {
+export async function startCheckout(slugs: string[], locale = "fr"): Promise<CheckoutResult> {
   if (!paymentReady()) return { ok: false, reason: "not-connected" };
   if (slugs.length === 0) return { ok: false, reason: "failed" };
 
@@ -108,7 +108,13 @@ export async function startCheckout(slugs: string[]): Promise<CheckoutResult> {
   }
 
   try {
-    const { data, errors } = await storefront<CartCreate>(CART_CREATE, { lines });
+    const { data, errors } = await storefront<CartCreate>(CART_CREATE, {
+      lines,
+      // The hosted checkout opens in the reading language (V2: no English on
+      // the French journey). Shopify falls back to the store's default if that
+      // language is not published.
+      language: locale === "en" ? "EN" : "FR",
+    });
     if (errors?.length) return { ok: false, reason: "failed" };
     if (data?.cartCreate?.userErrors?.length) return { ok: false, reason: "failed" };
 

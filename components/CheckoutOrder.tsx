@@ -83,7 +83,7 @@ export default function CheckoutOrder({
 
   async function onPay() {
     setState("sending");
-    const result = await startCheckout(slugs);
+    const result = await startCheckout(slugs, locale);
     if (result.ok) {
       // So the cart can clear itself once Shopify says this checkout is paid.
       rememberCheckout(result.cartId, slugs);

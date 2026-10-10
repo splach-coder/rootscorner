@@ -1,0 +1,913 @@
+/* ==========================================================================
+   V2 feedback (10 Oct 2026) — loaded after every other stylesheet.
+   One file, so the client's second round can be read in one place.
+   ========================================================================== */
+
+/* --- The opening mark: brown ground, white crescent (Anas, 10 Oct) -------- */
+html[data-intro="run"] .intro {
+  color: #f7f5f2;
+}
+
+.intro-veil {
+  background: #4b3123;
+}
+
+/* --- La Collection: the five categories ------------------------------------ */
+.collection-head {
+  padding-top: calc(var(--header-h) + clamp(2rem, 6vw, 4rem));
+  text-align: center;
+}
+
+.collection-title {
+  line-height: 1.05;
+}
+
+.collection-back {
+  display: inline-block;
+  margin-bottom: 1.4rem;
+  color: var(--ink-soft);
+}
+
+.collection-head-no,
+.collection-head-count {
+  color: var(--ink-soft);
+}
+
+.collection-head-no {
+  margin-bottom: 0.6rem;
+}
+
+.collection-head-count {
+  margin-top: 0.9rem;
+}
+
+.collection-groups-section {
+  padding-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* Two large, then three: an editorial spread, every frame the same shape so
+   the row lines up, each one a doorway. */
+.collection-groups {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(1.2rem, 2.4vw, 2.2rem) clamp(0.8rem, 1.6vw, 1.4rem);
+  margin: 0 auto;
+  list-style: none;
+}
+
+.collection-group {
+  grid-column: span 2;
+}
+
+.collection-group-1,
+.collection-group-2 {
+  grid-column: span 3;
+}
+
+.collection-group-link {
+  display: grid;
+  gap: 1rem;
+  color: var(--ink);
+}
+
+.collection-group-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.collection-group-1 .collection-group-frame,
+.collection-group-2 .collection-group-frame {
+  aspect-ratio: 5 / 4;
+}
+
+.collection-group-frame img {
+  transition: transform 1400ms var(--ease-material);
+}
+
+.collection-group-link:hover .collection-group-frame img {
+  transform: scale(1.03);
+}
+
+.collection-group-said {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 0.9rem;
+}
+
+.collection-group-no,
+.collection-group-count {
+  color: var(--ink-soft);
+}
+
+.collection-group-name {
+  font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.8rem);
+  line-height: 1.15;
+}
+
+@media (max-width: 699px) {
+  .collection-groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .collection-group,
+  .collection-group-1,
+  .collection-group-2 {
+    grid-column: auto;
+  }
+
+  .collection-group-1 .collection-group-frame,
+  .collection-group-2 .collection-group-frame,
+  .collection-group-frame {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+.room-rail-no {
+  margin-right: 0.5rem;
+  color: var(--ink-soft);
+}
+
+/* --- Homepage ------------------------------------------------------------- */
+
+/* Hero: "Là où tout prend racine", centred, editorial — the client's mockup. */
+.hero-v2-title {
+  font-size: clamp(2.6rem, 6.4vw, 6rem);
+  line-height: 1.02;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+.hero-v2 .hero-lead {
+  margin-top: clamp(1rem, 2vw, 1.4rem);
+}
+
+/* Each world of the house: a small heading, one sentence, one action. */
+.home-block-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem 3rem;
+  margin-bottom: clamp(1.8rem, 3.5vw, 2.8rem);
+}
+
+.home-block-label {
+  color: var(--ink-soft);
+  font-weight: inherit;
+}
+
+.home-block-line {
+  margin-top: 0.8rem;
+  max-width: 34rem;
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 2.1rem);
+  line-height: 1.25;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.home-block-cta {
+  flex: none;
+  color: var(--ink);
+}
+
+/* La Collection: a spread. One large photograph, and beside it the words
+   above a second, smaller one, both ending on the same line. */
+.home-spread {
+  display: grid;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+}
+
+.home-spread-lead,
+.home-spread-second {
+  display: block;
+}
+
+.home-spread-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.home-spread-frame img {
+  transition: transform 1400ms var(--ease-material);
+}
+
+.home-spread-lead:hover img,
+.home-spread-second:hover img {
+  transform: scale(1.03);
+}
+
+.home-spread-side {
+  display: grid;
+  gap: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.home-spread-said .home-block-cta {
+  display: inline-block;
+  margin-top: 1.4rem;
+}
+
+@media (min-width: 900px) {
+  .home-spread {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: stretch;
+  }
+
+  .home-spread-side {
+    grid-template-rows: 1fr auto;
+    align-content: space-between;
+  }
+
+  .home-spread-said {
+    align-self: start;
+    padding-top: clamp(0.5rem, 2vw, 2rem);
+  }
+
+  .home-spread-second {
+    align-self: end;
+  }
+}
+
+/* Notre histoire: the words, and Marrakech at dusk. */
+.home-story-inner {
+  display: grid;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  align-items: center;
+}
+
+.home-story-said .home-block-cta {
+  display: inline-block;
+  margin-top: 1.4rem;
+}
+
+.home-story-frame {
+  aspect-ratio: 4 / 5;
+}
+
+@media (min-width: 900px) {
+  .home-story-inner {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: clamp(3rem, 7vw, 7rem);
+  }
+}
+
+/* Instagram: small. */
+.home-instagram-title {
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 2.1rem);
+  line-height: 1.2;
+}
+
+@media (max-width: 699px) {
+  .home-block-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+/* --- Footer, after Beni (V2) ---------------------------------------------- */
+.foot-v2 {
+  padding-top: clamp(3.5rem, 7vw, 6rem);
+  padding-bottom: clamp(1.4rem, 3vw, 2rem);
+  color: var(--ink-inverse);
+}
+
+.foot-top {
+  display: grid;
+  gap: clamp(2.6rem, 6vw, 4rem);
+  padding-bottom: clamp(2.6rem, 6vw, 4.5rem);
+  border-bottom: 1px solid rgba(240, 233, 223, 0.14);
+}
+
+@media (min-width: 900px) {
+  .foot-top {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+}
+
+.foot-news-heading {
+  font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.6rem);
+  line-height: 1.1;
+  color: var(--ink-inverse);
+}
+
+.foot-news-body {
+  margin-top: 0.8rem;
+  max-width: 30rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-inverse-soft);
+}
+
+.foot-news-form {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  max-width: 30rem;
+  margin-top: 1.6rem;
+  border-bottom: 1px solid rgba(240, 233, 223, 0.55);
+}
+
+.foot-news-field {
+  flex: 1;
+}
+
+.foot-news-field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0;
+  font: inherit;
+  font-size: 0.98rem;
+  color: var(--ink-inverse);
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+.foot-news-field input::placeholder {
+  color: rgba(240, 233, 223, 0.55);
+}
+
+.foot-news-submit {
+  flex: none;
+  min-height: 48px;
+  padding: 0 0 0 1.2rem;
+  color: var(--ink-inverse);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.foot-news-submit:hover {
+  opacity: 0.75;
+}
+
+.foot-news-form:focus-within {
+  border-bottom-color: var(--ink-inverse);
+}
+
+.foot-news-note {
+  max-width: 30rem;
+  margin-top: 0.8rem;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: rgba(240, 233, 223, 0.6);
+}
+
+.foot-news-note .link {
+  color: rgba(240, 233, 223, 0.8);
+}
+
+.foot-news-done {
+  margin-top: 1.4rem;
+  color: var(--ink-inverse);
+}
+
+.foot-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.6rem;
+}
+
+.foot-col-title {
+  margin-bottom: 1rem;
+  color: rgba(240, 233, 223, 0.55);
+}
+
+.foot-col ul {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.foot-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  font-size: 0.95rem;
+  color: var(--ink-inverse);
+  transition: opacity var(--dur-hover) var(--ease-material);
+}
+
+.foot-link:hover {
+  opacity: 0.7;
+}
+
+/* The house signs off: a small mark, the one statement, the city. */
+.foot-sign {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.6rem 3rem;
+  padding-top: clamp(2.2rem, 5vw, 3.5rem);
+  padding-bottom: clamp(1.6rem, 4vw, 2.6rem);
+}
+
+.foot-mark {
+  display: block;
+  width: auto;
+  height: clamp(3.4rem, 6vw, 4.6rem);
+  color: var(--ink-inverse);
+}
+
+.foot-sign-said {
+  max-width: 26rem;
+  text-align: right;
+}
+
+.foot-statement {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-inverse-soft);
+}
+
+.foot-place {
+  margin-top: 0.6rem;
+  color: rgba(240, 233, 223, 0.55);
+}
+
+/* Legal: discreet. */
+.foot-legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(240, 233, 223, 0.1);
+  font-size: 0.72rem;
+  color: rgba(240, 233, 223, 0.5);
+}
+
+.foot-legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.foot-legal-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  color: rgba(240, 233, 223, 0.55);
+}
+
+.foot-legal-link:hover {
+  color: var(--ink-inverse);
+}
+
+@media (max-width: 699px) {
+  .foot-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .foot-sign {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .foot-sign-said {
+    text-align: left;
+  }
+
+  .foot-legal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* --- The piece: one template (V2 §19) -------------------------------------- */
+.piece-short {
+  margin-top: clamp(1.4rem, 3vw, 1.8rem);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.piece-facts {
+  display: grid;
+  gap: 0;
+  margin: clamp(1.4rem, 3vw, 1.8rem) 0 0;
+  border-top: 1px solid var(--rule);
+}
+
+.piece-fact {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.piece-fact dt {
+  color: var(--ink-soft);
+}
+
+.piece-fact dd {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Below the photographs: three short blocks, each under its own key. */
+.piece-words-v2 {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.piece-block-key {
+  color: var(--ink-soft);
+  font-weight: inherit;
+}
+
+.piece-block .piece-prose p + p {
+  margin-top: 0.8rem;
+}
+
+.piece-block-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.6rem;
+  margin-top: 1.1rem;
+}
+
+@media (min-width: 940px) {
+  .piece-words-v2 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(2rem, 4vw, 3.4rem);
+  }
+
+  .piece-words-v2 .piece-block:only-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Size (Tamegroute candles, S and M): the price follows the choice. */
+.piece-sizes {
+  margin-top: 1.1rem;
+}
+
+.piece-sizes-key {
+  color: var(--ink-soft);
+}
+
+.piece-sizes-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.piece-size {
+  position: relative;
+  cursor: pointer;
+}
+
+.piece-size input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.piece-size span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.2rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--rule);
+  font-size: 0.9rem;
+  color: var(--ink);
+  transition: border-color var(--dur-hover) var(--ease-material);
+}
+
+.piece-size input:checked + span {
+  border-color: var(--ink);
+}
+
+.piece-size input:focus-visible + span {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.piece-size.is-gone span {
+  color: var(--ink-soft);
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+@media (max-width: 699px) {
+  .piece-label-sticky > .piece-short,
+  .piece-label-sticky > .piece-facts {
+    order: 5;
+  }
+
+  .piece-fact {
+    grid-template-columns: 6.4rem minmax(0, 1fr);
+  }
+}
+
+/* --- Rugs: the notes the client wrote instead of "Photos d'illustration" --- */
+.mrirt-variations,
+.rug-note {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.mrirt-variations {
+  max-width: 40rem;
+  margin-bottom: clamp(1.2rem, 2.4vw, 1.8rem);
+}
+
+.rug-note {
+  margin-top: 0.9rem;
+}
+
+.mrirt-hands .prose + .prose {
+  margin-top: 0.9rem;
+}
+
+/* --- FAQ, after Beni: anchors, then folded questions ----------------------- */
+.faq-v2 {
+  padding-top: calc(var(--header-h) + clamp(2rem, 6vw, 4rem));
+  padding-bottom: clamp(3rem, 7vw, 5rem);
+}
+
+.faq-v2-inner {
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.faq-v2-head {
+  text-align: center;
+}
+
+.faq-v2-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 0.6rem;
+  margin: clamp(1.4rem, 3vw, 2rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.faq-v2-anchor {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 1rem;
+  border: 1px solid var(--rule);
+  font-size: 0.86rem;
+  color: var(--ink);
+  transition: border-color var(--dur-hover) var(--ease-material);
+}
+
+.faq-v2-anchor:hover {
+  border-color: var(--ink);
+}
+
+.faq-v2-group {
+  margin-top: clamp(2.6rem, 6vw, 4rem);
+  scroll-margin-top: calc(var(--header-h) + 1.5rem);
+}
+
+.faq-v2-group-title {
+  font-size: clamp(1.4rem, 1.15rem + 1vw, 2rem);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.faq-v2-list {
+  border-top: 1px solid var(--rule);
+}
+
+.faq-v2-item {
+  border-bottom: 1px solid var(--rule);
+}
+
+.faq-v2-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  min-height: 56px;
+  padding: 0.9rem 0;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-v2-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-v2-item summary::after {
+  content: "+";
+  flex: none;
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+}
+
+.faq-v2-item[open] summary::after {
+  content: "\2212";
+}
+
+.faq-v2-answer {
+  padding-bottom: 1.2rem;
+  max-width: 42rem;
+}
+
+.faq-v2-answer p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+.faq-v2-answer p + p {
+  margin-top: 0.7rem;
+}
+
+.faq-v2-still {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.6rem 1.2rem;
+  margin-top: clamp(2.6rem, 6vw, 4rem);
+  color: var(--ink-soft);
+}
+
+/* --- Histoire: one column, three chapters, then the founder ---------------- */
+.story-v2-head {
+  padding-top: calc(var(--header-h) + clamp(2.4rem, 7vw, 5rem));
+  text-align: center;
+}
+
+.story-v2-eyebrow {
+  color: var(--ink-soft);
+  margin-bottom: 0.8rem;
+}
+
+.story-v2-chapters {
+  padding-top: clamp(2.4rem, 6vw, 4.5rem);
+}
+
+.story-v2-chapter {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: clamp(2.2rem, 5vw, 3.4rem) 0;
+  border-top: 1px solid var(--rule);
+}
+
+.story-v2-chapter:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.story-v2-no {
+  color: var(--clay-ink);
+}
+
+.story-v2-heading {
+  margin-top: 0.7rem;
+  font-size: clamp(1.6rem, 1.25rem + 1.4vw, 2.5rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.story-v2-body {
+  margin-top: clamp(1.1rem, 2.4vw, 1.5rem);
+}
+
+.story-v2-body p {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.story-v2-body p + p {
+  margin-top: 0.9rem;
+}
+
+.story-v2-founder {
+  padding-top: clamp(2.4rem, 6vw, 4rem);
+}
+
+.story-v2-founder-inner {
+  display: grid;
+  gap: clamp(1.8rem, 4vw, 3rem);
+  align-items: center;
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.story-v2-portrait {
+  aspect-ratio: 2 / 3;
+}
+
+.story-v2-quote {
+  margin: 0;
+}
+
+.story-v2-quote blockquote {
+  margin: 0;
+  font-size: clamp(1.15rem, 1rem + 0.55vw, 1.5rem);
+  line-height: 1.45;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.story-v2-quote figcaption {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: clamp(1.2rem, 2.6vw, 1.8rem);
+}
+
+.story-v2-name {
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.story-v2-role {
+  color: var(--ink-soft);
+}
+
+@media (min-width: 900px) {
+  .story-v2-founder-inner {
+    grid-template-columns: minmax(0, 26rem) minmax(0, 1fr);
+    gap: clamp(3rem, 7vw, 6rem);
+  }
+}
+
+@media (max-width: 899px) {
+  .story-v2-portrait {
+    max-width: 24rem;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+/* --- Contact: centred, three fields, one button ---------------------------- */
+.contact-v2 {
+  padding-top: calc(var(--header-h) + clamp(2.6rem, 8vw, 5.5rem));
+  padding-bottom: clamp(3.5rem, 8vw, 6rem);
+}
+
+.contact-v2-inner {
+  max-width: 38rem;
+  margin-inline: auto;
+}
+
+.contact-v2-head {
+  text-align: center;
+}
+
+.contact-v2-intro {
+  max-width: 30rem;
+  margin: clamp(1rem, 2.4vw, 1.4rem) auto 0;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+
+.contact-v2-form {
+  margin-top: clamp(2.2rem, 5vw, 3.2rem);
+}
+
+.contact-v2-form .inquiry {
+  max-width: none;
+  width: 100%;
+}
+
+.contact-v2-form .inquiry-send {
+  justify-self: stretch;
+  justify-content: center;
+  width: 100%;
+}
+
+.contact-v2-form .inquiry-actions {
+  display: block;
+}
+
+.contact-v2-more {
+  margin-top: clamp(2rem, 5vw, 3rem);
+  text-align: center;
+}
+
+.contact-v2-more .link {
+  color: var(--ink-soft);
+}

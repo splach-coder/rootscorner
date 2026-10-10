@@ -1,25 +1,18 @@
 import Link from "next/link";
-import JsonLd from "@/components/JsonLd";
-import { breadcrumbLd, itemListLd } from "@/lib/seo";
-import { displayName } from "@/lib/specs";
-import { pageMeta, og } from "@/lib/seo";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
-import PageHead from "@/components/PageHead";
+import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import PieceCard from "@/components/PieceCard";
-import ClosingBand from "@/components/ClosingBand";
-import { getDictionary, isLocale, fill, locales, type Locale } from "@/lib/dictionaries";
-import { categorySlugs, hasCategory, piecesByCategory } from "@/lib/catalog";
+import { breadcrumbLd, itemListLd, pageMeta, og } from "@/lib/seo";
+import { displayName } from "@/lib/specs";
+import { fill, getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
+import { groupBySlug, groups, piecesByGroup } from "@/lib/catalog";
+import { COLLECTION, GROUPS } from "@/lib/copy-v2";
+import { GROUP_OF } from "@/lib/piece-copy";
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) =>
-    categorySlugs().map((category) => ({ locale, category })),
-  );
-}
-
-function roomName(locale: Locale, slug: string): string {
-  return getDictionary(locale).categories.items[slug] ?? slug;
+  return locales.flatMap((locale) => GROUPS.map((g) => ({ locale, category: g.slug })));
 }
 
 export async function generateMetadata({
@@ -28,34 +21,21 @@ export async function generateMetadata({
   params: Promise<{ locale: string; category: string }>;
 }): Promise<Metadata> {
   const { locale, category } = await params;
-  if (!isLocale(locale) || !hasCategory(category)) return {};
-  const t = getDictionary(locale);
-  const name = roomName(locale, category);
-  const count = piecesByCategory(category).length;
-
+  const g = groupBySlug(category);
+  if (!isLocale(locale) || !g) return {};
+  const count = piecesByGroup(category).length;
   return pageMeta({
     locale,
     path: `/collection/${category}`,
-    title: `${name} | The Roots Corner`,
-    // Built from counts and the room's own name: it states what is on the page
-    // and claims nothing about any object.
-    description: `${name}: ${fill(count === 1 ? t.category.countOne : t.category.count, {
-      n: count,
-    })}. ${t.selection.unique}`,
-    image: og(`rooms/${category}.jpg`),
+    title: `N° ${g.no} · ${g.name[locale]} | The Roots Corner`,
+    description: `${g.name[locale]}: ${fill(count === 1 ? COLLECTION.countOne[locale] : COLLECTION.count[locale], { n: count })}.`,
+    image: og("collection.jpg"),
   });
 }
 
 /**
- * One room.
- *
- * Deliberately sparse — the brief asks for a selection, not a catalogue, and
- * the largest room here holds twelve pieces. They hang two across at
- * alternating heights rather than in a grid, which is the same argument as the
- * homepage's staggered trio: a row of equal cards reads as stock, a wall of
- * works hung at different heights reads as a collection.
- *
- * Every piece carries the same wall label as everywhere else on the site.
+ * One of the five categories (V2): its number and title, then its pieces,
+ * then the way into the other four.
  */
 export default async function CategoryPage({
   params,
@@ -63,11 +43,17 @@ export default async function CategoryPage({
   params: Promise<{ locale: string; category: string }>;
 }) {
   const { locale, category } = await params;
-  if (!isLocale(locale) || !hasCategory(category)) notFound();
-
+  if (!isLocale(locale)) notFound();
+  const g = groupBySlug(category);
+  if (!g) {
+    // The old rooms (stools, pots, …) now live inside the five categories.
+    const moved = GROUP_OF[category];
+    if (moved) permanentRedirect(`/${locale}/collection/${moved}`);
+    notFound();
+  }
   const t = getDictionary(locale as Locale);
-  const pieces = piecesByCategory(category);
-  const others = categorySlugs().filter((slug) => slug !== category);
+  const pieces = piecesByGroup(category);
+  const others = groups().filter((o) => o.slug !== category);
 
   return (
     <>
@@ -75,32 +61,27 @@ export default async function CategoryPage({
       <JsonLd
         data={breadcrumbLd([
           { name: "The Roots Corner", path: `/${locale}` },
-          { name: t.nav.collection, path: `/${locale}/collection` },
-          { name: roomName(locale as Locale, category), path: `/${locale}/collection/${category}` },
+          { name: COLLECTION.title[locale], path: `/${locale}/collection` },
+          { name: g.name[locale], path: `/${locale}/collection/${category}` },
         ])}
       />
-      <PageHead
-        eyebrow={t.category.eyebrow}
-        heading={roomName(locale as Locale, category)}
-        meta={fill(pieces.length === 1 ? t.category.countOne : t.category.count, {
-          n: pieces.length,
-        })}
-      >
-        <Link href={`/${locale}/collection`} className="link label page-head-back">
-          {t.category.all}
-        </Link>
-      </PageHead>
+      <section className="collection-head shell">
+        <Reveal>
+          <Link href={`/${locale}/collection`} className="link label collection-back">
+            {COLLECTION.title[locale]}
+          </Link>
+          <p className="label collection-head-no">N° {g.no}</p>
+          <h1 className="display d-1 collection-title">{g.name[locale]}</h1>
+          <p className="label collection-head-count">
+            {fill(pieces.length === 1 ? COLLECTION.countOne[locale] : COLLECTION.count[locale], {
+              n: pieces.length,
+            })}
+          </p>
+        </Reveal>
+      </section>
 
       <section className="section room">
         <div className="shell">
-          {/* The same cards as /collection.
-
-              A room used to be two across, staggered, with the full wall label
-              under each — a hang. That was right when the collection page was a
-              register and this was the only place you could see the pieces. Now
-              both pages are the shop, and a visitor moving from one to the other
-              should find the same object at the same size, not a different
-              layout for the same job. */}
           <ul className="cards">
             {pieces.map((piece, i) => (
               <PieceCard
@@ -114,18 +95,13 @@ export default async function CategoryPage({
             ))}
           </ul>
 
-          {/* The rail of other rooms. Walking out of a room should put you in
-              the corridor, not back at the front door. */}
           <Reveal className="room-rail">
-            <p className="label room-rail-key">{t.category.others}</p>
+            <p className="label room-rail-key">{COLLECTION.others[locale]}</p>
             <ul className="room-rail-list">
-              {others.map((slug) => (
-                <li key={slug}>
-                  <Link
-                    href={`/${locale}/collection/${slug}`}
-                    className="link display d-3 room-rail-link"
-                  >
-                    {roomName(locale as Locale, slug)}
+              {others.map((o) => (
+                <li key={o.slug}>
+                  <Link href={`/${locale}/collection/${o.slug}`} className="link display d-3 room-rail-link">
+                    <span className="label room-rail-no">N° {o.no}</span> {o.name[locale]}
                   </Link>
                 </li>
               ))}
@@ -133,13 +109,6 @@ export default async function CategoryPage({
           </Reveal>
         </div>
       </section>
-
-      <ClosingBand
-        locale={locale as Locale}
-        t={t.closing}
-        labels={t.pieceLabel}
-        exclude={pieces.map((piece) => piece.slug)}
-      />
     </>
   );
 }

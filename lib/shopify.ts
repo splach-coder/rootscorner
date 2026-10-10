@@ -68,8 +68,7 @@ const VARIANTS: Record<string, string> = {
   // (scripts/shopify-pull.mjs). They were never in docs/shopify.json.
   ...Object.fromEntries(
     (live as { extra: { slug: string; variantId: string; images?: { alt: string | null }[] }[] }).extra
-      // Placeholder photographs (alt "Photo d'illustration"): never sold.
-      .filter((e) => !(e.images ?? []).some((i) => (i.alt ?? "").trim().toLowerCase() === "photo d'illustration"))
+      // V2 §6: available rugs are sold at their price, whatever their photos.
       .map((e) => [e.slug, e.variantId]),
   ),
 };
@@ -78,6 +77,8 @@ const VARIANTS: Record<string, string> = {
 export function variantFor(slug: string): string | null {
   // A Mrirt rug in the cart carries its own Shopify variant (lib/rugs.ts).
   if (slug.startsWith(RUG_PREFIX)) return rugVariantId(slug);
+  // A piece in one of its sizes: "slug::variantId" (lib/cart.ts).
+  if (slug.includes("::")) return slug.split("::")[1] || null;
   const id = VARIANTS[slug];
   return typeof id === "string" && id.length > 0 ? id : null;
 }

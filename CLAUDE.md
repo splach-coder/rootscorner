@@ -5033,3 +5033,63 @@ desktop + phone) and mirrored section for section:
   desktop the photo column is sticky and the panel scrolls; on a phone the
   slider comes first (`order: -1`), swiped, no arrows. "Notre façon de faire"
   is a smaller fixed-height panel (~40rem), after "The Beni Difference".
+
+## 74. Client feedback V2 (10 Oct) — the editorial pass
+
+`Feedback - The Roots Corner website V2.pdf` plus the client's message. All
+client copy lives in **lib/copy-v2.ts** (site sections) and
+**lib/piece-copy.ts** (short + "À propos" text for all 38 pieces and the two
+available rugs), French verbatim; the English is our translation, pending
+approval. Styles for everything V2 are in **app/v2.css**, loaded last.
+
+- **Removed:** `/stay` and `/artisans` (308 to the locale home, next.config.ts redirects),
+  lib/house.ts, their dictionary keys. Homepage newsletter moved to the footer.
+- **Intro:** brown veil `#4b3123`, cream crescent.
+- **Homepage:** hero → Tapis Mrirt → La Collection → Notre histoire →
+  Instagram. No counters left on it; collection counts are live (`groups()`).
+- **Collection:** five groups (`GROUPS` in copy-v2, `GROUP_OF` /
+  `GROUP_OVERRIDE` in piece-copy). Old room URLs 301 to their group. Rugs are
+  not in the collection.
+- **Piece page:** one template — name, price (`PieceBuy`), short description,
+  facts (Origine, Région, Époque, Matière, Dimensions, Nature, État — only
+  where known), then À propos / Entretien / Livraison & retours. The Details
+  list (where the "ethnic" wording lived) is no longer shown.
+- **Sizes:** a piece whose Shopify product has several variants gets a size
+  picker; the cart entry is `slug::variantGid`. The Tamegroute candles have one
+  variant today — add S and M with prices in the admin and the picker appears
+  after the next pull.
+- **Rugs:** "Photos d'illustration" replaced by the client's three notes
+  (small, no capitals). Available rugs show their price; made-to-order series
+  stay "Prix sur demande" while their photographs are placeholders.
+- **FAQ:** the client's four categories, anchors at the top, folded answers;
+  no fixed shipping prices anywhere (FAQ, rug folds, llms.txt). The Mrirt
+  questions are on /mrirt.
+- **Histoire, Contact:** rewritten to the client's copy; Contact has three
+  fields and no photograph, piece or coordinates (`?piece=` still prefills).
+- **Checkout** opens in the reading language (`@inContext(language:)`).
+  Product titles inside Shopify's hosted checkout are Shopify's own (English)
+  until they are translated in the admin (Translate & Adapt).
+
+- **Delivery Policy** is ours now (`source: null`): times table, variable
+  costs, duties, all restating the client's FAQ copy, so the FAQ, the policy,
+  the product pages and checkout say the same thing. Product pages link to an
+  enquiry for a shipping quote.
+- **"Chaque pièce est unique" is no longer a blanket claim** (V2: "not every
+  piece is necessarily one of a kind"): off the piece template, the meta
+  descriptions and the collection page. It stays on the available-rug page.
+  Site title / slogan are "Là où tout prend racine" / "Rooted in every corner".
+- `scratchpad v2-check.mjs` style checks: every removed string absent, every
+  new string present, homepage order, no Airbnb/apartment wording, no em
+  dash, no "ethnic" on any checked page; /en scanned for French: 0.
+
+Conflicts inside the PDF, resolved by taking the later/more specific text:
+general FAQ uses the 4 categories of the final copy (the brief above it says
+5 and lists "Chaque pièce est-elle unique ?", which has no answer in the copy);
+the Mrirt FAQ uses the p.47 questions (care) rather than p.10's (photographs);
+the customisation sentence uses p.45's version; the apartments are removed
+(p.20 and the client's message) despite p.48–50's new copy for them.
+
+Still open: the women-weaving photograph for /mrirt (yarn photo stands in,
+uncaptioned); the "guide d'entretien" the Mrirt FAQ mentions does not exist;
+"à confirmer" sentences in the product copy are the client's and are shown as
+written; product titles inside Shopify's hosted checkout are still English.

@@ -3,106 +3,41 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
-import { Wordmark } from "@/components/BrandMarks";
-import Newsletter from "@/components/Newsletter";
 import HeroMedia from "@/components/HeroMedia";
 import DragScroll from "@/components/DragScroll";
 import RugSlider, { type RugSlide } from "@/components/RugSlider";
 import { allRugSeries, formatEuro, fromPrice, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
-import PieceLabel from "@/components/PieceLabel";
-import PieceFrame from "@/components/PieceFrame";
-import { fill, getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
-import {
-  categories,
-  featuredPieces,
-  imagePath,
-  RUG_DEMO,
-  shopSelection,
-  WOVEN_RUGS,
-} from "@/lib/catalog";
+import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
+import { featuredPieces, formatPrice, imagePath, pieceBySlug, RUG_DEMO, WOVEN_RUGS } from "@/lib/catalog";
+import { displayName } from "@/lib/specs";
+import { INSTAGRAM } from "@/lib/site";
+import { instagramFrames } from "@/lib/instagram";
+import { HOME } from "@/lib/copy-v2";
 
-/* Out of search while the Beni demo photographs are on the page (RUG_DEMO). */
+/* Out of search while placeholder rug photographs are on the page (RUG_DEMO). */
 export function generateMetadata(): Metadata {
   return RUG_DEMO ? { robots: { index: false, follow: true } } : {};
 }
-import { INSTAGRAM } from "@/lib/site";
-import { instagramFrames, scene } from "@/lib/instagram";
 
 /**
- * Homepage — the brief's sections, laid out along one day of light.
+ * Homepage — V2 (10 Oct 2026).
  *
- * The order is the brief's, with one addition the brief did not ask for and the
- * business needs: a shop grid after Mrirt. Everything above it curates — three
- * pieces hung apart, a statement, seven doorways — and none of it tells a
- * visitor they can buy something today.
- *
- * The order also solves the hardest problem on the page. The ground has to
- * travel from ecru to night, and between roughly #a08a6e and #6b4c39 NEITHER
- * dark ink nor cream is readable. So the descent is hidden behind the matter
- * wall, which is full-bleed and more than a viewport tall: while it holds the
- * screen, no ground is visible at all, and the sun goes down where it cannot be
- * watched. Everything after it — matter's own words, the letter, the footer —
- * stays at night. The page dims once and stays dimmed.
+ * The client's order, one purpose per section and no story told twice:
+ * HERO → MRIRT → COLLECTION → NOTRE HISTOIRE → INSTAGRAM → FOOTER.
+ * ("Séjourner à Marrakech" is removed with the apartments page; the
+ * newsletter moved into the footer.) Each section is a small heading, one
+ * sentence, one action, and photography doing the rest.
  */
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const t = getDictionary(locale as Locale);
-
-  /**
-   * The hero is the client's own Marrakech photography now, not a product shot.
-   *
-   * It was the antique weaving comb: a landscape original chosen because it
-   * survived a full-bleed crop when every portrait frame in the catalogue did
-   * not. That constraint is gone twice over. The type moved onto its own plate
-   * below the photograph, so nothing has to be legible over the frame at all;
-   * and the client's Drive has sent 52 frames of the medina shot for exactly
-   * this (docs/place-images.json, CLAUDE.md §51).
-   *
-   * A studded wooden door with the shadow of leaves raking across it in low
-   * golden light. Wood, plaster, patina, imperfection, Morocco — the brand's
-   * whole universe (§1) in one frame, where the comb was one tool from the
-   * shelf. No identifiable person, and no colour outside the palette: several
-   * frames in the set have a strong turquoise sky, which would fight an ecru
-   * site at full screen.
-   *
-   * ONE PHOTOGRAPH, BOTH VIEWPORTS. The hero used to be art-directed — a
-   * separate phone frame — because the desktop source was LANDSCAPE and a tall
-   * viewport had to crop it to about a third of its width. This source is 2:3
-   * portrait, so the phone keeps 69% of the width and the composition survives.
-   * That also retires /instagram/07.jpg from this slot, which was 512×640 and
-   * the weakest asset on the page (§29).
-   */
-  // Feedback 25 Sept: the photograph Dahab asked for — a hand-woven cloth
-  // hanging against the dark, from the client's Drive (jamaa fna/stories,
-  // DSC01019). See docs/place-images.json.
-  const heroSrc = "/place/hanging-cloth.jpg";
-
-  /**
-   * Empty alt, deliberately. <picture> carries one alt across both sources, and
-   * the two photographs are of different things — any single sentence is wrong
-   * on one of the two viewports. The photograph is a backdrop: the name, the
-   * tagline and the intro sit in text on their own plate directly beneath it,
-   * so nothing is lost by marking it decorative, whereas a mismatched
-   * description would actively mislead.
-   */
-  const featured = featuredPieces();
-  const cats = categories();
-  /*
-    Four, not eight.
-
-    The client's word on it: the shop is welcome on the homepage but "pas
-    autant... il y'en a bcp bcp bcp, c'est répétitif". Eight tiles is a
-    catalogue page happening a second time before the visitor has reached the
-    collection; four is one row, which reads as a sample and leaves the
-    catalogue to the page that is one.
-  */
-  const shop = shopSelection(4, cats.map((c) => c.cover?.slug ?? ""));
+  const lang = locale as Locale;
+  const t = getDictionary(lang);
+  const rl = rugLabels(lang);
   const feed = instagramFrames();
 
-  // The slider: every collection, then the rugs already woven.
-  const rl = rugLabels(locale as Locale);
+  // The rugs: every collection, then the rugs already woven (with their price).
   const rugSlides: RugSlide[] = [
     ...allRugSeries().flatMap((series) => {
       const img = series.images[0];
@@ -127,526 +62,160 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     }),
     ...WOVEN_RUGS.map((woven) => {
       const key = woven.id as keyof typeof t.mrirtPage.woven.items;
+      const piece = woven.slug ? pieceBySlug(woven.slug) : undefined;
+      const price = piece ? formatPrice(piece, locale) : null;
       return {
         key: `woven-${woven.id}`,
         href: woven.slug ? `/${locale}/piece/${woven.slug}` : `/${locale}/mrirt#disponibles`,
         src: woven.src,
         w: woven.width,
         h: woven.height,
-        alt: woven.name?.[locale as Locale] ?? t.mrirtPage.woven.alts[key],
+        alt: woven.name?.[lang] ?? t.mrirtPage.woven.alts[key],
         kind: rl.availableWord,
-        name: woven.name?.[locale as Locale] ?? t.mrirtPage.woven.items[key],
+        name: woven.name?.[lang] ?? t.mrirtPage.woven.items[key],
         line: null,
-        price: rl.onRequest,
+        price: price ?? rl.onRequest,
       };
     }),
   ];
 
+  // The collection: two large photographs, placed as a spread.
+  const [lead, second] = featuredPieces();
+  const leadSrc = imagePath(lead?.images[0]);
+  const secondSrc = imagePath(second?.images[0]);
 
   return (
     <>
-      {/* ---- 1. The work, and its plate.
-
-           The photograph fills the screen; the type sits on a solid plate
-           beneath it, the way a caption plate sits under a work on a wall.
-           Scrimming type onto the photograph was tried three times and failed
-           three times — each scrim was tuned to one image and collapsed the
-           moment the image changed. The plate is independent of what is above
-           it, so the hero photograph can be swapped freely. */}
-      <section className="hero">
+      {/* ---- 1. Hero: the photograph and one line, centred. */}
+      <section className="hero hero-v2">
         <div className="hero-media">
-          <HeroMedia src={heroSrc} width={2000} height={3000} />
+          <HeroMedia src="/place/hanging-cloth.jpg" width={2000} height={3000} />
         </div>
-
         <div className="hero-plate">
-          {/* Not a Reveal: the hero has its own entrance (sections.css, "The
-              hero entrance"), each line arriving from its own direction. */}
           <div className="hero-inner shell">
             <div>
-              {/*
-                One heading, set two ways.
-
-                On a phone the title is the client's own artwork rather than
-                type set to look like it: the lettering from the footer
-                wordmark, with the crescent dropped. The mark is not repeated
-                here because it is a mark, not a decoration — the crescent gets
-                one appearance per screen, and on this one it belongs to the
-                intro that writes it.
-
-                The text stays in the h1 and is only hidden VISUALLY at that
-                width, so the page still has a real level-one heading and the
-                accessible name is words rather than a decorative graphic.
-              */}
-              <h1 className="display d-hero hero-title">
-                <span className="hero-title-text">
-                  The Roots
-                  <br />
-                  Corner
-                </span>
-                <Wordmark className="hero-title-mark" crescent={false} />
-              </h1>
-
-              {/* The tagline alone.
-
-                  "LA COLLECTION" sat beside it as a discreet link — §1 of the
-                  client's report asked for one there, and it was pointed at
-                  /collection rather than at an in-page anchor. Removed at their
-                  instruction: the hero is the name, the line, and the
-                  photograph. The collection is the first item in the header nav
-                  on every screen, so nothing became unreachable.
-
-                  The wrapper stays. It carries the top margin and the centring,
-                  and a one-item flex row is the correct shape for a line that
-                  may take its action back. */}
-              <div className="hero-line">
-                <p className="hero-tagline label">{t.hero.tagline}</p>
-              </div>
-
-              {/* V1 feedback: "a new visitor should understand within a few
-                  seconds what The Roots Corner actually offers." Their
-                  sentence, under the tagline, on every screen — it sits at the
-                  foot of the plate, where the scrim is deepest. */}
+              <h1 className="display hero-title hero-v2-title">{HOME.heroTitle[lang]}</h1>
               <p className="hero-lead">{t.hero.lead}</p>
             </div>
-
-            <p className="hero-note">{t.hero.intro}</p>
           </div>
         </div>
       </section>
 
-      {/* ---- 2. The rugs, first (client, 5 Oct: rugs before the pieces).
-
-           A slider after benirugs.com's: the collections and the rugs already
-           woven, one card at a time, with the way into the whole page beside
-           the heading. Replaces the folded-rug photograph and its four "au
-           choix" rows, which described a rug instead of showing them. */}
-      <section className="section rugs-home" aria-labelledby="rugs-home-title">
-        <div className="shell rugs-home-head">
+      {/* ---- 2. Tapis Mrirt: the first world after the hero. */}
+      <section className="section home-block home-rugs" aria-labelledby="home-rugs-title">
+        <div className="shell home-block-head">
           <Reveal>
-            <h2 id="rugs-home-title" className="display d-1 rugs-home-title">
-              {t.nav.rugs}
+            <h2 id="home-rugs-title" className="label home-block-label">
+              {HOME.rugs.label[lang]}
             </h2>
-            <p className="rugs-home-line">{rl.homeLine}</p>
-            {RUG_DEMO && <p className="label rug-demo-note">{rl.illustration}</p>}
+            <p className="display home-block-line">{HOME.rugs.body[lang]}</p>
           </Reveal>
           <Reveal delay={80}>
-            <Link href={`/${locale}/mrirt`} className="link label rugs-home-cta">
-              {rl.homeCta}
+            <Link href={`/${locale}/mrirt`} className="link label home-block-cta">
+              {HOME.rugs.cta[lang]}
             </Link>
           </Reveal>
         </div>
         <Reveal delay={120}>
-          <RugSlider
-            slides={rugSlides}
-            labels={{ prev: rl.prev, next: rl.next, region: t.nav.rugs }}
-          />
+          <RugSlider slides={rugSlides} labels={{ prev: rl.prev, next: rl.next, region: t.nav.rugs }} />
         </Reveal>
       </section>
 
-      {/* ---- 2. A few pieces, hung at different heights. */}
-      <section id="selection" className="section">
-        <div className="shell">
-          <Reveal>
-            <p className="label">{t.selection.eyebrow}</p>
-            <h2 className="display d-1 section-heading">{t.selection.heading}</h2>
-          </Reveal>
-
-          <ul className="hang">
-            {featured.map((piece, i) => (
-              <li key={piece.slug} className={`hang-item hang-${i + 1}`}>
-                <Link
-                  href={`/${locale}/piece/${piece.slug}`}
-                  className="hang-link swap-host"
-                >
-                  <PieceFrame
-                    locale={locale as Locale}
-                    piece={piece}
-                    delay={i * 100}
-                    width={1400}
-                    height={2100}
-                    sizes="(max-width: 700px) 84vw, (max-width: 1100px) 42vw, 30vw"
-                  />
-                  <Reveal delay={i * 100 + 80} className="hang-caption">
-                    <PieceLabel
-                      piece={piece}
-                      locale={locale}
-                      labels={t.pieceLabel}
-                      variant="sell"
-                    />
-                  </Reveal>
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <Reveal className="hang-foot">
-            <p className="hang-unique display d-3">{t.selection.unique}</p>
-            <Link href={`/${locale}/collection`} className="link label">
-              {t.selection.viewAll}
+      {/* ---- 3. La Collection: one cohesive section, a spread of two large
+           photographs with the words between them. */}
+      <section className="section home-block home-collection" aria-labelledby="home-collection-title">
+        <div className="shell home-spread">
+          {lead && leadSrc && (
+            <Link href={`/${locale}/piece/${lead.slug}`} className="home-spread-lead">
+              <Reveal variant="frame" className="frame home-spread-frame home-spread-frame-lead">
+                <Image
+                  src={leadSrc}
+                  alt={displayName(lead, lang)}
+                  width={lead.images[0].w}
+                  height={lead.images[0].h}
+                  sizes="(max-width: 699px) 100vw, 56vw"
+                />
+              </Reveal>
             </Link>
-          </Reveal>
+          )}
+          <div className="home-spread-side">
+            <Reveal className="home-spread-said">
+              <h2 id="home-collection-title" className="label home-block-label">
+                {HOME.collection.label[lang]}
+              </h2>
+              <p className="display home-block-line">{HOME.collection.body[lang]}</p>
+              <Link href={`/${locale}/collection`} className="link label home-block-cta">
+                {HOME.collection.cta[lang]}
+              </Link>
+            </Reveal>
+            {second && secondSrc && (
+              <Link href={`/${locale}/piece/${second.slug}`} className="home-spread-second">
+                <Reveal variant="frame" delay={120} className="frame home-spread-frame">
+                  <Image
+                    src={secondSrc}
+                    alt={displayName(second, lang)}
+                    width={second.images[0].w}
+                    height={second.images[0].h}
+                    sizes="(max-width: 699px) 100vw, 38vw"
+                  />
+                </Reveal>
+              </Link>
+            )}
+          </div>
         </div>
       </section>
 
-      {/* ---- 3. Who this is.
-
-           The founder's sentence is set at display size rather than as body
-           copy — it is the only first-person claim on the page and the reason
-           the collection exists, so it carries the section instead of floating
-           in it. The supporting prose sits against it as a column, which also
-           stops a short block of text stranding itself in a very wide field. */}
-      {/* ---- 3. Who this is.
-
-           Now with a room. This section was type on open ground, and the one
-           thing it could not do was show what any of this is FOR. The evening
-           alcove — pot, books, stool, lamp — is a piece of the collection in a
-           house at night, which is the argument the words are making. */}
-      <section className="section presentation-section">
-        <div className="shell presentation">
-          <Reveal as="p" className="label presentation-eyebrow">
-            {t.presentation.eyebrow}
+      {/* ---- 4. Notre histoire: the origins, with a photograph of Morocco. */}
+      <section className="section home-block home-story" aria-labelledby="home-story-title">
+        <div className="shell home-story-inner">
+          <Reveal className="home-story-said">
+            <h2 id="home-story-title" className="label home-block-label">
+              {HOME.story.label[lang]}
+            </h2>
+            <p className="display home-block-line">{HOME.story.body[lang]}</p>
+            <Link href={`/${locale}/story`} className="link label home-block-cta">
+              {HOME.story.cta[lang]}
+            </Link>
           </Reveal>
-
-          <Reveal as="p" delay={70} className="display presentation-lead">
-            {t.presentation.body[0]}
-          </Reveal>
-
-          <Reveal as="div" delay={130} className="presentation-body">
-            {t.presentation.body.slice(1).map((line, i) => (
-              <p key={i}>{line}</p>
-            ))}
-          </Reveal>
-
-          {/* Instagram's files are 512x640. Held to roughly that width — a
-              full-bleed band out of this source is a 2.8x upscale and looks
-              exactly like one. See lib/instagram.ts. */}
-          <Reveal variant="frame" delay={80} className="frame presentation-plate">
+          <Reveal variant="frame" delay={100} className="frame home-story-frame">
             <Image
-              src={scene("evening")}
-              alt={
-                locale === "fr"
-                  ? "Une alcôve éclairée le soir : une jarre, des livres, un tabouret et une lampe"
-                  : "A lit alcove in the evening: a jar, books, a stool and a lamp"
-              }
-              width={512}
-              height={640}
-              quality={90}
-              sizes="(max-width: 939px) 88vw, 34vw"
+              src="/place/city-dusk.jpg"
+              alt={lang === "fr" ? "Marrakech au crépuscule, un minaret sur le ciel" : "Marrakech at dusk, a minaret against the sky"}
+              width={1333}
+              height={2000}
+              sizes="(max-width: 699px) 100vw, 44vw"
             />
           </Reveal>
         </div>
       </section>
 
-      {/* ---- 4a. Doorways into the collection, by what a thing actually is. */}
-      <section className="section categories">
-        <div className="shell">
+      {/* ---- 5. Instagram: small and simple. */}
+      <section className="section home-block home-instagram" aria-labelledby="home-instagram-title">
+        <div className="shell home-block-head">
           <Reveal>
-            <p className="label">{t.categories.eyebrow}</p>
-            <h2 className="display d-1 section-heading">{t.categories.heading}</h2>
+            <h2 id="home-instagram-title" className="display home-instagram-title">
+              {HOME.instagram.heading[lang]}
+            </h2>
           </Reveal>
-
-          {/* The row split is data-driven: with seven categories the second row
-              holds three, and each of those three is widened to fill the width
-              rather than leaving a quarter of the row empty. */}
-          <ul className={`doorways doorways-${cats.length}`}>
-            {cats.map((cat, i) => {
-              const src = imagePath(cat.cover?.images[0]);
-              const label = t.categories.items[cat.slug] ?? cat.slug;
-              return (
-                <li key={cat.slug} className="doorway">
-                  <Link href={`/${locale}/collection/${cat.slug}`} className="doorway-link">
-                    <Reveal variant="frame" delay={(i % 4) * 80} className="frame frame-portrait">
-                      {src && (
-                        <Image
-                          src={src}
-                          alt=""
-                          width={1200}
-                          height={1600}
-                          sizes="(max-width: 700px) 46vw, 22vw"
-                        />
-                      )}
-                    </Reveal>
-                    {/* Wrapped so the phone list can centre the words against
-                        the photograph as one block. On desktop `.doorway-said`
-                        is `display: contents`, so these three land straight in
-                        the link's own grid exactly as they did before. */}
-                    <span className="doorway-said">
-                      {/* The position in the directory. Shown only on the phone
-                          list, where the doorways read as an index; hidden on
-                          desktop, where they are a set of cards and a rank would
-                          be a claim nobody made. Two digits so the column of
-                          numerals is even. */}
-                      <span className="doorway-index label" aria-hidden="true">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="doorway-name display d-3">{label}</span>
-                      {/* The bare numeral, and the word for it.
-
-                          On desktop the count sits tight against the name in a
-                          card, where a lone digit reads unambiguously as a
-                          quantity — and desktop is to be left exactly as it
-                          was. In the phone directory the count stands on its
-                          own line, where "12" could be a price, a year or a
-                          room number, so it needs its noun.
-
-                          Both are rendered and CSS picks one, rather than
-                          branching on a viewport width the server cannot know.
-                          The dictionaries already carry the phrase, with the
-                          singular "Lumière" needs: it holds exactly one piece. */}
-                      <span className="doorway-count label">
-                        <span className="doorway-count-bare">{cat.count}</span>
-                        <span className="doorway-count-said">
-                          {fill(cat.count === 1 ? t.category.countOne : t.category.count, {
-                            n: cat.count,
-                          })}
-                        </span>
-                      </span>
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </section>
-
-      {/* ---- 4c. The shop.
-
-           Everything above this point is curation: three pieces hung apart, a
-           statement, seven doorways. None of it says you can buy today. This
-           does — a plain grid of stock, one piece per category before any
-           category repeats, priced.
-
-           The label here is the `sell` variant: name and price, nothing else.
-           Material and dimensions are real and they matter, but they answer a
-           question asked on the piece page, and carrying them into a grid
-           turned every tile into a catalogue entry. */}
-      <section id="shop" className="section shop">
-        <div className="shell">
-          <Reveal className="shop-head">
-            <div>
-              <p className="label">{t.shop.eyebrow}</p>
-              <h2 className="display d-1 section-heading">{t.shop.heading}</h2>
-            </div>
-            <Link href={`/${locale}/collection`} className="link label shop-all">
-              {t.shop.cta}
-            </Link>
-          </Reveal>
-
-          <ul className="shop-grid">
-            {shop.map((piece, i) => (
-              <li key={piece.slug} className="shop-item">
-                <Link
-                  href={`/${locale}/piece/${piece.slug}`}
-                  className="shop-link swap-host"
-                >
-                  <PieceFrame
-                    locale={locale as Locale}
-                    piece={piece}
-                    delay={(i % 4) * 70}
-                    width={1200}
-                    height={1500}
-                    sizes="(max-width: 640px) 46vw, (max-width: 1100px) 31vw, 23vw"
-                  />
-                  <Reveal delay={(i % 4) * 70 + 60} className="shop-caption">
-                    <PieceLabel
-                      piece={piece}
-                      locale={locale}
-                      labels={t.pieceLabel}
-                      variant="sell"
-                    />
-                  </Reveal>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* ---- 5. The Story.
-
-           The section is one fact: she left Paris and stayed in Marrakech. So
-           the structure states it — the two cities at either end of a rule that
-           spans the full width of the page, with a filled mark at the Marrakech
-           end because that is where she stopped. The rule is the distance,
-           drawn at the width of the room.
-
-           This replaces two overlapping photographs. The overlap was a device
-           borrowed from elsewhere; a line between two place names is the
-           content itself, and it belongs to no other brand.
-
-           Her sentence is the only first person on the site and there is still
-           no portrait of her, so it is set as a quotation at the scale a face
-           would have had. */}
-      <section className="section story">
-        <div className="shell">
-          <Reveal as="p" className="label story-eyebrow">
-            {t.story.eyebrow}
-          </Reveal>
-
-          {/* §6: no route, no cities, no timeline. A short introduction to
-              the house and a discreet way through to the whole of it. */}
-          <Reveal as="h2" delay={60} className="display d-1 story-heading">
-            {t.story.heading}
-          </Reveal>
-
-          <Reveal as="p" delay={120} className="lede story-lede">
-            {t.story.body[0]}
-          </Reveal>
-        </div>
-
-        <Reveal variant="frame" delay={80} className="frame story-band">
-          <Image
-            src="/rugs/interior-fire.jpg"
-            alt={
-              locale === "fr"
-                ? "Intérieur à Marrakech, feu allumé dans une cheminée de plâtre"
-                : "A Marrakech interior, a fire lit in a plaster hearth"
-            }
-            width={1800}
-            height={2700}
-            sizes="100vw"
-          />
-        </Reveal>
-
-        {/* Two children, not one wrapper: a Reveal renders a single element, so
-            a two-column rule on the parent would see one child and leave half
-            the row empty. */}
-        <div className="shell story-foot">
-          <Reveal as="p" delay={60} className="prose story-after">
-            {t.story.body[1]}
-          </Reveal>
-          <Reveal delay={140} className="story-cta">
-            <Link href={`/${locale}/story`} className="link label">
-              {t.story.cta}
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ---- 5b. Instagram — a feed, and it moves sideways.
-
-           Rebuilt. The centred version stacked an eyebrow, a very large handle
-           and a caption down the middle of the page, which is a poster, not a
-           feed — and the page has no other centred block, so it read as a
-           different site for one screen.
-
-           This is the gesture instead. Instagram is a thing you push sideways,
-           so the frames run off the right edge of the screen and keep going.
-           The cut is honest: there IS more, and it is one tap away. It also
-           means the section cannot rhyme with the matter wall below, which is
-           full bleed, gapless and vertical.
-
-           The frames come from docs/instagram.json (scripts/ig-fetch.mjs fills
-           it). An empty manifest is a supported state — the section is then the
-           header alone. */}
-      <section className="section instagram">
-        <div className="shell instagram-head">
-          <Reveal className="instagram-said">
-            <p className="label instagram-eyebrow">{t.instagram.eyebrow}</p>
-            <a
-              href={INSTAGRAM}
-              className="instagram-handle display"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              {t.instagram.handle}
-            </a>
-          </Reveal>
-
-          <Reveal delay={90} className="instagram-aside">
-            <p className="instagram-note">{t.instagram.heading}</p>
-            <a
-              href={INSTAGRAM}
-              className="link label instagram-cta"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              {t.instagram.cta}
+          <Reveal delay={80}>
+            <a href={INSTAGRAM} className="link label home-block-cta" target="_blank" rel="noreferrer noopener">
+              {HOME.instagram.cta[lang]}
             </a>
           </Reveal>
         </div>
-
         {feed.length > 0 && (
           <DragScroll className="instagram-strip">
             {feed.map((frame, i) => (
               <li key={frame.file} className="instagram-cell">
-                <a
-                  href={frame.href}
-                  className="instagram-tile"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
+                <a href={frame.href} className="instagram-tile" target="_blank" rel="noreferrer noopener">
                   <Reveal variant="frame" delay={i * 60} className="frame frame-square">
-                    <Image
-                      src={frame.src}
-                      alt={frame.alt ?? ""}
-                      width={1080}
-                      height={1080}
-                      sizes="(max-width: 700px) 62vw, 22vw"
-                    />
+                    <Image src={frame.src} alt={frame.alt ?? ""} width={1080} height={1080} sizes="(max-width: 700px) 62vw, 22vw" />
                   </Reveal>
                 </a>
               </li>
             ))}
           </DragScroll>
         )}
-      </section>
-
-      {/* ---- 6. Matière — the room.
-
-           This began as eight frames in a four-by-two grid, which is a contact
-           sheet: nothing in it was big enough to look at and nothing led. It
-           had that shape for a structural reason — it was tall and gapless so
-           the sundown could hide behind it — and that reason is gone
-           (components/Ground.tsx).
-
-           It went to four, then to one. The band of three macro crops that
-           survived the first cut was still a strip of fragments: at a third of
-           the width each, hard-cropped, they read as swatches rather than as
-           objects. Cut on the client's instruction, and the section is better
-           for it.
-
-           What is left is the argument itself: the words, and one whole room
-           where these pieces actually live. */}
-      <section className="section matter">
-        <div className="shell matter-said">
-          {/* Held to the source's own width, like the presentation plate. */}
-          <Reveal variant="frame" delay={60} className="frame matter-room">
-            <Image
-              src={scene("room")}
-              alt={
-                locale === "fr"
-                  ? "Une salle à manger : pièces posées sur des étagères de plâtre, table ronde, chaise noire"
-                  : "A dining room: pieces set on plaster shelves, a round table, a black chair"
-              }
-              width={516}
-              height={640}
-              quality={90}
-              sizes="(max-width: 759px) 92vw, 42vw"
-            />
-          </Reveal>
-
-          <div className="matter-words">
-            <Reveal className="matter-head">
-              <p className="label">{t.materials.eyebrow}</p>
-              <h2 className="display d-1 matter-heading">{t.materials.heading}</h2>
-            </Reveal>
-            <Reveal as="p" delay={90} className="matter-body">
-              {t.materials.body}
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ---- 7. Night. The letter.
-
-           This replaces the "come and look properly" panel, which asked for
-           nothing a visitor could act on. A rare piece is gone once it is gone;
-           the only useful thing to offer at the end of the page is a way to
-           hear about the next one first. */}
-      <section className="section keep">
-        <Newsletter t={t.newsletter} />
       </section>
     </>
   );

@@ -19,6 +19,20 @@ const nextConfig: NextConfig = {
   experimental: {
     prefetchInlining: false,
   },
+  /*
+    V2 feedback (10 Oct): the apartments and artisans pages are gone. Old links
+    land on the homepage rather than on a 404. Here and not in proxy.ts: the
+    proxy's matcher only reaches the bare root.
+  */
+  async redirects() {
+    return ["fr", "en"].flatMap((locale) =>
+      ["stay", "artisans"].map((page) => ({
+        source: `/${locale}/${page}`,
+        destination: `/${locale}`,
+        permanent: true,
+      })),
+    );
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     // Piece photography is portrait-heavy and shown large; these widths cover

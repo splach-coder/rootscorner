@@ -15,6 +15,7 @@
 
 import type { Piece } from "./catalog";
 import { NATURE_LABEL, PIECE_TEXT } from "./piece-names";
+import { PIECE_COPY } from "./piece-copy";
 
 export type Lang = "fr" | "en";
 
@@ -149,9 +150,10 @@ const REDUNDANT_TAIL =
 
 export function displayName(piece: Piece, locale: Lang = "en"): string {
   // V1 §3: a French name on the French site, an English one on the English.
-  const known = PIECE_TEXT[piece.slug];
-  if (known) return known.name[locale];
-  return piece.name.replace(REDUNDANT_TAIL, "").trim() || piece.name;
+  const base = piece.slug.split("::")[0];
+  const known = PIECE_TEXT[base];
+  const name = known ? known.name[locale] : piece.name.replace(REDUNDANT_TAIL, "").trim() || piece.name;
+  return piece.sizeLabel ? `${name} · ${piece.sizeLabel}` : name;
 }
 
 /* ------------------------------------------------------------------ *
@@ -173,7 +175,12 @@ const MATERIAL_TERMS: [RegExp, Record<Lang, string>][] = [
 ];
 
 export function materialOf(piece: Piece, locale: Lang): string | null {
-  const blob = [...piece.description, ...piece.details].join(" ");
+  const copy = PIECE_COPY[piece.slug];
+  const blob = [
+    ...piece.description,
+    ...piece.details,
+    ...(copy ? [copy.short.en, copy.about.en] : []),
+  ].join(" ");
   if (!blob) return null;
   const hits = MATERIAL_TERMS.filter(([re]) => re.test(blob));
   if (hits.length !== 1) return null; // ambiguous or absent: say nothing
@@ -191,22 +198,23 @@ export type LabelField = { key: string; value: string };
  * simply do not appear, so the schema survives being read half-cropped.
  */
 export function labelFor(piece: Piece, locale: Lang): LabelField[] {
+  // V2 §19 / Collection §5: Origine, Région, Époque, Matière, Dimensions,
+  // Nature, État — always in this order, each only where it is known.
   const fields: LabelField[] = [];
+  const text = PIECE_TEXT[piece.slug];
+
+  const origin = originOf(piece, locale);
+  if (origin) fields.push({ key: "origin", value: origin });
+  if (text?.region) fields.push({ key: "region", value: text.region[locale] });
+  if (text?.period) fields.push({ key: "period", value: text.period[locale] });
 
   const material = materialOf(piece, locale);
   if (material) fields.push({ key: "material", value: material });
 
-  const origin = originOf(piece, locale);
-  if (origin) fields.push({ key: "origin", value: origin });
-
-  // V1 §6 — antique, vintage or artisanal, and the period, only where the
-  // house's own record says so.
-  const text = PIECE_TEXT[piece.slug];
-  if (text?.period) fields.push({ key: "period", value: text.period[locale] });
-  if (text?.nature) fields.push({ key: "nature", value: NATURE_LABEL[text.nature][locale] });
-
   const dims = normaliseDimensions(piece.dimensions, locale);
   if (dims) fields.push({ key: "dimensions", value: dims });
+
+  if (text?.nature) fields.push({ key: "nature", value: NATURE_LABEL[text.nature][locale] });
 
   return fields;
 }

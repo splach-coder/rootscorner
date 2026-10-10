@@ -7,19 +7,23 @@ import PieceFrame from "@/components/PieceFrame";
 import PieceLabel from "@/components/PieceLabel";
 import PieceGallery from "@/components/PieceGallery";
 import AddToCart from "@/components/AddToCart";
+import PieceBuy from "@/components/PieceBuy";
 import ClosingBand from "@/components/ClosingBand";
 import MoreRugs from "@/components/MoreRugs";
 import RugProduct from "@/components/RugProduct";
 import { rugLabels } from "@/lib/rug-labels";
 import { getDictionary, isLocale, fill, locales, type Locale } from "@/lib/dictionaries";
 import {
-  accession,
   allPieces,
   formatPrice,
   pieceBySlug,
   relatedPieces,
   isMultiple,
+  groupOf,
+  groupBySlug,
 } from "@/lib/catalog";
+import { PIECE_COPY } from "@/lib/piece-copy";
+import { MRIRT, PRODUCT } from "@/lib/copy-v2";
 import { displayName, labelFor, materialOf, originOf } from "@/lib/specs";
 import JsonLd from "@/components/JsonLd";
 import { breadcrumbLd, pageMeta, pieceOg, productLd } from "@/lib/seo";
@@ -58,18 +62,20 @@ export async function generateMetadata({
   // named it, price — and the uniqueness line. Never a generated description
   // of an object nobody described (CLAUDE.md §5). Translated too: this is the
   // sentence Google and WhatsApp print under the French page.
+  const own = PIECE_COPY[piece.slug]?.short[locale as Locale];
   const first = piece.description[0];
   const facts = [
-    t.categories.items[piece.category],
     materialOf(piece, locale),
     originOf(piece, locale),
     formatPrice(piece, locale),
   ].filter(Boolean);
-  const description = first
-    ? locale === "fr"
-      ? frLine(first)
-      : enLine(first)
-    : `${name}. ${facts.join(" · ")}. ${t.selection.unique}`;
+  const description =
+    own ??
+    (first
+      ? locale === "fr"
+        ? frLine(first)
+        : enLine(first)
+      : `${name}. ${facts.join(" · ")}.`);
 
   return pageMeta({
     locale,
@@ -77,7 +83,6 @@ export async function generateMetadata({
     title: `${name} | The Roots Corner`,
     description,
     image: pieceOg(piece, name),
-    index: !piece.illustrative,
   });
 }
 
@@ -121,12 +126,21 @@ export default async function PiecePage({
 
   const t = getDictionary(locale as Locale);
   const name = displayName(piece, locale as Locale);
-  const no = accession(piece);
   const price = formatPrice(piece, locale);
   const room = t.categories.items[piece.category] ?? piece.category;
   // A rug suggests rugs only (client, 6 Oct) — MoreRugs below; a piece, pieces.
   const isRug = piece.category === "rugs";
   const related = isRug ? [] : relatedPieces(piece);
+  const lang = locale as Locale;
+  const copy = PIECE_COPY[piece.slug];
+  const groupSlug = groupOf(piece);
+  const group = groupSlug ? groupBySlug(groupSlug) : undefined;
+  // The house's own copy (V2) where it exists. A piece added later in Shopify
+  // has only its own description: first paragraph short, the rest "À propos".
+  const ownWords = say(lang, piece.description);
+  const shortText = copy ? copy.short[lang] : (ownWords[0] ?? null);
+  const aboutText = copy ? [copy.about[lang]] : ownWords.slice(1);
+  const fields = labelFor(piece, lang);
 
   // The slug, not a display string: contact resolves it back to the record and
   // can then show the photograph, the label and the price of what is being
@@ -145,7 +159,7 @@ export default async function PiecePage({
       sold: t.common.sold,
       soldNote: t.piece.soldNote,
     };
-    const sellable = piece.available && piece.price !== null && !piece.illustrative;
+    const sellable = piece.available && piece.price !== null;
     const action = !piece.available ? (
       <div className="piece-buy is-gone" role="status">
         <p className="piece-price display d-3 is-gone">{t.common.sold}</p>
@@ -177,8 +191,12 @@ export default async function PiecePage({
           ]}
           title={name}
           headPrice={!piece.available ? t.common.sold : sellable && price ? price : l.onRequest}
-          line={words.find((w) => !/^photos?\s+d[’']illustration\.?$/i.test(w.trim())) ?? null}
-          note={piece.illustrative ? l.illustration : null}
+          line={
+            PIECE_COPY[piece.slug]?.short[locale as Locale] ??
+            words.find((w) => !/^photos?\s+d[’']illustration\.?$/i.test(w.trim())) ??
+            null
+          }
+          note={MRIRT.availableNote[locale as Locale]}
           images={piece.images.map((img) => ({
             src: img.src ?? `/pieces/${img.file}`,
             w: img.w,
@@ -220,12 +238,8 @@ export default async function PiecePage({
           piece,
           locale: locale as Locale,
           name,
-          description: piece.description[0]
-            ? locale === "fr"
-              ? frLine(piece.description[0])
-              : enLine(piece.description[0])
-            : undefined,
-          category: room,
+          description: shortText ?? undefined,
+          category: group ? group.name[lang] : room,
           material: materialOf(piece, locale as Locale),
           origin: originOf(piece, locale as Locale),
         })}
@@ -234,19 +248,12 @@ export default async function PiecePage({
         data={breadcrumbLd([
           { name: "The Roots Corner", path: `/${locale}` },
           { name: t.nav.collection, path: `/${locale}/collection` },
-          { name: room, path: `/${locale}/collection/${piece.category}` },
+          ...(group ? [{ name: group.name[lang], path: `/${locale}/collection/${group.slug}` }] : []),
           { name, path: `/${locale}/piece/${piece.slug}` },
         ])}
       />
       <article className="piece">
         <div className="shell piece-inner">
-          {/* --- The photographs, as a gallery.
-
-               A fixed stage with a contact-sheet rail under it, rather than a
-               column of images stacked one under another. The stage holds its
-               height and every photograph is contained in it, which is what
-               lets the page keep the no-cropping rule without the label moving
-               each time you change shot — ratios here run 0.56 to 1.50. --- */}
           <div className="piece-gallery-column">
             <PieceGallery
               images={piece.images}
@@ -260,166 +267,124 @@ export default async function PiecePage({
             />
           </div>
 
-          {/* --- The label. Stays put while the photographs go past. --- */}
+          {/* --- V2 §19, one template for every piece: name and price, the
+               short description, then the facts in a fixed order (Origine,
+               Région, Époque, Matière, Dimensions, Nature, État), each only
+               where it is known. À propos, Entretien and Livraison & retours
+               follow below the photographs. --- */}
           <div className="piece-label-column">
             <Reveal className="piece-label-sticky">
               <p className="label piece-accession">
-                {t.piece.accession} {no}
-                <span aria-hidden="true"> · </span>
-                <Link href={`/${locale}/collection/${piece.category}`} className="link">
-                  {room}
-                </Link>
+                {fill(PRODUCT.pieceNo[lang], { n: String(piece.index).padStart(3, "0") })}
+                {group && (
+                  <>
+                    <span aria-hidden="true"> · </span>
+                    <Link href={`/${locale}/collection/${group.slug}`} className="link">
+                      {group.name[lang]}
+                    </Link>
+                  </>
+                )}
               </p>
 
               <h1 className="display d-2 piece-name">{name}</h1>
 
-              {/* Specs only: the name is this page's h1 and the price sits
-                  with the enquiry action below. */}
-              <PieceLabel
-                piece={piece}
-                locale={locale}
-                labels={t.pieceLabel}
-                variant="specs"
-              />
-
-              {/* V1 §19 — unique, and whether it is available, said plainly. */}
-              <p className="piece-unique label">
-                {t.selection.unique}
-                {piece.available && (
-                  <>
-                    <span aria-hidden="true"> · </span>
-                    {t.common.available}
-                  </>
-                )}
-              </p>
-
               <div className="piece-action">
-                {piece.available ? (
-                  <>
-                    {price && (
-                      <p className="piece-price display d-3">
-                        {price}
-                        {/* §5 — this listing holds more than one object, so the
-                            figure has to say which one it is for. This page is
-                            where it matters most: it is the only place a buyer
-                            sees the price beside the button that spends it. */}
-                        {isMultiple(piece) && (
-                          <span className="wall-label-unit">
-                            {" "}
-                            {t.pieceLabel.perPiece}
-                          </span>
-                        )}
-                      </p>
-                    )}
-
-                    {/* Buy, or ask.
-
-                        A priced piece can go in the cart; one the client never
-                        priced cannot be sold from the site, so it keeps the
-                        enquiry it always had. Nothing invents a price to make
-                        the button work. */}
-                    {/* A rug still carrying illustrative photographs (RUG_DEMO,
-                        6 Oct): shown and labelled, never sold. */}
-                    {piece.illustrative && (
-                      <p className="label rug-demo-note">
-                        {locale === "fr" ? "Photos d’illustration." : "Illustrative photographs."}
-                      </p>
-                    )}
-                    {piece.price !== null && !piece.illustrative ? (
-                      <>
-                        <AddToCart
-                          slug={piece.slug}
-                          labels={{
-                            add: t.cart.add,
-                            added: t.cart.added,
-                            view: t.cart.view,
-                            sold: t.common.sold,
-                            soldNote: t.piece.soldNote,
-                          }}
-                        />
-                        <Link href={enquiry} className="link label piece-ask">
-                          {t.piece.enquire}
-                        </Link>
-                      </>
-                    ) : (
-                      <>
-                        <Link href={enquiry} className="link label piece-cta">
-                          {t.piece.enquire}
-                        </Link>
-                        <p className="label piece-cta-note">{t.piece.enquireNote}</p>
-                      </>
-                    )}
-                  </>
-                ) : (
+                {!piece.available ? (
                   <>
                     <p className="piece-price display d-3 is-gone">{t.common.sold}</p>
                     <p className="label piece-cta-note">{t.piece.soldNote}</p>
                   </>
+                ) : piece.price !== null ? (
+                  <>
+                    <PieceBuy
+                      slug={piece.slug}
+                      locale={locale}
+                      price={price}
+                      unit={isMultiple(piece) ? t.pieceLabel.perPiece : null}
+                      options={piece.options}
+                      sizeLabel={PRODUCT.size[lang]}
+                      labels={{
+                        add: t.cart.add,
+                        added: t.cart.added,
+                        view: t.cart.view,
+                        sold: t.common.sold,
+                        soldNote: t.piece.soldNote,
+                      }}
+                    />
+                    <Link href={enquiry} className="link label piece-ask">
+                      {t.piece.enquire}
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href={enquiry} className="link label piece-cta">
+                      {t.piece.enquire}
+                    </Link>
+                    <p className="label piece-cta-note">{t.piece.enquireNote}</p>
+                  </>
                 )}
               </div>
 
-              {/* V1 §19 — a buyer must know how long delivery takes. The
-                  product records all said "1 - 2 Weeks", which is the MOROCCO
-                  line of the house's own delivery table; shown to a buyer in
-                  Paris it was wrong. Both lines of the table now, with the
-                  table itself one click away. */}
-              <details className="piece-delivery piece-fold">
-                <summary className="label">{t.piece.delivery}</summary>
-                <p>{t.piece.deliveryTimes}</p>
-                <p className="label piece-delivery-note">
-                  <Link href={`/${locale}/legal/delivery`} className="link">
-                    {t.piece.deliveryNote}
-                  </Link>
-                </p>
-              </details>
+              {shortText && <p className="piece-short">{shortText}</p>}
+
+              {fields.length > 0 && (
+                <dl className="piece-facts">
+                  {fields.map((f) => (
+                    <div key={f.key} className="piece-fact">
+                      <dt className="label">
+                        {PRODUCT.fields[f.key as keyof typeof PRODUCT.fields]?.[lang] ?? f.key}
+                      </dt>
+                      <dd>{f.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
             </Reveal>
           </div>
-
         </div>
 
-        {/* --- The client's own words. Nothing renders that they did not write. --- */}
-        {(piece.description.length > 0 ||
-          piece.details.length > 0 ||
-          piece.care.length > 0) && (
-          <div className="shell piece-words">
-            {piece.description.length > 0 && (
-              <Reveal className="piece-story">
-                <p className="label">{t.piece.about}</p>
-                <div className="prose piece-prose">
-                  {say(locale, piece.description).map((line, i) => (
-                    <p key={i} className={i === 0 ? "lede" : undefined}>
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              </Reveal>
-            )}
-
-            <Reveal delay={80} className="piece-specs">
-              {piece.details.length > 0 && (
-                <div className="piece-spec-block">
-                  <p className="label">{t.piece.details}</p>
-                  <ul className="piece-spec-list">
-                    {say(locale, piece.details).map((line, i) => (
-                      <li key={i}>{line}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {piece.care.length > 0 && (
-                <div className="piece-spec-block">
-                  <p className="label">{t.piece.care}</p>
-                  <ul className="piece-spec-list">
-                    {say(locale, piece.care).map((line, i) => (
-                      <li key={i}>{line}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+        <div className="shell piece-words piece-words-v2">
+          {aboutText.length > 0 && (
+            <Reveal className="piece-block">
+              <h2 className="label piece-block-key">{PRODUCT.about[lang]}</h2>
+              <div className="prose piece-prose">
+                {aboutText.map((line, i) => (
+                  <p key={i}>{line}</p>
+                ))}
+              </div>
             </Reveal>
-          </div>
-        )}
+          )}
+
+          {piece.care.length > 0 && (
+            <Reveal delay={60} className="piece-block">
+              <h2 className="label piece-block-key">{PRODUCT.care[lang]}</h2>
+              <ul className="piece-spec-list">
+                {say(lang, piece.care).map((line, i) => (
+                  <li key={i}>{line}</li>
+                ))}
+              </ul>
+            </Reveal>
+          )}
+
+          <Reveal delay={120} className="piece-block">
+            <h2 className="label piece-block-key">{PRODUCT.shipping[lang]}</h2>
+            <div className="prose piece-prose">
+              <p>{PRODUCT.shippingBody[lang]}</p>
+              <p>{PRODUCT.returnsBody[lang]}</p>
+            </div>
+            <p className="piece-block-links">
+              <Link href={enquiry} className="link label">
+                {PRODUCT.quote[lang]}
+              </Link>
+              <Link href={`/${locale}/legal/delivery`} className="link label">
+                {PRODUCT.deliveryLink[lang]}
+              </Link>
+              <Link href={`/${locale}/legal/withdrawal`} className="link label">
+                {PRODUCT.policyLink[lang]}
+              </Link>
+            </p>
+          </Reveal>
+        </div>
       </article>
 
       {/* --- Where to look next. --- */}
