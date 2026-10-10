@@ -1,6 +1,6 @@
 {
- "pulledAt": "2026-10-10T19:17:56.202Z",
- "hash": "da0f77a067c94446",
+ "pulledAt": "2026-10-10T22:15:57.174Z",
+ "hash": "3b9922c36367b478",
  "pieces": {
   "handcrafted-wood-stool---cote-d-ivoire": {
    "price": 480,
@@ -59,6 +59,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Hand-carved wooden stool, Côte d’Ivoire",
+   "enText": [
+    "Hand-carved wooden stool from Côte d’Ivoire.",
+    "This stool has a wooden structure whose parts have been carved and worked to form the seat and its base. The details of the carving can be seen across the whole piece."
    ]
   },
   "hand-carved-tribal-stool-wood": {
@@ -118,6 +123,11 @@
      "h": 1707,
      "alt": null
     }
+   ],
+   "enTitle": "Hand-carved tribal wooden stool",
+   "enText": [
+    "Wooden stool with carved relief on its structure.",
+    "This stool is made of a seat and a carved wooden base. The relief and the variations of the surface show the work done on the material."
    ]
   },
   "handmade-wooden-stool": {
@@ -153,6 +163,11 @@
      "h": 6000,
      "alt": null
     }
+   ],
+   "enTitle": "Bamileke royal stool, Cameroon",
+   "enText": [
+    "Cameroonian stool in the Bamileke style, with a carved wooden structure.",
+    "This model takes up the forms and motifs associated with Bamileke stools from Cameroon. Its carved structure is both the support of the seat and its main decorative element. Its age and original use remain to be confirmed."
    ]
   },
   "decorative-wooden-stool": {
@@ -194,6 +209,11 @@
      "h": 5858,
      "alt": null
     }
+   ],
+   "enTitle": "Wooden stool",
+   "enText": [
+    "Wooden stool made of a seat and a supporting structure.",
+    "This stool has a simple construction, centred on its use as a seat. The shades and visible variations of the wood are part of its natural look."
    ]
   },
   "wooden-carved-stool": {
@@ -229,6 +249,11 @@
      "h": 5575,
      "alt": null
     }
+   ],
+   "enTitle": "Black varnished wooden stool, Côte d’Ivoire",
+   "enText": [
+    "Carved wooden stool with a black varnished finish.",
+    "From Côte d’Ivoire, this stool has a carved structure and a glossy black surface. The varnish covers the wood and brings out the volumes and the details of the carving."
    ]
   },
   "handcrafted-stool": {
@@ -276,6 +301,11 @@
      "h": 6000,
      "alt": null
     }
+   ],
+   "enTitle": "Brown wooden stool with a gilded rim",
+   "enText": [
+    "Brown wooden stool with engraved details and a gilded rim.",
+    "This stool pairs a brown finish with gilded decorative elements. Engraved motifs run over its surface. The contrast between the wood and the gilded details outlines the different parts of its structure."
    ]
   },
   "handcrafted-varnished-wooden-stool": {
@@ -317,6 +347,11 @@
      "h": 5545,
      "alt": null
     }
+   ],
+   "enTitle": "Openwork varnished wooden stool",
+   "enText": [
+    "Varnished wooden stool with a carved, openwork structure.",
+    "This stool stands out for the openings cut into its base. These cut-outs are part of its construction and leave spaces between the wooden elements. The surface has a varnished finish."
    ]
   },
   "handcrafted-wooden-stool": {
@@ -364,6 +399,11 @@
      "h": 6000,
      "alt": null
     }
+   ],
+   "enTitle": "Openwork black wooden stool",
+   "enText": [
+    "Black wooden stool with an openwork structure.",
+    "The base of this stool has several openings carved into the wood. These cut-outs sit under the seat and are the main details of its construction."
    ]
   },
   "handcrafted-stool-from-cameroon": {
@@ -405,6 +445,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Traditional stool, Cameroon",
+   "enText": [
+    "Traditional wooden stool from Cameroon.",
+    "This stool has a seat resting on a worked wooden structure. Its form corresponds to a type of traditional furniture used as a seat. The making details and dimensions are to be specified in the technical sheet."
    ]
   },
   "dogon-stool": {
@@ -440,6 +485,11 @@
      "h": 5666,
      "alt": null
     }
+   ],
+   "enTitle": "Dogon stool",
+   "enText": [
+    "Wooden stool in the Dogon style, with a carved structure.",
+    "This stool is associated with the traditional Dogon furniture of West Africa. Its construction brings together a seat and a wooden base. The cultural attribution and the period of making must be confirmed."
    ]
   },
   "senufo-stool": {
@@ -469,6 +519,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Senufo stool",
+   "enText": [
+    "Wooden stool in the Senufo style, with clean lines.",
+    "This stool takes up a seat form associated with the Senufo furniture of West Africa. Its wooden structure has simple lines, with few decorative elements. Its precise origin remains to be checked."
    ]
   },
   "baule-chair-cote-d-ivoire": {
@@ -510,6 +565,11 @@
      "h": 5717,
      "alt": null
     }
+   ],
+   "enTitle": "Baule chair, Côte d’Ivoire",
+   "enText": [
+    "Wooden chair in the Baule style, associated with Côte d’Ivoire.",
+    "This chair has a structure made of a seat and a back. Its forms and details are associated with Baule furniture. The exact provenance and the period of making must be documented."
    ]
   },
   "antique-moroccan-vase": {
@@ -569,6 +629,11 @@
      "h": 6000,
      "alt": null
     }
+   ],
+   "enTitle": "Antique terracotta vase, Morocco",
+   "enText": [
+    "Antique Moroccan terracotta vase, decorated with painted motifs.",
+    "This vase has a terracotta body with motifs applied to its surface. Its form has a body meant to hold things and an opening at the top. It is not guaranteed to be watertight."
    ]
   },
   "antique-berber-vase": {
@@ -604,6 +669,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Antique glazed Berber vase",
+   "enText": [
+    "Antique glazed ceramic vase, associated with Berber craft.",
+    "This vase has a glazed surface. The finish may show variations of colour and texture. Its cultural attribution, age and precise provenance are to be confirmed."
    ]
   },
   "handmade-blackened-clay-pot---morocco": {
@@ -651,6 +721,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Blackened clay pot, Morocco",
+   "enText": [
+    "Moroccan clay pot with a blackened surface.",
+    "This pot has a terracotta body and a dark finish. The colour variations visible on its surface are part of its look. Its firing method and original use must be confirmed."
    ]
   },
   "decorative-ceramic-pot": {
@@ -704,6 +779,11 @@
      "h": 5848,
      "alt": null
     }
+   ],
+   "enTitle": "Traditional ceramic pot, Morocco",
+   "enText": [
+    "Traditional Moroccan ceramic pot.",
+    "This pot is made of ceramic and has a form meant to hold or keep things. The variations of surface and finish come from its making. Any use with food must be checked."
    ]
   },
   "timeless-hand-carved-wooden-bowl-1": {
@@ -739,6 +819,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Hand-carved wooden bowl",
+   "enText": [
+    "Hand-carved wooden bowl with a hollow form.",
+    "This bowl is a wooden structure worked into a vessel. The inside is hollowed out, while the walls and rim keep the traces of the carving. Its use with food is not confirmed."
    ]
   },
   "ancient-african-mortar": {
@@ -792,6 +877,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Antique wooden mortar, Africa",
+   "enText": [
+    "Antique wooden mortar, originally made for grinding or preparing materials.",
+    "This mortar has a cavity hollowed out of the wood to hold the materials being worked. Its form follows its practical function. The precise geographical origin and the period of making remain to be documented."
    ]
   },
   "antique-moroccan-pot": {
@@ -827,6 +917,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Antique pot, Morocco",
+   "enText": [
+    "Antique Moroccan pot with a traditional form.",
+    "This pot belongs to a category of household objects used to hold or keep different materials. Its surface must be examined to tell the traces of use from the features of its making."
    ]
   },
   "handmade-pottery-vase-made-in-morocco": {
@@ -862,6 +957,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Sculptural ceramic vase, Morocco",
+   "enText": [
+    "Moroccan ceramic vase made of several tubular forms.",
+    "This vase is built from several cylindrical volumes. The openings and tubular elements are part of its form. It can be shown as a decorative object, apart from its use as a vase."
    ]
   },
   "tamegroute-candle-s-and-m": {
@@ -891,6 +991,11 @@
      "h": 5858,
      "alt": null
     }
+   ],
+   "enTitle": "Tamegroute candles, sizes S and M",
+   "enText": [
+    "Orange-blossom scented candles in Tamegroute ceramic containers.",
+    "These candles come in two sizes, S and M. Their container is made of Tamegroute ceramic, recognisable by the variations of its glaze. The vessel can be kept after use, provided it is cleaned appropriately."
    ],
    "options": [
     {
@@ -952,6 +1057,11 @@
      "h": 4000,
      "alt": null
     }
+   ],
+   "enTitle": "Tamegroute ceramic candlestick",
+   "enText": [
+    "Tamegroute ceramic candlestick, made to hold a candle.",
+    "This candlestick has a glazed ceramic structure. Its form includes a place to hold a candle. The variations of colour and finish are typical of this kind of handmade production."
    ]
   },
   "wabi-sabi-moroccan-vase-lamp": {
@@ -969,6 +1079,11 @@
      "h": 3735,
      "alt": null
     }
+   ],
+   "enTitle": "Wabi-sabi lamp, antique Moroccan vase",
+   "enText": [
+    "Lamp made from an antique Moroccan vase, with a natural linen shade.",
+    "This lamp reuses an antique ceramic vase as its base. A natural linen shade completes it. The vase has been adapted to take an electric fitting, whose technical characteristics must appear in the product sheet."
    ]
   },
   "dogon-tribal-staff": {
@@ -1016,6 +1131,11 @@
      "h": 4032,
      "alt": null
     }
+   ],
+   "enTitle": "Dogon tribal staff",
+   "enText": [
+    "Carved wooden staff, attributed to the Dogon tradition.",
+    "This object has an elongated form with carved elements. It is associated with the Dogon tradition of West Africa. Its original function, its attribution and its age need to be checked."
    ]
   },
   "tuareg-tent-stakes": {
@@ -1075,6 +1195,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Tuareg tent stakes",
+   "enText": [
+    "Wooden tent stakes associated with Tuareg nomadic traditions.",
+    "These stakes are traditionally used to hold or fix parts of a tent. Their elongated form follows that function. The carved details and any traces of use vary from one stake to another."
    ]
   },
   "authentic-wooden-tent-peg": {
@@ -1122,6 +1247,11 @@
      "h": 6000,
      "alt": null
     }
+   ],
+   "enTitle": "Wooden tent peg",
+   "enText": [
+    "Wooden tent peg with an elongated form.",
+    "This object belongs to the practical elements used to fix or hold a tent structure. Its form and proportions follow that function. Its precise origin remains to be confirmed."
    ]
   },
   "decorative-wooden-tray": {
@@ -1163,6 +1293,11 @@
      "h": 5818,
      "alt": null
     }
+   ],
+   "enTitle": "Antique wooden tablet, Arabic script",
+   "enText": [
+    "Antique wooden tablet bearing inscriptions in Arabic script.",
+    "This tablet has a wooden surface bearing inscriptions. The nature of the text, the tablet’s original function and its age must be identified before any historical or religious attribution."
    ]
   },
   "solid-wood-pedestal-bowl---ethiopian-and-west-african-craftsmanship-1": {
@@ -1222,6 +1357,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Solid wood pedestal bowl",
+   "enText": [
+    "Solid wood bowl standing on a foot.",
+    "This object is made of a hollow upper part and a raised base. Its structure is solid wood. The form of the bowl lets it be shown as a decorative object, without presuming any use with food."
    ]
   },
   "antique-comb-used-for-weaving-moroccan-rugs": {
@@ -1275,6 +1415,11 @@
      "h": 6000,
      "alt": null
     }
+   ],
+   "enTitle": "Antique weaver’s comb",
+   "enText": [
+    "Antique wooden comb used in weaving.",
+    "This kind of tool is used at certain stages of textile work. Its structure includes elements that help handle the threads. This example is presented as an old craft tool."
    ]
   },
   "loom-beater-african-art": {
@@ -1328,6 +1473,11 @@
      "h": 4998,
      "alt": null
     }
+   ],
+   "enTitle": "Loom beater, African art",
+   "enText": [
+    "Antique loom part, associated with African textile craft.",
+    "The beater is a part used in the working of certain looms. It places and packs the threads during weaving. The provenance and period of making of this example remain to be confirmed."
    ]
   },
   "vintage-moroccan-shelf-berbere": {
@@ -1375,6 +1525,11 @@
      "h": 5605,
      "alt": null
     }
+   ],
+   "enTitle": "Vintage Berber shelf, Morocco",
+   "enText": [
+    "Vintage Moroccan wooden shelf, associated with Berber craft.",
+    "This shelf has a structure made to store or display small objects. Its wooden elements form a storage support. Its exact origin, its age and its load capacity must be confirmed."
    ]
   },
   "turtle-shaped-indonesia": {
@@ -1422,6 +1577,11 @@
      "h": 6000,
      "alt": null
     }
+   ],
+   "enTitle": "Turtle-shaped object, Indonesia",
+   "enText": [
+    "Indonesian decorative object in the shape of a turtle.",
+    "This object takes the shape of a turtle, with a shell and elements representing the head and limbs. Its animal silhouette is the main element of its design. The material and the making technique are to be specified."
    ]
   },
   "vintage-moroccan-teapot": {
@@ -1469,6 +1629,11 @@
      "h": 6000,
      "alt": null
     }
+   ],
+   "enTitle": "Vintage Moroccan teapot",
+   "enText": [
+    "Vintage Moroccan teapot, originally made for preparing and serving tea.",
+    "This teapot has the traditional form of Moroccan teapots, with a spout, a handle and a lid. It is presented in the collection as an old household object. Its condition must be checked before any use with food."
    ]
   },
   "antique-lombok-spinning-top": {
@@ -1504,6 +1669,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Antique spinning top, Lombok",
+   "enText": [
+    "Antique spinning top from Lombok, Indonesia.",
+    "This object belongs to the family of traditional spinning tops used in games of skill. Its form is built around an axis of rotation. Any marks of use and surface variations must be described according to the actual condition of the piece."
    ]
   },
   "spinning-top-gasing-indonesia": {
@@ -1557,6 +1727,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Gasing spinning top, Indonesia",
+   "enText": [
+    "Traditional Indonesian spinning top, known as a gasing.",
+    "The gasing is an object used in traditional spinning-top games in Indonesia. Its form is designed to allow a spinning movement. This example is presented as a collector’s object."
    ]
   },
   "spice-rack-morocco": {
@@ -1622,6 +1797,11 @@
      "h": 5636,
      "alt": null
     }
+   ],
+   "enTitle": "Spice rack, Morocco",
+   "enText": [
+    "Small Moroccan shelf made for storing spices.",
+    "This shelf is associated with storing spices and small containers at home. Its structure lets several objects sit on one support. The material and dimensions are to be specified."
    ]
   },
   "decorative-iron-disc-indonesian": {
@@ -1663,6 +1843,11 @@
      "h": 6000,
      "alt": null
     }
+   ],
+   "enTitle": "Decorative iron disc, Indonesia",
+   "enText": [
+    "Decorative iron disc from Indonesia.",
+    "This object has a circular form made of iron. Its surface and finish are the main elements to look at. Its original use is not documented in the information available."
    ]
   },
   "lombok-weel-indonesian": {
@@ -1704,6 +1889,11 @@
      "h": 2560,
      "alt": null
     }
+   ],
+   "enTitle": "Lombok wheel, Indonesia",
+   "enText": [
+    "Traditional circular object from Lombok, Indonesia.",
+    "This piece has a wheel-shaped structure. It is offered as a decorative object in the collection. Its original function, its material and its period of making remain to be confirmed."
    ]
   }
  },
@@ -1727,6 +1917,11 @@
      "h": 2194,
      "alt": "Photo d'illustration"
     }
+   ],
+   "enTitle": "Mrirt rug, sand wool, ochre squares",
+   "enText": [
+    "Mrirt wool rug in sand tones, with an ochre geometric pattern.",
+    "This rug has a sand-coloured ground crossed by a check pattern in ochre shades. The contrast between the two colours defines its composition. The dimensions, pile height and making conditions must be given in the technical sheet."
    ]
   },
   {
@@ -1748,6 +1943,11 @@
      "h": 2194,
      "alt": "Photo d'illustration"
     }
+   ],
+   "enTitle": "Mrirt rug, plum wool, border",
+   "enText": [
+    "Mrirt wool rug in plum, with a frieze pattern.",
+    "This rug is mainly plum, with a decorative frieze pattern. The design is part of the rug’s composition. The dimensions, pile height and any customisation options must be stated separately."
    ]
   }
  ],
@@ -1755,6 +1955,7 @@
   {
    "handle": "mrirt-uni",
    "title": "Uni",
+   "titleEn": "Plain",
    "description": "",
    "image": {
     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/jameson-natural-wool-amber.webp?v=1791283931",
@@ -1947,6 +2148,7 @@
   {
    "handle": "mrirt-lignes",
    "title": "Lignes",
+   "titleEn": "Lines",
    "description": "",
    "image": {
     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/austin-oat-pinecone.webp?v=1791283934",
@@ -2087,6 +2289,7 @@
   {
    "handle": "mrirt-losanges",
    "title": "Losanges",
+   "titleEn": "Diamonds",
    "description": "",
    "image": {
     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/lattice.webp?v=1791283937",
@@ -2227,6 +2430,7 @@
   {
    "handle": "mrirt-graphique",
    "title": "Graphique",
+   "titleEn": "Graphic",
    "description": "",
    "image": {
     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/weft-chocolate-brown-sienna.webp?v=1791283940",
