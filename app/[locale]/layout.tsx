@@ -17,6 +17,8 @@ import CartProvider from "@/components/CartProvider";
 import CartPanel from "@/components/CartPanel";
 import CookieConsent from "@/components/CookieConsent";
 import { getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
+import { featuredPieces, groups as collectionGroups, imagePath } from "@/lib/catalog";
+import { ALL_SLUG, COLLECTION } from "@/lib/copy-v2";
 
 /**
  * Marcellus — an inscriptional roman with a single weight. Chosen over the
@@ -108,6 +110,28 @@ export default async function LocaleLayout({
   if (!isLocale(locale)) notFound();
 
   const t = getDictionary(locale as Locale);
+  /* The Collection panel in the header (V3): every category with its own
+     photograph — the category's cover — and "Toute la collection" with a
+     featured piece. Built here, on the server, from the catalogue. */
+  const lang = locale as Locale;
+  const photo = (img: Parameters<typeof imagePath>[0]) => {
+    const src = imagePath(img);
+    return img && src ? { src, w: img.w, h: img.h } : null;
+  };
+  const collectionMenu = [
+    {
+      href: `/${locale}/collection/${ALL_SLUG}`,
+      label: COLLECTION.all[lang],
+      no: "",
+      image: photo(featuredPieces()[0]?.images[0]),
+    },
+    ...collectionGroups().map((g) => ({
+      href: `/${locale}/collection/${g.slug}`,
+      label: g.name[lang],
+      no: g.no,
+      image: photo(g.cover?.images[0]),
+    })),
+  ];
 
   return (
     <html
@@ -155,7 +179,7 @@ export default async function LocaleLayout({
         {/* The cart is client state shared by the header handle, the panel and
             every piece page, so the provider has to sit above all three. */}
         <CartProvider>
-          <Header locale={locale as Locale} labels={t.nav} cart={t.cart.name} />
+          <Header locale={locale as Locale} labels={t.nav} cart={t.cart.name} collectionMenu={collectionMenu} />
           <main id="main">{children}</main>
           <Footer locale={locale as Locale} t={t.footer} legal={t.legal} />
           <CartPanel locale={locale as Locale} t={t.cart} />

@@ -1138,3 +1138,133 @@ button.faq-v2-anchor {
   padding: 0 1.3rem;
   font-size: 0.92rem;
 }
+
+/* --- Header, V3: the Collection panel, full width, with a photograph -------- */
+.site-header.is-mega-open {
+  background: var(--hour-morning);
+  border-bottom-color: var(--rule);
+}
+
+.site-mega {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 45vh;
+  min-height: 20rem;
+  max-height: 34rem;
+  background: var(--hour-morning);
+  border-bottom: 1px solid var(--rule);
+  box-shadow: 0 24px 40px rgba(46, 32, 25, 0.06);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition:
+    opacity 320ms var(--ease-material),
+    transform 420ms var(--ease-material),
+    visibility 0s linear 420ms;
+}
+
+.site-mega.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 320ms var(--ease-material),
+    transform 420ms var(--ease-material),
+    visibility 0s;
+}
+
+.site-mega-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 40%);
+  height: 100%;
+}
+
+.site-mega-nav {
+  display: flex;
+  align-items: center;
+}
+
+.site-mega-list {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-mega-link {
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr);
+  align-items: baseline;
+  padding: 0.38rem 0;
+  color: var(--ink-soft);
+  transition: color 300ms var(--ease-material);
+}
+
+.site-mega-link.is-active,
+.site-mega-link:hover,
+.site-mega-link:focus-visible {
+  color: var(--ink);
+}
+
+.site-mega-no {
+  font-size: 0.66rem;
+  color: var(--ink-soft);
+}
+
+.site-mega-name {
+  font-size: clamp(1.25rem, 0.9rem + 1vw, 1.75rem);
+  line-height: 1.2;
+  transition: transform 420ms var(--ease-material);
+}
+
+.site-mega-link.is-active .site-mega-name {
+  transform: translateX(0.4rem);
+}
+
+/* The photographs, stacked; the active one dissolves in and settles from a
+   touch larger, the others fall back — a morph, not a cut. */
+.site-mega-photos {
+  position: relative;
+  overflow: hidden;
+  background: var(--hour-midday);
+}
+
+.site-mega-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.06);
+  filter: blur(4px);
+  transition:
+    opacity 700ms var(--ease-dissolve, ease),
+    transform 1100ms var(--ease-material),
+    filter 700ms var(--ease-dissolve, ease);
+}
+
+.site-mega-photo.is-active {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-mega,
+  .site-mega.is-open,
+  .site-mega-photo,
+  .site-mega-name {
+    transition: none;
+  }
+}
+
+/* The panel is a desktop menu; the phone menu unfolds its own list. */
+@media (max-width: 939px) {
+  .site-mega {
+    display: none;
+  }
+}

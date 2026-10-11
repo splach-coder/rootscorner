@@ -6,7 +6,7 @@ import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import FaqBrowser from "@/components/FaqBrowser";
 import { isLocale, type Locale } from "@/lib/dictionaries";
-import { FAQ } from "@/lib/copy-v2";
+import { FAQ, MRIRT } from "@/lib/copy-v2";
 
 const TITLE = { fr: "Questions fréquentes", en: "Frequently asked questions" };
 const STILL = {
@@ -49,9 +49,22 @@ export default async function FaqPage({
   if (!isLocale(locale)) notFound();
   const lang = locale as Locale;
 
-  const ld: [string, string][] = FAQ.flatMap((c) =>
-    c.items.map((i) => [i.q[lang], i.a.map((p) => p[lang]).join(" ")] as [string, string]),
-  );
+  /* The four categories, then the rugs (11 Oct): the same four questions the
+     Mrirt page carries, shown here when that category is chosen. One source,
+     MRIRT.faq in lib/copy-v2.ts. */
+  const groups = [
+    ...FAQ.map((c) => ({
+      id: c.id,
+      title: c.title[lang],
+      items: c.items.map((i) => ({ q: i.q[lang], a: i.a.map((p) => p[lang]) })),
+    })),
+    {
+      id: "tapis-mrirt",
+      title: lang === "fr" ? "Tapis Mrirt" : "Mrirt rugs",
+      items: MRIRT.faq.map((i) => ({ q: i.q[lang], a: [i.a[lang]] })),
+    },
+  ];
+  const ld: [string, string][] = groups.flatMap((g) => g.items.map((i) => [i.q, i.a.join(" ")] as [string, string]));
 
   return (
     <>
@@ -62,15 +75,7 @@ export default async function FaqPage({
             <h1 className="display d-1 faq-v2-title">{TITLE[lang]}</h1>
           </Reveal>
 
-          <FaqBrowser
-            label={TITLE[lang]}
-            mrirt={{ href: `/${locale}/mrirt#questions`, label: lang === "fr" ? "Tapis Mrirt" : "Mrirt rugs" }}
-            groups={FAQ.map((c) => ({
-              id: c.id,
-              title: c.title[lang],
-              items: c.items.map((i) => ({ q: i.q[lang], a: i.a.map((p) => p[lang]) })),
-            }))}
-          />
+          <FaqBrowser label={TITLE[lang]} groups={groups} />
 
           <div className="faq-v2-still">
             <p>{STILL[lang]}</p>

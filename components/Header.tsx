@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import CartButton from "./CartButton";
 import { ACCOUNT_URL } from "@/lib/shopify";
 import { Wordmark } from "./BrandMarks";
+import Img from "./Img";
 import type { Locale } from "@/lib/dictionaries";
 import { ALL_SLUG, COLLECTION, GROUPS } from "@/lib/copy-v2";
 
@@ -21,8 +22,17 @@ const LANGS: Record<Locale, { short: string; name: string }> = {
   en: { short: "EN", name: "English" },
 };
 
+export type CollectionMenuItem = {
+  href: string;
+  label: string;
+  no: string;
+  image: { src: string; w: number; h: number } | null;
+};
+
 type HeaderProps = {
   locale: Locale;
+  /** The Collection panel: categories with their photographs (layout.tsx). */
+  collectionMenu?: CollectionMenuItem[];
   /** "Cart", in the current language. */
   cart: string;
   labels: {
@@ -45,7 +55,7 @@ type HeaderProps = {
  * so it inverts across the dusk and night sections instead of cutting a bright
  * band through them.
  */
-export default function Header({ locale, cart, labels }: HeaderProps) {
+export default function Header({ locale, cart, labels, collectionMenu = [] }: HeaderProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [dark, setDark] = useState(false);
@@ -64,6 +74,9 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
   const colTimer = useRef<number | null>(null);
   /* Opened by the pointer resting on it: a click then must not close it. */
   const colHover = useRef(false);
+  /* The category whose photograph the panel shows. */
+  const [colActive, setColActive] = useState(0);
+  const megaRef = useRef<HTMLDivElement>(null);
 
   /**
    * The page travels from morning ecru to night umber, so a header locked to
@@ -267,10 +280,12 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
   ];
 
   /* The categories, in the order of the collection page, then everything. */
-  const collectionLinks = [
-    { href: `/${locale}/collection/${ALL_SLUG}`, label: COLLECTION.all[locale], no: "" },
-    ...GROUPS.map((g) => ({ href: `/${locale}/collection/${g.slug}`, label: g.name[locale], no: g.no })),
-  ];
+  const collectionLinks: CollectionMenuItem[] = collectionMenu.length
+    ? collectionMenu
+    : [
+        { href: `/${locale}/collection/${ALL_SLUG}`, label: COLLECTION.all[locale], no: "", image: null },
+        ...GROUPS.map((g) => ({ href: `/${locale}/collection/${g.slug}`, label: g.name[locale], no: g.no, image: null })),
+      ];
 
   /* Closed on navigation, outside click and Escape, like the language menu. */
   useEffect(() => {
@@ -280,7 +295,8 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
   useEffect(() => {
     if (!colOpen) return;
     const onDown = (event: MouseEvent) => {
-      if (!colRef.current?.contains(event.target as Node)) setColOpen(false);
+      const t = event.target as Node;
+      if (!colRef.current?.contains(t) && !megaRef.current?.contains(t)) setColOpen(false);
     };
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -340,8 +356,8 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
         carries would be the thing that disappeared.
       */
       className={`site-header${scrolled ? " is-scrolled" : ""}${
-        dark && !open ? " is-dark" : ""
-      }${onHero && !open ? " is-on-hero" : ""}${open ? " is-menu-open" : ""}${
+        dark && !open && !colOpen ? " is-dark" : ""
+      }${onHero && !open && !colOpen ? " is-on-hero" : ""}${open ? " is-menu-open" : ""}${colOpen ? " is-mega-open" : ""}${
         retracted && !open ? " is-retracted" : ""
       }${repainting ? " is-repainting" : ""}`}
     >
@@ -369,7 +385,7 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
                     type="button"
                     className="link site-nav-link label site-nav-toggle"
                     aria-expanded={colOpen}
-                    aria-controls="site-collection-menu"
+                    aria-controls="site-mega"
                     onClick={() => (colHover.current ? setColOpen(true) : setColOpen((v) => !v))}
                   >
                     {link.label}
@@ -377,22 +393,6 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
                       <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </button>
-                  <ul id="site-collection-menu" className="site-collection-menu" hidden={!colOpen}>
-                    {collectionLinks.map((c) => (
-                      <li key={c.href}>
-                        <Link
-                          prefetch={false}
-                          href={c.href}
-                          className="site-collection-option"
-                          aria-current={pathname === c.href ? "page" : undefined}
-                          onClick={() => setColOpen(false)}
-                        >
-                          {c.no && <span className="site-collection-no">N° {c.no}</span>}
-                          {c.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
                 </li>
               ) : (
                 <li key={link.href}>
@@ -511,6 +511,57 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
         It sits UNDER the header bar in the stack, so the mark and the Close
         stay on top of it and the way out is always where the way in was.
       */}
+      {/* The Collection panel (V3, after Chabi Chic's menu): full width under
+          the bar, 45% of the screen high. The categories on the left; on the
+          right the photograph of the one under the pointer, which changes by
+          a slow dissolve-and-settle rather than a cut. Every photograph is in
+          the DOM so the change never waits on a download. */}
+      <div
+        id="site-mega"
+        ref={megaRef}
+        className={`site-mega${colOpen ? " is-open" : ""}`}
+        onMouseEnter={hoverOpen}
+        onMouseLeave={hoverClose}
+      >
+        <div className="site-mega-inner">
+          <nav className="site-mega-nav shell" aria-label={labels.collection}>
+            <ul className="site-mega-list">
+              {collectionLinks.map((c, i) => (
+                <li key={c.href}>
+                  <Link
+                    prefetch={false}
+                    href={c.href}
+                    className={`site-mega-link${i === colActive ? " is-active" : ""}`}
+                    aria-current={pathname === c.href ? "page" : undefined}
+                    onMouseEnter={() => setColActive(i)}
+                    onFocus={() => setColActive(i)}
+                    onClick={() => setColOpen(false)}
+                  >
+                    <span className="label site-mega-no">{c.no ? `N° ${c.no}` : ""}</span>
+                    <span className="display site-mega-name">{c.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div className="site-mega-photos" aria-hidden="true">
+            {collectionLinks.map((c, i) =>
+              c.image ? (
+                <Img
+                  key={c.href}
+                  src={c.image.src}
+                  alt=""
+                  width={c.image.w}
+                  height={c.image.h}
+                  sizes="(min-width: 940px) 40vw, 1px"
+                  className={`site-mega-photo${i === colActive ? " is-active" : ""}`}
+                />
+              ) : null,
+            )}
+          </div>
+        </div>
+      </div>
+
       <div
         id="site-panel"
         ref={panelRef}

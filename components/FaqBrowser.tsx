@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
 type Group = { id: string; title: string; items: { q: string; a: string[] }[] };
 
@@ -15,11 +14,9 @@ type Group = { id: string; title: string; items: { q: string; a: string[] }[] };
  */
 export default function FaqBrowser({
   groups,
-  mrirt,
   label,
 }: {
   groups: Group[];
-  mrirt: { href: string; label: string };
   label: string;
 }) {
   const [open, setOpen] = useState<string | null>(null);
@@ -56,11 +53,6 @@ export default function FaqBrowser({
               </button>
             </li>
           ))}
-          <li>
-            <Link href={mrirt.href} className="faq-v2-anchor">
-              {mrirt.label}
-            </Link>
-          </li>
         </ul>
       </nav>
 
