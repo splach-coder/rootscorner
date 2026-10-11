@@ -5169,3 +5169,30 @@ has no `/_next/image` and every local photo breaks.
 Product photos in Shopify were also re-encoded in place to ≤2400 px
 progressive JPEG (`scripts/shopify-lighten.mjs`): 1,341 MB → 52 MB, same
 media ids, alt text and file names.
+
+## 77. SEO / GEO / AEO pass (11 Oct)
+
+Why Google showed the FAQ for "The Roots Corner": the homepage carried
+`noindex` (RUG_DEMO). It is always indexed now (`app/[locale]/page.tsx`);
+only /mrirt and /tapis/* stay noindex while their photos are placeholders,
+and the sitemap leaves them out for as long as they are.
+
+- **Old Jimdo URLs** 301 to their new pages (`next.config.ts` redirects:
+  `/collection/<room>/<slug>` → `/fr/piece/<slug>`, `/about-us`, `/faq`,
+  legal pages…). `/` → `/fr` is a 308 for French/no-preference browsers
+  (307 for English), with `Vary: Accept-Language` and `no-store`.
+- **Titles:** brand first, then what and where ("The Roots Corner | Objets
+  anciens, pièces artisanales et tapis, Marrakech"); no "N° 0X ·" in titles;
+  story is "Notre histoire". Descriptions via `clip()` (lib/seo.ts), never
+  cut mid-word.
+- **Link previews:** every og:image is a 1200×630 JPEG in public/og, built by
+  `scripts/og-images.mjs` BEFORE EVERY BUILD (cf:build and the workflow), from
+  the Shopify snapshot, listed with a content hash in `docs/og.json` and
+  served as `?v=<hash>` (WhatsApp caches by URL). Never point og:image at a
+  Shopify URL: the rug files are multi-MB PNG/WebP and WhatsApp drops them.
+- **JSON-LD:** Organization gains alternateName, contactPoint, areaServed;
+  Product has sku, return policy (14 days), AggregateOffer for sized pieces,
+  and NO fixed shipping rates (the FAQ says costs vary). AboutPage,
+  ContactPage, CollectionPage, breadcrumbs on story/contact/faq.
+- **llms.txt:** signature line, payment and returns, care guide, Mrirt
+  collections.
