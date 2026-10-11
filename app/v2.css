@@ -1268,3 +1268,15 @@ button.faq-v2-anchor {
     display: none;
   }
 }
+
+/* The panel shows each photograph whole, not cropped (client, 11 Oct): the
+   object at its own shape on the panel's ground, with air around it. */
+.site-mega-photos {
+  background: var(--hour-morning);
+}
+
+.site-mega-photo {
+  object-fit: contain;
+  padding: clamp(1rem, 2vw, 1.6rem) 0;
+  transform: scale(1.03);
+}
