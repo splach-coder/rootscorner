@@ -1,6 +1,6 @@
 {
- "pulledAt": "2026-10-10T22:49:23.160Z",
- "hash": "cff66d754eb1d1af",
+ "pulledAt": "2026-10-11T13:29:18.781Z",
+ "hash": "8d69489e1afd3283",
  "pieces": {
   "handcrafted-wood-stool---cote-d-ivoire": {
    "price": 480,
@@ -1367,7 +1367,7 @@
   },
   "dogon-tribal-staff": {
    "price": 180,
-   "available": true,
+   "available": false,
    "title": "Bâton tribal Dogon",
    "text": [
     "Bâton sculpté en bois, attribué à la tradition dogon.",
