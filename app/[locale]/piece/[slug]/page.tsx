@@ -233,17 +233,19 @@ export default async function PiecePage({
 
   return (
     <>
-      <JsonLd
-        data={productLd({
-          piece,
-          locale: locale as Locale,
-          name,
-          description: shortText ?? undefined,
-          category: group ? group.name[lang] : room,
-          material: materialOf(piece, locale as Locale),
-          origin: originOf(piece, locale as Locale),
-        })}
-      />
+      {piece.price !== null && (
+        <JsonLd
+          data={productLd({
+            piece,
+            locale: locale as Locale,
+            name,
+            description: shortText ?? undefined,
+            category: group ? group.name[lang] : room,
+            material: materialOf(piece, locale as Locale),
+            origin: originOf(piece, locale as Locale),
+          })}
+        />
+      )}
       <JsonLd
         data={breadcrumbLd([
           { name: "The Roots Corner", path: `/${locale}` },

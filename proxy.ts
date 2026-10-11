@@ -29,8 +29,19 @@ export function proxy(request: NextRequest) {
   if (hasLocale) return NextResponse.next();
 
   const url = request.nextUrl.clone();
-  url.pathname = `/${pick(request)}${pathname === "/" ? "" : pathname}`;
-  return NextResponse.redirect(url);
+  const locale = pick(request);
+  url.pathname = `/${locale}${pathname === "/" ? "" : pathname}`;
+  /*
+    SEO audit (11 Oct): to the default French a PERMANENT redirect, so Google
+    treats /fr as the home of therootscorner.com rather than keeping the bare
+    domain as a page that has no content of its own. A visitor whose browser
+    asks for English still gets a temporary one. The answer depends on
+    Accept-Language, so it must never be cached for everyone.
+  */
+  const res = NextResponse.redirect(url, locale === defaultLocale ? 308 : 307);
+  res.headers.set("Vary", "Accept-Language");
+  res.headers.set("Cache-Control", "private, no-store");
+  return res;
 }
 
 export const config = {

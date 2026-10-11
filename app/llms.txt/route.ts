@@ -1,5 +1,7 @@
 import { allPieces, formatPrice, groupBySlug, groupOf, groups } from "@/lib/catalog";
 import { getDictionary } from "@/lib/dictionaries";
+import { ALL_SLUG } from "@/lib/copy-v2";
+import { allRugSeries, seriesLine, seriesTitle } from "@/lib/rugs";
 import { displayName } from "@/lib/specs";
 import { ADDRESS, CONTACT_EMAIL, INSTAGRAM, SITE_URL, WHATSAPP } from "@/lib/site";
 
@@ -25,9 +27,10 @@ export function GET() {
     "",
     `> ${en.meta.description}`,
     "",
-    `The Roots Corner selects antique objects, artisanal pieces and Moroccan rugs for their material, their history and their character, chosen across Morocco, Africa and beyond, and gathered in Marrakech, Morocco. Tagline: "Rare pieces. Stories. Materials." / « ${fr.meta.title.split("— ")[1] ?? ""} »`,
+    `The Roots Corner selects antique objects, artisanal pieces and Moroccan rugs for their material, their history and their character, chosen across Morocco, Africa and beyond, and gathered in Marrakech, Morocco. Signature line: "Rooted in every corner".`,
     "",
-    "- Every piece is one of a kind: there is one of each, and a sold piece is not restocked.",
+    "- Most pieces exist once; a sold piece stays on the site, marked as sold. Some listings are sold in sizes (e.g. Tamegroute candles, S and M).",
+    "- Payment: PayPal (including by card, without a PayPal account) or SEPA bank transfer; returns within 14 days of receipt under the withdrawal policy, except made-to-measure rugs.",
     "- Prices are in euros (EUR), tax included. Pieces ship from Marrakech; outside Morocco, customs duties and import VAT may be charged on delivery.",
     "- Delivery: about 1 to 2 weeks in Morocco and 2 to 8 weeks internationally for available pieces; shipping costs vary with the destination, the dimensions and the nature of the piece.",
     "- Mrirt rugs are handwoven to order by a women's weaving cooperative in Mrirt (Middle Atlas); made-to-measure rugs are ordered by enquiry, not added to a cart.",
@@ -46,15 +49,19 @@ export function GET() {
     `- [Mrirt rugs](${SITE_URL}/en/mrirt): handwoven to order`,
     `- [Our story](${SITE_URL}/en/story)`,
     `- [Contact](${SITE_URL}/en/contact)`,
-    `- [FAQ](${SITE_URL}/en/faq)`,
+    `- [FAQ](${SITE_URL}/en/faq): delivery, payment, returns, order tracking and Mrirt rugs`,
+    `- [Care guide](${SITE_URL}/en/guide-entretien): looking after wool rugs and wooden pieces`,
     `- [Delivery policy](${SITE_URL}/en/legal/delivery)`,
     `- French version of every page: replace /en/ with /fr/, e.g. ${SITE_URL}/fr/collection`,
     "",
     "## Collection",
     "",
-    ...groups().map(
-      (g) => `- [N° ${g.no} ${g.name.en}](${SITE_URL}/en/collection/${g.slug}): ${g.count} piece(s)`,
-    ),
+    ...groups().map((g) => `- [${g.name.en}](${SITE_URL}/en/collection/${g.slug}): ${g.count} ${g.count === 1 ? "piece" : "pieces"}`),
+    `- [The whole collection](${SITE_URL}/en/collection/${ALL_SLUG})`,
+    "",
+    "## Mrirt rug collections (handwoven to order)",
+    "",
+    ...allRugSeries().map((r) => `- [${seriesTitle(r, "en")}](${SITE_URL}/en/tapis/${r.handle})${seriesLine(r, "en") ? `: ${seriesLine(r, "en")}` : ""}`),
     "",
     "## Pieces",
     "",

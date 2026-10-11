@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import PieceCard from "@/components/PieceCard";
-import { breadcrumbLd, itemListLd, pageMeta, og } from "@/lib/seo";
+import { breadcrumbLd, itemListLd, pageLd, pageMeta, og } from "@/lib/seo";
 import { displayName } from "@/lib/specs";
 import { fill, getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
 import { collectionPieces, groupBySlug, groups, piecesByGroup } from "@/lib/catalog";
@@ -30,7 +30,10 @@ export async function generateMetadata({
       locale,
       path: `/collection/${ALL_SLUG}`,
       title: `${COLLECTION.all[locale]} | The Roots Corner`,
-      description: `${COLLECTION.all[locale]}: ${fill(COLLECTION.count[locale], { n })}.`,
+      description:
+        locale === "fr"
+          ? `Toute la collection The Roots Corner : ${n} pièces anciennes et artisanales sélectionnées depuis Marrakech, avec leurs photos, leurs détails et leur prix.`
+          : `The whole The Roots Corner collection: ${n} antique and handmade pieces selected from Marrakech, with their photographs, details and price.`,
       image: og("collection.jpg"),
     });
   }
@@ -40,9 +43,13 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: `/collection/${category}`,
-    title: `N° ${g.no} · ${g.name[locale]} | The Roots Corner`,
-    description: `${g.name[locale]}: ${fill(count === 1 ? COLLECTION.countOne[locale] : COLLECTION.count[locale], { n: count })}.`,
-    image: og("collection.jpg"),
+    // No "N° 01 ·" in the title: sitelinks and results read the name (SEO audit).
+    title: `${g.name[locale]} | The Roots Corner`,
+    description:
+      locale === "fr"
+        ? `${g.name[locale]} : ${fill(count === 1 ? COLLECTION.countOne[locale] : COLLECTION.count[locale], { n: count })} de la collection The Roots Corner, sélectionnées depuis Marrakech, avec leurs photos, leurs détails et leur prix.`
+        : `${g.name[locale]}: ${fill(count === 1 ? COLLECTION.countOne[locale] : COLLECTION.count[locale], { n: count })} from The Roots Corner collection, selected from Marrakech, with their photographs, details and price.`,
+    image: og(`groups/${category}.jpg`),
   });
 }
 
@@ -73,6 +80,7 @@ export default async function CategoryPage({
 
   return (
     <>
+      <JsonLd data={pageLd("CollectionPage", locale as Locale, `/collection/${category}`, g.name[locale])} />
       <JsonLd data={itemListLd(locale as Locale, pieces, (p) => displayName(p, locale as Locale))} />
       <JsonLd
         data={breadcrumbLd([

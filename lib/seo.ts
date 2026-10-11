@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/dictionaries";
 import type { Piece } from "@/lib/catalog";
-import { ADDRESS, CONTACT_EMAIL, INSTAGRAM, SITE_URL, WHATSAPP } from "@/lib/site";
+import { SOCIAL, ADDRESS, CONTACT_EMAIL, INSTAGRAM, SITE_URL, WHATSAPP } from "@/lib/site";
+import ogFiles from "@/docs/og.json";
 
 /**
  * One place that decides what a page tells search engines, AI answer engines
@@ -19,11 +20,36 @@ import { ADDRESS, CONTACT_EMAIL, INSTAGRAM, SITE_URL, WHATSAPP } from "@/lib/sit
 
 export type OgImage = { url: string; width: number; height: number; alt?: string };
 
-/** The site-wide preview image: the hero photograph, 1200×630 (scripts/og-images.mjs). */
-export const DEFAULT_OG: OgImage = { url: "/og/default.jpg", width: 1200, height: 630 };
+/*
+ * Every preview is a 1200×630 JPEG in public/og, built by scripts/og-images.mjs
+ * before each deploy and listed in docs/og.json with a hash of its bytes. The
+ * hash goes into the URL: WhatsApp and iMessage cache a preview by URL for
+ * good, so a new image has to arrive at a new address.
+ */
+const OG_FILES = ogFiles as Record<string, string>;
+export const hasOg = (file: string) => file in OG_FILES;
 
-/** A scene for a page, from public/og (scripts/og-images.mjs). */
-export const og = (file: string): OgImage => ({ url: `/og/${file}`, width: 1200, height: 630 });
+/** A preview image from public/og, versioned. */
+export const og = (file: string): OgImage => ({
+  url: `/og/${file}${OG_FILES[file] ? `?v=${OG_FILES[file]}` : ""}`,
+  width: 1200,
+  height: 630,
+});
+
+/** The site-wide preview image: the hero photograph. */
+export const DEFAULT_OG: OgImage = og("default.jpg");
+
+/** Cut a description at the last whole word under `max` characters. */
+export function clip(text: string | undefined, max = 155): string | undefined {
+  if (!text) return text;
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  const cut = clean.slice(0, max - 1);
+  // A whole sentence if one ends late enough; otherwise the last whole word.
+  const sentence = Math.max(cut.lastIndexOf(". "), cut.lastIndexOf("? "), cut.lastIndexOf("! "));
+  if (sentence > max * 0.55) return cut.slice(0, sentence + 1);
+  return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[,;:·\s]+$/, "")}…`;
+}
 
 export function pageMeta({
   locale,
@@ -44,7 +70,8 @@ export function pageMeta({
   index?: boolean;
 }): Metadata {
   const url = `/${locale}${path}`;
-  const images = [{ ...image, alt: image.alt ?? title }];
+  // Every preview is a JPEG; WhatsApp and Facebook read the type first.
+  const images = [{ ...image, alt: image.alt ?? title, type: "image/jpeg" }];
   return {
     title,
     description,
@@ -62,19 +89,23 @@ export function pageMeta({
       alternateLocale: locale === "fr" ? ["en_GB"] : ["fr_FR"],
       images,
     },
-    twitter: { card: "summary_large_image", title, description, images: images.map((i) => i.url) },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: images.map((i) => ({ url: i.url, alt: i.alt })),
+    },
     ...(index ? {} : { robots: { index: false, follow: true } }),
   };
 }
 
 /** A piece's preview: its own image on the page ground, or its Shopify photo. */
 export function pieceOg(piece: Piece, alt: string): OgImage {
-  const lead = piece.images[0];
-  if (lead?.src) {
-    // Added in Shopify: its CDN resizes on request, and that is already a JPEG.
-    return { url: `${lead.src}${lead.src.includes("?") ? "&" : "?"}width=1200`, width: 1200, height: Math.round((1200 * lead.h) / lead.w), alt };
-  }
-  return { url: `/og/pieces/${piece.slug}.jpg`, width: 1200, height: 630, alt };
+  // Built for every piece, including those added in Shopify (scripts/og-images.mjs).
+  const slug = piece.slug.split("::")[0];
+  if (hasOg(`pieces/${slug}.jpg`)) return { ...og(`pieces/${slug}.jpg`), alt };
+  // Added since the last build: the collection's preview until the next one.
+  return { ...og("collection.jpg"), alt };
 }
 
 /* ------------------------------------------------------------------------ *
@@ -99,6 +130,9 @@ export function organizationLd(locale: Locale, description: string) {
         "@type": ["Organization", "OnlineStore"],
         "@id": ORG_ID,
         name: "The Roots Corner",
+        // Name variants only, no new facts (SEO audit, 11 Oct): what people
+        // type when they look for the house.
+        alternateName: ["Roots Corner", "TheRootsCorner", "The Roots Corner Marrakech"],
         url: SITE_URL,
         logo: `${SITE_URL}/brand/icon-512.png`,
         image: `${SITE_URL}${DEFAULT_OG.url}`,
@@ -113,7 +147,17 @@ export function organizationLd(locale: Locale, description: string) {
           addressLocality: "Marrakech",
           addressCountry: "MA",
         },
-        sameAs: [INSTAGRAM],
+        sameAs: [INSTAGRAM, ...SOCIAL.filter((s) => s.key !== "instagram" && s.key !== "whatsapp").map((s) => s.href)],
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            contactType: "customer service",
+            email: CONTACT_EMAIL,
+            ...(phone ? { telephone: phone } : {}),
+            availableLanguage: ["fr", "en"],
+          },
+        ],
+        areaServed: ["MA", ...ABROAD],
         identifier: [
           { "@type": "PropertyValue", propertyID: "ICE", value: ADDRESS.ice },
           { "@type": "PropertyValue", propertyID: "RC", value: ADDRESS.rc },
@@ -124,6 +168,7 @@ export function organizationLd(locale: Locale, description: string) {
         "@id": `${SITE_URL}/#website`,
         url: SITE_URL,
         name: "The Roots Corner",
+        alternateName: ["Roots Corner", "TheRootsCorner"],
         inLanguage: ["fr", "en"],
         publisher: { "@id": ORG_ID },
       },
@@ -179,32 +224,58 @@ export function productLd({
     // not be resolved into one (§14). The attribution goes in as a plain
     // property, exactly as written.
     ...(origin ? { additionalProperty: [{ "@type": "PropertyValue", name: "origin", value: origin }] } : {}),
+    sku: piece.slug,
     ...(piece.price !== null
       ? {
-          offers: {
-            "@type": "Offer",
-            url,
-            price: piece.price.toFixed(2),
-            priceCurrency: piece.currency || "EUR",
-            availability: piece.available ? "https://schema.org/InStock" : "https://schema.org/SoldOut",
-            seller: { "@id": ORG_ID },
-            shippingDetails: [
-              shipping(["MA"], 25),
-              shipping(ABROAD, piece.price >= 200 ? 80 : 50),
-            ],
-          },
+          offers:
+            piece.options && piece.options.length > 1
+              ? {
+                  "@type": "AggregateOffer",
+                  url,
+                  lowPrice: Math.min(...piece.options.map((o) => o.price)).toFixed(2),
+                  highPrice: Math.max(...piece.options.map((o) => o.price)).toFixed(2),
+                  offerCount: piece.options.length,
+                  priceCurrency: piece.currency || "EUR",
+                  availability: piece.available ? "https://schema.org/InStock" : "https://schema.org/SoldOut",
+                  seller: { "@id": ORG_ID },
+                }
+              : {
+                  "@type": "Offer",
+                  url,
+                  price: piece.price.toFixed(2),
+                  priceCurrency: piece.currency || "EUR",
+                  availability: piece.available ? "https://schema.org/InStock" : "https://schema.org/SoldOut",
+                  seller: { "@id": ORG_ID },
+                  hasMerchantReturnPolicy: returnPolicy(locale),
+                },
         }
       : {}),
   };
 }
 
-/** The house's own published rates (lib/legal.ts, delivery), as Shopify charges them. */
-function shipping(countries: string[], amount: number) {
+/** The withdrawal policy (lib/legal.ts): 14 days from receipt, return by post at the buyer's cost. */
+function returnPolicy(locale: Locale) {
   return {
-    "@type": "OfferShippingDetails",
-    shippingRate: { "@type": "MonetaryAmount", value: amount.toFixed(2), currency: "EUR" },
-    shippingOrigin: { "@type": "DefinedRegion", addressCountry: "MA" },
-    shippingDestination: countries.map((c) => ({ "@type": "DefinedRegion", addressCountry: c })),
+    "@type": "MerchantReturnPolicy",
+    applicableCountry: ["MA", ...ABROAD],
+    returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+    merchantReturnDays: 14,
+    returnMethod: "https://schema.org/ReturnByMail",
+    returnFees: "https://schema.org/ReturnFeesCustomerResponsibility",
+    merchantReturnLink: `${SITE_URL}/${locale}/legal/withdrawal`,
+  };
+}
+
+/** A page that is ABOUT the house (story) or for reaching it (contact). */
+export function pageLd(type: "AboutPage" | "ContactPage" | "CollectionPage", locale: Locale, path: string, name: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": type,
+    url: `${SITE_URL}/${locale}${path}`,
+    name,
+    inLanguage: locale,
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": ORG_ID },
   };
 }
 

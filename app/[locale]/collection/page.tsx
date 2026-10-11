@@ -21,7 +21,10 @@ export async function generateMetadata({
     locale,
     path: "/collection",
     title: `${COLLECTION.title[locale]} | The Roots Corner`,
-    description: t.meta.description,
+    description:
+      locale === "fr"
+        ? "La collection The Roots Corner : sièges et tabourets, objets et sculptures, poteries et céramiques, objets anciens, mobilier et luminaires."
+        : "The Roots Corner collection: seating and stools, objects and sculptures, pottery and ceramics, antique objects, furniture and lighting.",
     image: og("collection.jpg"),
   });
 }

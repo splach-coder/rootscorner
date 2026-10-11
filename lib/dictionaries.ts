@@ -376,9 +376,10 @@ type Dictionary = {
 const en: Dictionary = {
   meta: {
     // Brief §4: the homepage must immediately convey the name and the tagline.
-    title: "The Roots Corner | Rooted in every corner",
+    // SEO audit (11 Oct): the brand first, then what the house sells and where.
+    title: "The Roots Corner | Antique objects, handmade pieces and rugs, Marrakech",
     description:
-      "Antique objects, artisanal pieces and Moroccan rugs, selected for their material, their history and their character, from Morocco, Africa and beyond.",
+      "From Marrakech, The Roots Corner selects antique objects, handmade pieces and Moroccan rugs for their material, their history and their character.",
   },
   nav: {
     collection: "Collection",
@@ -899,9 +900,9 @@ const en: Dictionary = {
 
 const fr: Dictionary = {
   meta: {
-    title: "The Roots Corner | Rooted in every corner",
+    title: "The Roots Corner | Objets anciens, pièces artisanales et tapis, Marrakech",
     description:
-      "Objets anciens, pièces artisanales et tapis marocains sélectionnés pour leur matière, leur histoire et leur caractère, au Maroc, en Afrique et ailleurs.",
+      "Depuis Marrakech, The Roots Corner sélectionne objets anciens, pièces artisanales et tapis marocains pour leur matière, leur histoire et leur caractère.",
   },
   nav: {
     collection: "Collection",

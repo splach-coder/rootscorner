@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { pageMeta, og } from "@/lib/seo";
+import { pageMeta, og, clip, breadcrumbLd, pageLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
@@ -18,8 +19,9 @@ export async function generateMetadata({
   return pageMeta({
     locale,
     path: "/story",
-    title: `${STORY.eyebrow[lang]} | The Roots Corner`,
-    description: `${STORY.chapters[0].body[0][lang]} ${STORY.chapters[0].body[1][lang]}`.slice(0, 155),
+    title: `${lang === "fr" ? "Notre histoire" : "Our story"} | The Roots Corner`,
+    // The house's own sentence of what it does and from where (chapter 03).
+    description: clip(`${STORY.chapters[2].body[1][lang]} ${STORY.chapters[0].body[0][lang]}`),
     image: og("story.jpg"),
   });
 }
@@ -68,8 +70,16 @@ export default async function StoryPage({
   const lang = locale as Locale;
   const f = STORY.founder;
 
+  const storyName = lang === "fr" ? "Notre histoire" : "Our story";
   return (
     <>
+      <JsonLd data={pageLd("AboutPage", lang, "/story", storyName)} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "The Roots Corner", path: `/${locale}` },
+          { name: storyName, path: `/${locale}/story` },
+        ])}
+      />
       <section className="story-v2-head">
         <div className="shell">
           <Reveal>

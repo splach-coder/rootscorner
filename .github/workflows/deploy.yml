@@ -87,7 +87,9 @@ jobs:
 
       - if: steps.check.outputs.build == 'true'
         name: Build
-        run: npx opennextjs-cloudflare build
+        # The link-preview images first: they follow the Shopify snapshot
+        # pulled above (new pieces, changed lead photographs).
+        run: node scripts/og-images.mjs && npx opennextjs-cloudflare build
 
       - if: steps.check.outputs.build == 'true'
         name: Deploy

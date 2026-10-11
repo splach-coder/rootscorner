@@ -25,13 +25,44 @@ const nextConfig: NextConfig = {
     proxy's matcher only reaches the bare root.
   */
   async redirects() {
-    return ["fr", "en"].flatMap((locale) =>
+    const gone = ["fr", "en"].flatMap((locale) =>
       ["stay", "artisans"].map((page) => ({
         source: `/${locale}/${page}`,
         destination: `/${locale}`,
         permanent: true,
       })),
     );
+    /*
+      The old Jimdo site's addresses (docs/reference/old-site-sitemap.xml),
+      301'd to their new pages so their Google listings and the links people
+      shared keep working and pass on to the new site (SEO audit, 11 Oct). An
+      old product URL /collection/<room>/<slug> lands on the same piece; an old
+      room lands on its category (the [category] page redirects old rooms).
+    */
+    const old: [string, string][] = [
+      ["/collection/:room/:slug", "/fr/piece/:slug"],
+      ["/collection/:room", "/fr/collection/:room"],
+      ["/collection", "/fr/collection"],
+      ["/accueil", "/fr"],
+      ["/home", "/fr"],
+      ["/about-us", "/fr/story"],
+      ["/story", "/fr/story"],
+      ["/contact", "/fr/contact"],
+      ["/faq", "/fr/faq"],
+      ["/mrirt", "/fr/mrirt"],
+      ["/mrirt-rugs", "/fr/mrirt"],
+      ["/products", "/fr/collection"],
+      ["/our-airbnb", "/fr"],
+      ["/evenements", "/fr"],
+      ["/withdrawal", "/fr/legal/withdrawal"],
+      ["/right-of-withdrawal", "/fr/legal/withdrawal"],
+      ["/terms-and-conditions", "/fr/legal/terms"],
+      ["/imprint", "/fr/legal/imprint"],
+      ["/privacy-policy", "/fr/legal/privacy"],
+      ["/cookie-policy", "/fr/legal/cookies"],
+      ["/delivery-policy", "/fr/legal/delivery"],
+    ];
+    return [...gone, ...old.map(([source, destination]) => ({ source, destination, permanent: true }))];
   },
   images: {
     formats: ["image/avif", "image/webp"],

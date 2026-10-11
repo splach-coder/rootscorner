@@ -1,4 +1,5 @@
-import { pageMeta } from "@/lib/seo";
+import { og, pageMeta, pageLd, breadcrumbLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -25,6 +26,7 @@ export async function generateMetadata({
     path: "/contact",
     title: `${CONTACT.title[lang]} | The Roots Corner`,
     description: `${CONTACT.intro[lang]} ${CONTACT.intro2[lang]}`,
+    image: og("contact.jpg"),
   });
 }
 
@@ -64,6 +66,14 @@ export default async function ContactPage({
   ];
 
   return (
+    <>
+    <JsonLd data={pageLd("ContactPage", lang, "/contact", CONTACT.title[lang])} />
+    <JsonLd
+      data={breadcrumbLd([
+        { name: "The Roots Corner", path: `/${locale}` },
+        { name: CONTACT.title[lang], path: `/${locale}/contact` },
+      ])}
+    />
     <section className="contact-v2">
       <div className="shell contact-v2-inner">
         <Reveal className="contact-v2-head">
@@ -101,5 +111,6 @@ export default async function ContactPage({
         </p>
       </div>
     </section>
+    </>
   );
 }

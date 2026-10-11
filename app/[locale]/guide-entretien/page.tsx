@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
-import { pageMeta } from "@/lib/seo";
+import { og, pageMeta } from "@/lib/seo";
 import { isLocale, type Locale } from "@/lib/dictionaries";
 import { CARE_GUIDE } from "@/lib/copy-v2";
 
@@ -14,6 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     path: "/guide-entretien",
     title: `${CARE_GUIDE.title[locale]} | The Roots Corner`,
     description: CARE_GUIDE.sections[0].body[0][locale],
+    image: og("guide.jpg"),
   });
 }
 

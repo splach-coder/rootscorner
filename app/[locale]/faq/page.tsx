@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { faqLd, pageMeta } from "@/lib/seo";
+import { breadcrumbLd, faqLd, pageMeta } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import FaqBrowser from "@/components/FaqBrowser";
@@ -28,9 +28,10 @@ export async function generateMetadata({
     locale,
     path: "/faq",
     title: `${TITLE[lang]} | The Roots Corner`,
-    description: FAQ.flatMap((c) => c.items.map((i) => i.q[lang]))
-      .join(" ")
-      .slice(0, 155),
+    description:
+      lang === "fr"
+        ? "Livraison au Maroc et à l’international, frais, délais, paiement, retours, suivi de commande et tapis Mrirt : les réponses de The Roots Corner."
+        : "Delivery to Morocco and abroad, costs, times, payment, returns, order tracking and Mrirt rugs: answers from The Roots Corner.",
   });
 }
 
@@ -74,6 +75,12 @@ export default async function FaqPage({
   return (
     <>
       <JsonLd data={faqLd(lang, ld)} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "The Roots Corner", path: `/${locale}` },
+          { name: TITLE[lang], path: `/${locale}/faq` },
+        ])}
+      />
       <section className="faq-v2">
         <div className="shell faq-v2-inner">
           <Reveal className="faq-v2-head">

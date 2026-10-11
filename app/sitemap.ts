@@ -44,9 +44,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...LEGAL_SLUGS.map((s) => ({ path: `/legal/${s}`, priority: 0.2 })),
   ];
 
+  // The build date: every deploy rebuilds every page from the current catalogue.
+  const lastModified = new Date();
   return pages.flatMap(({ path, images, priority }) =>
     locales.map((locale) => ({
       url: `${SITE_URL}/${locale}${path}`,
+      lastModified,
       priority,
       ...(images?.length ? { images } : {}),
       alternates: {

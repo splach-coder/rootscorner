@@ -8,7 +8,7 @@ import { getDictionary, isLocale, locales, type Locale } from "@/lib/dictionarie
 import { allRugSeries, colourName, fromPrice, isIllustrativeSeries, rugSeriesByHandle, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { swatchFor } from "@/lib/rug-options";
-import { breadcrumbLd, pageMeta } from "@/lib/seo";
+import { breadcrumbLd, clip, hasOg, og, pageMeta } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { formatEuro } from "@/lib/rugs";
 import { MRIRT } from "@/lib/copy-v2";
@@ -32,8 +32,17 @@ export async function generateMetadata({
     locale,
     path: `/tapis/${handle}`,
     title: `${l.rugName} ${title} | The Roots Corner`,
-    description: seriesLine(series, locale) ?? `${l.rugName} ${title}. ${l.collectionNote}`,
-    ...(image ? { image: { url: image.src, width: image.w, height: image.h } } : {}),
+    // The collection's own line, then what every Mrirt rug is (both already on the site).
+    description: clip(
+      `${l.rugName} ${title}. ${seriesLine(series, locale) ?? l.collectionNote} ${
+        locale === "fr"
+          ? "Tissé à la main sur commande par une coopérative de femmes à Mrirt, dans le Moyen Atlas."
+          : "Handwoven to order by a women’s cooperative in Mrirt, in the Middle Atlas."
+      }`,
+    ),
+    // A JPEG built for the preview, never the raw Shopify file (4 MB PNGs
+    // that WhatsApp drops): see scripts/og-images.mjs.
+    image: hasOg(`tapis/${handle}.jpg`) ? og(`tapis/${handle}.jpg`) : og("mrirt.jpg"),
     index: !RUG_DEMO,
   });
 }
