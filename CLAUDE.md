@@ -5151,3 +5151,21 @@ never overwrites her edits.
   and collection titles (`scripts/shopify-v2.mts` re-run; the pull still
   understands the old "&" types). The script no longer overwrites a product
   title once the product is in its group — titles are the house's to edit.
+
+## 76. Shopify photos are resized by Shopify (11 Oct)
+
+The rug wall showed broken photos for the client. Every size of every Shopify
+photo used to go through the Worker's `/_next/image` (one Worker request each,
+a 7 s limit on fetching the original, Cloudflare Images resizing on top).
+Now `components/Img.tsx` (a client wrapper of next/image) gives any
+`cdn.shopify.com` source `shopifyLoader` (lib/image-loader.ts: `?width=N`,
+Shopify returns WebP/AVIF), and **product photos are served from Shopify**
+(lib/catalog.ts no longer swaps in public/pieces copies). Only the site's own
+~30 photos (hero, story, place, rug rooms) still use `/_next/image`.
+**Use `@/components/Img`, not `next/image`, for anything that may come from
+Shopify.** Do NOT set `images.loader: "custom"` globally: `next start` then
+has no `/_next/image` and every local photo breaks.
+
+Product photos in Shopify were also re-encoded in place to ≤2400 px
+progressive JPEG (`scripts/shopify-lighten.mjs`): 1,341 MB → 52 MB, same
+media ids, alt text and file names.
