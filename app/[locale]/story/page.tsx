@@ -22,7 +22,7 @@ export async function generateMetadata({
     title: `${lang === "fr" ? "Notre histoire" : "Our story"} | The Roots Corner`,
     // The house's own sentence of what it does and from where (chapter 03).
     description: clip(`${STORY.chapters[2].body[1][lang]} ${STORY.chapters[0].body[0][lang]}`),
-    image: og("story.jpg"),
+    image: og(`${locale}/story.jpg`),
   });
 }
 

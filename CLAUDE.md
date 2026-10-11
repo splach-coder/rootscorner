@@ -5186,7 +5186,7 @@ and the sitemap leaves them out for as long as they are.
   story is "Notre histoire". Descriptions via `clip()` (lib/seo.ts), never
   cut mid-word.
 - **Link previews:** every og:image is a 1200×630 JPEG in public/og, built by
-  `scripts/og-images.mjs` BEFORE EVERY BUILD (cf:build and the workflow), from
+  `scripts/og-images.mts` (tsx; satori + resvg, the site's own fonts in scripts/fonts, the client's logo) BEFORE EVERY BUILD — one branded CARD per page per language under public/og/<locale>/, (cf:build and the workflow), from
   the Shopify snapshot, listed with a content hash in `docs/og.json` and
   served as `?v=<hash>` (WhatsApp caches by URL). Never point og:image at a
   Shopify URL: the rug files are multi-MB PNG/WebP and WhatsApp drops them.

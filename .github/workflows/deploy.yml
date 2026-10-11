@@ -89,7 +89,7 @@ jobs:
         name: Build
         # The link-preview images first: they follow the Shopify snapshot
         # pulled above (new pieces, changed lead photographs).
-        run: node scripts/og-images.mjs && npx opennextjs-cloudflare build
+        run: NODE_OPTIONS=--max-old-space-size=4096 npx tsx scripts/og-images.mts && npx opennextjs-cloudflare build
 
       - if: steps.check.outputs.build == 'true'
         name: Deploy

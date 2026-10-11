@@ -36,8 +36,11 @@ export const og = (file: string): OgImage => ({
   height: 630,
 });
 
-/** The site-wide preview image: the hero photograph. */
-export const DEFAULT_OG: OgImage = og("default.jpg");
+/** A page's card in its language: public/og/<locale>/<name>. */
+export const ogFor = (locale: Locale, name: string): OgImage => og(`${locale}/${name}`);
+
+/** The site-wide card: the homepage's. */
+export const DEFAULT_OG: OgImage = og("fr/default.jpg");
 
 /** Cut a description at the last whole word under `max` characters. */
 export function clip(text: string | undefined, max = 155): string | undefined {
@@ -56,7 +59,7 @@ export function pageMeta({
   path,
   title,
   description,
-  image = DEFAULT_OG,
+  image,
   type = "website",
   index = true,
 }: {
@@ -71,7 +74,8 @@ export function pageMeta({
 }): Metadata {
   const url = `/${locale}${path}`;
   // Every preview is a JPEG; WhatsApp and Facebook read the type first.
-  const images = [{ ...image, alt: image.alt ?? title, type: "image/jpeg" }];
+  const card = image ?? ogFor(locale, "default.jpg");
+  const images = [{ ...card, alt: card.alt ?? title, type: "image/jpeg" }];
   return {
     title,
     description,
@@ -100,12 +104,13 @@ export function pageMeta({
 }
 
 /** A piece's preview: its own image on the page ground, or its Shopify photo. */
-export function pieceOg(piece: Piece, alt: string): OgImage {
-  // Built for every piece, including those added in Shopify (scripts/og-images.mjs).
+export function pieceOg(piece: Piece, alt: string, locale: Locale = "fr"): OgImage {
+  // A card for every piece, including those added in Shopify (scripts/og-images.mts).
   const slug = piece.slug.split("::")[0];
-  if (hasOg(`pieces/${slug}.jpg`)) return { ...og(`pieces/${slug}.jpg`), alt };
-  // Added since the last build: the collection's preview until the next one.
-  return { ...og("collection.jpg"), alt };
+  const file = `${locale}/pieces/${slug}.jpg`;
+  if (hasOg(file)) return { ...og(file), alt };
+  // Added since the last build: the collection's card until the next one.
+  return { ...ogFor(locale, "collection.jpg"), alt };
 }
 
 /* ------------------------------------------------------------------------ *

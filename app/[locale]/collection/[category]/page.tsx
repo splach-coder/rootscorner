@@ -34,7 +34,7 @@ export async function generateMetadata({
         locale === "fr"
           ? `Toute la collection The Roots Corner : ${n} pièces anciennes et artisanales sélectionnées depuis Marrakech, avec leurs photos, leurs détails et leur prix.`
           : `The whole The Roots Corner collection: ${n} antique and handmade pieces selected from Marrakech, with their photographs, details and price.`,
-      image: og("collection.jpg"),
+      image: og(`${locale}/all.jpg`),
     });
   }
   const g = groupBySlug(category);
@@ -49,7 +49,7 @@ export async function generateMetadata({
       locale === "fr"
         ? `${g.name[locale]} : ${fill(count === 1 ? COLLECTION.countOne[locale] : COLLECTION.count[locale], { n: count })} de la collection The Roots Corner, sélectionnées depuis Marrakech, avec leurs photos, leurs détails et leur prix.`
         : `${g.name[locale]}: ${fill(count === 1 ? COLLECTION.countOne[locale] : COLLECTION.count[locale], { n: count })} from The Roots Corner collection, selected from Marrakech, with their photographs, details and price.`,
-    image: og(`groups/${category}.jpg`),
+    image: og(`${locale}/groups/${category}.jpg`),
   });
 }
 

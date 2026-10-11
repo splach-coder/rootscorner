@@ -30,7 +30,7 @@ export async function generateMetadata({
     path: "/mrirt",
     title: `${t.nav.rugs} | The Roots Corner`,
     description: t.rugs.body[0],
-    image: og("mrirt.jpg"),
+    image: og(`${locale}/mrirt.jpg`),
     index: !RUG_DEMO,
   });
 }

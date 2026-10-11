@@ -26,7 +26,7 @@ export async function generateMetadata({
     path: "/contact",
     title: `${CONTACT.title[lang]} | The Roots Corner`,
     description: `${CONTACT.intro[lang]} ${CONTACT.intro2[lang]}`,
-    image: og("contact.jpg"),
+    image: og(`${locale}/contact.jpg`),
   });
 }
 

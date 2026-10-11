@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     path: "/guide-entretien",
     title: `${CARE_GUIDE.title[locale]} | The Roots Corner`,
     description: CARE_GUIDE.sections[0].body[0][locale],
-    image: og("guide.jpg"),
+    image: og(`${locale}/guide.jpg`),
   });
 }
 

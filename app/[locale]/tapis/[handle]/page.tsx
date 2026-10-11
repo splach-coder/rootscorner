@@ -42,7 +42,7 @@ export async function generateMetadata({
     ),
     // A JPEG built for the preview, never the raw Shopify file (4 MB PNGs
     // that WhatsApp drops): see scripts/og-images.mjs.
-    image: hasOg(`tapis/${handle}.jpg`) ? og(`tapis/${handle}.jpg`) : og("mrirt.jpg"),
+    image: hasOg(`${locale}/tapis/${handle}.jpg`) ? og(`${locale}/tapis/${handle}.jpg`) : og(`${locale}/mrirt.jpg`),
     index: !RUG_DEMO,
   });
 }

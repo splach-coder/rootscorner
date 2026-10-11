@@ -377,9 +377,10 @@ const en: Dictionary = {
   meta: {
     // Brief §4: the homepage must immediately convey the name and the tagline.
     // SEO audit (11 Oct): the brand first, then what the house sells and where.
-    title: "The Roots Corner | Antique objects, handmade pieces and rugs, Marrakech",
+    // Under 60 characters (Google, X, LinkedIn); description under ~125 (social).
+    title: "The Roots Corner | Antique objects and rugs, Marrakech",
     description:
-      "From Marrakech, The Roots Corner selects antique objects, handmade pieces and Moroccan rugs for their material, their history and their character.",
+      "From Marrakech: antique objects, handmade pieces and Moroccan rugs, chosen for their material and their history.",
   },
   nav: {
     collection: "Collection",
@@ -900,9 +901,9 @@ const en: Dictionary = {
 
 const fr: Dictionary = {
   meta: {
-    title: "The Roots Corner | Objets anciens, pièces artisanales et tapis, Marrakech",
+    title: "The Roots Corner | Objets anciens et tapis, Marrakech",
     description:
-      "Depuis Marrakech, The Roots Corner sélectionne objets anciens, pièces artisanales et tapis marocains pour leur matière, leur histoire et leur caractère.",
+      "Depuis Marrakech, objets anciens, pièces artisanales et tapis marocains choisis pour leur matière et leur histoire.",
   },
   nav: {
     collection: "Collection",
