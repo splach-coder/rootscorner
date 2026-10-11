@@ -355,35 +355,10 @@ export default async function PiecePage({
             </Reveal>
           )}
 
-          {piece.care.length > 0 && (
-            <Reveal delay={60} className="piece-block">
-              <h2 className="label piece-block-key">{PRODUCT.care[lang]}</h2>
-              <ul className="piece-spec-list">
-                {say(lang, piece.care).map((line, i) => (
-                  <li key={i}>{line}</li>
-                ))}
-              </ul>
-            </Reveal>
-          )}
-
-          <Reveal delay={120} className="piece-block">
-            <h2 className="label piece-block-key">{PRODUCT.shipping[lang]}</h2>
-            <div className="prose piece-prose">
-              <p>{PRODUCT.shippingBody[lang]}</p>
-              <p>{PRODUCT.returnsBody[lang]}</p>
-            </div>
-            <p className="piece-block-links">
-              <Link href={enquiry} className="link label">
-                {PRODUCT.quote[lang]}
-              </Link>
-              <Link href={`/${locale}/legal/delivery`} className="link label">
-                {PRODUCT.deliveryLink[lang]}
-              </Link>
-              <Link href={`/${locale}/legal/withdrawal`} className="link label">
-                {PRODUCT.policyLink[lang]}
-              </Link>
-            </p>
-          </Reveal>
+          {/* V4 (11 Oct): "Entretien" and "Livraison et retours" are no longer
+              shown under the piece, at the client's request. Care advice lives
+              on the care guide page; delivery and returns in the FAQ and the
+              policies. */}
         </div>
       </article>
 

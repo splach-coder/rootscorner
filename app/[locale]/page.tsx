@@ -9,15 +9,25 @@ import RugSlider, { type RugSlide } from "@/components/RugSlider";
 import { allRugSeries, formatEuro, fromPrice, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
-import { featuredPieces, formatPrice, imagePath, pieceBySlug, RUG_DEMO, WOVEN_RUGS } from "@/lib/catalog";
+import { featuredPieces, formatPrice, imagePath, pieceBySlug, WOVEN_RUGS } from "@/lib/catalog";
 import { displayName } from "@/lib/specs";
 import { INSTAGRAM } from "@/lib/site";
 import { instagramFrames } from "@/lib/instagram";
 import { HOME } from "@/lib/copy-v2";
+import { pageMeta } from "@/lib/seo";
 
-/* Out of search while placeholder rug photographs are on the page (RUG_DEMO). */
-export function generateMetadata(): Metadata {
-  return RUG_DEMO ? { robots: { index: false, follow: true } } : {};
+/*
+ * The homepage is ALWAYS indexed (V4, 11 Oct). It used to be kept out of search
+ * while the placeholder rug photographs were on it, and with the homepage
+ * marked noindex Google showed the FAQ as the site's result for
+ * "The Roots Corner". The rug pages themselves stay out of search until the
+ * house's own rug photographs replace the placeholders.
+ */
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const t = getDictionary(locale);
+  return pageMeta({ locale, path: "", title: t.meta.title, description: t.meta.description });
 }
 
 /**
@@ -182,9 +192,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </Link>
           </Reveal>
           <Reveal variant="frame" delay={100} className="frame home-story-frame">
+            {/* V4 (11 Oct): the client's photograph, in place of the minaret. */}
             <Image
-              src="/place/city-dusk.jpg"
-              alt={lang === "fr" ? "Marrakech au crépuscule, un minaret sur le ciel" : "Marrakech at dusk, a minaret against the sky"}
+              src="/place/atlas-cliffs.jpg"
+              alt={lang === "fr" ? "Des falaises de montagne sous un ciel nuageux, en noir et blanc" : "Mountain cliffs under a cloudy sky, in black and white"}
               width={1333}
               height={2000}
               sizes="(max-width: 699px) 100vw, 44vw"

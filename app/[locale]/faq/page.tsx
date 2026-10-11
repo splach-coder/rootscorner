@@ -6,7 +6,7 @@ import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import FaqBrowser from "@/components/FaqBrowser";
 import { isLocale, type Locale } from "@/lib/dictionaries";
-import { FAQ, MRIRT } from "@/lib/copy-v2";
+import { CARE_GUIDE, FAQ, MRIRT } from "@/lib/copy-v2";
 
 const TITLE = { fr: "Questions fréquentes", en: "Frequently asked questions" };
 const STILL = {
@@ -61,7 +61,12 @@ export default async function FaqPage({
     {
       id: "tapis-mrirt",
       title: lang === "fr" ? "Tapis Mrirt" : "Mrirt rugs",
-      items: MRIRT.faq.map((i) => ({ q: i.q[lang], a: [i.a[lang]] })),
+      items: MRIRT.faq.map((i) => ({
+        q: i.q[lang],
+        a: [i.a[lang]],
+        // "Retrouvez nos conseils dans notre guide d'entretien" now has one (V4).
+        link: /guide/i.test(i.a[lang]) ? { href: `/${locale}/guide-entretien#tapis`, label: CARE_GUIDE.link[lang] } : undefined,
+      })),
     },
   ];
   const ld: [string, string][] = groups.flatMap((g) => g.items.map((i) => [i.q, i.a.join(" ")] as [string, string]));

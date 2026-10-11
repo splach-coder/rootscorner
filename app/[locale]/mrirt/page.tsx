@@ -5,7 +5,7 @@ import RugCard from "@/components/RugCard";
 import { isIllustrativeSeries, allRugSeries, colourName, formatEuro, seriesLine, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { rugChoices } from "@/lib/rug-options";
-import { MRIRT } from "@/lib/copy-v2";
+import { CARE_GUIDE, MRIRT } from "@/lib/copy-v2";
 import Link from "next/link";
 import { pageMeta, og } from "@/lib/seo";
 import { notFound } from "next/navigation";
@@ -376,6 +376,13 @@ export default async function MrirtPage({
               <details key={i} className="piece-fold">
                 <summary className="label">{r.q[lang]}</summary>
                 <p>{r.a[lang]}</p>
+                {/guide/i.test(r.a[lang]) && (
+                  <p>
+                    <Link href={`/${locale}/guide-entretien#tapis`} className="link label">
+                      {CARE_GUIDE.link[lang]}
+                    </Link>
+                  </p>
+                )}
               </details>
             ))}
           </div>

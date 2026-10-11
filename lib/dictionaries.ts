@@ -899,7 +899,7 @@ const en: Dictionary = {
 
 const fr: Dictionary = {
   meta: {
-    title: "The Roots Corner | Là où tout prend racine",
+    title: "The Roots Corner | Rooted in every corner",
     description:
       "Objets anciens, pièces artisanales et tapis marocains sélectionnés pour leur matière, leur histoire et leur caractère, au Maroc, en Afrique et ailleurs.",
   },

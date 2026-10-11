@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "The Roots Corner",
     short_name: "Roots Corner",
-    description: "Là où tout prend racine",
+    description: "Rooted in every corner",
     start_url: "/",
     display: "standalone",
     background_color: "#f7f5f2",

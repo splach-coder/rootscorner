@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Wordmark } from "./BrandMarks";
 import FooterNewsletter from "./FooterNewsletter";
 import type { Locale } from "@/lib/dictionaries";
-import { FOOTER } from "@/lib/copy-v2";
+import { CARE_GUIDE, FOOTER } from "@/lib/copy-v2";
 import { SOCIAL } from "@/lib/site";
 
 type FooterProps = {
@@ -41,6 +41,7 @@ export default function Footer({ locale, t, legal: names }: FooterProps) {
       links: [
         { href: `/${locale}/story`, label: t.story },
         { href: `/${locale}/faq`, label: names.faq },
+        { href: `/${locale}/guide-entretien`, label: CARE_GUIDE.title[locale] },
         { href: `/${locale}/contact`, label: t.contact },
       ],
     },

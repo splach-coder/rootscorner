@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { allPieces, categorySlugs } from "@/lib/catalog";
+import { allPieces, RUG_DEMO } from "@/lib/catalog";
+import { ALL_SLUG, GROUPS } from "@/lib/copy-v2";
 import { locales } from "@/lib/dictionaries";
 import { LEGAL_SLUGS } from "@/lib/legal";
 import { SITE_URL } from "@/lib/site";
@@ -17,21 +18,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages: { path: string; images?: string[]; priority: number }[] = [
     { path: "", priority: 1 },
     { path: "/collection", priority: 0.9 },
-    ...categorySlugs().map((c) => ({ path: `/collection/${c}`, priority: 0.8 })),
+    // The five categories and "Toute la collection" (V2/V3), not the old rooms.
+    ...[...GROUPS.map((g) => g.slug), ALL_SLUG].map((c) => ({ path: `/collection/${c}`, priority: 0.8 })),
     ...allPieces().map((p) => ({
       path: `/piece/${p.slug}`,
       priority: p.available ? 0.8 : 0.4,
       images: p.images.slice(0, 6).map((i) => i.src ?? `${SITE_URL}/pieces/${i.file}`),
     })),
-    { path: "/mrirt", priority: 0.8 },
-    ...allRugSeries().map((r) => ({
-      path: `/tapis/${r.handle}`,
-      priority: 0.7,
-      images: r.images.map((i) => i.src),
-    })),
+    // The rug pages are noindex while their photographs are placeholders;
+    // listing a noindex URL here would contradict it.
+    ...(RUG_DEMO
+      ? []
+      : [
+          { path: "/mrirt", priority: 0.8 },
+          ...allRugSeries().map((r) => ({
+            path: `/tapis/${r.handle}`,
+            priority: 0.7,
+            images: r.images.map((i) => i.src),
+          })),
+        ]),
     { path: "/story", priority: 0.6 },
     { path: "/contact", priority: 0.5 },
     { path: "/faq", priority: 0.3 },
+    { path: "/guide-entretien", priority: 0.3 },
     ...LEGAL_SLUGS.map((s) => ({ path: `/legal/${s}`, priority: 0.2 })),
   ];
 

@@ -502,3 +502,56 @@ export const FAQ: { id: string; title: Both; items: { q: Both; a: Both[] }[] }[]
 export function pick(locale: Locale, s: Both): string {
   return s[locale];
 }
+
+/**
+ * V4 (11 Oct): the care guides the house wrote — one for the wool rugs, one
+ * for the wooden pieces. French verbatim; the English is our translation.
+ * Shown on /guide-entretien, which the rug FAQ points to.
+ */
+export const CARE_GUIDE = {
+  title: t("Guide d’entretien", "Care guide"),
+  sections: [
+    {
+      id: "tapis",
+      heading: t("Les tapis en laine", "Wool rugs"),
+      body: [
+        t(
+          "Pour préserver la douceur et la beauté de votre tapis en laine, aspirez régulièrement à faible puissance, sans brosse rotative.",
+          "To keep your wool rug soft and beautiful, vacuum it regularly on low power, without a rotating brush.",
+        ),
+        t(
+          "En cas de tache, tamponnez délicatement avec un chiffon propre et de l’eau froide, sans frotter.",
+          "If there is a stain, dab it gently with a clean cloth and cold water, without rubbing.",
+        ),
+        t(
+          "Pour un lavage complet, privilégiez un savon doux, un rinçage minutieux et un séchage intégral à l’air libre. Compte tenu de la densité de la laine Mrirt, un lavage professionnel est recommandé afin de préserver les fibres et les couleurs naturelles.",
+          "For a full wash, use a mild soap, rinse thoroughly and let it dry completely in the open air. Given how dense Mrirt wool is, professional cleaning is recommended to preserve the fibres and the natural colours.",
+        ),
+      ],
+    },
+    {
+      id: "bois",
+      heading: t("Les pièces en bois", "Wooden pieces"),
+      subheading: t("Entretien et détachage", "Care and stain removal"),
+      body: [
+        t(
+          "Dépoussiérez régulièrement votre tabouret à l’aide d’un chiffon doux et sec, en prenant soin des reliefs sculptés.",
+          "Dust your stool regularly with a soft, dry cloth, taking care of the carved reliefs.",
+        ),
+        t(
+          "Évitez l’eau en abondance, les produits ménagers et les nettoyants abrasifs afin de préserver la patine naturelle du bois.",
+          "Avoid large amounts of water, household products and abrasive cleaners, to preserve the natural patina of the wood.",
+        ),
+        t(
+          "En cas de tache d’huile, absorbez délicatement l’excédent avec du papier absorbant, sans frotter. Saupoudrez ensuite de terre de Sommières, laissez agir plusieurs heures, puis retirez doucement la poudre. Faites d’abord un essai sur une zone discrète.",
+          "For an oil stain, gently blot the excess with paper towel, without rubbing. Then sprinkle with fuller’s earth (terre de Sommières), leave it for several hours, and gently remove the powder. Test on a discreet area first.",
+        ),
+        t(
+          "Préservez votre pièce de l’humidité, de la chaleur excessive et du soleil direct pour conserver toute la beauté de son bois et de sa patine.",
+          "Keep your piece away from damp, excessive heat and direct sunlight, to preserve all the beauty of its wood and its patina.",
+        ),
+      ],
+    },
+  ],
+  link: t("Voir le guide d’entretien", "See the care guide"),
+};

@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-type Group = { id: string; title: string; items: { q: string; a: string[] }[] };
+import Link from "next/link";
+
+type Group = { id: string; title: string; items: { q: string; a: string[]; link?: { href: string; label: string } }[] };
 
 /**
  * The FAQ, categories first (V3, 11 Oct, after benirugs.com's FAQ).
@@ -75,6 +77,11 @@ export default function FaqBrowser({
                   {item.a.map((p, j) => (
                     <p key={j}>{p}</p>
                   ))}
+                  {item.link && (
+                    <Link href={item.link.href} className="link label faq-v2-guide">
+                      {item.link.label}
+                    </Link>
+                  )}
                 </div>
               </details>
             ))}

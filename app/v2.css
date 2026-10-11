@@ -8,8 +8,9 @@ html[data-intro="run"] .intro {
   color: #f7f5f2;
 }
 
+/* V4 (11 Oct): the footer's dark, not the brown. */
 .intro-veil {
-  background: #4b3123;
+  background: var(--hour-night);
 }
 
 /* --- La Collection: the five categories ------------------------------------ */
@@ -1279,4 +1280,36 @@ button.faq-v2-anchor {
   object-fit: contain;
   padding: clamp(1rem, 2vw, 1.6rem) 0;
   transform: scale(1.03);
+}
+
+/* --- Care guide (V4) ------------------------------------------------------- */
+.care-guide-group {
+  padding-top: clamp(1.4rem, 3vw, 2rem);
+  border-top: 1px solid var(--rule);
+}
+
+.care-guide-sub {
+  margin: -0.4rem 0 1rem;
+  color: var(--ink-soft);
+}
+
+.care-guide-body p {
+  max-width: 42rem;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.care-guide-body p + p {
+  margin-top: 0.9rem;
+}
+
+/* Under a piece, "À propos" alone now: a reading measure, not a full row. */
+.piece-words-v2 .piece-block:only-child {
+  max-width: 44rem;
+}
+
+.faq-v2-guide {
+  display: inline-block;
+  margin-top: 0.6rem;
 }
