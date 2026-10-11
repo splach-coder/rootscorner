@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/Img";
 import HeroMedia from "@/components/HeroMedia";
 import RugBrowser, { type RugTile } from "@/components/RugBrowser";
 import RugCard from "@/components/RugCard";

@@ -343,17 +343,16 @@ for (const piece of pieces) {
   if (state.enText?.length) piece.enText = state.enText;
   if (state.facts && Object.keys(state.facts.fr).length) piece.facts = state.facts;
   /*
-   * The photographs, in the order the house sets in the admin. A photograph
-   * that is also in public/pieces (same file name, the import kept them) is
-   * served from there; one she adds or replaces comes from Shopify's CDN.
+   * The photographs, in the order the house sets in the admin, served from
+   * Shopify's CDN and resized there (lib/image-loader.ts). public/pieces is
+   * only the fallback for a piece Shopify returns no photograph for. The
+   * hover photograph stays the one scripts/pick-swap.py chose, found by name.
    */
   if (state.images?.length) {
     const base = (u: string) => u.split("?")[0].split("/").pop() ?? u;
-    const local = new Map(piece.images.map((img) => [base(img.original), img]));
-    const images: PieceImage[] = state.images.map(
-      (i) => local.get(base(i.src)) ?? { file: i.src, original: i.src, src: i.src, w: i.w, h: i.h },
-    );
-    const swap = piece.swapImage && images.includes(piece.swapImage) ? piece.swapImage : (images[1] ?? null);
+    const images: PieceImage[] = state.images.map((i) => ({ file: i.src, original: i.src, src: i.src, w: i.w, h: i.h }));
+    const swapName = piece.swapImage ? base(piece.swapImage.original) : null;
+    const swap = (swapName && images.find((img) => base(img.original) === swapName)) || (images[1] ?? null);
     piece.images = images;
     piece.swapImage = swap;
   }

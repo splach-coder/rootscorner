@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/Img";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { PieceImage } from "@/lib/catalog";
 import PieceZoom from "./PieceZoom";

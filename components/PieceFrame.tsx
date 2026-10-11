@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/Img";
 import Reveal from "./Reveal";
 import { imagePath, type Piece } from "@/lib/catalog";
 import { displayName, type Lang } from "@/lib/specs";

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/Img";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 type Slide = { src: string; w: number; h: number; alt: string };

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/Img";
 import Link from "next/link";
 import { fromPrice, formatEuro, seriesLine, seriesTitle, type RugSeries } from "@/lib/rugs";
 
