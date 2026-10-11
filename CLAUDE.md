@@ -5127,3 +5127,27 @@ and an empty field is a detail not shown. English of a changed fact that she
 has not translated shows her French, never the old English.
 `shopify-v2.mts` only writes a description where it is empty, so re-running it
 never overwrites her edits.
+
+## 75. Client feedback V3 (11 Oct)
+
+`Feedback - The Roots Corner website  V3.pdf` + four photographs (transfer zip).
+
+- **Hero:** "Rooted in every corner" on BOTH locales (their request), set in
+  Jost 300 so it reads lighter than Marcellus can; sentence under it removed;
+  one bordered link "Découvrir la collection →" (after HOMURA's hero CTA).
+- **Histoire:** a photograph beside each chapter, alternating sides, in the
+  order they marked (`public/story/atlas-valley.jpg`, `ochre-wall.jpg`,
+  `rug-room.jpg`); Dahab's photo replaced by their edited version
+  (`public/story/dahab.jpg`, 1442×2000); the quote one step smaller.
+- **FAQ:** categories first; a category's questions appear only once chosen
+  (`components/FaqBrowser.tsx`). All groups stay in the HTML (hidden) for SEO
+  and the FAQPage markup; `#category` opens one directly.
+- **Contact:** "Contactez-nous" / "Contact us", their two-line intro.
+- **Collection in the header:** a dropdown (desktop: hover or click; phone
+  menu: unfolds in place) — "Toute la collection" + the five categories.
+  "Toute la collection" is `/collection/toute-la-collection` (`ALL_SLUG`), all
+  pieces round-robined across the categories.
+- **"&" → "et" / "and"** in every title, including the Shopify product types
+  and collection titles (`scripts/shopify-v2.mts` re-run; the pull still
+  understands the old "&" types). The script no longer overwrites a product
+  title once the product is in its group — titles are the house's to edit.

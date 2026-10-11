@@ -7,12 +7,15 @@ import PieceCard from "@/components/PieceCard";
 import { breadcrumbLd, itemListLd, pageMeta, og } from "@/lib/seo";
 import { displayName } from "@/lib/specs";
 import { fill, getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
-import { groupBySlug, groups, piecesByGroup } from "@/lib/catalog";
-import { COLLECTION, GROUPS } from "@/lib/copy-v2";
+import { collectionPieces, groupBySlug, groups, piecesByGroup } from "@/lib/catalog";
+import { ALL_SLUG, COLLECTION, GROUPS } from "@/lib/copy-v2";
 import { GROUP_OF } from "@/lib/piece-copy";
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) => GROUPS.map((g) => ({ locale, category: g.slug })));
+  return locales.flatMap((locale) => [
+    ...GROUPS.map((g) => ({ locale, category: g.slug })),
+    { locale, category: ALL_SLUG },
+  ]);
 }
 
 export async function generateMetadata({
@@ -21,6 +24,16 @@ export async function generateMetadata({
   params: Promise<{ locale: string; category: string }>;
 }): Promise<Metadata> {
   const { locale, category } = await params;
+  if (isLocale(locale) && category === ALL_SLUG) {
+    const n = collectionPieces().length;
+    return pageMeta({
+      locale,
+      path: `/collection/${ALL_SLUG}`,
+      title: `${COLLECTION.all[locale]} | The Roots Corner`,
+      description: `${COLLECTION.all[locale]}: ${fill(COLLECTION.count[locale], { n })}.`,
+      image: og("collection.jpg"),
+    });
+  }
   const g = groupBySlug(category);
   if (!isLocale(locale) || !g) return {};
   const count = piecesByGroup(category).length;
@@ -44,7 +57,10 @@ export default async function CategoryPage({
 }) {
   const { locale, category } = await params;
   if (!isLocale(locale)) notFound();
-  const g = groupBySlug(category);
+  const isAll = category === ALL_SLUG;
+  const found = groupBySlug(category);
+  // "Toute la collection" (V3) behaves as a sixth category holding everything.
+  const g = isAll ? { slug: ALL_SLUG, no: "", name: COLLECTION.all } : found;
   if (!g) {
     // The old rooms (stools, pots, …) now live inside the five categories.
     const moved = GROUP_OF[category];
@@ -52,7 +68,7 @@ export default async function CategoryPage({
     notFound();
   }
   const t = getDictionary(locale as Locale);
-  const pieces = piecesByGroup(category);
+  const pieces = isAll ? collectionPieces() : piecesByGroup(category);
   const others = groups().filter((o) => o.slug !== category);
 
   return (
@@ -70,7 +86,7 @@ export default async function CategoryPage({
           <Link href={`/${locale}/collection`} className="link label collection-back">
             {COLLECTION.title[locale]}
           </Link>
-          <p className="label collection-head-no">N° {g.no}</p>
+          {g.no && <p className="label collection-head-no">N° {g.no}</p>}
           <h1 className="display d-1 collection-title">{g.name[locale]}</h1>
           <p className="label collection-head-count">
             {fill(pieces.length === 1 ? COLLECTION.countOne[locale] : COLLECTION.count[locale], {

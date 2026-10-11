@@ -58,14 +58,21 @@ for (const entry of items) {
     console.warn(`skip ${slug}: variant not found in the store`);
     continue;
   }
-  if (product.title === name && product.productType === type) continue;
-  console.log(`${DRY ? "would set" : "set"}  ${product.title}  →  ${name}  [${type}]`);
+  // The title is the house's to edit once the piece is in its group: only a
+  // product not yet in one (the first migration) gets the French name from
+  // here. After that only the Type is kept in step (e.g. "&" → "et", V3).
+  const grouped = /&| et /.test(product.productType ?? "") && GROUPS.some(
+    (g) => g.name.fr === product.productType || g.name.fr.replace(" et ", " & ") === product.productType,
+  );
+  const title = grouped ? product.title : name;
+  if (product.title === title && product.productType === type) continue;
+  console.log(`${DRY ? "would set" : "set"}  ${product.title}  →  ${title}  [${type}]`);
   changed++;
   if (DRY) continue;
   userErrors(
     await gql(
       `mutation($p: ProductUpdateInput!) { productUpdate(product: $p) { userErrors { field message } } }`,
-      { p: { id: product.id, title: name, productType: type } },
+      { p: { id: product.id, title, productType: type } },
     ),
   );
 }

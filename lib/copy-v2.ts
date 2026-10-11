@@ -14,7 +14,9 @@ type Both = Record<Locale, string>;
 const t = (fr: string, en: string): Both => ({ fr, en });
 
 export const HOME = {
-  heroTitle: t("Là où tout prend racine", "Rooted in every corner"),
+  // V3 (11 Oct): the English line on both versions, at the client's request.
+  heroTitle: t("Rooted in every corner", "Rooted in every corner"),
+  heroCta: t("Découvrir la collection →", "Discover the collection →"),
   rugs: {
     label: t("Tapis Mrirt", "Mrirt rugs"),
     body: t(
@@ -87,6 +89,9 @@ export const COLLECTION = {
   others: t("Les autres catégories", "The other categories"),
 };
 
+/** V3: every piece of the collection on one page, "Toute la collection". */
+export const ALL_SLUG = "toute-la-collection";
+
 export type GroupSlug =
   | "sieges-tabourets"
   | "objets-sculptures"
@@ -95,15 +100,15 @@ export type GroupSlug =
   | "mobilier-luminaires";
 
 export const GROUPS: { slug: GroupSlug; no: string; name: Both }[] = [
-  { slug: "sieges-tabourets", no: "01", name: t("Sièges & Tabourets", "Seating & Stools") },
-  { slug: "objets-sculptures", no: "02", name: t("Objets & Sculptures", "Objects & Sculptures") },
-  { slug: "poteries-ceramiques", no: "03", name: t("Poteries & Céramiques", "Pottery & Ceramics") },
+  { slug: "sieges-tabourets", no: "01", name: t("Sièges et Tabourets", "Seating and Stools") },
+  { slug: "objets-sculptures", no: "02", name: t("Objets et Sculptures", "Objects and Sculptures") },
+  { slug: "poteries-ceramiques", no: "03", name: t("Poteries et Céramiques", "Pottery and Ceramics") },
   {
     slug: "objets-anciens-artisanat",
     no: "04",
-    name: t("Objets Anciens & Artisanat", "Antique Objects & Craft"),
+    name: t("Objets Anciens et Artisanat", "Antique Objects and Craft"),
   },
-  { slug: "mobilier-luminaires", no: "05", name: t("Mobilier & Luminaires", "Furniture & Lighting") },
+  { slug: "mobilier-luminaires", no: "05", name: t("Mobilier et Luminaires", "Furniture and Lighting") },
 ];
 
 /** §19 / Collection §5 — the product page, one template. */
@@ -113,7 +118,7 @@ export const PRODUCT = {
   info: t("Informations", "Details"),
   about: t("À propos de cette pièce", "About this piece"),
   care: t("Entretien", "Care"),
-  shipping: t("Livraison & retours", "Shipping & returns"),
+  shipping: t("Livraison et retours", "Shipping and returns"),
   fields: {
     origin: t("Origine", "Origin"),
     region: t("Région", "Region"),
@@ -140,11 +145,14 @@ export const PRODUCT = {
 
 /** §Contact — redesign. */
 export const CONTACT = {
-  title: t("Contact", "Contact"),
+  // V3 (11 Oct).
+  title: t("Contactez-nous", "Contact us"),
+  // Two lines, as the client set them out.
   intro: t(
-    "Une question sur une pièce, une commande ou un projet particulier ? Écrivez-nous, nous serons ravis de vous répondre.",
-    "A question about a piece, an order or a particular project? Write to us, we will be delighted to reply.",
+    "Une question sur une pièce, une commande ou un projet sur mesure ?",
+    "A question about a piece, an order or a made-to-measure project?",
   ),
+  intro2: t("Nous serons ravis d’échanger avec vous.", "We would be delighted to talk with you."),
   name: t("Nom complet", "Full name"),
   email: t("Adresse e-mail", "Email address"),
   message: t("Message", "Message"),
@@ -297,7 +305,7 @@ export const MRIRT = {
 export const FAQ: { id: string; title: Both; items: { q: Both; a: Both[] }[] }[] = [
   {
     id: "commandes-livraisons",
-    title: t("Commandes & livraisons", "Orders & delivery"),
+    title: t("Commandes et livraisons", "Orders and delivery"),
     items: [
       {
         q: t("Dans quels pays livrez-vous ?", "Which countries do you deliver to?"),
@@ -423,7 +431,7 @@ export const FAQ: { id: string; title: Both; items: { q: Both; a: Both[] }[] }[]
   },
   {
     id: "paiements-retours",
-    title: t("Paiements & retours", "Payments & returns"),
+    title: t("Paiements et retours", "Payments and returns"),
     items: [
       {
         q: t("Quels moyens de paiement acceptez-vous ?", "Which payment methods do you accept?"),

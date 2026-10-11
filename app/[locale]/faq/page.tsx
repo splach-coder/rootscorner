@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { faqLd, pageMeta } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
+import FaqBrowser from "@/components/FaqBrowser";
 import { isLocale, type Locale } from "@/lib/dictionaries";
 import { FAQ } from "@/lib/copy-v2";
 
@@ -34,8 +35,9 @@ export async function generateMetadata({
 }
 
 /**
- * The FAQ — V2, after benirugs.com's: the categories as anchors at the top,
- * then each category with its questions folded. The client's final copy, in
+ * The FAQ — after benirugs.com's: the categories first; choosing one shows
+ * its questions, folded (V3: nothing else on screen until a category is
+ * chosen). The client's final copy, in
  * their four categories. The Mrirt questions live on the Mrirt page.
  */
 export default async function FaqPage({
@@ -58,43 +60,17 @@ export default async function FaqPage({
         <div className="shell faq-v2-inner">
           <Reveal className="faq-v2-head">
             <h1 className="display d-1 faq-v2-title">{TITLE[lang]}</h1>
-            <nav className="faq-v2-nav" aria-label={TITLE[lang]}>
-              <ul>
-                {FAQ.map((c) => (
-                  <li key={c.id}>
-                    <a href={`#${c.id}`} className="faq-v2-anchor">
-                      {c.title[lang]}
-                    </a>
-                  </li>
-                ))}
-                <li>
-                  <Link href={`/${locale}/mrirt#questions`} className="faq-v2-anchor">
-                    {lang === "fr" ? "Tapis Mrirt" : "Mrirt rugs"}
-                  </Link>
-                </li>
-              </ul>
-            </nav>
           </Reveal>
 
-          {FAQ.map((c) => (
-            <section key={c.id} id={c.id} className="faq-v2-group" aria-labelledby={`${c.id}-title`}>
-              <h2 id={`${c.id}-title`} className="display faq-v2-group-title">
-                {c.title[lang]}
-              </h2>
-              <div className="faq-v2-list">
-                {c.items.map((item, i) => (
-                  <details key={i} className="faq-v2-item">
-                    <summary>{item.q[lang]}</summary>
-                    <div className="faq-v2-answer">
-                      {item.a.map((p, j) => (
-                        <p key={j}>{p[lang]}</p>
-                      ))}
-                    </div>
-                  </details>
-                ))}
-              </div>
-            </section>
-          ))}
+          <FaqBrowser
+            label={TITLE[lang]}
+            mrirt={{ href: `/${locale}/mrirt#questions`, label: lang === "fr" ? "Tapis Mrirt" : "Mrirt rugs" }}
+            groups={FAQ.map((c) => ({
+              id: c.id,
+              title: c.title[lang],
+              items: c.items.map((i) => ({ q: i.q[lang], a: i.a.map((p) => p[lang]) })),
+            }))}
+          />
 
           <div className="faq-v2-still">
             <p>{STILL[lang]}</p>

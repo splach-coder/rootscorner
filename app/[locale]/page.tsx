@@ -95,7 +95,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <div className="hero-inner shell">
             <div>
               <h1 className="display hero-title hero-v2-title">{HOME.heroTitle[lang]}</h1>
-              <p className="hero-lead">{t.hero.lead}</p>
+              {/* V3: no sentence under the line; one quiet way in, after
+                  HOMURA's hero, a hairline frame around the words. */}
+              <Link href={`/${locale}/collection`} className="label hero-v2-cta">
+                {HOME.heroCta[lang]}
+              </Link>
             </div>
           </div>
         </div>

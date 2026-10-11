@@ -32,6 +32,32 @@ export async function generateMetadata({
  * own words beside her photograph. The earlier movements, their street
  * photographs and the closing line are gone at the client's instruction.
  */
+/** One photograph per chapter, in the client's order (V3). Alt text says
+ *  only what is in the frame. */
+const CHAPTER_PHOTOS = [
+  {
+    src: "/story/atlas-valley.jpg",
+    w: 1482,
+    h: 2000,
+    alt: { fr: "Une vallée de montagne, des falaises et des arbres", en: "A mountain valley with cliffs and trees" },
+  },
+  {
+    src: "/story/ochre-wall.jpg",
+    w: 1333,
+    h: 2000,
+    alt: {
+      fr: "Un mur de terre ocre avec une fenêtre verte, un tissage posé devant",
+      en: "An ochre earth wall with a green window, a woven textile laid in front",
+    },
+  },
+  {
+    src: "/story/rug-room.jpg",
+    w: 1333,
+    h: 2000,
+    alt: { fr: "Une pièce aux murs blanchis, un tapis posé au sol", en: "A whitewashed room with a rug laid on the floor" },
+  },
+];
+
 export default async function StoryPage({
   params,
 }: {
@@ -53,21 +79,43 @@ export default async function StoryPage({
         </div>
       </section>
 
+      {/* V3 (11 Oct): a photograph with every chapter, the house's own, in the
+          places the client marked. They alternate sides so the page reads as
+          a sequence of spreads rather than a column of text. */}
       <section className="story-v2-chapters">
         <div className="shell">
-          {STORY.chapters.map((chapter, i) => (
-            <Reveal key={i} as="article" className="story-v2-chapter">
-              <p className="label story-v2-no" aria-hidden="true">
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h2 className="display story-v2-heading">{chapter.heading[lang]}</h2>
-              <div className="story-v2-body">
-                {chapter.body.map((line, j) => (
-                  <p key={j}>{line[lang]}</p>
-                ))}
-              </div>
-            </Reveal>
-          ))}
+          {STORY.chapters.map((chapter, i) => {
+            const photo = CHAPTER_PHOTOS[i];
+            return (
+              <article
+                key={i}
+                className={`story-v2-chapter${photo ? " has-photo" : ""}${i % 2 === 1 ? " is-flipped" : ""}`}
+              >
+                <Reveal className="story-v2-said">
+                  <p className="label story-v2-no" aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h2 className="display story-v2-heading">{chapter.heading[lang]}</h2>
+                  <div className="story-v2-body">
+                    {chapter.body.map((line, j) => (
+                      <p key={j}>{line[lang]}</p>
+                    ))}
+                  </div>
+                </Reveal>
+                {photo && (
+                  <Reveal variant="frame" delay={120} className="frame story-v2-photo">
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt[lang]}
+                      width={photo.w}
+                      height={photo.h}
+                      sizes="(max-width: 899px) 100vw, 34rem"
+                    />
+                  </Reveal>
+                )}
+              </article>
+            );
+          })}
         </div>
       </section>
 
@@ -77,8 +125,8 @@ export default async function StoryPage({
             <Image
               src="/story/dahab.jpg"
               alt={f.alt[lang]}
-              width={1387}
-              height={2080}
+              width={1442}
+              height={2000}
               sizes="(max-width: 899px) 100vw, 30rem"
             />
           </Reveal>

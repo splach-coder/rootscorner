@@ -903,5 +903,12 @@ export function groupBySlug(slug: string) {
 
 /** All the pieces of the collection (no rugs). */
 export function collectionPieces(): Piece[] {
-  return pieces.filter((p) => groupOf(p) !== null);
+  // Round-robin across the five categories, so "Toute la collection" does not
+  // open on twelve stools in a row; each category keeps its own order.
+  const lists = GROUPS.map((g) => piecesByGroup(g.slug));
+  const out: Piece[] = [];
+  for (let round = 0; lists.some((l) => l.length > round); round += 1) {
+    for (const list of lists) if (list.length > round) out.push(list[round]);
+  }
+  return out;
 }

@@ -24,7 +24,7 @@ export async function generateMetadata({
     locale,
     path: "/contact",
     title: `${CONTACT.title[lang]} | The Roots Corner`,
-    description: CONTACT.intro[lang],
+    description: `${CONTACT.intro[lang]} ${CONTACT.intro2[lang]}`,
   });
 }
 
@@ -68,7 +68,11 @@ export default async function ContactPage({
       <div className="shell contact-v2-inner">
         <Reveal className="contact-v2-head">
           <h1 className="display d-1 contact-v2-title">{CONTACT.title[lang]}</h1>
-          <p className="contact-v2-intro">{CONTACT.intro[lang]}</p>
+          <p className="contact-v2-intro">
+            {CONTACT.intro[lang]}
+            <br />
+            {CONTACT.intro2[lang]}
+          </p>
         </Reveal>
 
         <Reveal delay={100} className="contact-v2-form">

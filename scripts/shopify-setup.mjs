@@ -88,11 +88,11 @@ const userErrors = (x) => {
  * also the product Type its rule matches.
  */
 const ROOMS = {
-  "sieges-tabourets": "Sièges & Tabourets",
-  "objets-sculptures": "Objets & Sculptures",
-  "poteries-ceramiques": "Poteries & Céramiques",
-  "objets-anciens-artisanat": "Objets Anciens & Artisanat",
-  "mobilier-luminaires": "Mobilier & Luminaires",
+  "sieges-tabourets": "Sièges et Tabourets",
+  "objets-sculptures": "Objets et Sculptures",
+  "poteries-ceramiques": "Poteries et Céramiques",
+  "objets-anciens-artisanat": "Objets Anciens et Artisanat",
+  "mobilier-luminaires": "Mobilier et Luminaires",
   rugs: "Tapis",
 };
 /* The site's old room (docs/catalog.json category) → its group. */

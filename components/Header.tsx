@@ -7,6 +7,7 @@ import CartButton from "./CartButton";
 import { ACCOUNT_URL } from "@/lib/shopify";
 import { Wordmark } from "./BrandMarks";
 import type { Locale } from "@/lib/dictionaries";
+import { ALL_SLUG, COLLECTION, GROUPS } from "@/lib/copy-v2";
 
 /**
  * Languages by their own name.
@@ -56,6 +57,13 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
   const [repainting, setRepainting] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
+  /* V3: "Collection" opens its categories, after HOMURA's menu. */
+  const [colOpen, setColOpen] = useState(false);
+  const [panelColOpen, setPanelColOpen] = useState(false);
+  const colRef = useRef<HTMLLIElement>(null);
+  const colTimer = useRef<number | null>(null);
+  /* Opened by the pointer resting on it: a click then must not close it. */
+  const colHover = useRef(false);
 
   /**
    * The page travels from morning ecru to night umber, so a header locked to
@@ -258,6 +266,48 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
     { href: `/${locale}/contact`, label: labels.contact },
   ];
 
+  /* The categories, in the order of the collection page, then everything. */
+  const collectionLinks = [
+    { href: `/${locale}/collection/${ALL_SLUG}`, label: COLLECTION.all[locale], no: "" },
+    ...GROUPS.map((g) => ({ href: `/${locale}/collection/${g.slug}`, label: g.name[locale], no: g.no })),
+  ];
+
+  /* Closed on navigation, outside click and Escape, like the language menu. */
+  useEffect(() => {
+    setColOpen(false);
+    setPanelColOpen(false);
+  }, [pathname]);
+  useEffect(() => {
+    if (!colOpen) return;
+    const onDown = (event: MouseEvent) => {
+      if (!colRef.current?.contains(event.target as Node)) setColOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setColOpen(false);
+        colRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+      }
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [colOpen]);
+  /* Hover opens it on a pointer device; a short delay on leaving, so the gap
+     between the word and the panel does not close it. */
+  const hoverOpen = () => {
+    if (colTimer.current) window.clearTimeout(colTimer.current);
+    colHover.current = true;
+    setColOpen(true);
+  };
+  const hoverClose = () => {
+    colHover.current = false;
+    if (colTimer.current) window.clearTimeout(colTimer.current);
+    colTimer.current = window.setTimeout(() => setColOpen(false), 180);
+  };
+
   /* A menu that stays open after you have looked away is a stuck menu. */
   useEffect(() => {
     if (!langOpen) return;
@@ -306,13 +356,52 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
             to be two lists with two different gaps, which read as uneven. */}
         <nav className="site-nav" aria-label={labels.menu}>
           <ul className="site-nav-list">
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link prefetch={false} href={link.href} className="link site-nav-link label">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {links.map((link) =>
+              link.href === `/${locale}/collection` ? (
+                <li
+                  key={link.href}
+                  ref={colRef}
+                  className="site-nav-collection"
+                  onMouseEnter={hoverOpen}
+                  onMouseLeave={hoverClose}
+                >
+                  <button
+                    type="button"
+                    className="link site-nav-link label site-nav-toggle"
+                    aria-expanded={colOpen}
+                    aria-controls="site-collection-menu"
+                    onClick={() => (colHover.current ? setColOpen(true) : setColOpen((v) => !v))}
+                  >
+                    {link.label}
+                    <svg className="site-lang-caret" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true" focusable="false">
+                      <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                  <ul id="site-collection-menu" className="site-collection-menu" hidden={!colOpen}>
+                    {collectionLinks.map((c) => (
+                      <li key={c.href}>
+                        <Link
+                          prefetch={false}
+                          href={c.href}
+                          className="site-collection-option"
+                          aria-current={pathname === c.href ? "page" : undefined}
+                          onClick={() => setColOpen(false)}
+                        >
+                          {c.no && <span className="site-collection-no">N° {c.no}</span>}
+                          {c.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li key={link.href}>
+                  <Link prefetch={false} href={link.href} className="link site-nav-link label">
+                    {link.label}
+                  </Link>
+                </li>
+              ),
+            )}
           </ul>
         </nav>
 
@@ -436,9 +525,33 @@ export default function Header({ locale, cart, labels }: HeaderProps) {
                   className="site-panel-item"
                   style={{ "--i": i } as React.CSSProperties}
                 >
-                  <Link prefetch={false} href={link.href} className="display d-1 site-panel-link">
-                    {link.label}
-                  </Link>
+                  {link.href === `/${locale}/collection` ? (
+                    <>
+                      <button
+                        type="button"
+                        className="display d-1 site-panel-link site-panel-toggle"
+                        aria-expanded={panelColOpen}
+                        aria-controls="site-panel-collection"
+                        onClick={() => setPanelColOpen((v) => !v)}
+                      >
+                        {link.label}
+                      </button>
+                      <ul id="site-panel-collection" className="site-panel-sub" hidden={!panelColOpen}>
+                        {collectionLinks.map((c) => (
+                          <li key={c.href}>
+                            <Link prefetch={false} href={c.href} className="site-panel-sublink">
+                              {c.no && <span className="site-collection-no">N° {c.no}</span>}
+                              {c.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <Link prefetch={false} href={link.href} className="display d-1 site-panel-link">
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

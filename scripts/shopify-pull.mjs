@@ -62,6 +62,12 @@ if (!SHOP || !TOKEN) keep("no store credentials");
 const ROOM_BY_TYPE = {
   // V2 (10 Oct): the five collection groups are the product types now. A piece
   // added under a group lands in a room that lib/piece-copy.ts maps back to it.
+  // V3 (11 Oct): "et" rather than "&" in every title.
+  "Sièges et Tabourets": "stools",
+  "Objets et Sculptures": "decoration",
+  "Poteries et Céramiques": "pots",
+  "Objets Anciens et Artisanat": "african-decoration",
+  "Mobilier et Luminaires": "lamp",
   "Sièges & Tabourets": "stools",
   "Objets & Sculptures": "decoration",
   "Poteries & Céramiques": "pots",

@@ -911,3 +911,230 @@ html[data-intro="run"] .intro {
 .contact-v2-more .link {
   color: var(--ink-soft);
 }
+
+/* --- Histoire, V3: a photograph beside every chapter ----------------------- */
+.story-v2-chapter.has-photo {
+  max-width: 68rem;
+  display: grid;
+  gap: clamp(1.6rem, 4vw, 2.4rem);
+  align-items: center;
+}
+
+.story-v2-photo {
+  aspect-ratio: 3 / 4;
+}
+
+.story-v2-chapter.has-photo .story-v2-said {
+  max-width: 36rem;
+}
+
+@media (min-width: 900px) {
+  .story-v2-chapter.has-photo {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
+    gap: clamp(3rem, 7vw, 6rem);
+  }
+
+  .story-v2-chapter.has-photo.is-flipped {
+    grid-template-columns: minmax(0, 26rem) minmax(0, 1fr);
+  }
+
+  .story-v2-chapter.has-photo.is-flipped .story-v2-photo {
+    order: -1;
+  }
+}
+
+@media (max-width: 899px) {
+  .story-v2-photo {
+    max-width: 30rem;
+    width: 100%;
+  }
+}
+
+/* The founder's words, quieter (V3: "slightly smaller than the current size"). */
+.story-v2-quote blockquote {
+  font-size: clamp(1.02rem, 0.92rem + 0.4vw, 1.25rem);
+  line-height: 1.55;
+}
+
+/* --- Homepage hero, V3: a lighter line and one quiet link ------------------ */
+.hero-v2-title {
+  font-family: var(--font-body), Arial, sans-serif;
+  font-weight: 300;
+  font-size: clamp(2.3rem, 5.4vw, 4.8rem);
+  line-height: 1.08;
+  letter-spacing: 0.015em;
+  text-shadow:
+    0 1px 2px rgba(31, 20, 13, 0.4),
+    0 0 18px rgba(31, 20, 13, 0.32);
+}
+
+.hero-v2-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: clamp(1.4rem, 3vw, 2rem);
+  padding: 0.8rem 1.6rem;
+  border: 1px solid rgba(247, 245, 242, 0.75);
+  color: var(--ink-inverse);
+  text-shadow: 0 1px 2px rgba(31, 20, 13, 0.45);
+  transition:
+    background-color var(--dur-hover) var(--ease-material),
+    border-color var(--dur-hover) var(--ease-material);
+}
+
+.hero-v2-cta:hover,
+.hero-v2-cta:focus-visible {
+  background-color: rgba(247, 245, 242, 0.12);
+  border-color: var(--ink-inverse);
+}
+
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  .hero .hero-v2-cta {
+    opacity: 0;
+  }
+
+  html:not([data-intro="run"]:not([data-lift])) .hero[data-ready] .hero-v2-cta {
+    animation: hero-from-below 1100ms var(--ease-material) 420ms both;
+  }
+}
+
+/* --- FAQ, V3: categories first -------------------------------------------- */
+button.faq-v2-anchor {
+  font: inherit;
+  font-size: 0.86rem;
+  background: none;
+  cursor: pointer;
+}
+
+.faq-v2-anchor[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: rgba(190, 171, 147, 0.18);
+}
+
+.faq-v2-group[hidden] {
+  display: none;
+}
+
+/* --- Header, V3: Collection opens its categories (after HOMURA) ------------ */
+.site-nav-collection {
+  position: relative;
+}
+
+.site-nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: none;
+  border: 0;
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+  cursor: pointer;
+}
+
+.site-nav-toggle .site-lang-caret {
+  transition: transform var(--dur-hover) var(--ease-material);
+}
+
+.site-nav-toggle[aria-expanded="true"] .site-lang-caret {
+  transform: rotate(180deg);
+}
+
+.site-collection-menu {
+  position: absolute;
+  top: calc(100% + 0.9rem);
+  left: -1rem;
+  z-index: 3;
+  min-width: 15.5rem;
+  display: grid;
+  margin: 0;
+  padding: 0.5rem 0;
+  list-style: none;
+  background: var(--hour-morning);
+  border: 1px solid var(--rule);
+  box-shadow: 0 14px 30px rgba(46, 32, 25, 0.06);
+}
+
+/* `hidden` loses to an author display (see .site-lang-menu). */
+.site-collection-menu[hidden] {
+  display: none;
+}
+
+/* The bridge between the word and the panel, so hover survives the gap. */
+.site-collection-menu::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1rem;
+  height: 1rem;
+}
+
+.site-collection-option {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.62rem 1rem;
+  font-family: var(--font-body), Arial, sans-serif;
+  font-size: 0.86rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: background-color var(--dur-hover) var(--ease-material);
+}
+
+.site-collection-option:hover,
+.site-collection-option:focus-visible,
+.site-collection-option[aria-current="page"] {
+  background: rgba(190, 171, 147, 0.2);
+}
+
+.site-collection-no {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* Phone menu: Collection unfolds its categories in place. */
+.site-panel-toggle {
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.site-panel-sub {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0.6rem 0 0.4rem;
+  padding: 0;
+  list-style: none;
+}
+
+.site-panel-sub[hidden] {
+  display: none;
+}
+
+.site-panel-sublink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  min-height: 40px;
+  align-items: center;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+/* The categories are the page until one is chosen: a little more presence. */
+.faq-v2-nav button.faq-v2-anchor,
+.faq-v2-nav a.faq-v2-anchor {
+  min-height: 48px;
+  padding: 0 1.3rem;
+  font-size: 0.92rem;
+}
