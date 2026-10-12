@@ -82,7 +82,10 @@ const manifest: Record<string, string> = {};
 async function render(card: El, out: string) {
   const svg = await satori(card as never, { width: W, height: H, fonts: FONTS });
   const png = new Resvg(svg, { fitTo: { mode: "width", value: W } }).render().asPng();
-  const jpg = await sharp(png).jpeg({ quality: 82, mozjpeg: true, progressive: false }).toBuffer();
+  // Baseline, not progressive: WhatsApp decodes the preview on the phone and is
+  // the least forgiving reader. `mozjpeg: true` forces progressive (its
+  // optimiseScans) whatever `progressive` says, so it stays off.
+  const jpg = await sharp(png).jpeg({ quality: 82, progressive: false }).toBuffer();
   mkdirSync(dirname(join(OUT, out)), { recursive: true });
   writeFileSync(join(OUT, out), jpg);
   manifest[out] = createHash("sha1").update(jpg).digest("hex").slice(0, 8);
