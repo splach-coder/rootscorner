@@ -5196,3 +5196,13 @@ and the sitemap leaves them out for as long as they are.
   ContactPage, CollectionPage, breadcrumbs on story/contact/faq.
 - **llms.txt:** signature line, payment and returns, care guide, Mrirt
   collections.
+- **Redirects are 301/302, never 308/307** (12 Oct). Meta's link crawler
+  (Facebook, Instagram, WhatsApp) follows a 301 and stops at a 308: Cloudflare
+  showed 315 crawler hits on `/` in a day, 3 followed on to `/fr`, so a shared
+  "therootscorner.com" had no preview. `statusCode: 301` in next.config.ts
+  (not `permanent: true`, which is 308), 301/302 in proxy.ts, and
+  `skipTrailingSlashRedirect` (Next's own slash redirect is a 308 and ran before
+  the old-URL rules). `permanentRedirect()` is also a 308: don't use it.
+  The proxy matcher only reaches `/` (its `\.` is a plain `.` in the string).
+- **Preview cards are baseline JPEG.** `mozjpeg: true` in sharp forces
+  progressive whatever `progressive` says.

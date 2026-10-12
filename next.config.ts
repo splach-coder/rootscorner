@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { GROUP_OF } from "./lib/piece-copy";
 
 const nextConfig: NextConfig = {
   // Next appends its own notes to CLAUDE.md otherwise; that file is the
@@ -20,16 +21,29 @@ const nextConfig: NextConfig = {
     prefetchInlining: false,
   },
   /*
+    Next's own trailing-slash redirect is a 308, which Meta's link crawler
+    (Facebook, Instagram, WhatsApp) does not follow, and it ran before the
+    redirects below, so every old Jimdo URL (they all end in a slash) died at
+    it. Off, those URLs reach their 301 in one hop, and a page asked for with a
+    slash (/fr/) is served as is, its canonical naming the address without.
+  */
+  skipTrailingSlashRedirect: true,
+  /*
     V2 feedback (10 Oct): the apartments and artisans pages are gone. Old links
     land on the homepage rather than on a 404. Here and not in proxy.ts: the
     proxy's matcher only reaches the bare root.
+
+    301, not Next's default 308, for every permanent redirect: Meta's link
+    crawler (Facebook, Instagram, WhatsApp) follows a 301 and stops at a 308.
+    Measured on Cloudflare, 12 Oct: 315 requests for / in a day, 3 followed on.
+    Google treats the two the same.
   */
   async redirects() {
     const gone = ["fr", "en"].flatMap((locale) =>
       ["stay", "artisans"].map((page) => ({
         source: `/${locale}/${page}`,
         destination: `/${locale}`,
-        permanent: true,
+        statusCode: 301 as const,
       })),
     );
     /*
@@ -40,6 +54,12 @@ const nextConfig: NextConfig = {
       room lands on its category (the [category] page redirects old rooms).
     */
     const old: [string, string][] = [
+      // Old rooms straight to their category, in one hop (before the generic rule).
+      ...Object.entries(GROUP_OF).flatMap(([room, group]): [string, string][] => [
+        [`/collection/${room}`, `/fr/collection/${group}`],
+        [`/fr/collection/${room}`, `/fr/collection/${group}`],
+        [`/en/collection/${room}`, `/en/collection/${group}`],
+      ]),
       ["/collection/:room/:slug", "/fr/piece/:slug"],
       ["/collection/:room", "/fr/collection/:room"],
       ["/collection", "/fr/collection"],
@@ -62,7 +82,7 @@ const nextConfig: NextConfig = {
       ["/cookie-policy", "/fr/legal/cookies"],
       ["/delivery-policy", "/fr/legal/delivery"],
     ];
-    return [...gone, ...old.map(([source, destination]) => ({ source, destination, permanent: true }))];
+    return [...gone, ...old.map(([source, destination]) => ({ source, destination, statusCode: 301 as const }))];
   },
   images: {
     formats: ["image/avif", "image/webp"],

@@ -37,8 +37,13 @@ export function proxy(request: NextRequest) {
     domain as a page that has no content of its own. A visitor whose browser
     asks for English still gets a temporary one. The answer depends on
     Accept-Language, so it must never be cached for everyone.
+
+    301/302, not 308/307: Meta's link crawler (Facebook, Instagram, WhatsApp)
+    follows a 301 and stops at a 308, so a shared "therootscorner.com" had no
+    preview. Measured on Cloudflare, 12 Oct: 315 crawler requests for / in a
+    day, 3 followed on to /fr. Google treats 301 and 308 the same.
   */
-  const res = NextResponse.redirect(url, locale === defaultLocale ? 308 : 307);
+  const res = NextResponse.redirect(url, locale === defaultLocale ? 301 : 302);
   res.headers.set("Vary", "Accept-Language");
   res.headers.set("Cache-Control", "private, no-store");
   return res;
