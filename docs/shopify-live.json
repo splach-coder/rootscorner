@@ -1,6 +1,6 @@
 {
- "pulledAt": "2026-10-12T17:02:04.499Z",
- "hash": "b19c36ae61f03368",
+ "pulledAt": "2026-10-13T23:26:46.961Z",
+ "hash": "90429deaf8409404",
  "pieces": {
   "handcrafted-wood-stool---cote-d-ivoire": {
    "price": 480,
@@ -2362,7 +2362,8 @@
     "en": {
      "material": "Wool"
     }
-   }
+   },
+   "rugType": "Mrirt"
   },
   {
    "slug": "tapis-laine-prune-frise",
@@ -2396,7 +2397,8 @@
     "en": {
      "material": "Wool"
     }
-   }
+   },
+   "rugType": "Mrirt"
   }
  ],
  "rugSeries": [
@@ -2405,6 +2407,7 @@
    "title": "Uni",
    "titleEn": "Plain",
    "description": "",
+   "rugType": "Mrirt",
    "image": {
     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/jameson-natural-wool-amber.webp?v=1791283931",
     "w": 1600,
@@ -2598,6 +2601,7 @@
    "title": "Lignes",
    "titleEn": "Lines",
    "description": "",
+   "rugType": "Mrirt",
    "image": {
     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/austin-oat-pinecone.webp?v=1791283934",
     "w": 1600,
@@ -2739,6 +2743,7 @@
    "title": "Losanges",
    "titleEn": "Diamonds",
    "description": "",
+   "rugType": "Mrirt",
    "image": {
     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/lattice.webp?v=1791733288",
     "w": 1600,
@@ -2880,6 +2885,7 @@
    "title": "Graphique",
    "titleEn": "Graphic",
    "description": "",
+   "rugType": "Mrirt",
    "image": {
     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/weft-chocolate-brown-sienna.webp?v=1791283940",
     "w": 1600,

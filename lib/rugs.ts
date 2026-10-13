@@ -1,5 +1,6 @@
 import live from "@/docs/shopify-live.json";
 import { isIllustration, type Piece, type PieceImage } from "@/lib/catalog";
+import { rugTypeSlug } from "@/lib/rug-types";
 
 /**
  * Mrirt rugs — sold like benirugs.com.
@@ -34,6 +35,8 @@ export type RugSeries = {
   /** English title and line from the store's translation, when there is one. */
   titleEn?: string;
   descriptionEn?: string;
+  /** V5: the kind chosen in Shopify ("Type de tapis"); see seriesRugType. */
+  rugType?: string;
   colours: { name: string; image: string | null }[];
   sizes: string[];
   images: { src: string; w: number; h: number; alt: string | null }[];
@@ -120,6 +123,12 @@ export function colourName(name: string, locale: string): string {
 /** Its photographs are still placeholders (Shopify alt "Photo d'illustration"): shown, never sold. */
 export function isIllustrativeSeries(series: RugSeries): boolean {
   return series.images.some((i) => isIllustration(i.alt));
+}
+
+/** The series' kind: its Shopify field, else Mrirt — the series' product
+ *  type is "Tapis Mrirt", so that is what its own record says. */
+export function seriesRugType(series: RugSeries): string {
+  return rugTypeSlug(series.rugType) ?? "mrirt";
 }
 
 export function allRugSeries(): RugSeries[] {

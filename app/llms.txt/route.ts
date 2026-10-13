@@ -46,7 +46,7 @@ export function GET() {
     "## Pages",
     "",
     `- [Collection](${SITE_URL}/en/collection): every piece currently in the collection`,
-    `- [Mrirt rugs](${SITE_URL}/en/mrirt): handwoven to order`,
+    `- [Berber rugs](${SITE_URL}/en/mrirt): Mrirt rugs handwoven to order, and rugs already woven`,
     `- [Our story](${SITE_URL}/en/story)`,
     `- [Contact](${SITE_URL}/en/contact)`,
     `- [FAQ](${SITE_URL}/en/faq): delivery, payment, returns, order tracking and Mrirt rugs`,

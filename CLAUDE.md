@@ -5206,3 +5206,25 @@ and the sitemap leaves them out for as long as they are.
   The proxy matcher only reaches `/` (its `\.` is a plain `.` in the string).
 - **Preview cards are baseline JPEG.** `mozjpeg: true` in sharp forces
   progressive whatever `progressive` says.
+
+## 78. Client feedback V5 (14 Oct) — Berber rugs and their kinds
+
+`Feedback - The Roots Corner website  V5.pdf` (in `Websites/by-marrakech/`).
+
+- **"Tapis Mrirt" → "Berber Rugs"** as the name of the rug section: nav,
+  /mrirt hero and title, homepage block label, breadcrumbs, footer, preview
+  card. French "Tapis berbères". Where "Mrirt" names the rugs themselves
+  (the cooperative, the series, the FAQ group, cart lines) it stays.
+- **Kinds of rug** after HOMURA's menu: `lib/rug-types.ts` (Azilal, Beni Ourain,
+  Boucherouite, Boujaad, Kilim, Mrirt: the names from their reference, nothing
+  said about any of them). "Tapis berbères" in the header opens the same
+  panel as Collection (one `site-mega`, two lists); on a phone it unfolds.
+  Each kind is a page at `/[locale]/tapis/<kind>`, sharing the series route
+  (a kind slug wins over a series handle), built by `components/RugTypeView.tsx`
+  from `lib/rug-wall.ts` (the wall, shared with /mrirt). Empty kind: says so,
+  noindex, out of the sitemap, no photo in the menu.
+- **Shopify:** product field `trc.type_tapis` "Type de tapis" (choices, pinned,
+  `scripts/shopify-rug-types.mts`); the 6 existing rugs set to Mrirt. Read by
+  the pull as `rugType`; a series with it empty counts as Mrirt (its product
+  type). Adding a kind = this list + the field's choices in the admin.
+- Hero "Découvrir la collection" without the arrow.

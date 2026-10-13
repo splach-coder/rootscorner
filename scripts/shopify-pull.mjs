@@ -98,11 +98,18 @@ const FACT_FIELDS = {
   nature: "nature",
   etat: "condition",
 };
-const FACT_IDS = `[${Object.keys(FACT_FIELDS).map((k) => `{namespace: "trc", key: "${k}"}`).join(", ")}]`;
+/* V5 (14 Oct): a rug's kind (lib/rug-types.ts), chosen from a list in the
+   product field "Type de tapis" (scripts/shopify-rug-types.mts). */
+const RUG_TYPE_KEY = "type_tapis";
+const FACT_IDS = `[${[...Object.keys(FACT_FIELDS), RUG_TYPE_KEY].map((k) => `{namespace: "trc", key: "${k}"}`).join(", ")}]`;
+const rugTypeOf = (node) => {
+  const v = (node?.metafields ?? []).find((m) => m?.key === RUG_TYPE_KEY)?.value?.trim();
+  return v ? { rugType: v } : {};
+};
 const factsOf = (node) =>
   Object.fromEntries(
     (node?.metafields ?? [])
-      .filter((m) => m && m.value && m.value.trim())
+      .filter((m) => m && m.key in FACT_FIELDS && m.value && m.value.trim())
       .map((m) => [FACT_FIELDS[m.key], m.value.trim()]),
   );
 
@@ -239,6 +246,7 @@ for (const p of products) {
       ...(enS.enTitle ? { titleEn: enS.enTitle } : {}),
       ...(enS.enText ? { descriptionEn: enS.enText.join(" ") } : {}),
       description: (p.description || "").trim(),
+      ...rugTypeOf(p),
       image: p.images.nodes[0] ? { src: p.images.nodes[0].url, w: p.images.nodes[0].width, h: p.images.nodes[0].height } : null,
       colours: opt("couleur").map((name) => ({
         name,
@@ -308,6 +316,7 @@ for (const p of products) {
     images: imagesOf(p),
     ...englishOf(p),
     ...detailsOf(p),
+    ...(category === "rugs" ? rugTypeOf(p) : {}),
   });
 }
 

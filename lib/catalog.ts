@@ -16,6 +16,7 @@ import rawImages from "@/docs/images.json";
 import live from "@/docs/shopify-live.json";
 import { GROUPS, type GroupSlug } from "./copy-v2";
 import { GROUP_OF, GROUP_OVERRIDE } from "./piece-copy";
+import { rugTypeSlug } from "./rug-types";
 import { displayName } from "./specs";
 
 /**
@@ -189,6 +190,8 @@ export type Piece = {
    * `en` holds only values she translated. Absent: the site's own details.
    */
   facts?: { fr: Record<string, string>; en: Record<string, string> };
+  /** V5: a rug's kind (lib/rug-types.ts slug), from its Shopify field. */
+  rugType?: string;
   description: string[];
   details: string[];
   care: string[];
@@ -327,6 +330,7 @@ type LiveSnapshot = {
     enTitle?: string;
     enText?: string[];
     facts?: { fr: Record<string, string>; en: Record<string, string> };
+    rugType?: string;
   }[];
 };
 const snapshot = live as LiveSnapshot;
@@ -400,6 +404,7 @@ for (const entry of snapshot.extra) {
     enName: entry.enTitle,
     enText: entry.enText,
     facts: entry.facts && Object.keys(entry.facts.fr).length ? entry.facts : undefined,
+    rugType: rugTypeSlug(entry.rugType) ?? undefined,
     details: [],
     care: [],
     illustrative,
@@ -690,13 +695,15 @@ export type WovenRug = {
   name?: { fr: string; en: string };
   /** A finished rug sold in Shopify: its piece page. */
   slug?: string;
+  /** Its kind (lib/rug-types.ts), when known. */
+  rugType?: string;
 };
 
 const HOUSE_WOVEN: WovenRug[] = [
   /* Cropped from interior-fire.jpg to the bottom of the frame: a centred card
      crop lands on the fireplace and turns the rug into a footnote. */
-  { id: "fire", src: "/rugs/rug-fire-card.jpg", width: 1800, height: 2250 },
-  { id: "pile", src: "/rugs/mrirt-pile-trim.jpg", width: 784, height: 784 },
+  { id: "fire", src: "/rugs/rug-fire-card.jpg", width: 1800, height: 2250, rugType: "mrirt" },
+  { id: "pile", src: "/rugs/mrirt-pile-trim.jpg", width: 784, height: 784, rugType: "mrirt" },
 ];
 
 /**
@@ -726,6 +733,7 @@ export const WOVEN_RUGS: WovenRug[] = (() => {
     height: p.images[0].h,
     name: { fr: displayName(p, "fr"), en: displayName(p, "en") },
     slug: p.slug,
+    rugType: p.rugType,
   }));
 })();
 

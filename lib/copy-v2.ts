@@ -16,9 +16,11 @@ const t = (fr: string, en: string): Both => ({ fr, en });
 export const HOME = {
   // V3 (11 Oct): the English line on both versions, at the client's request.
   heroTitle: t("Rooted in every corner", "Rooted in every corner"),
-  heroCta: t("Découvrir la collection →", "Discover the collection →"),
+  // V5 (14 Oct): no arrow.
+  heroCta: t("Découvrir la collection", "Discover the collection"),
   rugs: {
-    label: t("Tapis Mrirt", "Mrirt rugs"),
+    // V5 (14 Oct): the section is "Berber Rugs" now; Mrirt is one kind of it.
+    label: t("Tapis berbères", "Berber Rugs"),
     body: t(
       "Une collection de tapis noués à la main dans le Moyen Atlas, au Maroc.",
       "A collection of rugs hand-knotted in the Middle Atlas, Morocco.",

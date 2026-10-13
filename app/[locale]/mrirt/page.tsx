@@ -1,8 +1,9 @@
 import Image from "@/components/Img";
 import HeroMedia from "@/components/HeroMedia";
-import RugBrowser, { type RugTile } from "@/components/RugBrowser";
+import RugBrowser from "@/components/RugBrowser";
 import RugCard from "@/components/RugCard";
-import { isIllustrativeSeries, allRugSeries, colourName, formatEuro, seriesLine, seriesTitle } from "@/lib/rugs";
+import { allRugSeries } from "@/lib/rugs";
+import { rugWall } from "@/lib/rug-wall";
 import { rugLabels } from "@/lib/rug-labels";
 import { rugChoices } from "@/lib/rug-options";
 import { CARE_GUIDE, MRIRT } from "@/lib/copy-v2";
@@ -13,7 +14,7 @@ import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
 import InquiryForm, { type InquiryField } from "@/components/InquiryForm";
 import { getDictionary, isLocale, type Locale } from "@/lib/dictionaries";
-import { RUG_DEMO, RUG_SHOTS, WOVEN_RUGS, formatPrice, pieceBySlug, readyRugs } from "@/lib/catalog";
+import { RUG_DEMO, RUG_SHOTS, readyRugs } from "@/lib/catalog";
 import { INSTAGRAM, whatsappDigits } from "@/lib/site";
 
 export async function generateMetadata({
@@ -101,55 +102,8 @@ export default async function MrirtPage({
   const fr = locale === "fr";
   const lang = locale as Locale;
 
-  /* The wall: one tile per colourway of every collection, then the rugs
-     already woven. A colourway without its own photograph takes the
-     collection's photographs in turn, so the wall does not repeat one frame. */
-  const tiles: RugTile[] = [
-    ...WOVEN_RUGS.map((woven) => {
-      const key = woven.id as keyof typeof t.mrirtPage.woven.items;
-      const name = woven.name?.[locale as Locale] ?? t.mrirtPage.woven.items[key];
-      const piece = woven.slug ? pieceBySlug(woven.slug) : undefined;
-      return {
-        key: `woven-${woven.id}`,
-        href: woven.slug ? `/${locale}/piece/${woven.slug}` : "#sur-mesure",
-        src: woven.src,
-        w: woven.width,
-        h: woven.height,
-        alt: name,
-        kind: "ready" as const,
-        collection: "",
-        name,
-        detail: null,
-        price: (piece && formatPrice(piece, locale)) || rl.onRequest,
-      };
-    }),
-    ...series.flatMap((sr) => {
-      const title = seriesTitle(sr, locale);
-      return sr.colours.map((c, i) => {
-        const img = c.image
-          ? { src: c.image, w: sr.images[0]?.w ?? 1600, h: sr.images[0]?.h ?? 2000 }
-          : sr.images[i % Math.max(1, sr.images.length)];
-        const from = isIllustrativeSeries(sr)
-          ? []
-          : sr.variants.filter((v) => v.colour === c.name && v.price > 0).map((v) => v.price);
-        const colour = colourName(c.name, locale);
-        return {
-          key: `${sr.handle}-${c.name}`,
-          href: `/${locale}/tapis/${sr.handle}?couleur=${encodeURIComponent(c.name)}`,
-          src: img?.src ?? "",
-          w: img?.w ?? 1600,
-          h: img?.h ?? 2000,
-          alt: `${rl.rugName} ${title}, ${colour}`,
-          kind: "order" as const,
-          collection: sr.handle,
-          name: title,
-          detail: colour,
-          price: from.length ? `${rl.from} ${formatEuro(Math.min(...from), locale)}` : rl.onRequest,
-        };
-      });
-    }),
-  ].filter((tile) => tile.src);
-  const collectionsList = series.map((sr) => ({ handle: sr.handle, name: seriesTitle(sr, locale) }));
+  /* The wall: every rug, woven to order and already woven (lib/rug-wall.ts). */
+  const wall = rugWall(locale as Locale);
 
   /*
     V1 feedback §7–9: what can be customised — dimensions, colours, texture
@@ -222,13 +176,13 @@ export default async function MrirtPage({
         <div className="shell">
           <p className="mrirt-variations">{MRIRT.variationsNote[lang]}</p>
           <RugBrowser
-            tiles={tiles}
-            collections={collectionsList}
+            tiles={wall.tiles}
+            collections={wall.collections}
             labels={rl.browser}
             notes={{
               ready: m.entries[0].note,
               order: m.entries[1].note,
-              collections: Object.fromEntries(series.map((sr) => [sr.handle, seriesLine(sr, locale) ?? ""])),
+              collections: wall.collectionNotes,
             }}
           />
         </div>

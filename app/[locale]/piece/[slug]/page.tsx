@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { rugTypeBySlug } from "@/lib/rug-types";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -174,12 +175,14 @@ export default async function PiecePage({
       </Link>
     );
     const words = say(locale as Locale, piece.description);
+    const kind = piece.rugType ? rugTypeBySlug(piece.rugType) : undefined;
     return (
       <>
         <JsonLd
           data={breadcrumbLd([
             { name: "The Roots Corner", path: `/${locale}` },
             { name: l.shopCrumb, path: `/${locale}/mrirt` },
+            ...(kind ? [{ name: kind.name[locale as Locale], path: `/${locale}/tapis/${kind.slug}` }] : []),
             { name, path: `/${locale}/piece/${piece.slug}` },
           ])}
         />
@@ -187,7 +190,9 @@ export default async function PiecePage({
           locale={locale as Locale}
           crumbs={[
             { label: l.shopCrumb, href: `/${locale}/mrirt` },
-            { label: l.readyCrumb, href: `/${locale}/mrirt#disponibles` },
+            kind
+              ? { label: kind.name[locale as Locale], href: `/${locale}/tapis/${kind.slug}` }
+              : { label: l.readyCrumb, href: `/${locale}/mrirt#disponibles` },
           ]}
           title={name}
           headPrice={!piece.available ? t.common.sold : sellable && price ? price : l.onRequest}

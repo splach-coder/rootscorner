@@ -5,16 +5,23 @@ import RugBuy from "@/components/RugBuy";
 import RugProduct from "@/components/RugProduct";
 import JsonLd from "@/components/JsonLd";
 import { getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
-import { allRugSeries, colourName, fromPrice, isIllustrativeSeries, rugSeriesByHandle, seriesLine, seriesTitle } from "@/lib/rugs";
+import { allRugSeries, colourName, fromPrice, isIllustrativeSeries, rugSeriesByHandle, seriesLine, seriesRugType, seriesTitle } from "@/lib/rugs";
 import { rugLabels } from "@/lib/rug-labels";
 import { swatchFor } from "@/lib/rug-options";
 import { breadcrumbLd, clip, hasOg, og, pageMeta } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { formatEuro } from "@/lib/rugs";
 import { MRIRT } from "@/lib/copy-v2";
+import RugTypeView from "@/components/RugTypeView";
+import { RUG_TYPES, RUGS_NAME, rugTypeBySlug } from "@/lib/rug-types";
+import { rugWall } from "@/lib/rug-wall";
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) => allRugSeries().map((s) => ({ locale, handle: s.handle })));
+  // V5: the kinds of rug (/tapis/azilal …) share this segment with the series.
+  return locales.flatMap((locale) => [
+    ...RUG_TYPES.map((k) => ({ locale, handle: k.slug })),
+    ...allRugSeries().map((s) => ({ locale, handle: s.handle })),
+  ]);
 }
 
 export async function generateMetadata({
@@ -23,6 +30,22 @@ export async function generateMetadata({
   params: Promise<{ locale: string; handle: string }>;
 }): Promise<Metadata> {
   const { locale, handle } = await params;
+  const kind = rugTypeBySlug(handle);
+  if (isLocale(locale) && kind) {
+    const n = rugWall(locale, kind.slug).tiles.length;
+    return pageMeta({
+      locale,
+      path: `/tapis/${kind.slug}`,
+      title: `${kind.name[locale]} | The Roots Corner`,
+      description:
+        locale === "fr"
+          ? `${kind.name[locale]} : les tapis berbères de ce type chez The Roots Corner, à Marrakech.`
+          : `${kind.name[locale]}: the Berber rugs of this kind at The Roots Corner, Marrakech.`,
+      image: og(`${locale}/mrirt.jpg`),
+      // A kind with nothing in it is not a page to send anyone to from a search.
+      index: !RUG_DEMO && n > 0,
+    });
+  }
   const series = rugSeriesByHandle(handle);
   if (!isLocale(locale) || !series) return {};
   const l = rugLabels(locale);
@@ -60,6 +83,8 @@ export default async function RugSeriesPage({
   params: Promise<{ locale: string; handle: string }>;
 }) {
   const { locale, handle } = await params;
+  const kind = rugTypeBySlug(handle);
+  if (isLocale(locale) && kind) return <RugTypeView locale={locale as Locale} type={kind} />;
   const series = rugSeriesByHandle(handle);
   if (!isLocale(locale) || !series) notFound();
   const t = getDictionary(locale as Locale);
@@ -68,6 +93,7 @@ export default async function RugSeriesPage({
   const from = fromPrice(series);
   const title = seriesTitle(series, locale);
   const line = seriesLine(series, locale);
+  const seriesKind = rugTypeBySlug(seriesRugType(series));
   const colourLabels = Object.fromEntries(series.colours.map((c) => [c.name, colourName(c.name, locale)]));
 
   return (
@@ -75,7 +101,8 @@ export default async function RugSeriesPage({
       <JsonLd
         data={breadcrumbLd([
           { name: "The Roots Corner", path: `/${locale}` },
-          { name: l.collectionEyebrow, path: `/${locale}/mrirt` },
+          { name: RUGS_NAME[locale as Locale], path: `/${locale}/mrirt` },
+          ...(seriesKind ? [{ name: seriesKind.name[locale as Locale], path: `/${locale}/tapis/${seriesKind.slug}` }] : []),
           { name: title, path: `/${locale}/tapis/${handle}` },
         ])}
       />
@@ -102,7 +129,9 @@ export default async function RugSeriesPage({
         locale={locale as Locale}
         crumbs={[
           { label: l.shopCrumb, href: `/${locale}/mrirt` },
-          { label: l.collectionEyebrow, href: `/${locale}/mrirt#sur-commande` },
+          ...(seriesKind
+            ? [{ label: seriesKind.name[locale as Locale], href: `/${locale}/tapis/${seriesKind.slug}` }]
+            : [{ label: l.collectionEyebrow, href: `/${locale}/mrirt#sur-commande` }]),
         ]}
         title={title}
         headPrice={from !== null ? `${l.from} ${formatEuro(from, locale)}` : l.onRequest}

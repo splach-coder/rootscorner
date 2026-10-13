@@ -223,7 +223,7 @@ for (const l of LANGS) {
   const scenes: [string, Parameters<typeof sceneCard>[0]][] = [
     ["default.jpg", { photo: "/place/hanging-cloth.jpg", title: HOME.heroTitle[l], line: l === "fr" ? "Objets anciens, pièces artisanales et tapis, depuis Marrakech" : "Antique objects, handmade pieces and rugs, from Marrakech", action: T.discover[l] }],
     ["story.jpg", { photo: "/story/atlas-valley.jpg", eyebrow: l === "fr" ? "Notre histoire" : "Our story", title: STORY.chapters[0].heading[l], line: STORY.chapters[0].body[0][l], action: T.story[l] }],
-    ["mrirt.jpg", { photo: "/rugs/series/floor-fire.jpg", title: l === "fr" ? "Tapis Mrirt" : "Mrirt rugs", line: HOME.rugs.body[l], action: T.rugs[l] }],
+    ["mrirt.jpg", { photo: "/rugs/series/floor-fire.jpg", title: HOME.rugs.label[l], line: HOME.rugs.body[l], action: T.rugs[l] }],
     ["collection.jpg", { photo: "/rugs/interior-table.jpg", title: COLLECTION.title[l], line: l === "fr" ? "Sièges, objets, poteries, objets anciens, mobilier et luminaires" : "Seating, objects, pottery, antique objects, furniture and lighting", action: T.discover[l] }],
     ["all.jpg", { photo: "/rugs/interior-table.jpg", eyebrow: COLLECTION.title[l], title: COLLECTION.all[l], line: count(collectionPieces().length, l), action: T.see[l] }],
     ["contact.jpg", { photo: "/story/ochre-wall.jpg", title: CONTACT.title[l], line: CONTACT.intro2[l], action: T.write[l] }],

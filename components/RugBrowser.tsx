@@ -58,11 +58,14 @@ export default function RugBrowser({
   collections,
   labels,
   notes,
+  customHref = "#sur-mesure",
 }: {
   tiles: RugTile[];
   collections: { handle: string; name: string }[];
   labels: Labels;
   notes?: Notes;
+  /** Where "Tapis sur mesure" goes: the form on /mrirt, or this page's own. */
+  customHref?: string;
 }) {
   const [kind, setKind] = useState<"all" | "ready" | "order">("all");
   const [collection, setCollection] = useState("");
@@ -143,12 +146,13 @@ export default function RugBrowser({
             </button>
           ))}
           {labels.custom && (
-            <a href="#sur-mesure" className="label rug-bar-option">
+            <a href={customHref} className="label rug-bar-option">
               {labels.custom}
             </a>
           )}
         </div>
 
+        {collections.length > 0 && (
         <CollectionMenu
           label={labels.collection}
           allLabel={labels.allCollections}
@@ -159,6 +163,7 @@ export default function RugBrowser({
             if (v) setKind("order");
           }}
         />
+        )}
 
         <div className="rug-bar-cell rug-bar-view" role="group" aria-label={labels.view}>
           <span className="label rug-bar-key">{labels.view}</span>

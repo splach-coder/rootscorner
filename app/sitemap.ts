@@ -5,6 +5,8 @@ import { locales } from "@/lib/dictionaries";
 import { LEGAL_SLUGS } from "@/lib/legal";
 import { SITE_URL } from "@/lib/site";
 import { allRugSeries } from "@/lib/rugs";
+import { RUG_TYPES } from "@/lib/rug-types";
+import { rugWall } from "@/lib/rug-wall";
 
 /**
  * Every indexable page, in both locales, each carrying its hreflang pair.
@@ -31,6 +33,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ? []
       : [
           { path: "/mrirt", priority: 0.8 },
+          // V5: the kinds of rug that have rugs in them (an empty one is noindex).
+          ...RUG_TYPES.filter((k) => rugWall("fr", k.slug).tiles.length > 0).map((k) => ({
+            path: `/tapis/${k.slug}`,
+            priority: 0.7,
+          })),
           ...allRugSeries().map((r) => ({
             path: `/tapis/${r.handle}`,
             priority: 0.7,

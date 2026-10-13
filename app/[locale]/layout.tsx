@@ -18,6 +18,8 @@ import CartPanel from "@/components/CartPanel";
 import CookieConsent from "@/components/CookieConsent";
 import { getDictionary, isLocale, locales, type Locale } from "@/lib/dictionaries";
 import { featuredPieces, groups as collectionGroups, imagePath } from "@/lib/catalog";
+import { ALL_RUGS, RUG_TYPES } from "@/lib/rug-types";
+import { RUGS_COVER, rugTypeCover } from "@/lib/rug-wall";
 import { ALL_SLUG, COLLECTION } from "@/lib/copy-v2";
 
 /**
@@ -132,6 +134,17 @@ export default async function LocaleLayout({
       image: photo(g.cover?.images[0]),
     })),
   ];
+  /* The Berber rugs panel (V5, after HOMURA's menu): every rug, then each
+     kind with a photograph of its own rugs, or none (lib/rug-wall.ts). */
+  const rugMenu = [
+    { href: `/${locale}/mrirt`, label: ALL_RUGS[lang], no: "", image: RUGS_COVER },
+    ...RUG_TYPES.map((k) => ({
+      href: `/${locale}/tapis/${k.slug}`,
+      label: k.name[lang],
+      no: "",
+      image: rugTypeCover(k.slug),
+    })),
+  ];
 
   return (
     <html
@@ -179,7 +192,7 @@ export default async function LocaleLayout({
         {/* The cart is client state shared by the header handle, the panel and
             every piece page, so the provider has to sit above all three. */}
         <CartProvider>
-          <Header locale={locale as Locale} labels={t.nav} cart={t.cart.name} collectionMenu={collectionMenu} />
+          <Header locale={locale as Locale} labels={t.nav} cart={t.cart.name} collectionMenu={collectionMenu} rugMenu={rugMenu} />
           <main id="main">{children}</main>
           <Footer locale={locale as Locale} t={t.footer} legal={t.legal} />
           <CartPanel locale={locale as Locale} t={t.cart} />

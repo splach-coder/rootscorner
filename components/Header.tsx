@@ -9,6 +9,7 @@ import { Wordmark } from "./BrandMarks";
 import Img from "./Img";
 import type { Locale } from "@/lib/dictionaries";
 import { ALL_SLUG, COLLECTION, GROUPS } from "@/lib/copy-v2";
+import { ALL_RUGS, RUG_TYPES } from "@/lib/rug-types";
 
 /**
  * Languages by their own name.
@@ -33,6 +34,8 @@ type HeaderProps = {
   locale: Locale;
   /** The Collection panel: categories with their photographs (layout.tsx). */
   collectionMenu?: CollectionMenuItem[];
+  /** The Berber rugs panel (V5): every rug, then each kind (layout.tsx). */
+  rugMenu?: CollectionMenuItem[];
   /** "Cart", in the current language. */
   cart: string;
   labels: {
@@ -55,7 +58,10 @@ type HeaderProps = {
  * so it inverts across the dusk and night sections instead of cutting a bright
  * band through them.
  */
-export default function Header({ locale, cart, labels, collectionMenu = [] }: HeaderProps) {
+/** The two nav items that open a panel rather than going to a page. */
+type MegaKey = "rugs" | "collection";
+
+export default function Header({ locale, cart, labels, collectionMenu = [], rugMenu = [] }: HeaderProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [dark, setDark] = useState(false);
@@ -67,10 +73,14 @@ export default function Header({ locale, cart, labels, collectionMenu = [] }: He
   const [repainting, setRepainting] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
-  /* V3: "Collection" opens its categories, after HOMURA's menu. */
-  const [colOpen, setColOpen] = useState(false);
-  const [panelColOpen, setPanelColOpen] = useState(false);
-  const colRef = useRef<HTMLLIElement>(null);
+  /* V3: "Collection" opens its categories, after HOMURA's menu; V5: "Tapis
+     berbères" opens the kinds of rug the same way. One panel, two lists. */
+  const [mega, setMega] = useState<MegaKey | null>(null);
+  /* The list the panel shows; kept after closing so it fades out with its words. */
+  const [megaShown, setMegaShown] = useState<MegaKey>("collection");
+  const colOpen = mega !== null;
+  const [panelSub, setPanelSub] = useState<MegaKey | null>(null);
+  const colRef = useRef<HTMLUListElement>(null);
   const colTimer = useRef<number | null>(null);
   /* Opened by the pointer resting on it: a click then must not close it. */
   const colHover = useRef(false);
@@ -272,9 +282,9 @@ export default function Header({ locale, cart, labels, collectionMenu = [] }: He
     structural: chrome that never leaves the screen does not prefetch. A
     click still navigates; the page is fetched then, from the edge cache.
   */
-  const links = [
-    { href: `/${locale}/mrirt`, label: labels.rugs },
-    { href: `/${locale}/collection`, label: labels.collection },
+  const links: { href: string; label: string; menu?: MegaKey }[] = [
+    { href: `/${locale}/mrirt`, label: labels.rugs, menu: "rugs" },
+    { href: `/${locale}/collection`, label: labels.collection, menu: "collection" },
     { href: `/${locale}/story`, label: labels.story },
     { href: `/${locale}/contact`, label: labels.contact },
   ];
@@ -286,22 +296,30 @@ export default function Header({ locale, cart, labels, collectionMenu = [] }: He
         { href: `/${locale}/collection/${ALL_SLUG}`, label: COLLECTION.all[locale], no: "", image: null },
         ...GROUPS.map((g) => ({ href: `/${locale}/collection/${g.slug}`, label: g.name[locale], no: g.no, image: null })),
       ];
+  const rugLinks: CollectionMenuItem[] = rugMenu.length
+    ? rugMenu
+    : [
+        { href: `/${locale}/mrirt`, label: ALL_RUGS[locale], no: "", image: null },
+        ...RUG_TYPES.map((k) => ({ href: `/${locale}/tapis/${k.slug}`, label: k.name[locale], no: "", image: null })),
+      ];
+  const menuItems: Record<MegaKey, CollectionMenuItem[]> = { rugs: rugLinks, collection: collectionLinks };
+  const menuLabel: Record<MegaKey, string> = { rugs: labels.rugs, collection: labels.collection };
 
   /* Closed on navigation, outside click and Escape, like the language menu. */
   useEffect(() => {
-    setColOpen(false);
-    setPanelColOpen(false);
+    setMega(null);
+    setPanelSub(null);
   }, [pathname]);
   useEffect(() => {
     if (!colOpen) return;
     const onDown = (event: MouseEvent) => {
       const t = event.target as Node;
-      if (!colRef.current?.contains(t) && !megaRef.current?.contains(t)) setColOpen(false);
+      if (!colRef.current?.contains(t) && !megaRef.current?.contains(t)) setMega(null);
     };
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setColOpen(false);
-        colRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+        colRef.current?.querySelector<HTMLButtonElement>(`[data-menu="${mega}"]`)?.focus();
+        setMega(null);
       }
     };
     document.addEventListener("mousedown", onDown);
@@ -310,18 +328,28 @@ export default function Header({ locale, cart, labels, collectionMenu = [] }: He
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("keydown", onKey);
     };
-  }, [colOpen]);
+  }, [colOpen, mega]);
   /* Hover opens it on a pointer device; a short delay on leaving, so the gap
      between the word and the panel does not close it. */
-  const hoverOpen = () => {
+  const openMega = (key: MegaKey) => {
+    if (key !== megaShown) setColActive(0);
+    setMegaShown(key);
+    setMega(key);
+  };
+  const hoverOpen = (key: MegaKey) => {
     if (colTimer.current) window.clearTimeout(colTimer.current);
     colHover.current = true;
-    setColOpen(true);
+    openMega(key);
+  };
+  /* The pointer moving from the word into the panel keeps what is open. */
+  const hoverStay = () => {
+    if (colTimer.current) window.clearTimeout(colTimer.current);
+    colHover.current = true;
   };
   const hoverClose = () => {
     colHover.current = false;
     if (colTimer.current) window.clearTimeout(colTimer.current);
-    colTimer.current = window.setTimeout(() => setColOpen(false), 180);
+    colTimer.current = window.setTimeout(() => setMega(null), 180);
   };
 
   /* A menu that stays open after you have looked away is a stuck menu. */
@@ -371,22 +399,28 @@ export default function Header({ locale, cart, labels, collectionMenu = [] }: He
             first (client, 5 Oct), the pieces, the house, and how to reach it (client, 5 Oct). It used
             to be two lists with two different gaps, which read as uneven. */}
         <nav className="site-nav" aria-label={labels.menu}>
-          <ul className="site-nav-list">
+          <ul className="site-nav-list" ref={colRef}>
             {links.map((link) =>
-              link.href === `/${locale}/collection` ? (
+              link.menu ? (
                 <li
                   key={link.href}
-                  ref={colRef}
                   className="site-nav-collection"
-                  onMouseEnter={hoverOpen}
+                  onMouseEnter={() => hoverOpen(link.menu!)}
                   onMouseLeave={hoverClose}
                 >
                   <button
                     type="button"
                     className="link site-nav-link label site-nav-toggle"
-                    aria-expanded={colOpen}
+                    data-menu={link.menu}
+                    aria-expanded={mega === link.menu}
                     aria-controls="site-mega"
-                    onClick={() => (colHover.current ? setColOpen(true) : setColOpen((v) => !v))}
+                    onClick={() => {
+                      const key = link.menu!;
+                      // Opened by the pointer resting on it: a click keeps it open.
+                      if (colHover.current && mega === key) return;
+                      if (mega === key) setMega(null);
+                      else openMega(key);
+                    }}
                   >
                     {link.label}
                     <svg className="site-lang-caret" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true" focusable="false">
@@ -520,13 +554,13 @@ export default function Header({ locale, cart, labels, collectionMenu = [] }: He
         id="site-mega"
         ref={megaRef}
         className={`site-mega${colOpen ? " is-open" : ""}`}
-        onMouseEnter={hoverOpen}
+        onMouseEnter={hoverStay}
         onMouseLeave={hoverClose}
       >
         <div className="site-mega-inner">
-          <nav className="site-mega-nav shell" aria-label={labels.collection}>
-            <ul className="site-mega-list">
-              {collectionLinks.map((c, i) => (
+          <nav className="site-mega-nav shell" aria-label={menuLabel[megaShown]}>
+            <ul className="site-mega-list" key={megaShown}>
+              {menuItems[megaShown].map((c, i) => (
                 <li key={c.href}>
                   <Link
                     prefetch={false}
@@ -535,7 +569,7 @@ export default function Header({ locale, cart, labels, collectionMenu = [] }: He
                     aria-current={pathname === c.href ? "page" : undefined}
                     onMouseEnter={() => setColActive(i)}
                     onFocus={() => setColActive(i)}
-                    onClick={() => setColOpen(false)}
+                    onClick={() => setMega(null)}
                   >
                     <span className="label site-mega-no">{c.no ? `N° ${c.no}` : ""}</span>
                     <span className="display site-mega-name">{c.label}</span>
@@ -545,18 +579,20 @@ export default function Header({ locale, cart, labels, collectionMenu = [] }: He
             </ul>
           </nav>
           <div className="site-mega-photos" aria-hidden="true">
-            {collectionLinks.map((c, i) =>
-              c.image ? (
-                <Img
-                  key={c.href}
-                  src={c.image.src}
-                  alt=""
-                  width={c.image.w}
-                  height={c.image.h}
-                  sizes="(min-width: 940px) 40vw, 1px"
-                  className={`site-mega-photo${i === colActive ? " is-active" : ""}`}
-                />
-              ) : null,
+            {(Object.keys(menuItems) as MegaKey[]).flatMap((key) =>
+              menuItems[key].map((c, i) =>
+                c.image ? (
+                  <Img
+                    key={`${key}-${c.href}`}
+                    src={c.image.src}
+                    alt=""
+                    width={c.image.w}
+                    height={c.image.h}
+                    sizes="(min-width: 940px) 40vw, 1px"
+                    className={`site-mega-photo${key === megaShown && i === colActive ? " is-active" : ""}`}
+                  />
+                ) : null,
+              ),
             )}
           </div>
         </div>
@@ -576,19 +612,19 @@ export default function Header({ locale, cart, labels, collectionMenu = [] }: He
                   className="site-panel-item"
                   style={{ "--i": i } as React.CSSProperties}
                 >
-                  {link.href === `/${locale}/collection` ? (
+                  {link.menu ? (
                     <>
                       <button
                         type="button"
                         className="display d-1 site-panel-link site-panel-toggle"
-                        aria-expanded={panelColOpen}
-                        aria-controls="site-panel-collection"
-                        onClick={() => setPanelColOpen((v) => !v)}
+                        aria-expanded={panelSub === link.menu}
+                        aria-controls={`site-panel-${link.menu}`}
+                        onClick={() => setPanelSub((v) => (v === link.menu ? null : link.menu!))}
                       >
                         {link.label}
                       </button>
-                      <ul id="site-panel-collection" className="site-panel-sub" hidden={!panelColOpen}>
-                        {collectionLinks.map((c) => (
+                      <ul id={`site-panel-${link.menu}`} className="site-panel-sub" hidden={panelSub !== link.menu}>
+                        {menuItems[link.menu].map((c) => (
                           <li key={c.href}>
                             <Link prefetch={false} href={c.href} className="site-panel-sublink">
                               {c.no && <span className="site-collection-no">N° {c.no}</span>}
