@@ -20,7 +20,7 @@ export const HOME = {
   heroCta: t("Découvrir la collection", "Discover the collection"),
   rugs: {
     // V5 (14 Oct): the section is "Berber Rugs" now; Mrirt is one kind of it.
-    label: t("Tapis berbères", "Berber Rugs"),
+    label: t("Tapis berbère", "Berber Rugs"),
     body: t(
       "Une collection de tapis noués à la main dans le Moyen Atlas, au Maroc.",
       "A collection of rugs hand-knotted in the Middle Atlas, Morocco.",

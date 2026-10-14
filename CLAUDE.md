@@ -5228,3 +5228,7 @@ and the sitemap leaves them out for as long as they are.
   the pull as `rugType`; a series with it empty counts as Mrirt (its product
   type). Adding a kind = this list + the field's choices in the admin.
 - Hero "Découvrir la collection" without the arrow.
+- **Follow-up on WhatsApp (13–14 Oct):** the title is "Tapis berbère" (singular, their
+  words) / "Berber Rugs"; "Beni Ouarain", not "Ourain" (old slug 301s); "Tapis
+  vintage" and "Natte touareg" added; Mrirt, vintage, Beni Ouarain lead the list.
+  The Shopify field's choices follow (`shopify-rug-types.mts` updates them).

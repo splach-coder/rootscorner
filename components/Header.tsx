@@ -559,7 +559,13 @@ export default function Header({ locale, cart, labels, collectionMenu = [], rugM
       >
         <div className="site-mega-inner">
           <nav className="site-mega-nav shell" aria-label={menuLabel[megaShown]}>
-            <ul className="site-mega-list" key={megaShown}>
+            {/* A list longer than the panel is tall reads down two columns
+                (V5: nine kinds of rug), so the panel keeps its height. */}
+            <ul
+              className={`site-mega-list${menuItems[megaShown].length > 7 ? " is-long" : ""}`}
+              style={{ "--rows": Math.ceil(menuItems[megaShown].length / 2) } as React.CSSProperties}
+              key={megaShown}
+            >
               {menuItems[megaShown].map((c, i) => (
                 <li key={c.href}>
                   <Link

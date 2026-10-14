@@ -38,11 +38,29 @@ if (!found.metafieldDefinitions.nodes.length) {
             name: "Type de tapis",
             namespace: NS,
             key: KEY,
-            description: "Pour les tapis uniquement : le type, qui range le tapis dans le menu Tapis berbères. Laisser vide pour les autres pièces.",
+            description: "Pour les tapis uniquement : le type, qui range le tapis dans le menu Tapis berbère. Laisser vide pour les autres pièces.",
             type: "single_line_text_field",
             ownerType: "PRODUCT",
             pin: true,
             access: { storefront: "PUBLIC_READ" },
+            validations: [{ name: "choices", value: JSON.stringify(RUG_TYPES.map((t) => t.value)) }],
+          },
+        },
+      ),
+    );
+  }
+} else {
+  // The list changed on the site (lib/rug-types.ts): the field offers the same.
+  console.log(`${DRY ? "would set" : "set"} choices of Type de tapis: ${RUG_TYPES.map((t) => t.value).join(", ")}`);
+  if (!DRY) {
+    userErrors(
+      await gql(
+        `mutation($d: MetafieldDefinitionUpdateInput!) { metafieldDefinitionUpdate(definition: $d) { updatedDefinition { id } userErrors { field message } } }`,
+        {
+          d: {
+            namespace: NS,
+            key: KEY,
+            ownerType: "PRODUCT",
             validations: [{ name: "choices", value: JSON.stringify(RUG_TYPES.map((t) => t.value)) }],
           },
         },

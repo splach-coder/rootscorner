@@ -100,7 +100,7 @@ export function rugLabels(locale: Locale) {
     moreFrom: fr ? "D’autres tapis Mrirt" : "More Mrirt rugs",
     cardLine: fr ? "Laine · Tissé main" : "Wool · Handwoven",
     dockEdit: fr ? "Modifier" : "Edit",
-    shopCrumb: fr ? "Tapis berbères" : "Berber Rugs",
+    shopCrumb: fr ? "Tapis berbère" : "Berber Rugs",
     readyCrumb: fr ? "Tapis disponibles" : "Available rugs",
   };
 }

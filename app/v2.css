@@ -1195,6 +1195,12 @@ button.faq-v2-anchor {
   list-style: none;
 }
 
+.site-mega-list.is-long {
+  grid-template-rows: repeat(var(--rows), auto);
+  grid-auto-flow: column;
+  column-gap: clamp(2.5rem, 6vw, 5rem);
+}
+
 .site-mega-link {
   display: grid;
   grid-template-columns: 3.4rem minmax(0, 1fr);

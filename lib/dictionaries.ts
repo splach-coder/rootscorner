@@ -908,7 +908,7 @@ const fr: Dictionary = {
   nav: {
     collection: "Collection",
     story: "Notre histoire",
-    rugs: "Tapis berbères",
+    rugs: "Tapis berbère",
     contact: "Contact",
     menu: "Menu",
     close: "Fermer",
@@ -1319,7 +1319,7 @@ const fr: Dictionary = {
     rights: "The Roots Corner",
     collection: "Collection",
     story: "Notre histoire",
-    rugs: "Tapis berbères",
+    rugs: "Tapis berbère",
     contact: "Contact",
     faq: "FAQ",
     terms: "Conditions générales",

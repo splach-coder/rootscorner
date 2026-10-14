@@ -81,6 +81,9 @@ const nextConfig: NextConfig = {
       ["/privacy-policy", "/fr/legal/privacy"],
       ["/cookie-policy", "/fr/legal/cookies"],
       ["/delivery-policy", "/fr/legal/delivery"],
+      // V5 follow-up (14 Oct): the client's spelling is "Ouarain".
+      ["/fr/tapis/beni-ourain", "/fr/tapis/beni-ouarain"],
+      ["/en/tapis/beni-ourain", "/en/tapis/beni-ouarain"],
     ];
     return [...gone, ...old.map(([source, destination]) => ({ source, destination, statusCode: 301 as const }))];
   },
