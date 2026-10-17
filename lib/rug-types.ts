@@ -29,6 +29,8 @@ export const RUG_TYPES: RugType[] = [
   { slug: "boujaad", value: "Boujaad", name: { fr: "Tapis Boujaad", en: "Boujaad Rugs" } },
   { slug: "kilim", value: "Kilim", name: { fr: "Kilims", en: "Kilim Rugs" } },
   { slug: "natte-touareg", value: "Natte touareg", name: { fr: "Natte touareg", en: "Tuareg Mats" } },
+  // V6 (17 Oct).
+  { slug: "pouf-berbere", value: "Pouf berbère", name: { fr: "Pouf berbère", en: "Berber Poufs" } },
 ];
 
 /** The whole rug section, and "every kind" in its menu. */

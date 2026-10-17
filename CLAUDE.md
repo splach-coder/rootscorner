@@ -5232,3 +5232,15 @@ and the sitemap leaves them out for as long as they are.
   words) / "Berber Rugs"; "Beni Ouarain", not "Ourain" (old slug 301s); "Tapis
   vintage" and "Natte touareg" added; Mrirt, vintage, Beni Ouarain lead the list.
   The Shopify field's choices follow (`shopify-rug-types.mts` updates them).
+
+## 79. Client feedback V6 (17 Oct)
+
+`Feedback - The Roots Corner website  V6.pdf`. Product edits went into Shopify
+(`scripts/shopify-v6.mts`, kept as the record): new French titles and texts
+for 11 pieces, verbatim, with English registered as translations; the
+client's shared stool text on the other stools, their own names kept ("du
+Cameroun" is not true of a Dogon or Senufo stool); five pieces sold (stock 0);
+photo 2 detached (not deleted, still in Files) from the clay pot and the
+openwork black stool. Site: "Pouf berbère" added to the rug kinds, the
+Mrirt "Les mains" text replaced. The video question is answered in chat,
+nothing built.

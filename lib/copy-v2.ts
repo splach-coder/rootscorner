@@ -245,23 +245,28 @@ export const MRIRT = {
   ),
   hands: {
     eyebrow: t("Les mains derrière nos tapis", "The hands behind our rugs"),
-    heading: t("Là où les fils prennent vie", "Where the threads come to life"),
+    // V6 (17 Oct): the client's new text, verbatim.
+    heading: t("Là où le geste devient matière", "Where the gesture becomes material"),
     body: [
       t(
-        "Dans les montagnes du Moyen Atlas, à Mrirt, le tissage fait partie d’un savoir-faire transmis au fil des générations.",
-        "In the mountains of the Middle Atlas, in Mrirt, weaving is part of a craft passed down through the generations.",
+        "Dans les montagnes du Moyen Atlas, à Mrirt, le tissage est un savoir-faire ancestral, transmis de génération en génération.",
+        "In the mountains of the Middle Atlas, in Mrirt, weaving is an ancestral craft, handed down from generation to generation.",
       ),
       t(
-        "C’est ici que nous collaborons avec une coopérative de femmes qui perpétuent cet artisanat. Devant leurs métiers à tisser, elles travaillent la laine, nouent les fils et donnent progressivement forme à chaque tapis.",
-        "This is where we work with a cooperative of women who carry this craft forward. At their looms, they work the wool, knot the threads and gradually give shape to each rug.",
+        "C’est ici que nous collaborons avec une coopérative de femmes qui perpétuent cet artisanat précieux. Devant leurs métiers à tisser, elles travaillent la laine, nouent chaque brin et façonnent peu à peu des tapis aux textures singulières.",
+        "This is where we work with a cooperative of women who carry this precious craft forward. At their looms, they work the wool, knot every strand and little by little shape rugs with singular textures.",
       ),
       t(
-        "Un travail qui demande du temps, de la patience et une connaissance des matières acquise au fil des années.",
-        "Work that asks for time, patience and a knowledge of materials gained over the years.",
+        "Chaque pièce demande du temps, de la patience et une connaissance des matières qui s’affine au fil des années. Rien n’est tout à fait identique : les irrégularités, les reliefs et les nuances font partie de leur beauté.",
+        "Each piece asks for time, patience and a knowledge of materials that deepens over the years. Nothing is quite identical: the irregularities, the relief and the shades are part of their beauty.",
       ),
       t(
-        "Pour The Roots Corner, ces rencontres sont au cœur de notre démarche. Derrière chaque tapis, il y a des mains, un savoir-faire et des femmes dont nous souhaitons faire découvrir le travail au-delà des frontières du Maroc.",
-        "For The Roots Corner, these encounters are at the heart of what we do. Behind every rug there are hands, a craft and women whose work we want to make known beyond the borders of Morocco.",
+        "Pour The Roots Corner, ces rencontres sont au cœur de notre démarche. Nous choisissons des pièces qui racontent une histoire, portent la trace de la main et témoignent d’un patrimoine vivant.",
+        "For The Roots Corner, these encounters are at the heart of what we do. We choose pieces that tell a story, carry the trace of the hand and bear witness to a living heritage.",
+      ),
+      t(
+        "Derrière chaque tapis, il y a bien plus qu’un objet : des gestes, des femmes et un savoir-faire que nous souhaitons faire découvrir au-delà des frontières du Maroc.",
+        "Behind every rug there is much more than an object: gestures, women and a craft we want to share beyond the borders of Morocco.",
       ),
     ],
   },
