@@ -1,14 +1,15 @@
 {
- "pulledAt": "2026-10-13T23:26:46.961Z",
- "hash": "90429deaf8409404",
+ "pulledAt": "2026-10-17T15:58:15.222Z",
+ "hash": "310d401e3d90b136",
  "pieces": {
   "handcrafted-wood-stool---cote-d-ivoire": {
    "price": 480,
    "available": true,
    "title": "Tabouret sculpté à la main, Côte d’Ivoire",
    "text": [
-    "Tabouret en bois sculpté à la main, originaire de Côte d’Ivoire.",
-    "Ce tabouret présente une structure en bois dont les différentes parties ont été sculptées et travaillées pour former l’assise et son support. Les détails de la sculpture sont visibles sur l’ensemble de la pièce."
+    "Sculpté dans le bois, ce tabouret séduit par ses lignes singulières, sa patine naturelle et son caractère brut.",
+    "Ses irrégularités, ses marques du temps et ses petites imperfections font toute son authenticité. Chaque pièce est unique, façonnée par la main de l’artisan et le temps qui passe.",
+    "Une pièce sculpturale où la beauté réside aussi dans l’imperfection."
    ],
    "images": [
     {
@@ -62,8 +63,9 @@
    ],
    "enTitle": "Hand-carved wooden stool, Côte d’Ivoire",
    "enText": [
-    "Hand-carved wooden stool from Côte d’Ivoire.",
-    "This stool has a wooden structure whose parts have been carved and worked to form the seat and its base. The details of the carving can be seen across the whole piece."
+    "Carved from wood, this stool draws you in with its singular lines, its natural patina and its raw character.",
+    "Its irregularities, the marks of time and its small imperfections are what make it authentic. Each piece is unique, shaped by the artisan’s hand and by the passing of time.",
+    "A sculptural piece where beauty also lies in imperfection."
    ],
    "facts": {
     "fr": {
@@ -83,8 +85,9 @@
    "available": true,
    "title": "Tabouret tribal sculpté en bois",
    "text": [
-    "Tabouret en bois présentant des reliefs sculptés sur sa structure.",
-    "Ce tabouret se compose d’une assise et d’un support en bois sculpté. Les reliefs et les variations de surface permettent d’observer le travail réalisé sur la matière."
+    "Sculpté dans le bois, ce tabouret séduit par ses lignes singulières, sa patine naturelle et son caractère brut.",
+    "Ses irrégularités, ses marques du temps et ses petites imperfections font toute son authenticité. Chaque pièce est unique, façonnée par la main de l’artisan et le temps qui passe.",
+    "Une pièce sculpturale où la beauté réside aussi dans l’imperfection."
    ],
    "images": [
     {
@@ -138,8 +141,9 @@
    ],
    "enTitle": "Hand-carved tribal wooden stool",
    "enText": [
-    "Wooden stool with carved relief on its structure.",
-    "This stool is made of a seat and a carved wooden base. The relief and the variations of the surface show the work done on the material."
+    "Carved from wood, this stool draws you in with its singular lines, its natural patina and its raw character.",
+    "Its irregularities, the marks of time and its small imperfections are what make it authentic. Each piece is unique, shaped by the artisan’s hand and by the passing of time.",
+    "A sculptural piece where beauty also lies in imperfection."
    ],
    "facts": {
     "fr": {
@@ -156,10 +160,11 @@
   "handmade-wooden-stool": {
    "price": 480,
    "available": true,
-   "title": "Tabouret royal Bamileke, Cameroun",
+   "title": "Tabouret sculpté bamiléké, Cameroun",
    "text": [
-    "Tabouret camerounais de style bamileke, caractérisé par une structure en bois sculpté.",
-    "Ce modèle reprend les formes et les motifs associés aux tabourets bamileke du Cameroun. Sa structure sculptée constitue à la fois le support de l’assise et son principal élément décoratif. Son ancienneté et son usage d’origine restent à confirmer."
+    "Inspiré de la tradition sculpturale bamiléké de l’ouest du Cameroun, ce tabouret se distingue par sa structure ajourée, ses motifs géométriques et son travail du bois en relief. Sa silhouette sculpturale et sa patine profonde en font une pièce de caractère, entre artisanat traditionnel et art décoratif.",
+    "Les traces d’usure, les irrégularités du bois et les variations de teinte font partie de son charme et soulignent son caractère unique. Chaque marque raconte la vie de la matière et participe à l’authenticité de cette pièce singulière.",
+    "Entretien : nettoyer délicatement avec un chiffon doux et sec. Éviter les produits abrasifs et l’exposition prolongée à l’humidité."
    ],
    "images": [
     {
@@ -187,10 +192,11 @@
      "alt": null
     }
    ],
-   "enTitle": "Bamileke royal stool, Cameroon",
+   "enTitle": "Carved Bamileke stool, Cameroon",
    "enText": [
-    "Cameroonian stool in the Bamileke style, with a carved wooden structure.",
-    "This model takes up the forms and motifs associated with Bamileke stools from Cameroon. Its carved structure is both the support of the seat and its main decorative element. Its age and original use remain to be confirmed."
+    "Inspired by the Bamileke sculptural tradition of western Cameroon, this stool stands out for its openwork structure, its geometric motifs and its wood carved in relief. Its sculptural silhouette and deep patina make it a piece of character, between traditional craft and decorative art.",
+    "The signs of wear, the irregularities of the wood and the variations in tone are part of its charm and underline its unique character. Every mark tells the life of the material and adds to the authenticity of this singular piece.",
+    "Care: clean gently with a soft, dry cloth. Avoid abrasive products and prolonged exposure to damp."
    ],
    "facts": {
     "fr": {
@@ -214,8 +220,9 @@
    "available": true,
    "title": "Tabouret en bois",
    "text": [
-    "Tabouret en bois composé d’une assise et d’une structure de soutien.",
-    "Ce tabouret présente une construction simple, centrée sur sa fonction d’assise. Les nuances et les variations visibles du bois font partie de son aspect naturel."
+    "Sculpté dans le bois, ce tabouret séduit par ses lignes singulières, sa patine naturelle et son caractère brut.",
+    "Ses irrégularités, ses marques du temps et ses petites imperfections font toute son authenticité. Chaque pièce est unique, façonnée par la main de l’artisan et le temps qui passe.",
+    "Une pièce sculpturale où la beauté réside aussi dans l’imperfection."
    ],
    "images": [
     {
@@ -251,8 +258,9 @@
    ],
    "enTitle": "Wooden stool",
    "enText": [
-    "Wooden stool made of a seat and a supporting structure.",
-    "This stool has a simple construction, centred on its use as a seat. The shades and visible variations of the wood are part of its natural look."
+    "Carved from wood, this stool draws you in with its singular lines, its natural patina and its raw character.",
+    "Its irregularities, the marks of time and its small imperfections are what make it authentic. Each piece is unique, shaped by the artisan’s hand and by the passing of time.",
+    "A sculptural piece where beauty also lies in imperfection."
    ],
    "facts": {
     "fr": {
@@ -269,8 +277,9 @@
    "available": true,
    "title": "Tabouret en bois noir verni, Côte d’Ivoire",
    "text": [
-    "Tabouret en bois sculpté, recouvert d’une finition noire vernie.",
-    "Originaire de Côte d’Ivoire, ce tabouret présente une structure sculptée et une surface noire brillante. Le vernis recouvre le bois et met en évidence les volumes ainsi que les détails de la sculpture."
+    "Sculpté dans le bois, ce tabouret séduit par ses lignes singulières, sa patine naturelle et son caractère brut.",
+    "Ses irrégularités, ses marques du temps et ses petites imperfections font toute son authenticité. Chaque pièce est unique, façonnée par la main de l’artisan et le temps qui passe.",
+    "Une pièce sculpturale où la beauté réside aussi dans l’imperfection."
    ],
    "images": [
     {
@@ -300,8 +309,9 @@
    ],
    "enTitle": "Black varnished wooden stool, Côte d’Ivoire",
    "enText": [
-    "Carved wooden stool with a black varnished finish.",
-    "From Côte d’Ivoire, this stool has a carved structure and a glossy black surface. The varnish covers the wood and brings out the volumes and the details of the carving."
+    "Carved from wood, this stool draws you in with its singular lines, its natural patina and its raw character.",
+    "Its irregularities, the marks of time and its small imperfections are what make it authentic. Each piece is unique, shaped by the artisan’s hand and by the passing of time.",
+    "A sculptural piece where beauty also lies in imperfection."
    ],
    "facts": {
     "fr": {
@@ -325,8 +335,9 @@
    "available": true,
    "title": "Tabouret en bois brun au liseré doré",
    "text": [
-    "Tabouret en bois brun orné de détails gravés et d’un liseré doré.",
-    "Ce tabouret associe une finition brune à des éléments décoratifs dorés. Des motifs gravés sont présents sur sa surface. Le contraste entre le bois et les détails dorés souligne les différentes parties de sa structure."
+    "Sculpté dans le bois, ce tabouret séduit par ses lignes singulières, sa patine naturelle et son caractère brut.",
+    "Ses irrégularités, ses marques du temps et ses petites imperfections font toute son authenticité. Chaque pièce est unique, façonnée par la main de l’artisan et le temps qui passe.",
+    "Une pièce sculpturale où la beauté réside aussi dans l’imperfection."
    ],
    "images": [
     {
@@ -368,8 +379,9 @@
    ],
    "enTitle": "Brown wooden stool with a gilded rim",
    "enText": [
-    "Brown wooden stool with engraved details and a gilded rim.",
-    "This stool pairs a brown finish with gilded decorative elements. Engraved motifs run over its surface. The contrast between the wood and the gilded details outlines the different parts of its structure."
+    "Carved from wood, this stool draws you in with its singular lines, its natural patina and its raw character.",
+    "Its irregularities, the marks of time and its small imperfections are what make it authentic. Each piece is unique, shaped by the artisan’s hand and by the passing of time.",
+    "A sculptural piece where beauty also lies in imperfection."
    ],
    "facts": {
     "fr": {
@@ -385,11 +397,12 @@
   },
   "handcrafted-varnished-wooden-stool": {
    "price": 300,
-   "available": true,
+   "available": false,
    "title": "Tabouret ajouré en bois verni",
    "text": [
-    "Tabouret en bois verni présentant une structure sculptée et ajourée.",
-    "Ce tabouret se distingue par les ouvertures pratiquées dans son support. Ces découpes font partie de sa construction et créent des espaces vides entre les éléments en bois. La surface présente une finition vernie."
+    "Sculpté dans le bois, ce tabouret séduit par ses lignes singulières, sa patine naturelle et son caractère brut.",
+    "Ses irrégularités, ses marques du temps et ses petites imperfections font toute son authenticité. Chaque pièce est unique, façonnée par la main de l’artisan et le temps qui passe.",
+    "Une pièce sculpturale où la beauté réside aussi dans l’imperfection."
    ],
    "images": [
     {
@@ -425,8 +438,9 @@
    ],
    "enTitle": "Openwork varnished wooden stool",
    "enText": [
-    "Varnished wooden stool with a carved, openwork structure.",
-    "This stool stands out for the openings cut into its base. These cut-outs are part of its construction and leave spaces between the wooden elements. The surface has a varnished finish."
+    "Carved from wood, this stool draws you in with its singular lines, its natural patina and its raw character.",
+    "Its irregularities, the marks of time and its small imperfections are what make it authentic. Each piece is unique, shaped by the artisan’s hand and by the passing of time.",
+    "A sculptural piece where beauty also lies in imperfection."
    ],
    "facts": {
     "fr": {
@@ -442,21 +456,16 @@
   },
   "handcrafted-wooden-stool": {
    "price": 300,
-   "available": true,
+   "available": false,
    "title": "Tabouret ajouré en bois noir",
    "text": [
-    "Tabouret en bois noir, doté d’une structure ajourée.",
-    "Le support de ce tabouret présente plusieurs ouvertures sculptées dans le bois. Ces découpes sont réparties sous l’assise et constituent les principaux détails de sa construction."
+    "Sculpté dans le bois, ce tabouret séduit par ses lignes singulières, sa patine naturelle et son caractère brut.",
+    "Ses irrégularités, ses marques du temps et ses petites imperfections font toute son authenticité. Chaque pièce est unique, façonnée par la main de l’artisan et le temps qui passe.",
+    "Une pièce sculpturale où la beauté réside aussi dans l’imperfection."
    ],
    "images": [
     {
      "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/550358fb-8efe-4c6d-8fbc-606016527d9a.jpg?v=1791730854",
-     "w": 1600,
-     "h": 2400,
-     "alt": null
-    },
-    {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/3ced9c38-4e6f-4239-968a-cb122f4fa5ce.jpg?v=1791730865",
      "w": 1600,
      "h": 2400,
      "alt": null
@@ -488,8 +497,9 @@
    ],
    "enTitle": "Openwork black wooden stool",
    "enText": [
-    "Black wooden stool with an openwork structure.",
-    "The base of this stool has several openings carved into the wood. These cut-outs sit under the seat and are the main details of its construction."
+    "Carved from wood, this stool draws you in with its singular lines, its natural patina and its raw character.",
+    "Its irregularities, the marks of time and its small imperfections are what make it authentic. Each piece is unique, shaped by the artisan’s hand and by the passing of time.",
+    "A sculptural piece where beauty also lies in imperfection."
    ],
    "facts": {
     "fr": {
@@ -505,10 +515,11 @@
   "handcrafted-stool-from-cameroon": {
    "price": 480,
    "available": true,
-   "title": "Tabouret traditionnel, Cameroun",
+   "title": "Tabouret sculpté du Cameroun",
    "text": [
-    "Tabouret traditionnel en bois, originaire du Cameroun.",
-    "Ce tabouret présente une assise reposant sur une structure en bois travaillé. Sa forme correspond à un type de mobilier traditionnel utilisé comme siège. Les détails de fabrication et les dimensions sont à préciser dans la fiche technique."
+    "Sculpté dans le bois, ce tabouret séduit par ses lignes singulières, sa patine naturelle et son caractère brut.",
+    "Ses irrégularités, ses marques du temps et ses petites imperfections font toute son authenticité. Chaque pièce est unique, façonnée par la main de l’artisan et le temps qui passe.",
+    "Une pièce sculpturale où la beauté réside aussi dans l’imperfection."
    ],
    "images": [
     {
@@ -542,10 +553,11 @@
      "alt": null
     }
    ],
-   "enTitle": "Traditional stool, Cameroon",
+   "enTitle": "Carved stool from Cameroon",
    "enText": [
-    "Traditional wooden stool from Cameroon.",
-    "This stool has a seat resting on a worked wooden structure. Its form corresponds to a type of traditional furniture used as a seat. The making details and dimensions are to be specified in the technical sheet."
+    "Carved from wood, this stool draws you in with its singular lines, its natural patina and its raw character.",
+    "Its irregularities, the marks of time and its small imperfections are what make it authentic. Each piece is unique, shaped by the artisan’s hand and by the passing of time.",
+    "A sculptural piece where beauty also lies in imperfection."
    ],
    "facts": {
     "fr": {
@@ -566,8 +578,9 @@
    "available": true,
    "title": "Tabouret Dogon",
    "text": [
-    "Tabouret en bois de style dogon, présentant une structure sculptée.",
-    "Ce tabouret est associé au mobilier traditionnel dogon d’Afrique de l’Ouest. Sa construction réunit une assise et un support en bois. L’attribution culturelle et l’époque de fabrication doivent être confirmées."
+    "Sculpté dans le bois, ce tabouret séduit par ses lignes singulières, sa patine naturelle et son caractère brut.",
+    "Ses irrégularités, ses marques du temps et ses petites imperfections font toute son authenticité. Chaque pièce est unique, façonnée par la main de l’artisan et le temps qui passe.",
+    "Une pièce sculpturale où la beauté réside aussi dans l’imperfection."
    ],
    "images": [
     {
@@ -597,8 +610,9 @@
    ],
    "enTitle": "Dogon stool",
    "enText": [
-    "Wooden stool in the Dogon style, with a carved structure.",
-    "This stool is associated with the traditional Dogon furniture of West Africa. Its construction brings together a seat and a wooden base. The cultural attribution and the period of making must be confirmed."
+    "Carved from wood, this stool draws you in with its singular lines, its natural patina and its raw character.",
+    "Its irregularities, the marks of time and its small imperfections are what make it authentic. Each piece is unique, shaped by the artisan’s hand and by the passing of time.",
+    "A sculptural piece where beauty also lies in imperfection."
    ],
    "facts": {
     "fr": {
@@ -617,8 +631,9 @@
    "available": true,
    "title": "Tabouret Sénoufo",
    "text": [
-    "Tabouret en bois de style sénoufo, aux lignes épurées.",
-    "Ce tabouret reprend une forme d’assise associée au mobilier sénoufo d’Afrique de l’Ouest. Sa structure en bois présente des lignes simples, avec peu d’éléments décoratifs. Son origine précise reste à vérifier."
+    "Sculpté dans le bois, ce tabouret séduit par ses lignes singulières, sa patine naturelle et son caractère brut.",
+    "Ses irrégularités, ses marques du temps et ses petites imperfections font toute son authenticité. Chaque pièce est unique, façonnée par la main de l’artisan et le temps qui passe.",
+    "Une pièce sculpturale où la beauté réside aussi dans l’imperfection."
    ],
    "images": [
     {
@@ -642,8 +657,9 @@
    ],
    "enTitle": "Senufo stool",
    "enText": [
-    "Wooden stool in the Senufo style, with clean lines.",
-    "This stool takes up a seat form associated with the Senufo furniture of West Africa. Its wooden structure has simple lines, with few decorative elements. Its precise origin remains to be checked."
+    "Carved from wood, this stool draws you in with its singular lines, its natural patina and its raw character.",
+    "Its irregularities, the marks of time and its small imperfections are what make it authentic. Each piece is unique, shaped by the artisan’s hand and by the passing of time.",
+    "A sculptural piece where beauty also lies in imperfection."
    ],
    "facts": {
     "fr": {
@@ -852,22 +868,17 @@
   },
   "handmade-blackened-clay-pot---morocco": {
    "price": 135,
-   "available": true,
-   "title": "Pot en argile noircie, Maroc",
+   "available": false,
+   "title": "Pot ancien en terre cuite, Maroc",
    "text": [
-    "Pot marocain en argile, caractérisé par une surface noircie.",
-    "Ce pot présente une structure en terre cuite et une finition sombre. Les variations de couleur visibles à sa surface font partie de son aspect. Sa méthode de cuisson et son usage d’origine doivent être confirmés."
+    "Façonné dans la terre cuite, ce pot se distingue par sa forme arrondie, ses poignées latérales sculpturales et sa patine sombre aux nuances brunes et cuivrées.",
+    "La poterie traditionnelle marocaine, façonnée à la main puis transformée par la cuisson, accompagne depuis des générations les gestes du quotidien. Chaque pièce porte les traces de sa fabrication, avec des irrégularités et des variations de teinte qui lui donnent un caractère singulier.",
+    "Entre objet utilitaire et pièce décorative, ce pot séduit par sa présence brute, sa matière vivante et son authenticité."
    ],
    "images": [
     {
      "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/42081dd2-ee49-4ace-88eb-2db7bac3494b.jpg?v=1791731399",
      "w": 1600,
-     "h": 2400,
-     "alt": null
-    },
-    {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/290c56b8-b667-4170-ab23-3c6497deda0a.jpg?v=1791731408",
-     "w": 1800,
      "h": 2400,
      "alt": null
     },
@@ -896,10 +907,11 @@
      "alt": null
     }
    ],
-   "enTitle": "Blackened clay pot, Morocco",
+   "enTitle": "Antique terracotta pot, Morocco",
    "enText": [
-    "Moroccan clay pot with a blackened surface.",
-    "This pot has a terracotta body and a dark finish. The colour variations visible on its surface are part of its look. Its firing method and original use must be confirmed."
+    "Shaped in terracotta, this pot stands out for its rounded form, its sculptural side handles and its dark patina in shades of brown and copper.",
+    "Traditional Moroccan pottery, shaped by hand and then transformed by firing, has accompanied everyday life for generations. Each piece carries the traces of its making, with irregularities and variations in tone that give it a singular character.",
+    "Between a useful object and a decorative piece, this pot appeals through its raw presence, its living material and its authenticity."
    ],
    "facts": {
     "fr": {
@@ -916,11 +928,12 @@
   },
   "decorative-ceramic-pot": {
    "price": 135,
-   "available": true,
-   "title": "Pot traditionnel en céramique, Maroc",
+   "available": false,
+   "title": "Pot ancien en terre cuite à patine noire, Maroc",
    "text": [
-    "Pot traditionnel marocain en céramique.",
-    "Ce pot est réalisé en matière céramique et présente une forme destinée à contenir ou à conserver des éléments. Les variations de surface et de finition dépendent de sa fabrication. Son usage alimentaire éventuel doit être vérifié."
+    "Avec sa silhouette généreuse, sa panse arrondie et son ouverture soulignée d’un rebord épais, ce pot ancien séduit par la sobriété de ses lignes et la profondeur de sa patine sombre.",
+    "Façonnée dans la terre puis transformée par le feu, la poterie traditionnelle marocaine témoigne d’un savoir-faire ancestral, où la matière et la cuisson donnent à chaque pièce son caractère singulier. Les nuances, les irrégularités et les traces visibles à sa surface racontent cette relation directe entre la main, la terre et le feu.",
+    "Brut et sculptural, ce pot trouve aujourd’hui naturellement sa place dans un intérieur contemporain, posé au sol ou sur un meuble comme une pièce de collection. Une présence discrète, où la beauté réside dans la matière, la simplicité de la forme et les marques du temps."
    ],
    "images": [
     {
@@ -966,10 +979,11 @@
      "alt": null
     }
    ],
-   "enTitle": "Traditional ceramic pot, Morocco",
+   "enTitle": "Antique black-patina terracotta pot, Morocco",
    "enText": [
-    "Traditional Moroccan ceramic pot.",
-    "This pot is made of ceramic and has a form meant to hold or keep things. The variations of surface and finish come from its making. Any use with food must be checked."
+    "With its generous silhouette, rounded body and opening marked by a thick rim, this antique pot appeals through the restraint of its lines and the depth of its dark patina.",
+    "Shaped in earth and then transformed by fire, traditional Moroccan pottery bears witness to an ancestral craft, in which material and firing give each piece its singular character. The shades, irregularities and visible traces on its surface tell of the direct relationship between hand, earth and fire.",
+    "Raw and sculptural, this pot finds its place naturally in a contemporary interior today, set on the floor or on a piece of furniture like a collector’s piece. A quiet presence, where beauty lies in the material, the simplicity of the form and the marks of time."
    ],
    "facts": {
     "fr": {
@@ -987,10 +1001,10 @@
   "timeless-hand-carved-wooden-bowl-1": {
    "price": 120,
    "available": true,
-   "title": "Bol en bois sculpté à la main",
+   "title": "Ancien bol en bois sculpté, Art africain",
    "text": [
-    "Bol en bois sculpté à la main, présentant une forme creuse.",
-    "Ce bol est constitué d’une structure en bois travaillée pour former un récipient. L’intérieur est évidé, tandis que les parois et les bords conservent les traces du travail de sculpture. Son usage alimentaire n’est pas confirmé."
+    "Taillé dans une pièce de bois, ce bol se distingue par sa silhouette évasée, ses lignes géométriques et sa patine profonde aux nuances brunes et noires. La bande supérieure, ornée de motifs gravés, contraste subtilement avec la surface plus lisse de la partie inférieure.",
+    "Dans de nombreuses traditions africaines, les récipients en bois occupent une place importante dans les gestes du quotidien. Sculptés à la main, ces objets utilitaires témoignent d’un savoir-faire transmis entre artisans, où la forme, la matière et la décoration se conjuguent avec simplicité."
    ],
    "images": [
     {
@@ -1018,10 +1032,10 @@
      "alt": null
     }
    ],
-   "enTitle": "Hand-carved wooden bowl",
+   "enTitle": "Antique carved wooden bowl, African art",
    "enText": [
-    "Hand-carved wooden bowl with a hollow form.",
-    "This bowl is a wooden structure worked into a vessel. The inside is hollowed out, while the walls and rim keep the traces of the carving. Its use with food is not confirmed."
+    "Cut from a single piece of wood, this bowl stands out for its flared silhouette, its geometric lines and its deep patina in shades of brown and black. The upper band, decorated with engraved motifs, contrasts subtly with the smoother surface of the lower part.",
+    "In many African traditions, wooden vessels hold an important place in everyday life. Carved by hand, these utilitarian objects bear witness to a skill passed between artisans, where form, material and decoration come together simply."
    ],
    "facts": {
     "fr": {
@@ -1268,7 +1282,7 @@
   },
   "handmade-ceramic-candlestick-tamgroute": {
    "price": 120,
-   "available": true,
+   "available": false,
    "title": "Bougeoir en céramique de Tamegroute",
    "text": [
     "Bougeoir en céramique de Tamegroute, destiné à accueillir une bougie.",
@@ -1368,10 +1382,10 @@
   "dogon-tribal-staff": {
    "price": 180,
    "available": true,
-   "title": "Bâton tribal Dogon",
+   "title": "Petits poteaux sculptés, inspiration Toguna Dogon",
    "text": [
-    "Bâton sculpté en bois, attribué à la tradition dogon.",
-    "Cet objet présente une forme allongée avec des éléments sculptés. Il est associé à la tradition dogon d’Afrique de l’Ouest. Sa fonction d’origine, son attribution et son ancienneté nécessitent une vérification."
+    "Inspirés des formes fourchues des poteaux de soutien des abris Toguna du peuple Dogon, au Mali, ces objets en bois sculpté se distinguent par leurs lignes brutes, leurs gravures géométriques et leur patine naturelle.",
+    "Leur format compact met en valeur leur silhouette singulière et leur caractère sculptural. Les irrégularités du bois et les traces du temps font de chaque pièce un objet unique, à exposer seul ou en paire."
    ],
    "images": [
     {
@@ -1411,10 +1425,10 @@
      "alt": null
     }
    ],
-   "enTitle": "Dogon tribal staff",
+   "enTitle": "Small carved posts, inspired by the Dogon Toguna",
    "enText": [
-    "Carved wooden staff, attributed to the Dogon tradition.",
-    "This object has an elongated form with carved elements. It is associated with the Dogon tradition of West Africa. Its original function, its attribution and its age need to be checked."
+    "Inspired by the forked shapes of the posts that hold up the Toguna shelters of the Dogon people of Mali, these carved wooden objects stand out for their raw lines, their geometric engravings and their natural patina.",
+    "Their compact size brings out their singular silhouette and sculptural character. The irregularities of the wood and the traces of time make each one a unique object, to display alone or as a pair."
    ],
    "facts": {
     "fr": {
@@ -1432,10 +1446,10 @@
   "tuareg-tent-stakes": {
    "price": 75,
    "available": true,
-   "title": "Piquets de tente touaregs",
+   "title": "Piquets de tente touaregs, Sahara",
    "text": [
-    "Piquets de tente en bois associés aux traditions nomades touarègues.",
-    "Ces piquets sont des éléments traditionnellement utilisés pour maintenir ou fixer certaines parties d’une tente. Leur forme allongée est liée à cette fonction. Les détails sculptés et les éventuelles traces d’usage varient selon les exemplaires."
+    "Sculptés dans le bois et ornés de motifs géométriques gravés à la main, ces piquets témoignent du savoir-faire artisanal des peuples nomades du Sahara. Associés à l’univers de la tente traditionnelle, éléments essentiels de la vie nomade, ils allient fonction et esthétique.",
+    "Leur patine ancienne et leurs formes singulières en font aujourd’hui des objets de caractère, chargés de mémoire et d’authenticité."
    ],
    "images": [
     {
@@ -1487,10 +1501,10 @@
      "alt": null
     }
    ],
-   "enTitle": "Tuareg tent stakes",
+   "enTitle": "Tuareg tent stakes, Sahara",
    "enText": [
-    "Wooden tent stakes associated with Tuareg nomadic traditions.",
-    "These stakes are traditionally used to hold or fix parts of a tent. Their elongated form follows that function. The carved details and any traces of use vary from one stake to another."
+    "Carved from wood and decorated with geometric motifs engraved by hand, these stakes bear witness to the craft of the nomadic peoples of the Sahara. Part of the world of the traditional tent, essential to nomadic life, they combine function and beauty.",
+    "Their old patina and singular forms make them objects of character today, full of memory and authenticity."
    ],
    "facts": {
     "fr": {
@@ -1571,10 +1585,11 @@
   "decorative-wooden-tray": {
    "price": 185,
    "available": true,
-   "title": "Tablette ancienne en bois, écriture arabe",
+   "title": "Ancienne tablette coranique, Maroc",
    "text": [
-    "Tablette ancienne en bois portant des inscriptions en caractères arabes.",
-    "Cette tablette présente une surface en bois sur laquelle figurent des inscriptions. La nature du texte, la fonction d’origine de la tablette et son ancienneté doivent être identifiées avant toute attribution historique ou religieuse."
+    "Témoins d’une tradition séculaire, les tablettes coraniques en bois étaient utilisées dans les écoles traditionnelles pour l’apprentissage de l’écriture arabe et la mémorisation des versets du Coran.",
+    "Les élèves y inscrivaient leurs leçons à l’encre, avant de les effacer pour recommencer. Ce geste, répété au fil des apprentissages, a progressivement marqué le bois, lui donnant cette patine singulière, empreinte du temps et de son usage.",
+    "Avec sa surface usée et ses attaches anciennes, cette tablette évoque un patrimoine où le savoir se transmettait de génération en génération. Aujourd’hui, elle trouve une nouvelle place comme objet de collection, chargée d’histoire et de mémoire."
    ],
    "images": [
     {
@@ -1608,10 +1623,11 @@
      "alt": null
     }
    ],
-   "enTitle": "Antique wooden tablet, Arabic script",
+   "enTitle": "Antique Quranic tablet, Morocco",
    "enText": [
-    "Antique wooden tablet bearing inscriptions in Arabic script.",
-    "This tablet has a wooden surface bearing inscriptions. The nature of the text, the tablet’s original function and its age must be identified before any historical or religious attribution."
+    "Witnesses to a centuries-old tradition, wooden Quranic tablets were used in traditional schools to learn Arabic writing and to memorise verses of the Quran.",
+    "Pupils wrote their lessons on them in ink, then washed them off to begin again. Repeated lesson after lesson, this gesture gradually marked the wood and gave it its singular patina, the imprint of time and use.",
+    "With its worn surface and old fastenings, this tablet recalls a heritage in which knowledge passed from generation to generation. Today it finds a new place as a collector’s piece, full of history and memory."
    ],
    "facts": {
     "fr": {
@@ -1628,10 +1644,11 @@
   "solid-wood-pedestal-bowl---ethiopian-and-west-african-craftsmanship-1": {
    "price": 260,
    "available": true,
-   "title": "Coupe sur pied en bois massif",
+   "title": "Coupe ancienne sur piédouche, Art africain",
    "text": [
-    "Coupe en bois massif reposant sur un pied.",
-    "Cet objet est composé d’une partie supérieure creuse et d’un support surélevé. Sa structure est réalisée en bois massif. La forme de la coupe permet de la présenter comme objet décoratif, sans présumer de son usage alimentaire."
+    "Taillée dans une seule pièce de bois, cette coupe se distingue par son large plateau évasé, son pied sculpté et sa patine sombre, façonnée par le temps.",
+    "Dans différentes traditions africaines, les récipients en bois occupaient une place importante dans la vie quotidienne, les cérémonies et les pratiques rituelles. Certaines coupes étaient également des objets de prestige, destinés à recevoir des offrandes ou à accueillir les invités.",
+    "Avec sa silhouette épurée et ses irrégularités naturelles, cette pièce révèle toute la beauté du bois sculpté et apporte une présence sculpturale à un intérieur."
    ],
    "images": [
     {
@@ -1683,10 +1700,11 @@
      "alt": null
     }
    ],
-   "enTitle": "Solid wood pedestal bowl",
+   "enTitle": "Antique pedestal bowl, African art",
    "enText": [
-    "Solid wood bowl standing on a foot.",
-    "This object is made of a hollow upper part and a raised base. Its structure is solid wood. The form of the bowl lets it be shown as a decorative object, without presuming any use with food."
+    "Cut from a single piece of wood, this bowl stands out for its wide flared top, its carved foot and its dark patina, shaped by time.",
+    "In various African traditions, wooden vessels held an important place in daily life, ceremonies and rituals. Some bowls were also objects of prestige, made to receive offerings or to welcome guests.",
+    "With its clean silhouette and natural irregularities, this piece reveals all the beauty of carved wood and brings a sculptural presence to an interior."
    ],
    "facts": {
     "fr": {
@@ -1703,10 +1721,10 @@
   "antique-comb-used-for-weaving-moroccan-rugs": {
    "price": 130,
    "available": true,
-   "title": "Peigne ancien de tisserand",
+   "title": "Peigne ancien de tisserand, Maroc",
    "text": [
-    "Ancien peigne en bois utilisé dans le travail du tissage.",
-    "Ce type d’outil intervient dans certaines étapes du travail textile. Sa structure comprend des éléments destinés à accompagner la manipulation des fils. Cet exemplaire est présenté comme un outil artisanal ancien."
+    "Témoin des traditions textiles marocaines, ce peigne en bois était utilisé dans le travail du tissage pour resserrer les fils et maintenir la régularité de la trame. Dans les ateliers artisanaux, ces outils accompagnaient le geste patient des tisserands et la création de textiles transmis de génération en génération.",
+    "Sa structure sculptée, ses dents alignées et sa patine ancienne témoignent d’un savoir-faire où chaque outil était conçu pour répondre aux exigences du travail manuel. Aujourd’hui, il révèle une autre facette de l’artisanat marocain : celle des objets utilitaires dont la beauté réside dans la simplicité de leur forme et les traces laissées par leur usage."
    ],
    "images": [
     {
@@ -1752,10 +1770,10 @@
      "alt": null
     }
    ],
-   "enTitle": "Antique weaver’s comb",
+   "enTitle": "Antique weaver’s comb, Morocco",
    "enText": [
-    "Antique wooden comb used in weaving.",
-    "This kind of tool is used at certain stages of textile work. Its structure includes elements that help handle the threads. This example is presented as an old craft tool."
+    "A witness to Moroccan textile traditions, this wooden comb was used in weaving to press the threads together and keep the weft even. In craft workshops, such tools accompanied the patient work of weavers and the making of textiles handed down from generation to generation.",
+    "Its carved structure, aligned teeth and old patina bear witness to a craft in which every tool was made to meet the demands of handwork. Today it shows another side of Moroccan craftsmanship: useful objects whose beauty lies in the simplicity of their form and the traces left by their use."
    ],
    "facts": {
     "fr": {
@@ -1771,10 +1789,10 @@
   "loom-beater-african-art": {
    "price": 180,
    "available": true,
-   "title": "Battant de métier à tisser, art africain",
+   "title": "Battant ancien de métier à tisser, Art africain",
    "text": [
-    "Ancien élément de métier à tisser, associé à l’artisanat textile africain.",
-    "Le battant est un élément utilisé dans le fonctionnement de certains métiers à tisser. Il intervient dans la mise en place et le serrage des fils pendant le tissage. La provenance et la période de fabrication de cet exemplaire restent à confirmer."
+    "Utilisé dans le tissage traditionnel, le battant permettait de resserrer les fils de trame afin de former un tissu régulier et dense. En Afrique de l’Ouest, ces outils accompagnaient la fabrication de bandes textiles destinées à être assemblées pour créer vêtements et étoffes.",
+    "Composé d’une structure en bois et de fils tendus, cet ancien élément de métier à tisser témoigne de la précision du geste artisanal et de l’ingéniosité des techniques textiles traditionnelles. Sa patine sombre et sa construction singulière lui confèrent aujourd’hui une présence sculpturale, entre mémoire du geste et objet de collection."
    ],
    "images": [
     {
@@ -1820,10 +1838,10 @@
      "alt": null
     }
    ],
-   "enTitle": "Loom beater, African art",
+   "enTitle": "Antique loom beater, African art",
    "enText": [
-    "Antique loom part, associated with African textile craft.",
-    "The beater is a part used in the working of certain looms. It places and packs the threads during weaving. The provenance and period of making of this example remain to be confirmed."
+    "Used in traditional weaving, the beater pressed the weft threads together to form an even, dense cloth. In West Africa, these tools accompanied the making of textile strips that were sewn together into garments and fabrics.",
+    "Made of a wooden frame and taut threads, this old loom part bears witness to the precision of the craft and the ingenuity of traditional textile techniques. Its dark patina and singular construction give it a sculptural presence today, between the memory of a gesture and a collector’s piece."
    ],
    "facts": {
     "fr": {
