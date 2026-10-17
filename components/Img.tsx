@@ -8,7 +8,7 @@ import { SHOPIFY_CDN, shopifyLoader } from "@/lib/image-loader";
  * and the site's own by the default loader. A drop-in replacement: use it
  * wherever a photograph may come from Shopify.
  */
-export default function Img(props: ImageProps) {
+export default function Img(props: ImageProps & { ref?: React.Ref<HTMLImageElement> }) {
   const fromShopify = typeof props.src === "string" && props.src.startsWith(SHOPIFY_CDN);
   return <NextImage {...props} loader={fromShopify ? shopifyLoader : props.loader} />;
 }

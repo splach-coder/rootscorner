@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
 import HeroMedia from "@/components/HeroMedia";
+import { homeHero } from "@/lib/hero";
 import DragScroll from "@/components/DragScroll";
 import RugSlider, { type RugSlide } from "@/components/RugSlider";
 import { allRugSeries, formatEuro, fromPrice, seriesLine, seriesTitle } from "@/lib/rugs";
@@ -99,7 +100,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {/* ---- 1. Hero: the photograph and one line, centred. */}
       <section className="hero hero-v2">
         <div className="hero-media">
-          <HeroMedia src="/place/hanging-cloth.jpg" width={2000} height={3000} />
+          {/* Image or video, chosen in Shopify (lib/hero.ts); the house's
+              own photograph until something is set there. */}
+          <HeroMedia {...homeHero()} />
         </div>
         <div className="hero-plate">
           <div className="hero-inner shell">

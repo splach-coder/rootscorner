@@ -329,10 +329,49 @@ for (const s of missing) pieces[s] = { price: null, available: false };
 // /api/catalog-version, and the scheduled workflow compares the two: equal
 // means nothing changed in Shopify, so there is nothing to rebuild.
 // `pulledAt` is left out on purpose — it changes every run.
-const hash = createHash("sha256").update(JSON.stringify({ pieces, extra, rugSeries })).digest("hex").slice(0, 16);
+/*
+  The homepage hero, image OR video, chosen in Shopify (Content → Metaobjects →
+  "Accueil, image ou vidéo", scripts/shopify-hero.mts). Absent, or unreadable,
+  the site keeps its own photograph: null is a working state.
+*/
+let hero = null;
+try {
+  const r = await fetch(`https://${SHOP}/api/2025-01/graphql.json`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Shopify-Storefront-Access-Token": TOKEN },
+    body: JSON.stringify({
+      query: `{ metaobject(handle: { type: "trc_hero", handle: "accueil" }) { field(key: "media") { reference {
+        __typename
+        ... on MediaImage { image { url width height } }
+        ... on Video { sources { url mimeType width height } previewImage { url width height } }
+      } } } }`,
+    }),
+  });
+  const ref = (await r.json())?.data?.metaobject?.field?.reference;
+  if (ref?.__typename === "MediaImage" && ref.image?.url) {
+    hero = { kind: "image", src: ref.image.url, w: ref.image.width, h: ref.image.height };
+  } else if (ref?.__typename === "Video") {
+    // The MP4 the browser can play at the best size up to 1920 wide.
+    const mp4 = (ref.sources ?? [])
+      .filter((s) => s.mimeType === "video/mp4")
+      .sort((a, b) => (b.width ?? 0) - (a.width ?? 0));
+    const src = mp4.find((s) => (s.width ?? 0) <= 1920) ?? mp4[mp4.length - 1];
+    if (src) {
+      hero = {
+        kind: "video",
+        src: src.url,
+        poster: ref.previewImage ? { src: ref.previewImage.url, w: ref.previewImage.width, h: ref.previewImage.height } : null,
+      };
+    }
+  }
+} catch {
+  // Keep the site's own hero.
+}
+
+const hash = createHash("sha256").update(JSON.stringify({ pieces, extra, rugSeries, hero })).digest("hex").slice(0, 16);
 writeFileSync(
   OUT,
-  JSON.stringify({ pulledAt: new Date().toISOString(), hash, pieces, extra, rugSeries }, null, 1) + "\n",
+  JSON.stringify({ pulledAt: new Date().toISOString(), hash, pieces, extra, rugSeries, hero }, null, 1) + "\n",
 );
 if (process.argv.includes("--hash")) console.log(`HASH=${hash}`);
 console.log(

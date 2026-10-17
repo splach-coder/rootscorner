@@ -1343,3 +1343,23 @@ button.faq-v2-anchor {
   gap: 0.6rem 2rem;
   margin-top: 1.4rem;
 }
+
+/* The hero film (17 Oct), chosen in Shopify: laid over the photograph, which
+   shows first and stays underneath; fades in once it is really playing. */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1100ms var(--ease-dissolve, ease);
+}
+
+.hero-video.is-playing {
+  opacity: 1;
+}
+
+html[data-intro="run"]:not([data-lift]) .hero-video {
+  opacity: 0;
+}
