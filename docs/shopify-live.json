@@ -1,6 +1,6 @@
 {
- "pulledAt": "2026-10-17T14:25:56.520Z",
- "hash": "28fc80894f3ab5e2",
+ "pulledAt": "2026-10-18T21:46:51.247Z",
+ "hash": "c55f287b2187fe37",
  "pieces": {
   "handcrafted-wood-stool---cote-d-ivoire": {
    "price": 480,
@@ -3041,5 +3041,10 @@
    ]
   }
  ],
- "hero": null
+ "hero": {
+  "kind": "image",
+  "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/accueil.jpg?v=1792360008",
+  "w": 2000,
+  "h": 3000
+ }
 }
