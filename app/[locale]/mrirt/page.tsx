@@ -231,7 +231,7 @@ export default async function MrirtPage({
           <figure className="mrirt-yarn">
             <Reveal variant="frame" delay={140} className="frame mrirt-yarn-frame">
               <Image
-                src="/place/dyed-yarn.jpg"
+                src="/place/rugs-rail.jpg"
                 alt={t.mrirtPage.yarnAlt}
                 width={1333}
                 height={2000}
