@@ -235,7 +235,7 @@ export default async function MrirtPage({
                 alt={t.mrirtPage.yarnAlt}
                 width={1333}
                 height={2000}
-                sizes="(max-width: 900px) 100vw, 38vw"
+                sizes="(max-width: 900px) 100vw, 34rem"
               />
             </Reveal>
           </figure>

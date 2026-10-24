@@ -1363,3 +1363,19 @@ button.faq-v2-anchor {
 html[data-intro="run"]:not([data-lift]) .hero-video {
   opacity: 0;
 }
+
+/* V7 (24 Oct): the photograph beside "Les mains derrière nos tapis" larger,
+   at the client's request: about as tall as the words beside it. */
+@media (min-width: 900px) {
+  #savoir-faire .mrirt-pair-beni {
+    max-width: 86rem;
+    grid-template-columns: minmax(0, 34rem) minmax(0, 38rem);
+    column-gap: clamp(3rem, 6vw, 6rem);
+  }
+}
+
+@media (max-width: 899px) {
+  #savoir-faire .mrirt-pair-beni .mrirt-yarn {
+    width: 100%;
+  }
+}
