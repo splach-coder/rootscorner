@@ -1,6 +1,6 @@
 {
- "pulledAt": "2026-10-21T23:26:26.756Z",
- "hash": "c55f287b2187fe37",
+ "pulledAt": "2026-10-28T20:36:19.476Z",
+ "hash": "a89f92085b290540",
  "pieces": {
   "handcrafted-wood-stool---cote-d-ivoire": {
    "price": 480,
@@ -1652,6 +1652,12 @@
    ],
    "images": [
     {
+     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/e9a1e8fd-195a-4aa0-9a55-f917d3957016.jpg?v=1791732075",
+     "w": 1600,
+     "h": 2400,
+     "alt": null
+    },
+    {
      "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/87f7a189-300a-4e19-8daf-b760450d063f.jpg?v=1790152489",
      "w": 1179,
      "h": 1385,
@@ -1671,18 +1677,6 @@
     },
     {
      "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/f96a1336-8d6b-415e-9c7d-81027bd4c368.jpg?v=1791732055",
-     "w": 1600,
-     "h": 2400,
-     "alt": null
-    },
-    {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/4bd61a94-29b3-4fd5-aee9-24913d5185d1.jpg?v=1791732065",
-     "w": 1600,
-     "h": 2400,
-     "alt": null
-    },
-    {
-     "src": "https://cdn.shopify.com/s/files/1/1054/3795/4396/files/e9a1e8fd-195a-4aa0-9a55-f917d3957016.jpg?v=1791732075",
      "w": 1600,
      "h": 2400,
      "alt": null
