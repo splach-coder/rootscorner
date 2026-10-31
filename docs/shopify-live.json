@@ -1,6 +1,6 @@
 {
- "pulledAt": "2026-10-28T20:36:19.476Z",
- "hash": "a89f92085b290540",
+ "pulledAt": "2026-10-31T15:53:16.889Z",
+ "hash": "a000135f42fc6a08",
  "pieces": {
   "handcrafted-wood-stool---cote-d-ivoire": {
    "price": 480,
@@ -738,7 +738,7 @@
   },
   "antique-moroccan-vase": {
    "price": 120,
-   "available": true,
+   "available": false,
    "title": "Vase ancien en terre cuite, Maroc",
    "text": [
     "Vase ancien marocain en terre cuite, décoré de motifs peints.",
@@ -815,7 +815,7 @@
   },
   "antique-berber-vase": {
    "price": 120,
-   "available": true,
+   "available": false,
    "title": "Vase berbère ancien émaillé",
    "text": [
     "Vase ancien en céramique émaillée, associé à l’artisanat berbère.",
@@ -1916,7 +1916,7 @@
    "title": "Objet en forme de tortue, Indonésie",
    "text": [
     "Objet décoratif indonésien représentant une tortue.",
-    "Cet objet reprend la forme d’une tortue, avec une carapace et des éléments figurant la tête et les membres. Sa silhouette animale constitue le principal élément de sa conception. Le matériau et la technique de fabrication sont à préciser."
+    "Cet objet reprend la forme d’une tortue, avec une carapace et des éléments figurant la tête et les membres. Sa silhouette animale constitue le principal élément de sa conception."
    ],
    "images": [
     {
@@ -1976,7 +1976,7 @@
    "title": "Théière marocaine vintage",
    "text": [
     "Théière marocaine vintage, initialement destinée à la préparation et au service du thé.",
-    "Cette théière reprend la forme traditionnelle des théières marocaines, avec un bec verseur, une anse et un couvercle. Elle est présentée dans la collection comme un objet ancien à usage domestique. Son état doit être vérifié avant toute utilisation alimentaire."
+    "Cette théière reprend la forme traditionnelle des théières marocaines, avec un bec verseur, une anse et un couvercle. Elle est présentée dans la collection comme un objet ancien à usage domestique."
    ],
    "images": [
     {
@@ -2091,7 +2091,7 @@
    "title": "Toupie Gasing, Indonésie",
    "text": [
     "Toupie traditionnelle indonésienne, connue sous le nom de gasing.",
-    "Le gasing est un objet utilisé dans les jeux traditionnels de toupie en Indonésie. Sa forme est conçue pour permettre un mouvement de rotation. Cet exemplaire est présenté comme objet de collection."
+    "Le gasing est un objet utilisé dans les jeux traditionnels de toupie en Indonésie. Sa forme est conçue pour permettre un mouvement de rotation."
    ],
    "images": [
     {
@@ -2154,10 +2154,10 @@
   "spice-rack-morocco": {
    "price": 120,
    "available": true,
-   "title": "Étagère à épices, Maroc",
+   "title": "Étagère à épices sculptée - Maroc",
    "text": [
-    "Petite étagère marocaine conçue pour le rangement des épices.",
-    "Cette étagère est associée au rangement d’épices et de petits contenants dans un espace domestique. Sa structure permet de disposer plusieurs objets sur un support commun. Le matériau et les dimensions sont à préciser."
+    "Traditionnellement utilisée au Maroc pour ranger les épices et les petits objets du quotidien, cette étagère en bois se distingue par ses découpes géométriques et ses détails sculptés, inspirés de l’architecture traditionnelle marocaine.",
+    "À la fois fonctionnelle et décorative, elle trouve aujourd’hui sa place comme pièce de caractère dans un intérieur."
    ],
    "images": [
     {
@@ -2222,7 +2222,8 @@
    ],
    "facts": {
     "fr": {
-     "origin": "Maroc"
+     "origin": "Maroc",
+     "material": "bois"
     },
     "en": {
      "origin": "Morocco"
@@ -2232,10 +2233,10 @@
   "decorative-iron-disc-indonesian": {
    "price": 380,
    "available": true,
-   "title": "Disque décoratif en fer, Indonésie",
+   "title": "Gong traditionnel indonésien",
    "text": [
-    "Disque décoratif en fer, originaire d’Indonésie.",
-    "Cet objet présente une forme circulaire réalisée en fer. Sa surface et sa finition constituent les principaux éléments à observer. Son usage d’origine n’est pas documenté dans les informations disponibles."
+    "Inspirée des instruments traditionnels du gamelan indonésien, cette pièce sculpturale se distingue par sa forme circulaire, son relief central et sa patine aux nuances brunes et terreuses.",
+    "Aujourd’hui présentée comme un objet décoratif, elle apporte une touche brute et singulière à un intérieur."
    ],
    "images": [
     {
@@ -2290,8 +2291,7 @@
    "available": false,
    "title": "Roue de Lombok, Indonésie",
    "text": [
-    "Objet circulaire traditionnel provenant de Lombok, en Indonésie.",
-    "Cette pièce présente une structure en forme de roue. Elle est proposée comme objet décoratif dans la collection. Sa fonction initiale, son matériau et sa période de fabrication restent à confirmer."
+    "Originaire de Lombok, en Indonésie, cette roue décorative se distingue par sa forme circulaire et son esthétique brute. Son allure sculpturale et ses lignes épurées en font une pièce singulière, à la fois authentique et intemporelle."
    ],
    "images": [
     {
